@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.dto.device;
+package com.softserve.lv460.application.dto.supportedDevice;
 
 import com.softserve.lv460.application.dto.feature.FeatureRequest;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeviceRequest {
+public class SupportedDeviceRequest {
   private String brand;
 
   private String model;

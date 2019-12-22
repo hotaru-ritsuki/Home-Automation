@@ -1,6 +1,6 @@
 package com.softserve.lv460.application.dto.feature;
 
-import com.softserve.lv460.application.dto.device.DeviceRequest;
+import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +14,5 @@ public class FeatureRequest {
 
   private String description;
 
-  private List<DeviceRequest> devicesId;
+  private List<SupportedDeviceRequest> devicesId;
 }
