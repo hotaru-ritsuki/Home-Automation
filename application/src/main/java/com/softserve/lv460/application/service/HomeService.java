@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,11 +21,15 @@ public class HomeService {
   private LocationService locationService;
 
   public Home create(HomeRequest hR) {
-    Home home = new Home();
-    home.setCountry(hR.getCountry());
-    home.setCity(hR.getCity());
-    home.setAddressa(hR.getAddressa());
-    return homeRepository.save(home);
+    Optional<Home> h=homeRepository.findByAddressaLike(hR.getAddressa());
+    if (!h.isPresent()) {
+      Home home = new Home();
+      home.setCountry(hR.getCountry());
+      home.setCity(hR.getCity());
+      home.setAddressa(hR.getAddressa());
+      return homeRepository.save(home);
+    }
+    throw new RuntimeException("Home with address "+hR.getAddressa()+" is already register");
   }
 
   public List<HomeResponse> findAll() {
