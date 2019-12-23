@@ -28,10 +28,10 @@ public class SupportedDevice {
   @NotNull
   private String type;
 
-  @Column(name = "releaseYear")
+  @Column(name = "release_year")
   private Integer releaseYear;
 
-  @Column(name = "powerSupply")
+  @Column(name = "power_supply")
   private String powerSupply;
 
   @ManyToMany
@@ -41,5 +41,10 @@ public class SupportedDevice {
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
 
-
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JsonIgnore
+  @JoinTable(name = "local_device",
+    joinColumns = @JoinColumn(name = "device_id"),
+    inverseJoinColumns = @JoinColumn(name = "location_id"))
+  private List<Location> locations;
 }
