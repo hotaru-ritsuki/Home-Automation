@@ -40,4 +40,6 @@ public class SupportedDevice {
           joinColumns = @JoinColumn(name = "device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
+
+
 }

@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.dto.supportedDevice;
 
+import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.entity.Feature;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class SupportedDeviceResponse {
   private String powerSupply;
 
   private List<Feature> features;
+
 
   public SupportedDeviceResponse(SupportedDevice supportedDevice) {
     id = supportedDevice.getId();

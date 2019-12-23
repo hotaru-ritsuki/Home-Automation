@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.dto.supportedDevice;
 
 import com.softserve.lv460.application.dto.feature.FeatureRequest;
+import com.softserve.lv460.application.dto.location.LocationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,4 +24,5 @@ public class SupportedDeviceRequest {
   private String powerSupply;
 
   private List<FeatureRequest> featuresId;
+
 }
