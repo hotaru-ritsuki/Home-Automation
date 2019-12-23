@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.dto.home;
+package com.softserve.lv460.application.dto.feature;
 
 import lombok.Data;
 
