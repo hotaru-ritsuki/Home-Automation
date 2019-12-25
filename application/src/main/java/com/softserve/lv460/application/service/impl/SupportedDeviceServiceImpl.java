@@ -27,8 +27,8 @@ public class SupportedDeviceServiceImpl implements SupportedDeviceService {
   }
 
   @Override
-  public SupportedDevice update(SupportedDevice device) {
-    SupportedDevice deviceById = findById(device.getId());
+  public SupportedDevice update(Long id,SupportedDevice device) {
+    SupportedDevice deviceById = findById(id);
     deviceById.setBrand(deviceById.getBrand());
     deviceById.setModel(device.getModel());
     deviceById.setReleaseDate(device.getReleaseDate());

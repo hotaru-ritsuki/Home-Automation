@@ -28,9 +28,9 @@ public class SupportedDeviceController {
     return supportedDeviceService.save(device);
   }
 
-  @PostMapping("/update")
-  public SupportedDevice update(@RequestBody SupportedDevice device){
-      return supportedDeviceService.update(device);
+  @PutMapping("/update/{id}")
+  public SupportedDevice update(@PathVariable("id") Long id,@RequestBody SupportedDevice device){
+      return supportedDeviceService.update(id,device);
   }
 
   @DeleteMapping("/delete/{id}")
