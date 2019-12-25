@@ -1,7 +1,8 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.entity.Home;
+import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
 import com.softserve.lv460.application.entity.LocalDevice;
+import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,8 @@ public class LocalDeviceController {
     private LocalDeviceService localDeviceService;
 
     @PostMapping("/save")
-    public void save(@RequestParam Home home, @RequestParam SupportedDevice supportedDevice){
-        LocalDevice localDevice = new LocalDevice();
-        localDevice.setHome(home);
-        localDevice.getSupportedDevice().add(supportedDevice);
-        localDeviceService.save(localDevice);
+    public void save(@RequestBody LocalDeviceRequest localDeviceRequest) {
+        localDeviceService.save(localDeviceRequest);
     }
 
     @GetMapping("/find-all")
@@ -29,7 +27,7 @@ public class LocalDeviceController {
     }
 
     @PutMapping("/update")
-    public void update(@RequestParam LocalDevice localDevice) {
+    public void update(@RequestBody LocalDevice localDevice) {
         localDeviceService.update(localDevice);
     }
 

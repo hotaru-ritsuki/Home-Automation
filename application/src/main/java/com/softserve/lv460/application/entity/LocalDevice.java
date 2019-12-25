@@ -3,8 +3,10 @@ package com.softserve.lv460.application.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +18,12 @@ public class LocalDevice {
     @Id
     private String uuid;
 
-    @ManyToOne
-    private Home home;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "location_id")
+    private Location locations;
 
-    @OneToMany
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "device_id")
-    private List<SupportedDevice> supportedDevice = new ArrayList<>();
+    private SupportedDevice supportedDevice;
 
 }
