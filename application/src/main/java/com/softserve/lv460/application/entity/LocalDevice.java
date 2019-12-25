@@ -1,17 +1,6 @@
 package com.softserve.lv460.application.entity;
 
 import lombok.Data;
-<<<<<<< HEAD
-
-import javax.persistence.ManyToOne;
-
-@Data
-public class LocalDevice {
-    
-
-    @ManyToOne
-    private Location location;
-=======
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -33,5 +22,4 @@ public class LocalDevice {
 
   @ManyToOne
   private Location location;
->>>>>>> origin/feature/specification
 }
