@@ -41,11 +41,6 @@ public class HomeController {
 
   @GetMapping("/find")
   public Home findByAddress(@RequestParam String address, Model model) {
-    try {
-      return homeService.findHomeByAddress(address);
-    } catch (IllegalArgumentException e) {
-      model.addAttribute("error-message", "There is no such home for address " + address);
-    }
-    return new Home();
+    return homeService.findHomeByAddress(address);
   }
 }

@@ -37,14 +37,7 @@ public class SupportedDevice {
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",
-          joinColumns = @JoinColumn(name = "device_id"),
+          joinColumns = @JoinColumn(name = "supported_device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
-
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JsonIgnore
-  @JoinTable(name = "local_device",
-    joinColumns = @JoinColumn(name = "device_id"),
-    inverseJoinColumns = @JoinColumn(name = "location_id"))
-  private List<Location> locations;
 }

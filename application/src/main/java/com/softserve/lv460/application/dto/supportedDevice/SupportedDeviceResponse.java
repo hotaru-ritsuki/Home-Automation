@@ -29,9 +29,6 @@ public class SupportedDeviceResponse {
 
   private List<Feature> features;
 
-  private List<Location> locations;
-
-
   public SupportedDeviceResponse(SupportedDevice supportedDevice) {
     id = supportedDevice.getId();
     brand = supportedDevice.getBrand();
@@ -41,6 +38,5 @@ public class SupportedDeviceResponse {
     powerSupply = supportedDevice.getPowerSupply();
 
     features = new ArrayList<>(supportedDevice.getFeatures());
-    locations = new ArrayList<>(supportedDevice.getLocations());
   }
 }
