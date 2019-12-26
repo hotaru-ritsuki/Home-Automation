@@ -19,7 +19,9 @@ public class Home {
   private String country;
   private String city;
   private String addressa;
-  @ManyToMany
+  @ManyToMany(mappedBy = "homes")
   private List<User> users;
 
 }
+
+
