@@ -17,7 +17,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Table(name = "features")
 public class Feature {

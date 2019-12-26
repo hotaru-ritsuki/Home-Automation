@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/homes")
 @CrossOrigin
 public class HomeController {
-  @Autowired
+
   private HomeService homeService;
+
+  public HomeController(HomeService homeService) {
+    this.homeService = homeService;
+  }
 
   @PostMapping
   public void create(@RequestBody HomeRequest request) {
