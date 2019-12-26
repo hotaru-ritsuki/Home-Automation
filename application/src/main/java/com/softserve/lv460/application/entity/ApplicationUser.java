@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "users",
     uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
-public class User {
+public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
