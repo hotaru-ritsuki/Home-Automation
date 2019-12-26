@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "local_device")
 public class LocalDevice {
   @Id
+  @Size(max=32)
   private String uuid;
 
   @ManyToOne
