@@ -5,20 +5,26 @@ import com.softserve.lv460.application.dto.location.LocationResponse;
 import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class LocationService {
-  @Autowired
+
   private LocationRepository locationRepository;
-  @Autowired
   private HomeRepository homeRepository;
 
+  public static LocationResponse locationToResponse(Location location) {
+    LocationResponse response = new LocationResponse();
+    response.setId(location.getId());
+    response.setName(location.getName());
+    return response;
+  }
 
   public Location create(LocationRequest lR) {
     Location location = new Location();
@@ -40,9 +46,9 @@ public class LocationService {
     return locationToResponse(findOne(id));
   }
 
-  public Location update(Long id, LocationRequest lR) {
+  public Location update(Long id, LocationRequest request) {
     Location location = findOne(id);
-    location.setName(lR.getName());
+    location.setName(request.getName());
     return locationRepository.save(location);
   }
 
@@ -53,20 +59,13 @@ public class LocationService {
 
   public List<LocationResponse> findByHome(Long id) {
     List<Location> all = locationRepository.findAll();
-    List<LocationResponse> lr = new ArrayList<>();
+    List<LocationResponse> responses = new ArrayList<>();
     for (Location location : all) {
       if (location.getHome().getId() == id) {
-        lr.add(locationToResponse(location));
+        responses.add(locationToResponse(location));
       }
     }
-    return lr;
-  }
-
-  public static LocationResponse locationToResponse(Location location) {
-    LocationResponse lR = new LocationResponse();
-    lR.setId(location.getId());
-    lR.setName(location.getName());
-    return lR;
+    return responses;
   }
 
 }

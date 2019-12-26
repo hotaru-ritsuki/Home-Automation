@@ -3,6 +3,7 @@ target/
 *.iml
 *.iws
 
+
 # Compiled class file
 *.class
 
@@ -23,3 +24,5 @@ target/
 *.zip
 *.tar.gz
 *.rar
+
+*.properties

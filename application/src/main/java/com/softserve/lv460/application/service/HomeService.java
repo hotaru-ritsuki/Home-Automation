@@ -5,31 +5,26 @@ import com.softserve.lv460.application.dto.home.HomeResponse;
 import com.softserve.lv460.application.dto.location.LocationResponse;
 import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.repository.HomeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class HomeService {
-  @Autowired
+
   private HomeRepository homeRepository;
-  @Autowired
   private LocationService locationService;
 
-  public Home create(HomeRequest hR) {
-    Optional<Home> h=homeRepository.findByAddressaLike(hR.getAddressa());
-    if (!h.isPresent()) {
-      Home home = new Home();
-      home.setCountry(hR.getCountry());
-      home.setCity(hR.getCity());
-      home.setAddressa(hR.getAddressa());
-      return homeRepository.save(home);
+  public Home create(HomeRequest request) {
+    Optional<Home> isHome=homeRepository.findByAddressaLike(request.getAddressa());
+    if (!isHome.isPresent()) {
+      return homeRepository.save(requestToHome(new Home(),request));
     }
-    throw new RuntimeException("Home with address "+hR.getAddressa()+" is already register");
+    throw new RuntimeException("Home with address "+request.getAddressa()+" is already register");
   }
 
   public List<HomeResponse> findAll() {
@@ -79,6 +74,13 @@ public class HomeService {
       hR.setLocations(locationHome);
     }
     return hR;
+  }
+
+  private Home requestToHome(Home home,HomeRequest request){
+    home.setCountry(request.getCountry());
+    home.setCity(request.getCity());
+    home.setAddressa(request.getAddressa());
+    return home;
   }
 
 }
