@@ -1,8 +1,12 @@
 target/
 .idea/
+dist/
+tmp/
+node_modules/
 *.iml
 *.iws
-
+*.iml
+*.iws
 
 # Compiled class file
 *.class
