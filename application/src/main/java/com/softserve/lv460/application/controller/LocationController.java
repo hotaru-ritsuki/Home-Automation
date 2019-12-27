@@ -2,6 +2,7 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.dto.location.LocationRequest;
 import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.service.LocationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,19 +29,24 @@ public class LocationController {
     return locationService.findAll();
   }
 
-  @PutMapping("/{id}")
-  public void update(@PathVariable("id") Long id, @RequestBody LocationRequest request) {
-    locationService.update(id, request);
+  @PutMapping
+  public void update(@RequestBody Location request) {
+    locationService.update(request);
   }
 
-  @DeleteMapping("/{id}")
-  public void delete(@PathVariable("id") Long id) {
+  @DeleteMapping("/{location_id}")
+  public void delete(@PathVariable("location_id") Long id) {
     locationService.delete(id);
   }
 
-  @GetMapping("/home")
-  public List<LocationResponse> findByHome(@RequestParam Long id) {
+  @GetMapping("/{home_id}")
+  public List<LocationResponse> findByHome(@PathVariable("home_id") Long id) {
     return locationService.findByHome(id);
+  }
+
+  @GetMapping("/{location_id}")
+  public  LocationResponse findOne(@PathVariable("location_id") Long id){
+    return locationService.findOneResponse(id);
   }
 
 }

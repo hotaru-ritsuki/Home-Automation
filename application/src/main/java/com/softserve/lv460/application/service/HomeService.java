@@ -45,12 +45,12 @@ public class HomeService {
     return homeToResponse(findOne(id));
   }
 
-  public Home update(Long id, HomeRequest hR) {
-    Home home = findOne(id);
-    home.setCountry(hR.getCountry());
-    home.setCity(hR.getCity());
-    home.setAddressa(hR.getAddressa());
-    return homeRepository.save(home);
+  public Home update(Home home) {
+    Home homeId = findOne(home.getId());
+    homeId.setCountry(home.getCountry());
+    homeId.setCity(home.getCity());
+    homeId.setAddressa(home.getAddressa());
+    return homeRepository.save(homeId);
 
   }
 
@@ -64,16 +64,16 @@ public class HomeService {
   }
 
   public  HomeResponse homeToResponse(Home home) {
-    HomeResponse hR = new HomeResponse();
-    hR.setId(home.getId());
-    hR.setCountry(home.getCountry());
-    hR.setCity(home.getCity());
-    hR.setAddressa(home.getAddressa());
+    HomeResponse response = new HomeResponse();
+    response.setId(home.getId());
+    response.setCountry(home.getCountry());
+    response.setCity(home.getCity());
+    response.setAddressa(home.getAddressa());
     List<LocationResponse> locationHome = locationService.findByHome(home.getId());
     if (!locationHome.isEmpty()) {
-      hR.setLocations(locationHome);
+      response.setLocations(locationHome);
     }
-    return hR;
+    return response;
   }
 
   private Home requestToHome(Home home,HomeRequest request){

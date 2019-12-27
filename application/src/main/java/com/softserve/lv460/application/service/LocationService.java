@@ -26,10 +26,10 @@ public class LocationService {
     return response;
   }
 
-  public Location create(LocationRequest lR) {
+  public Location create(LocationRequest request) {
     Location location = new Location();
-    location.setName(lR.getName());
-    location.setHome(homeRepository.findById(lR.getHomeId()).get());
+    location.setName(request.getName());
+    location.setHome(homeRepository.findById(request.getHomeId()).get());
     return locationRepository.save(location);
   }
 
@@ -46,9 +46,9 @@ public class LocationService {
     return locationToResponse(findOne(id));
   }
 
-  public Location update(Long id, LocationRequest request) {
-    Location location = findOne(id);
-    location.setName(request.getName());
+  public Location update(Location update) {
+    Location location = findOne(update.getId());
+    location.setName(update.getName());
     return locationRepository.save(location);
   }
 
@@ -58,12 +58,10 @@ public class LocationService {
   }
 
   public List<LocationResponse> findByHome(Long id) {
-    List<Location> all = locationRepository.findAll();
+    List<Location> all=locationRepository.findAllByHome(homeRepository.findById(id));
     List<LocationResponse> responses = new ArrayList<>();
     for (Location location : all) {
-      if (location.getHome().getId() == id) {
-        responses.add(locationToResponse(location));
-      }
+      responses.add(locationToResponse(location));
     }
     return responses;
   }
