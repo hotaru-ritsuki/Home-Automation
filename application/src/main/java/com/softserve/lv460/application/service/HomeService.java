@@ -24,7 +24,7 @@ public class HomeService {
     if (!isHome.isPresent()) {
       return homeRepository.save(requestToHome(new Home(), request));
     }
-    throw new RuntimeException("Home with address " + request.getAddressa() + " is already register");
+    throw new RuntimeException("Home with address " + request.getAddressa() + " is already registered");
   }
 
   public List<HomeResponse> findAll() {
@@ -38,7 +38,7 @@ public class HomeService {
 
   public Home findOne(Long id) {
     return homeRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " not exists"));
+          .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " does not exist"));
   }
 
   public HomeResponse findOneResponse(Long id) {
