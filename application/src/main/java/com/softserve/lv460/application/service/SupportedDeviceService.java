@@ -7,17 +7,19 @@ import com.softserve.lv460.application.dto.page.PaginationRequest;
 import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.repository.SupportedDeviceRepository;
 import com.softserve.lv460.application.specification.SupportedDeviceSpecification;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class SupportedDeviceService {
 
-  @Autowired
   private SupportedDeviceRepository supportedDeviceRepository;
 
   public List<SupportedDeviceResponse> findAll() {
@@ -29,7 +31,8 @@ public class SupportedDeviceService {
   public DataResponse<SupportedDeviceResponse> findAllByFilter(PaginationRequest paginationRequest,
                                                                SupportedDeviceFilterRequest request) {
     SupportedDeviceSpecification supportedDeviceSpecifications = new SupportedDeviceSpecification(request);
-    Page<SupportedDevice> allByFilter = supportedDeviceRepository.findAll(supportedDeviceSpecifications, paginationRequest.mapToPageRequest());
+    Page<SupportedDevice> allByFilter = supportedDeviceRepository.findAll(supportedDeviceSpecifications,
+            paginationRequest.mapToPageRequest());
     return new DataResponse<>(allByFilter.get().map(SupportedDeviceResponse::new).collect(Collectors.toList()),
             allByFilter.getTotalPages(), allByFilter.getTotalElements());
 
