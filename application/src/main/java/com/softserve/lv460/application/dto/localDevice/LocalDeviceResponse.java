@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class LocalDeviceResponse {
     private String uuid;
-
     private Location location;
-
     private SupportedDevice supportedDevice;
 }

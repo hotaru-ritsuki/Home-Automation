@@ -34,7 +34,6 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
 
     @Override
     public ArrayList<LocalDevice> findAll() {
-        localDeviceRepository.findAll();
         return (ArrayList<LocalDevice>) localDeviceRepository.findAll();
     }
 
@@ -53,7 +52,7 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
 
         localDevice.setLocations(locationRepository.findById(localDeviceRequest.getLocationId()).get());
         localDevice.setSupportedDevice(supportedDeviceRepository.findById(localDeviceRequest.getSupportedDeviceId()).get());
-        localDevice.setUuid(UUID.randomUUID().toString());
+        localDevice.setUuid(UUID.randomUUID().toString().substring(0,32));
 
         return localDeviceRepository.save(localDevice);
     }
