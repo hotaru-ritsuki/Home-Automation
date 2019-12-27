@@ -20,16 +20,16 @@ public class HomeService {
   private LocationService locationService;
 
   public Home create(HomeRequest request) {
-    Optional<Home> isHome=homeRepository.findByAddressaLike(request.getAddressa());
+    Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
     if (!isHome.isPresent()) {
-      return homeRepository.save(requestToHome(new Home(),request));
+      return homeRepository.save(requestToHome(new Home(), request));
     }
-    throw new RuntimeException("Home with address "+request.getAddressa()+" is already register");
+    throw new RuntimeException("Home with address " + request.getAddressa() + " is already register");
   }
 
   public List<HomeResponse> findAll() {
     List<Home> all = homeRepository.findAll();
-    List<HomeResponse> responses=new ArrayList<>();
+    List<HomeResponse> responses = new ArrayList<>();
     for (Home home : all) {
       responses.add(homeToResponse(home));
     }
@@ -41,16 +41,16 @@ public class HomeService {
           .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " not exists"));
   }
 
-  public HomeResponse findOneResponse(Long id){
+  public HomeResponse findOneResponse(Long id) {
     return homeToResponse(findOne(id));
   }
 
-  public Home update(Home home) {
-    Home homeId = findOne(home.getId());
-    homeId.setCountry(home.getCountry());
-    homeId.setCity(home.getCity());
-    homeId.setAddressa(home.getAddressa());
-    return homeRepository.save(homeId);
+  public Home update(HomeRequest request) {
+    Home home = findOne(request.getId());
+    home.setCountry(request.getCountry());
+    home.setCity(request.getCity());
+    home.setAddressa(request.getAddressa());
+    return homeRepository.save(home);
 
   }
 
@@ -63,7 +63,7 @@ public class HomeService {
     }
   }
 
-  public  HomeResponse homeToResponse(Home home) {
+  public HomeResponse homeToResponse(Home home) {
     HomeResponse response = new HomeResponse();
     response.setId(home.getId());
     response.setCountry(home.getCountry());
@@ -76,7 +76,7 @@ public class HomeService {
     return response;
   }
 
-  private Home requestToHome(Home home,HomeRequest request){
+  private Home requestToHome(Home home, HomeRequest request) {
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
     home.setAddressa(request.getAddressa());

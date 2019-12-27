@@ -46,7 +46,7 @@ public class LocationService {
     return locationToResponse(findOne(id));
   }
 
-  public Location update(Location update) {
+  public Location update(LocationRequest update) {
     Location location = findOne(update.getId());
     location.setName(update.getName());
     return locationRepository.save(location);
@@ -58,7 +58,7 @@ public class LocationService {
   }
 
   public List<LocationResponse> findByHome(Long id) {
-    List<Location> all=locationRepository.findAllByHome(homeRepository.findById(id));
+    List<Location> all = locationRepository.findAllByHome(homeRepository.findById(id));
     List<LocationResponse> responses = new ArrayList<>();
     for (Location location : all) {
       responses.add(locationToResponse(location));
