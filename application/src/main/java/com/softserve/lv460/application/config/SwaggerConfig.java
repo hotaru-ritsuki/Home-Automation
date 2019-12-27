@@ -52,7 +52,7 @@ public class SwaggerConfig {
 
   private ApiInfo metaData() {
     return new ApiInfoBuilder()
-          .title("Victoria Armario API")
+          .title("Home Automation API")
           .description("\"REST API\"")
           .version("1.0.0")
           .license("Apache License Version 2.0")
