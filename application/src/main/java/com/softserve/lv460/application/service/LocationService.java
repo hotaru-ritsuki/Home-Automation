@@ -8,7 +8,6 @@ import com.softserve.lv460.application.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,12 +57,7 @@ public class LocationService {
   }
 
   public List<LocationResponse> findByHome(Long id) {
-    List<Location> all = locationRepository.findAllByHome(homeRepository.findById(id));
-    List<LocationResponse> responses = new ArrayList<>();
-    for (Location location : all) {
-      responses.add(locationToResponse(location));
-    }
-    return responses;
+    return locationRepository.findAllByHome(homeRepository.findById(id)).stream().map(LocationService::locationToResponse).collect(Collectors.toList());
   }
 
 }
