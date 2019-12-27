@@ -1,12 +1,11 @@
 package com.softserve.lv460.application.dto.supportedDevice;
 
-import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.entity.Feature;
+import com.softserve.lv460.application.entity.SupportedDevice;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
