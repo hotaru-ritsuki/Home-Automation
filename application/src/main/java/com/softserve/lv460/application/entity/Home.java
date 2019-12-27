@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,7 +21,7 @@ public class Home {
   private String city;
   private String addressa;
   @ManyToMany(mappedBy = "homes")
-  private List<User> users;
+  private List<ApplicationUser> users=new ArrayList<>();
 
 }
 
