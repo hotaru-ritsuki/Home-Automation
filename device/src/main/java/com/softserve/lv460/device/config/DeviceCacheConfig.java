@@ -1,26 +1,33 @@
 package com.softserve.lv460.device.config;
 
-import org.springframework.cache.CacheManager;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+
+import java.util.concurrent.ExecutionException;
 
 @Configuration
 @EnableCaching
 public class DeviceCacheConfig {
-  @Bean
-  public CacheManager cacheManager(){
-    return new EhCacheCacheManager(cacheManagerFactory().getObject());
+  private LoadingCache<String,String> loadingCache = CacheBuilder.newBuilder().build(
+          new CacheLoader<String, String>() {
+            @Override
+            public String load(String s) throws Exception {
+              return getCache();
+            }
+          }
+  );
+
+  public String get(String key) throws ExecutionException {
+   return loadingCache.get(key);
   }
 
-  @Bean
-  public EhCacheManagerFactoryBean cacheManagerFactory(){
-    EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
-    factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
-    factoryBean.setShared(true);
-    return factoryBean
+
+  public String getCache(){
+    System.out.println("gg");
+    return "hello";
   }
 }
