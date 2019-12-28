@@ -14,19 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class SupportedDeviceResponse {
   private Long id;
-
   private String brand;
-
   private String model;
-
   private String type;
-
   private Integer releaseYear;
-
   private String powerSupply;
-
   private List<Feature> features;
-
 
   public SupportedDeviceResponse(SupportedDevice supportedDevice) {
     id = supportedDevice.getId();
@@ -35,7 +28,6 @@ public class SupportedDeviceResponse {
     type = supportedDevice.getType();
     releaseYear = supportedDevice.getReleaseYear();
     powerSupply = supportedDevice.getPowerSupply();
-
     features = new ArrayList<>(supportedDevice.getFeatures());
   }
 }

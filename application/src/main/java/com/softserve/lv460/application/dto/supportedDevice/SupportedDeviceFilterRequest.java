@@ -12,13 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class SupportedDeviceFilterRequest {
   private String model;
-
   private String brand;
-
   private String type;
-
   private Integer releaseYear;
-
   private List<Long> featuresId;
-
 }

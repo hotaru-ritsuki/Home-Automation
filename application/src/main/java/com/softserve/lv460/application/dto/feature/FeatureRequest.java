@@ -11,8 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class FeatureRequest {
   private String name;
-
   private String description;
-
   private List<SupportedDeviceRequest> devicesId;
 }

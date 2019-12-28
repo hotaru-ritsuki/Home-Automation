@@ -14,15 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class SupportedDeviceRequest {
   private String brand;
-
   private String model;
-
   private String type;
-
   private LocalDate releaseYear;
-
   private String powerSupply;
-
   private List<FeatureRequest> featuresId;
 
 }
