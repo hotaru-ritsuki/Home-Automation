@@ -1,12 +1,11 @@
 package com.softserve.lv460.application.specification;
 
 import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceFilterRequest;
-import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.entity.Feature;
+import com.softserve.lv460.application.entity.SupportedDevice;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.List;
 
 public class SupportedDeviceSpecification implements Specification<SupportedDevice> {
   private SupportedDeviceFilterRequest filter;
@@ -53,11 +52,10 @@ public class SupportedDeviceSpecification implements Specification<SupportedDevi
   }
 
   private Predicate findByFeatures(Root<SupportedDevice> r, CriteriaBuilder cb) {
-    List<Long> featuresId = filter.getFeaturesId();
     Predicate predicate;
     if (filter.getFeaturesId() != null) {
       Join<SupportedDevice, Feature> feature = r.join("features");
-      predicate = cb.and(cb.in(feature.get("id")).value(featuresId));
+      predicate = cb.and(cb.in(feature.get("id")).value(filter.getFeaturesId()));
     } else {
       predicate = cb.conjunction();
     }

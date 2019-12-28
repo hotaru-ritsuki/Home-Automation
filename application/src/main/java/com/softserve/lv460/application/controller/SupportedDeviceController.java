@@ -6,7 +6,6 @@ import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceFilter
 import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceResponse;
 import com.softserve.lv460.application.service.SupportedDeviceService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/device")
 public class SupportedDeviceController {
-
-  private  SupportedDeviceService supportedDeviceService;
+  private SupportedDeviceService supportedDeviceService;
 
   @GetMapping
   public List<SupportedDeviceResponse> findAll() {

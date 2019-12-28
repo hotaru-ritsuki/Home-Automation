@@ -14,26 +14,19 @@ import java.util.List;
 @Entity
 @Table(name = "device_template")
 public class SupportedDevice {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @NotNull
   private String brand;
-
   @NotNull
   private String model;
-
   @NotNull
   private String type;
-
   @Column(name = "releaseYear")
   private Integer releaseYear;
-
   @Column(name = "powerSupply")
   private String powerSupply;
-
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",

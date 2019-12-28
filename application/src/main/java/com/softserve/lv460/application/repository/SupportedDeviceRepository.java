@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SupportedDeviceRepository extends JpaRepository<SupportedDevice, Long>, JpaSpecificationExecutor<SupportedDevice> {
-
+public interface SupportedDeviceRepository extends JpaRepository<SupportedDevice, Long>,
+        JpaSpecificationExecutor<SupportedDevice> {
 }

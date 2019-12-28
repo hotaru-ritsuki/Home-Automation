@@ -17,13 +17,10 @@ public class Feature {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @NotNull
   private String name;
-
   @NotNull
   private String description;
-
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",
