@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "DevicesData")
+@Document
 public class DeviceData {
   @Id
   private String id;

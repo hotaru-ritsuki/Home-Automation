@@ -1,12 +1,12 @@
 package com.softserve.lv460.device.service.impl;
 
-import com.softserve.lv460.device.Exceptions.DeviceNotRegisteredException;
-import com.softserve.lv460.device.Exceptions.Massages;
 import com.softserve.lv460.device.config.DeviceCacheConfig;
+import com.softserve.lv460.device.constant.DataServiceConstants;
 import com.softserve.lv460.device.document.DeviceData;
+import com.softserve.lv460.device.exceptions.DeviceNotRegisteredException;
+import com.softserve.lv460.device.exceptions.Massages;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataService;
-import constant.DataServiceConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
       addToBatch(deviceData);
     } else throw new DeviceNotRegisteredException(Massages.DEVICE_NOT_REGISTERED);
   }
-
 
   private void addToBatch(DeviceData deviceData) {
     batch.add(deviceData);
