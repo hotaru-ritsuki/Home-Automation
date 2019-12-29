@@ -35,7 +35,7 @@ public class Feature {
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",
-          joinColumns = @JoinColumn(name = "features_id"),
-          inverseJoinColumns = @JoinColumn(name = "device_id"))
+      joinColumns = @JoinColumn(name = "features_id"),
+      inverseJoinColumns = @JoinColumn(name = "device_id"))
   private List<SupportedDevice> supportedDevices;
 }

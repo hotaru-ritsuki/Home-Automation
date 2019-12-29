@@ -19,28 +19,28 @@ public class FeatureService {
   private FeatureRepository featureRepository;
   //private FeatureService featureService;
 
-  public Feature create(FeatureRequest featureRequest){
+  public Feature create(FeatureRequest featureRequest) {
     Feature feature = new Feature();
     feature.setName(featureRequest.getName());
     feature.setDescription(featureRequest.getDescription());
     return featureRepository.save(feature);
   }
 
-  public Feature findFeature(Long id){
+  public Feature findFeature(Long id) {
     return featureRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
   }
 
-  public List<FeatureResponse> findAll(){
+  public List<FeatureResponse> findAll() {
     List<Feature> all = featureRepository.findAll();
-    List<FeatureResponse> responses =new ArrayList<>();
-    for (Feature feature: all){
+    List<FeatureResponse> responses = new ArrayList<>();
+    for (Feature feature : all) {
       responses.add(featureToResponse(feature));
     }
     return responses;
   }
 
-  public FeatureResponse featureToResponse(Feature feature){
+  public FeatureResponse featureToResponse(Feature feature) {
     FeatureResponse featureResponse = new FeatureResponse();
     featureResponse.setId(feature.getId());
     featureResponse.setName(feature.getName());
@@ -48,14 +48,14 @@ public class FeatureService {
     return featureResponse;
   }
 
-  public Feature update(Long id, FeatureRequest featureRequest){
+  public Feature update(Long id, FeatureRequest featureRequest) {
     Feature feature = findFeature(id);
     feature.setName(featureRequest.getName());
     feature.setDescription(featureRequest.getDescription());
     return featureRepository.save(feature);
   }
 
-  public void delete(Long id){
+  public void delete(Long id) {
     Feature feature = findFeature(id);
     featureRepository.delete(feature);
   }
