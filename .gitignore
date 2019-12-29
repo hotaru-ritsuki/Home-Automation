@@ -1,10 +1,13 @@
+target/
+.idea/
 dist/
 tmp/
 node_modules/
-target/
-.idea/
 *.iml
 *.iws
+*.iml
+*.iws
+
 
 # Compiled class file
 *.class
