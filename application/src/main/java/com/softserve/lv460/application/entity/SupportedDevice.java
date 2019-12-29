@@ -3,7 +3,7 @@ package com.softserve.lv460.application.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -40,6 +40,5 @@ public class SupportedDevice {
           joinColumns = @JoinColumn(name = "device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
-
-
 }
+

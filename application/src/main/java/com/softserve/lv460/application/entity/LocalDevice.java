@@ -1,27 +1,22 @@
 package com.softserve.lv460.application.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
-@Data
+@AllArgsConstructor
 @NoArgsConstructor
-
-@Entity
-@Table(name = "local_device")
 public class LocalDevice {
   @Id
-  @Size(max=32)
   private String uuid;
-
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "location_id")
+  private Location locations;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "device_id")
   private SupportedDevice supportedDevice;
-
-  @ManyToOne
-  private Location location;
 }
