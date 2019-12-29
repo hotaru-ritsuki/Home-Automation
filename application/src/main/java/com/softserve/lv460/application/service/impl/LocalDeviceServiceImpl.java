@@ -9,6 +9,8 @@ import com.softserve.lv460.application.repository.LocalDeviceRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
 import com.softserve.lv460.application.repository.SupportedDeviceRepository;
 import com.softserve.lv460.application.service.LocalDeviceService;
+import com.softserve.lv460.application.service.LocationService;
+import com.softserve.lv460.application.service.SupportedDeviceService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LocalDeviceServiceImpl implements LocalDeviceService {
     private LocalDeviceRepository localDeviceRepository;
-    private SupportedDeviceRepository supportedDeviceRepository;
-    private LocationRepository locationRepository;
+    private SupportedDeviceService supportedDeviceService;
+    private LocationService locationService;
 
     @Override
     public LocalDevice findByUuid(String uuid) {
@@ -44,7 +46,7 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
     public LocalDevice update(String uuid, Long location_id) {
         LocalDevice localDeviceByUuid = findByUuid(uuid);
 
-        localDeviceByUuid.setLocations(locationRepository.getOne(location_id));
+        localDeviceByUuid.setLocations(locationService.findOne(location_id));
 
         return localDeviceRepository.save(localDeviceByUuid);
     }
@@ -53,8 +55,8 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
     public LocalDevice save(LocalDeviceRequest localDeviceRequest) {
         LocalDevice localDevice = new LocalDevice();
 
-        localDevice.setLocations(locationRepository.findById(localDeviceRequest.getLocationId()).get());
-        localDevice.setSupportedDevice(supportedDeviceRepository.findById(localDeviceRequest.getSupportedDeviceId()).get());
+        localDevice.setLocations(locationService.findOne((localDeviceRequest.getLocationId())));
+        localDevice.setSupportedDevice(supportedDeviceService.findById(localDeviceRequest.getSupportedDeviceId()));
         localDevice.setUuid(UUID.randomUUID().toString().substring(0,32));
 
         return localDeviceRepository.save(localDevice);
