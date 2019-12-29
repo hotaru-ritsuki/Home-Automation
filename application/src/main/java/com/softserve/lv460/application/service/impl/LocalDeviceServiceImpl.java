@@ -41,10 +41,10 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
     }
 
     @Override
-    public LocalDevice update(LocalDevice localDevice) {
-        LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
+    public LocalDevice update(String uuid, Long location_id) {
+        LocalDevice localDeviceByUuid = findByUuid(uuid);
 
-        localDeviceByUuid.setLocations(localDevice.getLocations());
+        localDeviceByUuid.setLocations(locationRepository.getOne(location_id));
 
         return localDeviceRepository.save(localDeviceByUuid);
     }

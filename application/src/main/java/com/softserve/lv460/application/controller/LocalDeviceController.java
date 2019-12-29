@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
+import com.softserve.lv460.application.dto.location.LocationResponse;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import com.softserve.lv460.application.service.LocationService;
@@ -32,9 +33,14 @@ public class LocalDeviceController {
         return localDeviceService.findAllByLocation(locationService.findOne(id));
     }
 
-    @PutMapping("/update")
-    public void update(@RequestBody LocalDevice localDevice) {
-        localDeviceService.update(localDevice);
+    @GetMapping("find/{uuid}")
+    public LocalDevice findOne(@PathVariable("uuid") String uuid) throws Exception {
+        return localDeviceService.findByUuid(uuid);
+    }
+
+    @PutMapping("/update/{uuid}/{location_id}")
+    public void update(@PathVariable("uuid") String uuid, @PathVariable("location_id") Long location) {
+        localDeviceService.update(uuid, location);
     }
 
     @DeleteMapping("/{uuid}")

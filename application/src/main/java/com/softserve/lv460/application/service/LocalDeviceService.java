@@ -11,7 +11,7 @@ public interface LocalDeviceService {
     LocalDevice findByUuid(String uuid) throws Exception;
     ArrayList<LocalDevice> findAll();
     ArrayList<LocalDevice> findAllByLocation(Location location);
-    LocalDevice update(LocalDevice localDevice);
+    LocalDevice update(String uuid, Long location_id);
     LocalDevice save(LocalDeviceRequest localDevice);
     void delete(String uuid);
 
