@@ -1,12 +1,13 @@
-package com.softserve.lv460.application;
+package com.softserve.lv460.device;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class DeviceApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(DeviceApplication.class, args);
   }
+
 }
