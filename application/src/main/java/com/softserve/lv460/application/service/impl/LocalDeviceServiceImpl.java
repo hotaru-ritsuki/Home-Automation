@@ -2,12 +2,14 @@ package com.softserve.lv460.application.service.impl;
 
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
 import com.softserve.lv460.application.entity.LocalDevice;
+import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.entity.SupportedDevice;
 import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocalDeviceRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
 import com.softserve.lv460.application.repository.SupportedDeviceRepository;
 import com.softserve.lv460.application.service.LocalDeviceService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class LocalDeviceServiceImpl implements LocalDeviceService {
-    @Autowired
     private LocalDeviceRepository localDeviceRepository;
-
-    @Autowired
     private SupportedDeviceRepository supportedDeviceRepository;
-
-    @Autowired
     private LocationRepository locationRepository;
 
     @Override
@@ -35,6 +33,11 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
     @Override
     public ArrayList<LocalDevice> findAll() {
         return (ArrayList<LocalDevice>) localDeviceRepository.findAll();
+    }
+
+    @Override
+    public ArrayList<LocalDevice> findAllByLocation(Location location) {
+        return localDeviceRepository.findAllByLocations(location).get();
     }
 
     @Override
