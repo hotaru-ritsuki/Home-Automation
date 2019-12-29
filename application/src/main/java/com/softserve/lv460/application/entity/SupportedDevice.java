@@ -3,14 +3,12 @@ package com.softserve.lv460.application.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Table(name = "device_template")
 public class SupportedDevice {
@@ -33,6 +31,9 @@ public class SupportedDevice {
 
   @Column(name = "powerSupply")
   private String powerSupply;
+
+  @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "supportedDevice")
+  private List<LocalDevice> localDevices;
 
   @ManyToMany
   @JsonIgnore

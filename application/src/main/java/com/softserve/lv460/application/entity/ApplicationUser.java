@@ -1,6 +1,4 @@
 package com.softserve.lv460.application.entity;
-
-//import com.softserve.lv460.application.entity.enums.Role;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -1,5 +1,4 @@
 package com.softserve.lv460.application.service;
-<<<<<<< HEAD
 
 import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceFilterRequest;
 import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceResponse;
@@ -35,18 +34,4 @@ public class SupportedDeviceService {
             allByFilter.getTotalPages(), allByFilter.getTotalElements());
 
   }
-
-
-=======
-import com.softserve.lv460.application.entity.SupportedDevice;
-
-import java.util.List;
-
-public interface SupportedDeviceService {
-  SupportedDevice findById(Long id);
-  List<SupportedDevice> findAll();
-  SupportedDevice update(SupportedDevice device);
-  SupportedDevice save(SupportedDevice device);
-  Long deleteById(Long id);
->>>>>>> feature/locationDevice
 }
