@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.support.NullValue;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import java.util.List;
 public class FeatureService {
 
   private FeatureRepository featureRepository;
-  //private FeatureService featureService;
 
   public Feature create(FeatureRequest featureRequest) {
     Feature feature = new Feature();
@@ -59,5 +57,4 @@ public class FeatureService {
     Feature feature = findFeature(id);
     featureRepository.delete(feature);
   }
-
 }

@@ -1,5 +1,3 @@
--- create sequence hibernate-sequence start 1 increment 1;
-
 create table device_features (
   device_id bigint not null,
   features_id bigint not null) engine=MyISAM;
