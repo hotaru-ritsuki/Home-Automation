@@ -3,9 +3,7 @@ package com.softserve.lv460.application.controller;
 import com.softserve.lv460.application.dto.feature.FeatureRequest;
 import com.softserve.lv460.application.dto.feature.FeatureResponse;
 import com.softserve.lv460.application.service.FeatureService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

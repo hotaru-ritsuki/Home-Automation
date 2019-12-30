@@ -56,7 +56,7 @@ insert into device_template (id, brand, model, power_supply, release_year, type)
   values (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter');
 
 insert into device_template (id, brand, model, power_supply, release_year, type)
-  values (2, 'Xiaomi', 'Mijia Digital Hygrometer', 'unregulated', 2019, 'Temperature Meter');
+  values (2, 'Xiaomi', 'Mijia 2 Digital Hygrometer', 'unregulated', 2019, 'Temperature Meter');
 
 insert into features (id, description, name)
   values (1, 'Temperature', 'getTemperature');
