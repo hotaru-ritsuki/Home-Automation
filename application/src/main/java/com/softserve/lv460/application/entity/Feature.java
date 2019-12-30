@@ -1,8 +1,5 @@
 package com.softserve.lv460.application.entity;
 
-<<<<<<< HEAD
-public class Feature {
-=======
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,5 +33,4 @@ public class Feature {
       joinColumns = @JoinColumn(name = "features_id"),
       inverseJoinColumns = @JoinColumn(name = "device_id"))
   private List<SupportedDevice> supportedDevices;
->>>>>>> 93c09957... fixing
 }
