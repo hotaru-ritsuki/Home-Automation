@@ -1,0 +1,29 @@
+<p>start</p>
+<!--<div *ngFor="let home of homes">-->
+<!--  {{home.addressa}}-->
+<!--  <span *ngFor="let location of home.locations">-->
+<!--    {{location.name}}-->
+<!--  </span>-->
+<!--</div>-->
+<!--<div>-->
+<!--  {{home.addressa}}-->
+<!--  <span *ngFor="let loc of home.locations">{{loc.name}} </span>-->
+<!--</div>-->
+<div>
+  <p>
+    Country
+    <input #countryInput>
+  </p>
+  <p>
+    City
+    <input #cityInput>
+  </p>
+  <p>
+    Address
+    <input #addressInput>
+  </p>
+  <p>
+    <button name="Add home" (click)="save(countryInput.value,cityInput.value,addressInput.value)">Add</button>
+  </p>
+</div>
+
