@@ -2,6 +2,7 @@ package com.softserve.lv460.device.controller;
 
 import com.softserve.lv460.device.document.DeviceData;
 import com.softserve.lv460.device.dto.DeviceDataDto;
+import com.softserve.lv460.device.dto.StatisticParameters;
 import com.softserve.lv460.device.service.impl.DeviceDataServiceImpl;
 import com.softserve.lv460.device.service.impl.DeviceDataStatisticServiceImpl;
 import lombok.AllArgsConstructor;
@@ -19,12 +20,8 @@ public class DeviceDataController {
   private DeviceDataStatisticServiceImpl deviceDataStatisticService;
 
   @GetMapping("/statistic")
-  public List<DeviceDataDto> getStatistic(@RequestParam("type") String type,
-                                          @RequestParam("from") String from,
-                                          @RequestParam("to") String to
-
-  ) {
-    return deviceDataStatisticService.getStatistic(type, from, to);
+  public List<DeviceDataDto> getStatistic(StatisticParameters statisticParameters) {
+    return deviceDataStatisticService.getStatistic(statisticParameters);
   }
 
   @PostMapping

@@ -10,7 +10,9 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
@@ -21,6 +23,10 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableCaching
 public class DeviceCacheConfig {
+
+  @Autowired
+  private PropertiesConfig propertiesConfig;
+
 
   private LoadingCache<String, Boolean> loadingCache = CacheBuilder
           .newBuilder()
@@ -42,13 +48,17 @@ public class DeviceCacheConfig {
 
 
   public List<String> getRegisteredDevicesUu() throws Exception {
-    String url = "http://localhost:8080/location-device";
-    CloseableHttpClient client = HttpClients.createDefault();
-    CloseableHttpResponse response = client.execute(new HttpGet(url));
+    String url = propertiesConfig.getHostName() + "/location-device";
+    CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
     HttpEntity entity = response.getEntity();
     ObjectMapper mapper = new ObjectMapper();
     List<DeviceDto> devices = mapper.readValue(entity.getContent(),
             mapper.getTypeFactory().constructCollectionType(List.class, DeviceDto.class));
     return devices.stream().map(DeviceDto::getUuid).collect(Collectors.toList());
+  }
+
+  @Bean
+  CloseableHttpClient httpClient() {
+    return HttpClients.createDefault();
   }
 }
