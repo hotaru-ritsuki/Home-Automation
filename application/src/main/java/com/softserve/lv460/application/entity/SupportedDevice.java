@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "device_template")
 public class SupportedDevice {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,5 @@ public class SupportedDevice {
   private String model;
   @Column(nullable = false)
   private String type;
-  @Column(nullable = false)
   private LocalDate releaseDate;
 }

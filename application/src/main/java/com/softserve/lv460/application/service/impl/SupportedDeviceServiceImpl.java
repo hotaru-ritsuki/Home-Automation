@@ -18,7 +18,7 @@ public class SupportedDeviceServiceImpl implements SupportedDeviceService {
   @Override
   public SupportedDevice findById(Long id) {
     return supportedDeviceRepository.findById(id).orElseThrow(() ->
-            new NotFoundException(ErrorMassage.Supported_Device_Not_Found + id));
+            new NotFoundException(ErrorMassage.SUPPORTED_DEVICE_NOT_FOUND + id));
   }
 
   @Override

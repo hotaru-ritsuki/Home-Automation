@@ -12,41 +12,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/location-device")
+@RequestMapping("/location-devices")
 @AllArgsConstructor
+@CrossOrigin
 public class LocalDeviceController {
     private LocalDeviceService localDeviceService;
     private LocationService locationService;
 
-    @PostMapping("/save")
+    @PostMapping()
     public void save(@RequestBody LocalDeviceRequest localDeviceRequest) {
         localDeviceService.save(localDeviceRequest);
     }
 
-    @GetMapping("/find-all")
+    @GetMapping()
     public List<LocalDevice> findAll() {
         return localDeviceService.findAll();
     }
 
-    @GetMapping("/find-all-in-location/{location_id}")
-    public ArrayList<LocalDevice> findByLocation(@PathVariable("location_id") Long id){
+    @GetMapping("/location/{location_id}")
+    public List<LocalDevice> findByLocation(@PathVariable("location_id") Long id){
         return localDeviceService.findAllByLocation(locationService.findOne(id));
     }
 
-    @GetMapping("find/{uuid}")
+    @GetMapping("/{uuid}")
     public LocalDevice findOne(@PathVariable("uuid") String uuid) throws Exception {
         return localDeviceService.findByUuid(uuid);
     }
 
-    @PutMapping("/update/{uuid}/{location_id}")
-    public void update(@PathVariable("uuid") String uuid, @PathVariable("location_id") Long location) {
-        localDeviceService.update(uuid, location);
+    @PutMapping()
+    public void update(@RequestBody LocalDevice localDevice) {
+        localDeviceService.update(localDevice);
     }
 
     @DeleteMapping("/{uuid}")
     public void delete(@PathVariable("uuid") String uuid) {
         localDeviceService.delete(uuid);
     }
-
-
 }

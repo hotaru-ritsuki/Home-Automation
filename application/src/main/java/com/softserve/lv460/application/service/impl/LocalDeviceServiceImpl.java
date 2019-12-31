@@ -3,19 +3,13 @@ package com.softserve.lv460.application.service.impl;
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.entity.Location;
-import com.softserve.lv460.application.entity.SupportedDevice;
-import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocalDeviceRepository;
-import com.softserve.lv460.application.repository.LocationRepository;
-import com.softserve.lv460.application.repository.SupportedDeviceRepository;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import com.softserve.lv460.application.service.LocationService;
 import com.softserve.lv460.application.service.SupportedDeviceService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,24 +23,24 @@ public class LocalDeviceServiceImpl implements LocalDeviceService {
     @Override
     public LocalDevice findByUuid(String uuid) {
         return localDeviceRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Home with id " + uuid + " not exists"));
+                .orElseThrow(() -> new IllegalArgumentException("Device with uuid " + uuid + "is not exists"));
     }
 
     @Override
-    public ArrayList<LocalDevice> findAll() {
-        return (ArrayList<LocalDevice>) localDeviceRepository.findAll();
+    public List<LocalDevice> findAll() {
+        return localDeviceRepository.findAll();
     }
 
     @Override
-    public ArrayList<LocalDevice> findAllByLocation(Location location) {
-        return localDeviceRepository.findAllByLocations(location).get();
+    public List<LocalDevice> findAllByLocation(Location location) {
+            return localDeviceRepository.findAllByLocations(location);
     }
 
     @Override
-    public LocalDevice update(String uuid, Long location_id) {
-        LocalDevice localDeviceByUuid = findByUuid(uuid);
+    public LocalDevice update(LocalDevice localDevice) {
+        LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
 
-        localDeviceByUuid.setLocations(locationService.findOne(location_id));
+        localDeviceByUuid.setLocations(localDevice.getLocations());
 
         return localDeviceRepository.save(localDeviceByUuid);
     }

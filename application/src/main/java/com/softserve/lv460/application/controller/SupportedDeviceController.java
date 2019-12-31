@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/supported-device")
+@CrossOrigin
 public class SupportedDeviceController {
   private SupportedDeviceService supportedDeviceService;
 
