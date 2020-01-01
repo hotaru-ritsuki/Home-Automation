@@ -1,8 +1,8 @@
 
 export class DeviceData {
   constructor(
-    public uu: string,
-    public quantity: number,
+    public timeStamp: string,
+    public data: Object
   ) {
   }
 }

@@ -1,0 +1,50 @@
+.container{
+  width: 100%;
+}
+
+.chart{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+}
+.graphic{
+  justify-content: center;
+  box-sizing: border-box;
+  width: 50%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.date{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.button{
+  width: 15%;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  text-align: center;
+  border: 1px solid #eaeaea;
+  font-size: 14px;
+  font-family: sans-serif;
+  cursor: pointer;
+}
+.button:hover{
+  transition: 1s;
+  background-color: snow;
+  border-color: rgb(0,128,128);
+  color:rgb(0,128,128) ;
+}
+.text{
+  font-family: sans-serif;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 16px;
+  margin-right: 10px;
+  margin-left: 10px;
+
+}

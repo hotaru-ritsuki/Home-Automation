@@ -1,4 +1,9 @@
-<select >
-  <option>By Temperature</option>
-  <option>By Humidity</option>
-</select>
+<div class="canvas-params">
+  <canvas   baseChart
+            [datasets]="ChartData"
+            [labels]="ChartLabels"
+            [options]="ChartOptions"
+            [legend]="ChartLegend"
+            [chartType]="ChartType">
+  </canvas>
+</div>
