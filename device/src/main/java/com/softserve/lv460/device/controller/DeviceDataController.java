@@ -14,12 +14,12 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/deviceData")
+@RequestMapping("/device-data")
 public class DeviceDataController {
   private DeviceDataServiceImpl deviceDataService;
   private DeviceDataStatisticServiceImpl deviceDataStatisticService;
 
-  @GetMapping("/statistic")
+  @GetMapping("/statistics")
   public List<DeviceDataDto> getStatistic(StatisticParameters statisticParameters) {
     return deviceDataStatisticService.getStatistic(statisticParameters);
   }

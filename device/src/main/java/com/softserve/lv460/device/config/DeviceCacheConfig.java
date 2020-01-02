@@ -47,8 +47,8 @@ public class DeviceCacheConfig {
   }
 
 
-  public List<String> getRegisteredDevicesUu() throws Exception {
-    String url = propertiesConfig.getHostName() + "/location-device";
+  private List<String> getRegisteredDevicesUu() throws Exception {
+    String url = propertiesConfig.getMainApplicationHostName() + "/location-device";
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
     HttpEntity entity = response.getEntity();
     ObjectMapper mapper = new ObjectMapper();
