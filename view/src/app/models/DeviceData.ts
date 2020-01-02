@@ -1,4 +1,3 @@
-
 export class DeviceData {
   constructor(
     public timeStamp: string,

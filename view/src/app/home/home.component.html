@@ -1,0 +1,31 @@
+<div style="margin: 30px 20px;">
+  <div class="Select home">
+    <select class="custom-select-lg selected" (change)="changer(selectElement.value)" #selectElement>
+      <option disabled>Make choice</option>
+      <option *ngFor="let house of homes" [value]="house.id">
+        {{house.country}} {{house.city}} {{house.addressa}}
+      </option>
+    </select>
+    <button (click)="chang()" type="button" class="btn btn-outline-primary butt">Add home</button>
+
+    <div *ngIf="addHome">
+      <div class="form-label-group">
+        <input type="text" id="inputCountry" placeholder="Country" #countryInput>
+      </div>
+      <div class="form-label-group">
+        <input type="text" id="InputCity" placeholder="City" #cityInput>
+      </div>
+      <div class="form-label-group">
+        <input type="text" id="InputAddress" placeholder="Address" #addressInput>
+      </div>
+      <button (click)="save(countryInput.value,cityInput.value,addressInput.value)" type="button"
+              class="btn btn-outline-success">Submit
+      </button>
+    </div>
+  </div>
+  <div>
+    <app-home-details>
+
+    </app-home-details>
+  </div>
+</div>

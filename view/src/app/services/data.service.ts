@@ -7,5 +7,5 @@ import {Subject} from "rxjs";
 export class DataService {
 
   constructor() { }
-   DateTime = new Subject()
+   DateTime = new Subject();
 }
