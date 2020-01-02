@@ -1,15 +1,10 @@
 package com.softserve.lv460.application.dto.supportedDevice;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class SupportedDeviceFilterRequest {
   private String model;
   private String brand;

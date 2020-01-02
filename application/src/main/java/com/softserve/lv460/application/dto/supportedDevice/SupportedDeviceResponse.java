@@ -2,16 +2,12 @@ package com.softserve.lv460.application.dto.supportedDevice;
 
 import com.softserve.lv460.application.entity.Feature;
 import com.softserve.lv460.application.entity.SupportedDevice;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class SupportedDeviceResponse {
   private Long id;
   private String brand;

@@ -3,16 +3,14 @@ package com.softserve.lv460.application.specification;
 import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceFilterRequest;
 import com.softserve.lv460.application.entity.Feature;
 import com.softserve.lv460.application.entity.SupportedDevice;
+import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
 
+@AllArgsConstructor
 public class SupportedDeviceSpecification implements Specification<SupportedDevice> {
   private SupportedDeviceFilterRequest filter;
-
-  public SupportedDeviceSpecification(SupportedDeviceFilterRequest filter) {
-    this.filter = filter;
-  }
 
   @Override
   public Predicate toPredicate(Root<SupportedDevice> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
