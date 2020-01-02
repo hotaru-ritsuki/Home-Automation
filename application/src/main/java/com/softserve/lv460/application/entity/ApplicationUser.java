@@ -23,11 +23,9 @@ import java.util.Set;
 
     @NotNull
     @Column(unique = true, nullable=false)
-    @Size(max=32)
     private String email;
 
     @NotNull
-    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
 

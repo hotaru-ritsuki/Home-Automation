@@ -5,6 +5,7 @@ package com.softserve.lv460.application.security.filters;
         import com.softserve.lv460.application.entity.ApplicationUser;
         import com.softserve.lv460.application.security.constants.SecurityConstants;
         import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.context.annotation.Import;
         import org.springframework.security.authentication.AuthenticationManager;
         import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
         import org.springframework.security.core.Authentication;
@@ -21,13 +22,12 @@ package com.softserve.lv460.application.security.filters;
         import java.util.Date;
 
         import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-@Autowired
   private SecurityConstants securityConstants;
   private AuthenticationManager authenticationManager;
-  public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+  public JWTAuthenticationFilter(AuthenticationManager authenticationManager,SecurityConstants securityConstants) {
     this.authenticationManager=authenticationManager;
+    this.securityConstants=securityConstants;
   }
 
 
@@ -57,7 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     String token = JWT.create()
             .withSubject(((User) auth.getPrincipal()).getUsername())
-            .withExpiresAt(new Date(System.currentTimeMillis() + securityConstants.EXPIRATION_TIME))
+            .withExpiresAt(new Date(System.currentTimeMillis() + securityConstants.EXPIRATIONTIME))
             .sign(HMAC512(securityConstants.SECRET.getBytes()));
     res.addHeader(securityConstants.HEADER_STRING, securityConstants.TOKEN_PREFIX+ token);
   }

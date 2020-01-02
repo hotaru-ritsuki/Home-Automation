@@ -7,6 +7,8 @@ import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,9 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+@Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(SecurityConstants.class)
+@Import(SecurityConstants.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
@@ -41,13 +43,13 @@ private SecurityConstants securityConstants;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    System.out.println("Pattern is "+securityConstants.SIGN_UP_URL);
+    System.out.println("Pattern is "+ securityConstants.SIGN_UP_URL);
     http.cors().and().csrf().disable().authorizeRequests()
             .antMatchers(HttpMethod.POST, securityConstants.SIGN_UP_URL).permitAll()
-           .anyRequest().authenticated()
+            .anyRequest().authenticated()
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+            .addFilter(new JWTAuthenticationFilter(authenticationManager(),securityConstants))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager(),securityConstants))
             // this disables session creation on Spring Security
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }

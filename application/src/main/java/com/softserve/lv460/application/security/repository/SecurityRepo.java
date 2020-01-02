@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface SecurityRepo extends JpaRepository<ApplicationUser,Long> {
-  @Modifying
-  void updatePassword(@Param("password") String password, @Param("id") Long id);
 }
