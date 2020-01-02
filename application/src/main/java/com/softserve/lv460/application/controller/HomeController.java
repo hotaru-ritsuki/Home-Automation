@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/homes")
 @CrossOrigin
 public class HomeController {
   private final HomeService homeService;
@@ -19,9 +19,10 @@ public class HomeController {
     this.homeService = homeService;
   }
 
+
   @PostMapping
-  public void create(@RequestBody HomeRequest request) {
-    homeService.create(request);
+  public HomeResponse create(@RequestBody HomeRequest request) {
+    return homeService.create(request);
   }
 
   @GetMapping
@@ -30,12 +31,12 @@ public class HomeController {
   }
 
   @PutMapping
-  public void update(@RequestParam Long id, @RequestBody HomeRequest request) {
-    homeService.update(id, request);
+  public void update(@RequestBody HomeRequest request) {
+    homeService.update(request);
   }
 
-  @DeleteMapping
-  public void delete(@RequestParam Long id) {
+  @DeleteMapping("/{home_id}")
+  public void delete(@PathVariable("home_id") Long id) {
     homeService.delete(id);
   }
 
@@ -43,5 +44,10 @@ public class HomeController {
   @GetMapping("/find")
   public Home findByAddress(@RequestParam String address) {
     return homeService.findHomeByAddress(address);
+  }
+
+  @GetMapping("/{home_id}")
+  public HomeResponse findOne(@PathVariable("home_id") Long id) {
+    return homeService.findOneResponse(id);
   }
 }

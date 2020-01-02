@@ -5,26 +5,25 @@ import com.softserve.lv460.application.dto.location.LocationResponse;
 import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class LocationService {
-  @Autowired
+
   private LocationRepository locationRepository;
-  @Autowired
   private HomeRepository homeRepository;
 
-
-  public Location create(LocationRequest lR) {
+  public LocationResponse create(LocationRequest request) {
     Location location = new Location();
-    location.setName(lR.getName());
-    location.setHome(homeRepository.findById(lR.getHomeId()).get());
-    return locationRepository.save(location);
+    location.setName(request.getName());
+    location.setHome(homeRepository.findById(request.getHomeId()).get());
+    return locationToResponse(locationRepository.save(location));
   }
 
   public List<LocationResponse> findAll() {
@@ -40,9 +39,9 @@ public class LocationService {
     return locationToResponse(findOne(id));
   }
 
-  public Location update(Long id, LocationRequest lR) {
-    Location location = findOne(id);
-    location.setName(lR.getName());
+  public Location update(LocationRequest update) {
+    Location location = findOne(update.getId());
+    location.setName(update.getName());
     return locationRepository.save(location);
   }
 
@@ -80,5 +79,4 @@ public class LocationService {
     lR.setDevises(new ArrayList<>(location.getDevices()));
     return lR;
   }
-
 }

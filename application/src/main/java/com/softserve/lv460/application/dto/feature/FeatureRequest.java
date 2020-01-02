@@ -10,9 +10,9 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 public class FeatureRequest {
+  private Long id;
   private String name;
-
   private String description;
-
   private List<SupportedDeviceRequest> devicesId;
+
 }

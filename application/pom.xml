@@ -9,6 +9,7 @@
     <description>ui part</description>
     <properties>
         <java.version>1.8</java.version>
+        <swagger.version>2.9.2</swagger.version>
     </properties>
 
     <parent>
@@ -16,6 +17,7 @@
         <groupId>com.softserve.lv-460</groupId>
         <version>1.0</version>
     </parent>
+
 
     <dependencies>
         <dependency>
@@ -36,13 +38,13 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>
@@ -61,6 +63,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+<<<<<<< HEAD
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -68,6 +71,13 @@
             <version>5.2.2.RELEASE</version>
         </dependency>
 
+=======
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+>>>>>>> 3a264c89a00a832534d8bb9382b46e79889d01b4
     </dependencies>
 
     <build>

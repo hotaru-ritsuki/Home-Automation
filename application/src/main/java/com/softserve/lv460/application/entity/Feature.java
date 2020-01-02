@@ -3,14 +3,12 @@ package com.softserve.lv460.application.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Table(name = "features")
 public class Feature {
@@ -30,4 +28,5 @@ public class Feature {
           joinColumns = @JoinColumn(name = "features_id"),
           inverseJoinColumns = @JoinColumn(name = "device_id"))
   private List<SupportedDevice> supportedDevices;
+  private List<DeviceTemplate> deviceTemplates;
 }
