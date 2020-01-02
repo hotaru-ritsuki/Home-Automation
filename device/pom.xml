@@ -2,19 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>supportedDevice</artifactId>
+    <artifactId>device</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-<<<<<<< HEAD
-    <name>supportedDevice</name>
-    <description>supportedDevice part</description>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-=======
     <name>device</name>
     <description>device part</description>
->>>>>>> 3a264c89a00a832534d8bb9382b46e79889d01b4
     <parent>
         <artifactId>home_authomation</artifactId>
         <groupId>com.softserve.lv-460</groupId>

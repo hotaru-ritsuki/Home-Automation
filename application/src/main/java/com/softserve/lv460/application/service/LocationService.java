@@ -8,7 +8,6 @@ import com.softserve.lv460.application.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,13 @@ public class LocationService {
 
   private LocationRepository locationRepository;
   private HomeRepository homeRepository;
+
+  public static LocationResponse locationToResponse(Location location) {
+    LocationResponse response = new LocationResponse();
+    response.setId(location.getId());
+    response.setName(location.getName());
+    return response;
+  }
 
   public LocationResponse create(LocationRequest request) {
     Location location = new Location();
@@ -51,32 +57,7 @@ public class LocationService {
   }
 
   public List<LocationResponse> findByHome(Long id) {
-    List<Location> all = locationRepository.findAll();
-    List<LocationResponse> lr = new ArrayList<>();
-    for (Location location : all) {
-      if (location.getHome().getId() == id) {
-        lr.add(locationToResponse(location));
-      }
-    }
-    return lr;
+    return locationRepository.findAllByHome(homeRepository.findById(id)).stream().map(LocationService::locationToResponse).collect(Collectors.toList());
   }
 
-  public List<LocationResponse> findByHomeAddress(String address){
-    List<Location> all = locationRepository.findAll();
-    List<LocationResponse> lr = new ArrayList<>();
-    for (Location location : all) {
-      if (location.getHome().getAddressa().equals(address)) {
-        lr.add(locationToResponse(location));
-      }
-    }
-    return lr;
-  }
-
-  public static LocationResponse locationToResponse(Location location) {
-    LocationResponse lR = new LocationResponse();
-    lR.setId(location.getId());
-    lR.setName(location.getName());
-    lR.setDevises(new ArrayList<>(location.getDevices()));
-    return lR;
-  }
 }

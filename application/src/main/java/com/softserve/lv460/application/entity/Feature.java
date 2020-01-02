@@ -15,18 +15,14 @@ public class Feature {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @NotNull
   private String name;
-
   @NotNull
   private String description;
-
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",
           joinColumns = @JoinColumn(name = "features_id"),
           inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<SupportedDevice> supportedDevices;
   private List<DeviceTemplate> deviceTemplates;
 }

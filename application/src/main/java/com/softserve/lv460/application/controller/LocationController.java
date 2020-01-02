@@ -11,7 +11,8 @@ import java.util.List;
 @RequestMapping("/locations")
 @CrossOrigin
 public class LocationController {
-  private final LocationService locationService;
+
+  private LocationService locationService;
 
   public LocationController(LocationService locationService) {
     this.locationService = locationService;
@@ -23,18 +24,13 @@ public class LocationController {
   }
 
   @GetMapping
-  public List<LocationResponse> findByAddress(@RequestParam String address){
-    return locationService.findByHomeAddress(address);
+  public List<LocationResponse> findAll() {
+    return locationService.findAll();
   }
 
   @PutMapping
   public void update(@RequestBody LocationRequest request) {
     locationService.update(request);
-  }
-
-  @GetMapping("/home")
-  public List<LocationResponse> findByHome(@RequestParam Long id) {
-    return locationService.findByHome(id);
   }
 
   @DeleteMapping("/{location_id}")

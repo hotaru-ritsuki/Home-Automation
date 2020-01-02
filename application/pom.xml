@@ -63,21 +63,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<<<<<<< HEAD
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.2.2.RELEASE</version>
-        </dependency>
-
-=======
 
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
->>>>>>> 3a264c89a00a832534d8bb9382b46e79889d01b4
     </dependencies>
 
     <build>
