@@ -15,8 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/device")
 public class SupportedDeviceController {
-  @Autowired
-  private SupportedDeviceService supportedDeviceService;
+  private final SupportedDeviceService supportedDeviceService;
+
+  public SupportedDeviceController(SupportedDeviceService supportedDeviceService) {
+    this.supportedDeviceService = supportedDeviceService;
+  }
 
   @GetMapping
   public List<SupportedDeviceResponse> findAll() {

@@ -62,10 +62,22 @@ public class LocationService {
     return lr;
   }
 
+  public List<LocationResponse> findByHomeAddress(String address){
+    List<Location> all = locationRepository.findAll();
+    List<LocationResponse> lr = new ArrayList<>();
+    for (Location location : all) {
+      if (location.getHome().getAddressa().equals(address)) {
+        lr.add(locationToResponse(location));
+      }
+    }
+    return lr;
+  }
+
   public static LocationResponse locationToResponse(Location location) {
     LocationResponse lR = new LocationResponse();
     lR.setId(location.getId());
     lR.setName(location.getName());
+    lR.setDevises(new ArrayList<>(location.getDevices()));
     return lR;
   }
 

@@ -4,8 +4,6 @@ import com.softserve.lv460.application.dto.home.HomeRequest;
 import com.softserve.lv460.application.dto.home.HomeResponse;
 import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.service.HomeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +13,11 @@ import java.util.List;
 @RequestMapping("/home")
 @CrossOrigin
 public class HomeController {
-  @Autowired
-  private HomeService homeService;
+  private final HomeService homeService;
+
+  public HomeController(HomeService homeService) {
+    this.homeService = homeService;
+  }
 
   @PostMapping
   public void create(@RequestBody HomeRequest request) {
@@ -40,7 +41,7 @@ public class HomeController {
 
 
   @GetMapping("/find")
-  public Home findByAddress(@RequestParam String address, Model model) {
+  public Home findByAddress(@RequestParam String address) {
     return homeService.findHomeByAddress(address);
   }
 }

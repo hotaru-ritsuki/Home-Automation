@@ -1,0 +1,13 @@
+<div>
+  <form method="get">
+    <label for="address">Enter Home Address</label><br>
+    <input type = "text" name = "address" id="address" #addressInput><br>
+    <button type = "submit" (click)="getByAddress(addressInput.value)">Search</button><br>
+  </form>
+  <div *ngIf="locations" id="locations">
+    <div *ngFor="let loc of locations">
+      <h4>{{loc.name}}</h4><br>
+      <p *ngFor="let dev of loc.devises">{{dev}}</p><br>
+    </div>
+  </div>
+</div>

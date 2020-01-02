@@ -26,6 +26,6 @@ public class Location {
   @JoinTable(name = "local_device",
     joinColumns = @JoinColumn(name = "location_id"),
     inverseJoinColumns = @JoinColumn(name = "supported_device_id"))
-  private List<Feature> devices;
+  private List<SupportedDevice> devices;
 
 }

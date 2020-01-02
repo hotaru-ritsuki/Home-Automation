@@ -12,17 +12,20 @@ import java.util.List;
 @RequestMapping("/location")
 @CrossOrigin
 public class LocationController {
-  @Autowired
-  private LocationService locationService;
+  private final LocationService locationService;
+
+  public LocationController(LocationService locationService) {
+    this.locationService = locationService;
+  }
+
+  @GetMapping
+  public List<LocationResponse> findByAddress(@RequestParam String address){
+    return locationService.findByHomeAddress(address);
+  }
 
   @PostMapping
   public void create(@RequestBody LocationRequest request) {
     locationService.create(request);
-  }
-
-  @GetMapping
-  public List<LocationResponse> findAll() {
-    return locationService.findAll();
   }
 
   @PutMapping
@@ -30,13 +33,14 @@ public class LocationController {
     locationService.update(id, request);
   }
 
+
   @DeleteMapping
   public void delete(@RequestParam Long id) {
     locationService.delete(id);
   }
 
   @GetMapping("/home")
-  public List<LocationResponse> findByHome(@RequestParam Long id){
+  public List<LocationResponse> findByHome(@RequestParam Long id) {
     return locationService.findByHome(id);
   }
 
