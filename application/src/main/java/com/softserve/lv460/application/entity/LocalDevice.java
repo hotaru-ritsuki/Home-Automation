@@ -18,7 +18,7 @@ public class LocalDevice {
   private String uuid;
 
   @ManyToOne
-  private SupportedDevice supportedDevice;
+  private DeviceTemplate deviceTemplate;
 
   @ManyToOne
   private Location location;
