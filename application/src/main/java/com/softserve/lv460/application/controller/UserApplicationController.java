@@ -35,8 +35,8 @@ public class UserApplicationController {
   user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
   applicationUserRepository.save(user);
   }
-  @PostMapping("/login")
-  public void logIn(@RequestBody JWTUserRequest userRequest){
-
-  }
+//  @PostMapping("/login")
+//  public void logIn(@RequestBody JWTUserRequest userRequest){
+//
+//  }
 }

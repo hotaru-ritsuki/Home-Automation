@@ -1,9 +1,11 @@
 package com.softserve.lv460.application.security.config;
 
+import com.softserve.lv460.application.security.constants.SecurityConstants;
 import com.softserve.lv460.application.security.filters.JWTAuthenticationFilter;
 import com.softserve.lv460.application.security.filters.JWTAuthorizationFilter;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,15 +19,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.softserve.lv460.application.security.constants.SecurityConstants.*;
-
 @EnableWebSecurity
+@EnableConfigurationProperties(SecurityConstants.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+@Autowired
+private SecurityConstants securityConstants;
 
   @Override
   public void configure(WebSecurity web) throws Exception {
@@ -39,8 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    System.out.println("Pattern is "+securityConstants.SIGN_UP_URL);
     http.cors().and().csrf().disable().authorizeRequests()
-            .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+            .antMatchers(HttpMethod.POST, securityConstants.SIGN_UP_URL).permitAll()
            .anyRequest().authenticated()
             .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))

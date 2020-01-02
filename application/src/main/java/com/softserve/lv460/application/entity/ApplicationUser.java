@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.entity;
 
 import com.softserve.lv460.application.entity.enums.Role;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -37,7 +38,7 @@ import java.util.Set;
             inverseJoinColumns = @JoinColumn(name = "home_id")
     )
     private List<Home> homes=new ArrayList<>();
-
+@Transient
     @ElementCollection(fetch = FetchType.EAGER)
   Set<Role> roles= Collections.singleton(Role.ROLE_USER);
 }
