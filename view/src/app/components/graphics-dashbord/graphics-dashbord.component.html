@@ -7,29 +7,20 @@
 
 
 <div class="container">
+  <div class="date">
+    <div class="text">From</div>
+    <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
+    </ejs-datetimepicker>
+    <div class="text">To</div>
+    <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select date and time' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
+    </ejs-datetimepicker>
+    <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Submit</div>
+  </div>
   <div class="chart">
     <div class="graphic">
-      <div class="date">
-        <div class="text">From</div>
-        <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select a date' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
-        </ejs-datetimepicker>
-        <div class="text">To</div>
-        <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select a date' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
-        </ejs-datetimepicker>
-        <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Submit</div>
-      </div>
       <app-devices-graphics type="temperature"></app-devices-graphics>
     </div>
     <div class="graphic">
-      <div class="date">
-        <div class="text">From</div>
-        <ejs-datetimepicker #datetimeFrom1 style="width: 25%; height: 30px" placeholder='Select a date' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
-        </ejs-datetimepicker>
-        <div class="text">To</div>
-        <ejs-datetimepicker #dateTimeTo1 style="width: 25%; height: 30px" placeholder='Select a date' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
-        </ejs-datetimepicker>
-        <div class="button" (click)="filterByDateTime(datetimeFrom1.value,dateTimeTo1.value)">Submit</div>
-      </div>
       <app-devices-graphics type="humidity"></app-devices-graphics>
     </div>
   </div>

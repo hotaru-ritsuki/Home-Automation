@@ -11,8 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @AllArgsConstructor
 public class DeviceDataServiceImpl implements DeviceDataService {
-  private List<DeviceData> batch = Collections.synchronizedList(new ArrayList<>());
+  private List<DeviceData> batch = Collections.synchronizedList(new LinkedList<>());
   private DeviceDataRepository deviceDataRepository;
   private DeviceCacheConfig deviceCacheConfig;
   private PropertiesConfig propertiesConfig;
@@ -37,6 +37,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
   private void addToBatch(DeviceData deviceData) {
     batch.add(deviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
+      System.out.println(batch);
       deviceDataRepository.saveAll(batch);
       batch.clear();
     }

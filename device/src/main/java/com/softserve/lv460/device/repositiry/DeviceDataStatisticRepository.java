@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+
 public interface DeviceDataStatisticRepository extends MongoRepository<DeviceData, Long> {
 
 

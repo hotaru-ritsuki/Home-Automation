@@ -9,7 +9,7 @@ import {DataService} from "../../services/data.service";
 export class GraphicsDashbordComponent implements OnInit {
   public minDate: Date = new Date("01/01/2019 00:00 AM");
   public maxDate: Date = new Date("01/01/2021 12:00 AM");
-  public dateValue: Date = new Date();
+  public dateValue: '';
 
   constructor(private dataService: DataService) {
   }

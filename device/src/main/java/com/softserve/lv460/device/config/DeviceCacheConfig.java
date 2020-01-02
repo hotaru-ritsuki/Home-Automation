@@ -48,10 +48,11 @@ public class DeviceCacheConfig {
 
 
   public List<String> getRegisteredDevicesUu() throws Exception {
-    String url = propertiesConfig.getHostName() + "/location-device";
+    String url = propertiesConfig.getMainApplicationHostName() + "/location-device";
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
     HttpEntity entity = response.getEntity();
     ObjectMapper mapper = new ObjectMapper();
+    System.out.println(entity.getContent());
     List<DeviceDto> devices = mapper.readValue(entity.getContent(),
             mapper.getTypeFactory().constructCollectionType(List.class, DeviceDto.class));
     return devices.stream().map(DeviceDto::getUuid).collect(Collectors.toList());
