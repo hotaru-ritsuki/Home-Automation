@@ -25,11 +25,11 @@ public class LocationService {
     return response;
   }
 
-  public Location create(LocationRequest request) {
+  public LocationResponse create(LocationRequest request) {
     Location location = new Location();
     location.setName(request.getName());
     location.setHome(homeRepository.findById(request.getHomeId()).get());
-    return locationRepository.save(location);
+    return locationToResponse(locationRepository.save(location));
   }
 
   public List<LocationResponse> findAll() {

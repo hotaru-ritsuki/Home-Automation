@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {LocationService} from './service/location.service';
-import {Locations} from './model/Locations';
 import {Home} from './model/Home';
 import {HomeService} from './service/home.service';
 
@@ -14,19 +12,40 @@ export class HomeComponent implements OnInit {
   homes: Home[] = [];
   home: Home;
 
+  addHome = false;
+
   constructor(private homeService: HomeService) {
+    this.homeService.getHomes().subscribe((res) => {
+      this.homes = res;
+      this.home = this.homes[0];
+    });
+
   }
 
   ngOnInit() {
   }
 
   save(countryI: string, cityI: string, addressaI: string) {
-    const answer = {
-      country: countryI,
-      city: cityI,
-      addressa: addressaI
-    };
-    this.homeService.postHome(answer).subscribe();
+    if (countryI !== '' && cityI !== '' && addressaI !== '') {
+      const answer = {
+        country: countryI,
+        city: cityI,
+        addressa: addressaI
+      };
+      this.homeService.postHome(answer).subscribe((res) => {
+        this.homes.push(res);
+      });
+      this.addHome = false;
+    }
   }
+
+  chang() {
+    this.addHome = !this.addHome;
+  }
+
+  changer(id) {
+    this.homeService.id.next(id);
+  }
+
 
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Home} from '../model/Home';
 
 @Injectable({
@@ -9,6 +9,8 @@ import {Home} from '../model/Home';
 export class HomeService {
 
   URL = 'http://localhost:8080/homes';
+
+  id = new Subject();
 
   constructor(private http: HttpClient) {
   }
@@ -21,8 +23,8 @@ export class HomeService {
     return this.http.get<Home>(this.URL + '/' + id);
   }
 
-  postHome(answer: { country: string, city: string, addressa: string }) {
-    return this.http.post(this.URL, answer);
+  postHome(answer: { country: string, city: string, addressa: string }): Observable<Home> {
+    return this.http.post<Home>(this.URL, answer);
   }
 
   deleteHome(id: number) {

@@ -1,0 +1,24 @@
+<div>
+  <div class="selectedHome">
+    <h3>Locations</h3>
+    <div *ngFor="let loc of home.locations">
+      <div class="loc-div">
+        <input class="inputed" [value]="loc.name" #inputElement>
+        <button class="btn btn-link bottton" (click)="editName(loc,inputElement.value)">&#x270F;</button>
+
+      </div>
+
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-primary buttoned" (click)="chang()">Add location</button>
+  <div *ngIf="addLocation">
+    <div class="form-label-group">
+      <input type="text" id="inputName" placeholder="Name" #nameInput>
+    </div>
+    <button (click)="save(nameInput.value)" type="button"
+            class="btn btn-outline-success">Submit
+    </button>
+  </div>
+
+</div>
+

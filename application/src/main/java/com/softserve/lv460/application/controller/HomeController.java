@@ -19,8 +19,8 @@ public class HomeController {
   }
 
   @PostMapping
-  public void create(@RequestBody HomeRequest request) {
-    homeService.create(request);
+  public HomeResponse create(@RequestBody HomeRequest request) {
+    return homeService.create(request);
   }
 
   @GetMapping

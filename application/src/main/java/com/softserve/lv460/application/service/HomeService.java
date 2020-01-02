@@ -19,10 +19,10 @@ public class HomeService {
   private HomeRepository homeRepository;
   private LocationService locationService;
 
-  public Home create(HomeRequest request) {
+  public HomeResponse create(HomeRequest request) {
     Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
     if (!isHome.isPresent()) {
-      return homeRepository.save(requestToHome(new Home(), request));
+      return homeToResponse(homeRepository.save(requestToHome(new Home(), request)));
     }
     throw new RuntimeException("Home with address " + request.getAddressa() + " is already registered");
   }

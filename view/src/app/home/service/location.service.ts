@@ -13,7 +13,23 @@ export class LocationService {
   constructor(private http: HttpClient) {
   }
 
-  getLocation(): Observable<Locations[]> {
+  getLocations(): Observable<Locations[]> {
     return this.http.get<Locations[]>(this.URL);
+  }
+
+  getLocation(id: number): Observable<Locations> {
+    return this.http.get<Locations>(this.URL + '/' + id);
+  }
+
+  postLocation(answer: { name: string, homeId: number }): Observable<Locations> {
+    return this.http.post<Locations>(this.URL, answer);
+  }
+
+  deleteLocation(id: number) {
+    return this.http.delete(this.URL + '/' + id);
+  }
+
+  putLocation(answer: { id: number, name: string, homeId: number }) {
+    return this.http.put(this.URL, answer);
   }
 }

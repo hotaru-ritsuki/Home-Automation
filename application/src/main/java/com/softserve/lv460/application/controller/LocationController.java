@@ -19,8 +19,8 @@ public class LocationController {
   }
 
   @PostMapping
-  public void create(@RequestBody LocationRequest request) {
-    locationService.create(request);
+  public LocationResponse create(@RequestBody LocationRequest request) {
+    return locationService.create(request);
   }
 
   @GetMapping
