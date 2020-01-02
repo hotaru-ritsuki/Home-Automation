@@ -8,13 +8,10 @@ import lombok.Setter;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 public class FeatureRequest {
+  private Long id;
   private String name;
-
   private String description;
-
   private List<SupportedDeviceRequest> devicesId;
 }
