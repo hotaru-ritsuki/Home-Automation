@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Home} from './model/Home';
 import {HomeService} from './service/home.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,12 @@ export class HomeComponent implements OnInit {
 
   addHome = false;
 
-  constructor(private homeService: HomeService) {
+  constructor(private homeService: HomeService, private router: Router) {
     this.homeService.getHomes().subscribe((res) => {
       this.homes = res;
       this.home = this.homes[0];
     });
+    this.router.navigate(['home']);
 
   }
 
