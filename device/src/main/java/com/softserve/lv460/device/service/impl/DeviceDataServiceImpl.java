@@ -7,25 +7,23 @@ import com.softserve.lv460.device.exceptions.DeviceNotRegisteredException;
 import com.softserve.lv460.device.exceptions.Massages;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataService;
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Service
-@AllArgsConstructor
 public class DeviceDataServiceImpl implements DeviceDataService {
-  private List<DeviceData> batch = Collections.synchronizedList(new LinkedList<>());
+  private ConcurrentLinkedQueue<DeviceData> batch =  new ConcurrentLinkedQueue<>();
   private DeviceDataRepository deviceDataRepository;
   private DeviceCacheConfig deviceCacheConfig;
   private PropertiesConfig propertiesConfig;
+
+  public DeviceDataServiceImpl(DeviceDataRepository deviceDataRepository, DeviceCacheConfig deviceCacheConfig, PropertiesConfig propertiesConfig) {
+    this.deviceDataRepository = deviceDataRepository;
+    this.deviceCacheConfig = deviceCacheConfig;
+    this.propertiesConfig = propertiesConfig;
+  }
 
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
@@ -37,7 +35,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
   private void addToBatch(DeviceData deviceData) {
     batch.add(deviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
-      System.out.println(batch);
       deviceDataRepository.saveAll(batch);
       batch.clear();
     }
