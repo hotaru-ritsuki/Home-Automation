@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/location")
+@RequestMapping("/locations")
 @CrossOrigin
 public class LocationController {
-  @Autowired
+
   private LocationService locationService;
+
+  public LocationController(LocationService locationService) {
+    this.locationService = locationService;
+  }
 
   @PostMapping
   public void create(@RequestBody LocationRequest request) {
@@ -25,18 +29,18 @@ public class LocationController {
     return locationService.findAll();
   }
 
-  @PutMapping
-  public void update(@RequestParam Long id, @RequestBody LocationRequest request) {
+  @PutMapping("/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody LocationRequest request) {
     locationService.update(id, request);
   }
 
-  @DeleteMapping
-  public void delete(@RequestParam Long id) {
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable("id") Long id) {
     locationService.delete(id);
   }
 
   @GetMapping("/home")
-  public List<LocationResponse> findByHome(@RequestParam Long id){
+  public List<LocationResponse> findByHome(@RequestParam Long id) {
     return locationService.findByHome(id);
   }
 
