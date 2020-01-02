@@ -13,11 +13,9 @@ public class PaginationRequest {
   private SortRequest sort;
 
   public PageRequest mapToPageRequest() {
-    PageRequest pageRequest = null;
     if (sort == null) {
       return PageRequest.of(page, size);
-    } else {
-      return PageRequest.of(page, size, Sort.by(sort.getDirection(), sort.getFieldName()));
     }
+    return PageRequest.of(page, size, Sort.by(sort.getDirection(), sort.getFieldName()));
   }
 }

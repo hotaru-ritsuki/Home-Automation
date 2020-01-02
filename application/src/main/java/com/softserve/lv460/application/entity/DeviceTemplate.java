@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "device_template")
-public class SupportedDevice {
+public class DeviceTemplate {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

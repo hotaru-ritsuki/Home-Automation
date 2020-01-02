@@ -1,11 +1,11 @@
-package com.softserve.lv460.application.dto.supportedDevice;
+package com.softserve.lv460.application.dto.deviceTemplate;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class SupportedDeviceFilterRequest {
+public class DeviceTemplateFilterRequest {
   private String model;
   private String brand;
   private String type;

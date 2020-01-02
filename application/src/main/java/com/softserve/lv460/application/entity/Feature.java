@@ -26,5 +26,5 @@ public class Feature {
   @JoinTable(name = "device_features",
           joinColumns = @JoinColumn(name = "features_id"),
           inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<SupportedDevice> supportedDevices;
+  private List<DeviceTemplate> deviceTemplates;
 }
