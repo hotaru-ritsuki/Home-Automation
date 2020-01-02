@@ -46,12 +46,6 @@ create table users (
   password varchar(255) not null,
   primary key (id)) engine=MyISAM;
 
-  create table home_device(
-    home_id bigint,
-    uuid varchar(32),
-    primary key (home_id,uuid)
-);
-
 alter table users
   add constraint UK_6dotkott2kjsp8vw4d0m25fb7
   unique (email);

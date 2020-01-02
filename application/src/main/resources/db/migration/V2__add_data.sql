@@ -43,15 +43,6 @@ insert into local_device (uuid, location_id, supported_device_id)
 insert into local_device (uuid, location_id, supported_device_id)
   values ('bf85b676-2a3b-11ea', 3, 3);
 
-insert into home_device (home_id, uuid)
-  values (1, 'bf85b676-2a3b-11ea');
-
-insert into home_device (home_id, uuid)
-  values (1, '51225a98-00b0-4076');
-
-insert into home_device (home_id, uuid)
-  values (1, '1ec3cf2a-2a3b-11ea');
-
 insert into device_template (id, brand, model, power_supply, release_year, type)
   values (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter');
 
