@@ -3,9 +3,6 @@ package com.softserve.lv460.application.security.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.softserve.lv460.application.security.constants.SecurityConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,17 +16,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-private SecurityConstants securityConstants;
-  public JWTAuthorizationFilter(AuthenticationManager authManager,SecurityConstants securityConstants) {
+  private SecurityConstants securityConstants;
+
+  public JWTAuthorizationFilter(AuthenticationManager authManager, SecurityConstants securityConstants) {
     super(authManager);
-    this.securityConstants=securityConstants;
+    this.securityConstants = securityConstants;
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest req,
                                   HttpServletResponse res,
                                   FilterChain chain) throws IOException, ServletException {
-    System.out.println("SUKA LOL" + securityConstants.HEADER_STRING);
     String header = req.getHeader(securityConstants.HEADER_STRING);
 
     if (header == null || !header.startsWith(securityConstants.TOKEN_PREFIX)) {
@@ -45,11 +42,14 @@ private SecurityConstants securityConstants;
 
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     String token = request.getHeader(securityConstants.HEADER_STRING);
+    System.out.println(token);
     if (token != null) {
       // parse the token.
+      System.out.println(JWT.require(Algorithm.HMAC512(securityConstants.SECRET.getBytes()))
+              .build());
       String user = JWT.require(Algorithm.HMAC512(securityConstants.SECRET.getBytes()))
               .build()
-              .verify(token.replace(securityConstants.TOKEN_PREFIX, ""))
+              .verify(token.substring(7))
               .getSubject();
 
       if (user != null) {

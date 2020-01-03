@@ -2,7 +2,6 @@ package com.softserve.lv460.application.security.constants;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,7 @@ public class SecurityConstants {
   public String SECRET;
 
   @Value("${jwtconf.EXPIRATIONTIME}")
-  public long EXPIRATIONTIME; // 1 day
+  public long EXPIRATIONTIME; // 1 day by default
 
   @Value("${jwtconf.TOKEN_PREFIX}")
   public String TOKEN_PREFIX;
@@ -25,4 +24,6 @@ public class SecurityConstants {
 
   @Value("${jwtconf.SIGN_UP_URL}")
   public String SIGN_UP_URL;
+  @Value("${jwtconf.SIGN_IN_URL}")
+  public String SIGN_IN_URL;
 }
