@@ -3,8 +3,9 @@ package com.softserve.lv460.application.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -23,4 +24,5 @@ public class LocalDevice {
     @JoinColumn(name = "device_id")
     @NotNull
     private DeviceTemplate supportedDevice;
+
 }
