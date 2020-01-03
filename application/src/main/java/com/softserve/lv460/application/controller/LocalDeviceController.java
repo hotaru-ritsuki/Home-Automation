@@ -1,14 +1,12 @@
 package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
-import com.softserve.lv460.application.dto.location.LocationResponse;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import com.softserve.lv460.application.service.LocationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,7 @@ public class LocalDeviceController {
     }
 
     @GetMapping("/{uuid}")
-    public LocalDevice findOne(@PathVariable("uuid") String uuid) throws Exception {
+    public LocalDevice findOne(@PathVariable("uuid") String uuid) {
         return localDeviceService.findByUuid(uuid);
     }
 
