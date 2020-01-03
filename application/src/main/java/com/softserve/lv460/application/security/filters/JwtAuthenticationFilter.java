@@ -19,12 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
   @Autowired
   private JwtTokenProvider tokenProvider;
-
   @Autowired
   private UserDetailsServiceImpl customUserDetailsService;
+
 
   private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 

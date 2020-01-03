@@ -33,15 +33,21 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
         prePostEnabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
-  @Autowired
-  private SecurityConstants securityConstants;
-  @Autowired
-  private JwtAuthenticationEntryPoint unauthorizedHandler;
+  private final UserDetailsServiceImpl userDetailsService;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final SecurityConstants securityConstants;
+  private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
+  @Autowired
+  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService,
+          BCryptPasswordEncoder bCryptPasswordEncoder,
+          SecurityConstants securityConstants,
+          JwtAuthenticationEntryPoint unauthorizedHandler){
+this.userDetailsService=userDetailsService;
+this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+this.securityConstants=securityConstants;
+this.unauthorizedHandler=unauthorizedHandler;
+  }
   @Override
   public void configure(WebSecurity web) throws Exception {
     web.ignoring().antMatchers("/v2/api-docs",

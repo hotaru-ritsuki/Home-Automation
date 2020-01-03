@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
   private Long id;
 
-
   private String username;
-
 
   @JsonIgnore
   private String password;
