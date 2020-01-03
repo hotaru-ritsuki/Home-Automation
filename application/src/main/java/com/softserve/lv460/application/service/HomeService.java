@@ -83,4 +83,8 @@ public class HomeService {
     return home;
   }
 
+  public Home findHomeByAddress(String address){
+    return homeRepository.findByAddressa(address).orElseThrow(() -> new IllegalArgumentException("There is no such" +
+      "home with address " + address));
+  }
 }
