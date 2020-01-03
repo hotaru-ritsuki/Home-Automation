@@ -63,30 +63,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-=======
->>>>>>> 5a7092ed... dashboard added, home search via address added
-=======
->>>>>>> 5a7092ed... dashboard added, home search via address added
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>5.2.2.RELEASE</version>
         </dependency>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 5a7092ed... dashboard added, home search via address added
-=======
-
->>>>>>> 5a7092ed... dashboard added, home search via address added
     </dependencies>
 
     <build>
