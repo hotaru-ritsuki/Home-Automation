@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,18 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Data
-@NoArgsConstructor
-
 @Entity
-@Table(name = "local_device")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LocalDevice {
-  @Id
-  private String uuid;
+    @Id
+    private String uuid;
 
-  @ManyToOne
-  private DeviceTemplate deviceTemplate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "location_id")
+    @NotNull
+    private Location locations;
 
-  @ManyToOne
-  private Location location;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "device_id")
+    @NotNull
+    private DeviceTemplate supportedDevice;
 }
