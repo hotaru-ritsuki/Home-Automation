@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +16,6 @@ public class Location {
   private String name;
   @ManyToOne
   private Home home;
-<<<<<<< HEAD
-=======
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JsonIgnore
@@ -25,5 +24,4 @@ public class Location {
     inverseJoinColumns = @JoinColumn(name = "device_id"))
   private List<Feature> devices;
 
->>>>>>> 5a7092ed... dashboard added, home search via address added
 }

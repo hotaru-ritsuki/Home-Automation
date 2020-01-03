@@ -23,17 +23,11 @@ public class DeviceTemplate {
   private String model;
   @NotNull
   private String type;
-<<<<<<< HEAD:application/src/main/java/com/softserve/lv460/application/entity/DeviceTemplate.java
-  @Column(name = "releaseYear")
-  private Integer releaseYear;
-  @Column(name = "powerSupply")
-=======
 
   @Column(name = "release_year")
   private Integer releaseYear;
 
   @Column(name = "power_supply")
->>>>>>> 5a7092ed... dashboard added, home search via address added:application/src/main/java/com/softserve/lv460/application/entity/SupportedDevice.java
   private String powerSupply;
   @ManyToMany
   @JsonIgnore
@@ -41,8 +35,7 @@ public class DeviceTemplate {
           joinColumns = @JoinColumn(name = "device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
-<<<<<<< HEAD:application/src/main/java/com/softserve/lv460/application/entity/DeviceTemplate.java
-=======
+
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JsonIgnore
@@ -50,5 +43,4 @@ public class DeviceTemplate {
     joinColumns = @JoinColumn(name = "device_id"),
     inverseJoinColumns = @JoinColumn(name = "location_id"))
   private List<Location> locations;
->>>>>>> 5a7092ed... dashboard added, home search via address added:application/src/main/java/com/softserve/lv460/application/entity/SupportedDevice.java
 }
