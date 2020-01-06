@@ -1,10 +1,8 @@
 package com.softserve.lv460.application.dto.feature;
 
+import lombok.*;
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateRequest;
 import lombok.Data;
-import com.softserve.lv460.application.dto.supportedDevice.SupportedDeviceRequest;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.util.List;
 
 @Data
@@ -12,9 +10,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class FeatureRequest {
+  private Long id;
   private String name;
-
   private String description;
-
-  private List<SupportedDeviceRequest> devicesId;
+  private List<DeviceTemplateRequest> devicesId;
 }

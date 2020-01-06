@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface HomeRepository extends JpaRepository<Home, Long> {
   Optional<Home> findByAddressaLike(String addressa);
 
+  Optional<Home> findByAddressa(String address);
 }

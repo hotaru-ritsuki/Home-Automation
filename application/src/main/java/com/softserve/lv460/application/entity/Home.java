@@ -20,8 +20,7 @@ public class Home {
   private String city;
   private String addressa;
   @ManyToMany(mappedBy = "homes")
-  private List<ApplicationUser> users=new ArrayList<>();
-
+  private List<ApplicationUser> users = new ArrayList<>();
 }
 
 

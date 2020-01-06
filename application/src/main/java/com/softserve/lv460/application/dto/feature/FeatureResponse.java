@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter @Setter
 @NoArgsConstructor
+@Data
 public class FeatureResponse {
   private Long id;
-
   private String name;
-
   private String description;
 }

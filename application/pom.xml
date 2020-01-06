@@ -21,6 +21,7 @@
         <version>1.0</version>
     </parent>
 
+
     <dependencies>
 
 
@@ -67,7 +68,6 @@
             </exclusions>
         </dependency>
 
-
         <dependency>
             <!-- Starter for using Spring Security -->
             <groupId>org.springframework.boot</groupId>
@@ -113,6 +113,12 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>${auth0-version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.2.RELEASE</version>
         </dependency>
     </dependencies>
 
