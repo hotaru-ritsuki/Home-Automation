@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeviceDto {
   private String uuid;
-  private Object locations;
+  private LocationDto location;
   private Object supportedDevice;
 }

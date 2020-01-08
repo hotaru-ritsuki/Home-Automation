@@ -34,7 +34,6 @@ public class LocalDeviceController {
 
     @GetMapping("/{uuid}")
     public LocalDevice findOne(@PathVariable("uuid") String uuid) {
-        System.out.println(uuid);
         return localDeviceService.findByUuid(uuid);
     }
 

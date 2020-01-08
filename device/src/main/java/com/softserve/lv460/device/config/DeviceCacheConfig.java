@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.softserve.lv460.device.document.DeviceData;
 import com.softserve.lv460.device.dto.DeviceDto;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,10 +16,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableCaching
@@ -28,33 +28,32 @@ public class DeviceCacheConfig {
   private PropertiesConfig propertiesConfig;
 
 
-  private LoadingCache<String, Boolean> loadingCache = CacheBuilder
+  private LoadingCache<String, DeviceDto> loadingCache = CacheBuilder
           .newBuilder()
           .expireAfterWrite(1, TimeUnit.MINUTES)
           .build(
-                  new CacheLoader<String, Boolean>() {
+                  new CacheLoader<String, DeviceDto>() {
                     @Override
-                    public Boolean load(String key) throws Exception {
-                      List<String> registeredDevicesUu = getRegisteredDevicesUu();
-                      return registeredDevicesUu.contains(key);
+                    public DeviceDto load(String uuId) throws IOException {
+                      return getRegisteredDevice(uuId);
                     }
                   }
           );
 
 
-  public Boolean isKeyValid(String key) throws ExecutionException {
-    return loadingCache.get(key);
+  public DeviceData validateData(DeviceData deviceData) throws ExecutionException {
+    DeviceDto deviceDto = loadingCache.get(deviceData.getUuId());
+    deviceData.getData().put("locationId", deviceDto.getLocation().getId().toString());
+    return deviceData;
   }
 
 
-  private List<String> getRegisteredDevicesUu() throws Exception {
-    String url = propertiesConfig.getMainApplicationHostName() + "/location-device";
+  private DeviceDto getRegisteredDevice(String uuId) throws IOException {
+    //fix exception
+    String url = propertiesConfig.getMainApplicationHostName() + "/location-devices/" + uuId;
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
     HttpEntity entity = response.getEntity();
-    ObjectMapper mapper = new ObjectMapper();
-    List<DeviceDto> devices = mapper.readValue(entity.getContent(),
-            mapper.getTypeFactory().constructCollectionType(List.class, DeviceDto.class));
-    return devices.stream().map(DeviceDto::getUuid).collect(Collectors.toList());
+    return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);
   }
 
   @Bean

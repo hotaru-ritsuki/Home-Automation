@@ -1,0 +1,15 @@
+<Configuration>
+    <Properties>
+        <property name="log-path">logs</property>
+    </Properties>
+    <Appenders>
+        <File name="log-file" fileName="../${log-path}/rootFile.log">
+            <PatternLayout pattern="[%-5level]%d{HH:mm:ss.SSS}%class{1}:%L - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef level="info" ref="log-file"/>
+        </Root>
+    </Loggers>
+</Configuration>

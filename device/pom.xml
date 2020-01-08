@@ -19,6 +19,8 @@
         <org.apache.httpcomponents.version>4.5.7</org.apache.httpcomponents.version>
         <joda-time.version>2.9.9</joda-time.version>
         <commons-io.version>2.6</commons-io.version>
+        <org.apache.logging.log4j.version>2.13.0</org.apache.logging.log4j.version>
+        <log4j-api.version>2.13.0</log4j-api.version>
     </properties>
 
     <dependencies>
@@ -54,6 +56,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${org.apache.logging.log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

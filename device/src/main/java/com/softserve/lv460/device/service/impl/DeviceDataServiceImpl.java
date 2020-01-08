@@ -7,9 +7,9 @@ import com.softserve.lv460.device.exceptions.DeviceNotRegisteredException;
 import com.softserve.lv460.device.exceptions.Massages;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.*;
 
 @Service
@@ -27,7 +27,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
-    if (deviceCacheConfig.isKeyValid(deviceData.getUuId())) {
+    if (deviceCacheConfig.validateData(deviceData)) {
       addToBatch(deviceData);
     } else throw new DeviceNotRegisteredException(Massages.DEVICE_NOT_REGISTERED);
   }
@@ -35,14 +35,13 @@ public class DeviceDataServiceImpl implements DeviceDataService {
   private void addToBatch(DeviceData deviceData) {
     batch.add(deviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
-      System.out.println(batch);
       deviceDataRepository.saveAll(batch);
       batch.clear();
     }
   }
 
-  @Bean
-  private void timer() {
+  @PostConstruct
+  private void saveAfterDelay() {
     final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
     ses.scheduleWithFixedDelay(() -> {
       if (!batch.isEmpty()) {
