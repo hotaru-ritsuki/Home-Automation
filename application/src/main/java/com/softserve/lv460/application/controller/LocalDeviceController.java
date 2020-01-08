@@ -17,29 +17,28 @@ public class LocalDeviceController {
     private LocalDeviceService localDeviceService;
     private LocationService locationService;
 
-    @PostMapping()
+    @PostMapping
     public void save(@RequestBody LocalDeviceRequest localDeviceRequest) {
         localDeviceService.save(localDeviceRequest);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<LocalDevice> findAll() {
         return localDeviceService.findAll();
     }
 
     @GetMapping("/location/{location_id}")
-    public List<LocalDevice> findByLocation(@PathVariable("location_id") Long id){
+    public List<LocalDevice> findByLocation(@PathVariable("location_id") Long id) {
         return localDeviceService.findAllByLocation(locationService.findOne(id));
     }
 
     @GetMapping("/{uuid}")
     public LocalDevice findOne(@PathVariable("uuid") String uuid) {
-        System.out.println(uuid);
         return localDeviceService.findByUuid(uuid);
     }
 
     @PutMapping()
-    public void update(@RequestBody LocalDevice localDevice) {
+    public void update(@RequestBody LocalDeviceRequest localDevice) {
         localDeviceService.update(localDevice);
     }
 

@@ -20,7 +20,7 @@
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~8.0.3",
     "@angular/platform-browser-dynamic": "~8.0.3",
-    "@angular/router": "~8.0.3",
+    "@angular/router": "latest",
     "@syncfusion/ej2-angular-calendars": "^17.4.40",
     "angular-hammer": "^2.2.0",
     "angular-material-datepicker": "^1.0.2",

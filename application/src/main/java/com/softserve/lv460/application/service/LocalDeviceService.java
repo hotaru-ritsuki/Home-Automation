@@ -29,13 +29,13 @@ public class LocalDeviceService {
     }
 
     public List<LocalDevice> findAllByLocation(Location location) {
-            return localDeviceRepository.findAllByLocations(location);
+        return localDeviceRepository.findAllByLocations(location);
     }
 
-    public LocalDevice update(LocalDevice localDevice) {
+    public LocalDevice update(LocalDeviceRequest localDevice) {
         LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
 
-        localDeviceByUuid.setLocations(localDevice.getLocations());
+        localDeviceByUuid.setLocations(locationService.findOne(localDevice.getLocationId()));
 
         return localDeviceRepository.save(localDeviceByUuid);
     }
@@ -44,11 +44,11 @@ public class LocalDeviceService {
         LocalDevice localDevice = new LocalDevice();
 
         localDevice.setLocations(locationService.findOne((localDeviceRequest.getLocationId())));
-        DeviceTemplate deviceTemplate = deviceTemplateRepository.findById(localDeviceRequest.getSupportedDeviceId())
+        DeviceTemplate deviceTemplate = deviceTemplateRepository.findById(localDeviceRequest.getDeviceTemplateId())
                 .orElseThrow(() -> new IllegalArgumentException("Supported device does not exist by this id: "
-                        + localDeviceRequest.getSupportedDeviceId()));
-        localDevice.setSupportedDevice(deviceTemplate);
-        localDevice.setUuid(UUID.randomUUID().toString().substring(0,32));
+                        + localDeviceRequest.getDeviceTemplateId()));
+        localDevice.setDeviceTemplate(deviceTemplate);
+        localDevice.setUuid(UUID.randomUUID().toString().substring(0, 32));
 
         return localDeviceRepository.save(localDevice);
     }

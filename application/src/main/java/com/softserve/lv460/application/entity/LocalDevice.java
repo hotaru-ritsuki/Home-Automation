@@ -23,6 +23,6 @@ public class LocalDevice {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supported_device_id")
     @NotNull
-    private DeviceTemplate supportedDevice;
+    private DeviceTemplate deviceTemplate;
 
 }

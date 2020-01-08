@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class LocalDeviceRequest {
+    private String uuid;
     private Long locationId;
-    private Long supportedDeviceId;
+    private Long deviceTemplateId;
 }
