@@ -1,6 +1,5 @@
 package com.softserve.lv460.application.dto.deviceTemplate;
 
-import com.softserve.lv460.application.dto.feature.FeatureRequest;
 import lombok.Data;
 
 import java.time.LocalDate;
