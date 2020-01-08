@@ -35,7 +35,7 @@ public class LocalDeviceService {
     public LocalDevice update(LocalDeviceRequest localDevice) {
         LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
 
-        localDeviceByUuid.setLocations(locationService.findOne(localDevice.getLocationId()));
+        localDeviceByUuid.setLocation(locationService.findOne(localDevice.getLocationId()));
 
         return localDeviceRepository.save(localDeviceByUuid);
     }
@@ -43,7 +43,7 @@ public class LocalDeviceService {
     public LocalDevice save(LocalDeviceRequest localDeviceRequest) {
         LocalDevice localDevice = new LocalDevice();
 
-        localDevice.setLocations(locationService.findOne((localDeviceRequest.getLocationId())));
+        localDevice.setLocation(locationService.findOne((localDeviceRequest.getLocationId())));
         DeviceTemplate deviceTemplate = deviceTemplateRepository.findById(localDeviceRequest.getDeviceTemplateId())
                 .orElseThrow(() -> new IllegalArgumentException("Supported device does not exist by this id: "
                         + localDeviceRequest.getDeviceTemplateId()));
