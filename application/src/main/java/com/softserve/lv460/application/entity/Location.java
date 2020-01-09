@@ -22,6 +22,13 @@ public class Location {
   @JoinTable(name = "local_device",
     joinColumns = @JoinColumn(name = "location_id"),
     inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<Feature> devices;
+  private List<DeviceTemplate> devices;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JsonIgnore
+  @JoinTable(name = "device_features",
+    joinColumns = @JoinColumn(name = "feature_id"),
+    inverseJoinColumns = @JoinColumn(name = "device_id"))
+  private List<Feature> features;
 
 }

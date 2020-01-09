@@ -2,6 +2,7 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.dto.home.HomeRequest;
 import com.softserve.lv460.application.dto.home.HomeResponse;
+import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.service.HomeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,10 @@ public class HomeController {
   @GetMapping("/{home_id}")
   public HomeResponse findOne(@PathVariable("home_id") Long id) {
     return homeService.findOneResponse(id);
+  }
+
+  @GetMapping("/find")
+  public Home findOneByAddress(String address){
+    return homeService.findHomeByAddress(address);
   }
 }

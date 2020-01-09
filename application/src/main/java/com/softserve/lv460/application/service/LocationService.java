@@ -22,6 +22,7 @@ public class LocationService {
     LocationResponse response = new LocationResponse();
     response.setId(location.getId());
     response.setName(location.getName());
+    response.setDevises(location.getDevices());
     return response;
   }
 
@@ -59,5 +60,7 @@ public class LocationService {
   public List<LocationResponse> findByHome(Long id) {
     return locationRepository.findAllByHome(homeRepository.findById(id)).stream().map(LocationService::locationToResponse).collect(Collectors.toList());
   }
+
+
 
 }
