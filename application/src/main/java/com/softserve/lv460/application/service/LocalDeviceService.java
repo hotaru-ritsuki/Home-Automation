@@ -21,7 +21,7 @@ public class LocalDeviceService {
 
     public LocalDevice findByUuid(String uuid) {
         return localDeviceRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Device with uuid " + uuid + " does not exists"));
+                .orElseThrow(() -> new IllegalArgumentException("Device with uuid " + uuid + "does not exists"));
     }
 
     public List<LocalDevice> findAll() {
