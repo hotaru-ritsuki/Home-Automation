@@ -10,5 +10,4 @@ public class FeatureRequest {
   private Long id;
   private String name;
   private String description;
-  private List<DeviceTemplateRequest> devicesId;
 }

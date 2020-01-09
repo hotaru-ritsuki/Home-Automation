@@ -30,6 +30,10 @@ public class FeatureService {
         .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
   }
 
+  public FeatureResponse findOneResponse(Long id) {
+    return featureToResponse(findFeature(id));
+  }
+
   public List<FeatureResponse> findAll() {
     return featureRepository.findAll().stream().map(FeatureService:: featureToResponse).collect(Collectors.toList());
   }
