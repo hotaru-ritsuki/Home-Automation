@@ -10,6 +10,7 @@ import org.springframework.cache.support.NullValue;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -29,16 +30,15 @@ public class FeatureService {
         .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
   }
 
-  public List<FeatureResponse> findAll() {
-    List<Feature> all = featureRepository.findAll();
-    List<FeatureResponse> responses = new ArrayList<>();
-    for (Feature feature : all) {
-      responses.add(featureToResponse(feature));
-    }
-    return responses;
+  public FeatureResponse findOneResponse(Long id) {
+    return featureToResponse(findFeature(id));
   }
 
-  public FeatureResponse featureToResponse(Feature feature) {
+  public List<FeatureResponse> findAll() {
+    return featureRepository.findAll().stream().map(FeatureService:: featureToResponse).collect(Collectors.toList());
+  }
+
+  public static FeatureResponse featureToResponse(Feature feature) {
     FeatureResponse featureResponse = new FeatureResponse();
     featureResponse.setId(feature.getId());
     featureResponse.setName(feature.getName());
