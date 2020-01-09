@@ -27,24 +27,28 @@ public class JwtTokenProvider {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-    Date now = new Date();
-    Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+    Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
+    System.out.println(userPrincipal.getId());
+    System.out.println(userPrincipal.getUsername());
+    System.out.println(userPrincipal.getPassword());
+    System.out.println(userPrincipal.getAuthorities());
+    System.out.println(userPrincipal.toString());
 
     return TOKEN_PREFIX + Jwts.builder()
-            .setSubject(Long.toString(userPrincipal.getId()))
+            .setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact();
   }
 
-  public Long getUserIdFromJWT(String token) {
+  public String getEmailFromJWT(String token) {
     Claims claims = Jwts.parser()
             .setSigningKey(jwtSecret)
             .parseClaimsJws(token)
             .getBody();
 
-    return Long.parseLong(claims.getSubject());
+    return claims.getSubject();
   }
 
   public boolean validateToken(String authToken) {

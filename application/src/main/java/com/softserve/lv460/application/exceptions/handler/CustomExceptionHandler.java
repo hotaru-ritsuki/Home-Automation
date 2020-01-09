@@ -1,6 +1,6 @@
-package com.softserve.lv460.application.security.exceptions.handler;
+package com.softserve.lv460.application.exceptions.handler;
 
-import com.softserve.lv460.application.security.exceptions.*;
+import com.softserve.lv460.application.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 
 /**
  * Custom exception handler.
+ *
+ * @author Vasyl Petrashchuk
+ * @version 1.0
  */
 
 @AllArgsConstructor
@@ -37,7 +40,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
    * @param ex      Exception witch should be intercepted.
    * @param request contain  detail about occur exception
    * @return ResponseEntity witch  contain http status and body  with message of exception.
-   * @author Marian Milian
    */
   @ExceptionHandler(RuntimeException.class)
   public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
@@ -51,7 +53,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
    *
    * @param request contain  detail about occur exception
    * @return ResponseEntity witch  contain http status and body  with message of exception.
-   * @author Nazar Stasyuk
    */
   @ExceptionHandler(AuthenticationException.class)
   public final ResponseEntity<Object> authenticationException(WebRequest request) {
@@ -64,7 +65,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
    *
    * @param request contain  detail about occur exception
    * @return ResponseEntity witch  contain http status and body  with message of exception.
-   * @author Roman Zahorui
    */
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public final ResponseEntity<Object> handleConversionFailedException(
@@ -86,7 +86,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
    *
    * @param request contain  detail about occur exception
    * @return ResponseEntity witch  contain http status and body  with message of exception.
-   * @author Nazar Stasyuk
    */
   @ExceptionHandler(BadRefreshTokenException.class)
   public final ResponseEntity<Object> handleBadRefreshTokenException(WebRequest request) {
@@ -94,20 +93,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
-  /**
-   * Method intercept exception {@link BadCategoryRequestException}.
-   *
-   * @param ex      Exception witch should be intercepted.
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
-  @ExceptionHandler(BadCategoryRequestException.class)
-  public final ResponseEntity<Object> handleBadCategoryRequestException(BadCategoryRequestException ex,
-                                                                        WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
-    log.trace(ex.getMessage(), ex);
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
-  }
 
   /**
    * Method intercept exception {@link NotCurrentUserException}.

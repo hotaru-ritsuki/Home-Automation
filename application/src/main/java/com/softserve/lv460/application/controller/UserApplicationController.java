@@ -4,10 +4,8 @@ import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
-import com.softserve.lv460.application.security.exceptions.UserAlreadyRegisteredException;
+import com.softserve.lv460.application.exceptions.UserAlreadyRegisteredException;
 import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,14 +22,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/users")
 public class UserApplicationController {
-  @Autowired
-  private ApplicationUserRepository applicationUserRepository;
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
-  @Autowired
-  private AuthenticationManager authenticationManager;
-@Autowired
-private JwtTokenProvider jwtTokenProvider;
+  private final ApplicationUserRepository applicationUserRepository;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final AuthenticationManager authenticationManager;
+  private final JwtTokenProvider jwtTokenProvider;
+
+  public UserApplicationController(ApplicationUserRepository applicationUserRepository,BCryptPasswordEncoder bCryptPasswordEncoder,
+                                   AuthenticationManager authenticationManager,JwtTokenProvider jwtTokenProvider) {
+    this.authenticationManager=authenticationManager;
+    this.applicationUserRepository=applicationUserRepository;
+    this.jwtTokenProvider=jwtTokenProvider;
+    this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+  }
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
@@ -43,7 +45,6 @@ private JwtTokenProvider jwtTokenProvider;
       );
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
-
       String jwt = jwtTokenProvider.generateToken(authentication);
       return ResponseEntity.ok(new JWTUserResponse(jwt));
 

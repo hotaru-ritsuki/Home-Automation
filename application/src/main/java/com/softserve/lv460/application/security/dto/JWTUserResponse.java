@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class JWTUserResponse {
   String accessToken;
+  //String refreshToken;
 }

@@ -5,9 +5,8 @@ import com.softserve.lv460.application.security.filters.JwtAuthenticationFilter;
 import com.softserve.lv460.application.security.jwt.JwtAuthenticationEntryPoint;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -34,20 +33,25 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final UserDetailsServiceImpl userDetailsService;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final SecurityConstants securityConstants;
   private final JwtAuthenticationEntryPoint unauthorizedHandler;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
   public WebSecurityConfig(UserDetailsServiceImpl userDetailsService,
-          BCryptPasswordEncoder bCryptPasswordEncoder,
+          @Lazy BCryptPasswordEncoder bCryptPasswordEncoder,
           SecurityConstants securityConstants,
           JwtAuthenticationEntryPoint unauthorizedHandler){
 this.userDetailsService=userDetailsService;
-this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 this.securityConstants=securityConstants;
 this.unauthorizedHandler=unauthorizedHandler;
+this.bCryptPasswordEncoder=bCryptPasswordEncoder;
   }
+  @Bean
+  BCryptPasswordEncoder bCryptPasswordEncoder(){
+    return new BCryptPasswordEncoder();
+  }
+
   @Override
   public void configure(WebSecurity web) throws Exception {
     web.ignoring().antMatchers("/v2/api-docs",
