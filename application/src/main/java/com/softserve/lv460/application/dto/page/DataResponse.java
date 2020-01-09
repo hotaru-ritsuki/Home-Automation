@@ -1,3 +1,4 @@
+
 package com.softserve.lv460.application.dto.page;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class DataResponse<T> {
   private List<T> content;
-
   private Integer totalPages;
-
   private Long totalElements;
 }
