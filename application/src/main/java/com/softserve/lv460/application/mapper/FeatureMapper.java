@@ -13,19 +13,11 @@ public class FeatureMapper implements Mapper<Feature, FeatureDTO> {
 
   @Override
   public Feature toEntity(FeatureDTO dto) {
-    Feature feature = modelMapper.map(dto, Feature.class);
-    feature.setId(dto.getId());
-    feature.setName(dto.getName());
-    feature.setDescription(dto.getDescription());
-    return feature;
+    return modelMapper.map(dto, Feature.class);
   }
 
   @Override
   public FeatureDTO toDto(Feature feature) {
-    FeatureDTO dto = modelMapper.map(feature, FeatureDTO.class);
-    dto.setId(feature.getId());
-    dto.setName(feature.getName());
-    dto.setDescription(feature.getDescription());
-    return dto;
+    return modelMapper.map(feature, FeatureDTO.class);
   }
 }
