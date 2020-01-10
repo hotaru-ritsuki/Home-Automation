@@ -1,6 +1,6 @@
 package com.softserve.lv460.application.dto.deviceTemplate;
 
-import com.softserve.lv460.application.dto.feature.FeatureDTO;
+import com.softserve.lv460.application.dto.feature.FeatureRequest;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -13,5 +13,5 @@ public class DeviceTemplateRequest {
   private String type;
   private LocalDate releaseYear;
   private String powerSupply;
-  private List<FeatureDTO> featuresId;
+  private List<FeatureRequest> featuresId;
 }

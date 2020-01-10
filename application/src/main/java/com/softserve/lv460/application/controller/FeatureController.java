@@ -1,14 +1,11 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.dto.feature.FeatureDTO;
-import com.softserve.lv460.application.entity.Feature;
-import com.softserve.lv460.application.mapper.FeatureMapper;
+import com.softserve.lv460.application.dto.feature.FeatureRequest;
+import com.softserve.lv460.application.dto.feature.FeatureResponse;
 import com.softserve.lv460.application.service.FeatureService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -17,26 +14,20 @@ import java.util.stream.Collectors;
 public class FeatureController {
 
   private FeatureService featureService;
-  private FeatureMapper mapper;
 
   @PostMapping
-  public FeatureDTO create(@RequestBody FeatureDTO dto) {
-    Feature feature = mapper.toEntity(dto);
-    Feature featureCreated = featureService.create(feature);
-    return mapper.toDto(featureCreated);
+  public void create(@RequestBody FeatureRequest request) {
+    featureService.create(request);
   }
 
   @GetMapping
-  public List<FeatureDTO> findAll() {
-    List<Feature> allFeatures = featureService.findAll();
-    return allFeatures.stream().map(mapper::toDto).collect(Collectors.toList());
+  public List<FeatureResponse> findAll() {
+    return featureService.findAll();
   }
 
   @PutMapping
-  public FeatureDTO update(@RequestBody FeatureDTO dto) {
-    Feature feature = mapper.toEntity(dto);
-    Feature featureUpdated = featureService.update(feature);
-    return mapper.toDto(featureUpdated);
+  public void update(@RequestBody FeatureRequest request) {
+    featureService.update(request.getId(), request);
   }
 
   @DeleteMapping
