@@ -19,7 +19,7 @@ export class MainService {
     params = params.append('from', from);
     params = params.append('to', to);
 
-    return this.http.get<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params: params});
+    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params: params});
   }
 
 }

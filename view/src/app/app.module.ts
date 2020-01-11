@@ -12,13 +12,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './components/main/main.component';
-import {DevicesComponent} from "./components/local-device/devices.component";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
   {path: '', component: MainComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'device', component: DevicesComponent}
 ];
 
 @NgModule({

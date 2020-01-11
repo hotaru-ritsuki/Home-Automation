@@ -4,17 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.softserve.lv460.device.constant.ExceptionMassages;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.dto.DeviceDto;
+import com.softserve.lv460.device.dto.deviceDto.DeviceDto;
+import com.softserve.lv460.device.exception.exceptions.DeviceNotRegisteredException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -24,21 +27,24 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class DeviceCacheConfig {
 
-  @Autowired
-  private PropertiesConfig propertiesConfig;
+  private final PropertiesConfig propertiesConfig;
+  private LoadingCache<String, DeviceDto> loadingCache;
 
 
-  private LoadingCache<String, DeviceDto> loadingCache = CacheBuilder
-          .newBuilder()
-          .expireAfterWrite(1, TimeUnit.MINUTES)
-          .build(
-                  new CacheLoader<String, DeviceDto>() {
-                    @Override
-                    public DeviceDto load(String uuId) throws IOException {
-                      return getRegisteredDevice(uuId);
+  public DeviceCacheConfig(PropertiesConfig propertiesConfig) {
+    this.propertiesConfig = propertiesConfig;
+    this.loadingCache = CacheBuilder
+            .newBuilder()
+            .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+            .build(
+                    new CacheLoader<String, DeviceDto>() {
+                      @Override
+                      public DeviceDto load(String uuId) throws IOException {
+                        return getRegisteredDevice(uuId);
+                      }
                     }
-                  }
-          );
+            );
+  }
 
 
   public DeviceData validateData(DeviceData deviceData) throws ExecutionException {
@@ -49,11 +55,13 @@ public class DeviceCacheConfig {
 
 
   private DeviceDto getRegisteredDevice(String uuId) throws IOException {
-    //fix exception
     String url = propertiesConfig.getMainApplicationHostName() + "/location-devices/" + uuId;
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
-    HttpEntity entity = response.getEntity();
-    return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);
+    if (response.getStatusLine().getStatusCode() < HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+      HttpEntity entity = response.getEntity();
+      return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);
+    }
+    throw new DeviceNotRegisteredException(ExceptionMassages.DEVICE_NOT_REGISTERED);
   }
 
   @Bean

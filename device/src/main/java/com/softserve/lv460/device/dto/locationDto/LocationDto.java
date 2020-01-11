@@ -1,4 +1,4 @@
-package com.softserve.lv460.device.dto;
+package com.softserve.lv460.device.dto.locationDto;
 
 import lombok.Data;
 

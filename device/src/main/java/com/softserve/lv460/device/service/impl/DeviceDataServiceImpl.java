@@ -3,8 +3,6 @@ package com.softserve.lv460.device.service.impl;
 import com.softserve.lv460.device.config.DeviceCacheConfig;
 import com.softserve.lv460.device.config.PropertiesConfig;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.exceptions.DeviceNotRegisteredException;
-import com.softserve.lv460.device.exceptions.Massages;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataService;
 import org.springframework.stereotype.Service;
@@ -25,15 +23,14 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     this.propertiesConfig = propertiesConfig;
   }
 
+
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
-    if (deviceCacheConfig.validateData(deviceData)) {
-      addToBatch(deviceData);
-    } else throw new DeviceNotRegisteredException(Massages.DEVICE_NOT_REGISTERED);
+    addToBatch(deviceCacheConfig.validateData(deviceData));
   }
 
-  private void addToBatch(DeviceData deviceData) {
-    batch.add(deviceData);
+  private void addToBatch(DeviceData ValidDeviceData) {
+    batch.add(ValidDeviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
       deviceDataRepository.saveAll(batch);
       batch.clear();

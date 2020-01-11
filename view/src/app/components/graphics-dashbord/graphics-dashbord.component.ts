@@ -17,10 +17,11 @@ export class GraphicsDashbordComponent implements OnInit {
   ngOnInit() {
   }
 
+  //add if
   filterByDateTime(from, to) {
     let fromDate = new Date(from);
     let toDate = new Date(to);
-      this.dataService.DateTime.next(this.dateParser(fromDate) + '&' + this.dateParser(toDate));
+    this.dataService.DateTime.next(this.dateParser(fromDate) + '&' + this.dateParser(toDate));
   }
 
   dateParser(toParse: Date) {
