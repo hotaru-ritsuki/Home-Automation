@@ -23,7 +23,7 @@ public class JwtTokenProvider {
   @Value("${jwtconf.TOKEN_PREFIX}")
   private String TOKEN_PREFIX;
 
-  public String generateToken(Authentication authentication) {
+  public String generateAccessToken(Authentication authentication) {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
@@ -41,7 +41,24 @@ public class JwtTokenProvider {
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact();
   }
+  public String generateRefreshToken(Authentication authentication) {
 
+    UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+    Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
+    System.out.println(userPrincipal.getId());
+    System.out.println(userPrincipal.getUsername());
+    System.out.println(userPrincipal.getPassword());
+    System.out.println(userPrincipal.getAuthorities());
+    System.out.println(userPrincipal.toString());
+
+    return TOKEN_PREFIX + Jwts.builder()
+            .setSubject(userPrincipal.getUsername())
+            .setIssuedAt(new Date())
+            .setExpiration(expiryDate)
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .compact();
+  }
   public String getEmailFromJWT(String token) {
     Claims claims = Jwts.parser()
             .setSigningKey(jwtSecret)
@@ -51,9 +68,26 @@ public class JwtTokenProvider {
     return claims.getSubject();
   }
 
-  public boolean validateToken(String authToken) {
+  public boolean validateAccessToken(String authAccessToken) {
     try {
-      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authAccessToken);
+      return true;
+    } catch (SignatureException ex) {
+      logger.error("Invalid JWT signature");
+    } catch (MalformedJwtException ex) {
+      logger.error("Invalid JWT token");
+    } catch (ExpiredJwtException ex) {
+      logger.error("Expired JWT token");
+    } catch (UnsupportedJwtException ex) {
+      logger.error("Unsupported JWT token");
+    } catch (IllegalArgumentException ex) {
+      logger.error("JWT claims string is empty.");
+    }
+    return false;
+  }
+  public boolean validateRefreshToken(String authRefreshToken) {
+    try {
+      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authRefreshToken);
       return true;
     } catch (SignatureException ex) {
       logger.error("Invalid JWT signature");

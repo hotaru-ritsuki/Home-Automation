@@ -45,7 +45,7 @@ public class UserApplicationController {
       );
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      String jwt = jwtTokenProvider.generateToken(authentication);
+      String jwt = jwtTokenProvider.generateAccessToken(authentication);
       return ResponseEntity.ok(new JWTUserResponse(jwt));
 
   }
