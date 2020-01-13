@@ -1,17 +1,17 @@
 package com.softserve.lv460.application.service;
 
+import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
 import com.softserve.lv460.application.entity.DeviceTemplate;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.entity.Location;
+import com.softserve.lv460.application.exception.exceptions.NotFoundIdException;
 import com.softserve.lv460.application.repository.DeviceTemplateRepository;
 import com.softserve.lv460.application.repository.LocalDeviceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -19,12 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
 class LocalDeviceServiceTest {
     @Mock
@@ -54,9 +51,9 @@ class LocalDeviceServiceTest {
 
     @Test
     void findByUuidFailed() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> localDeviceService.findByUuid("1"));
+        Exception exception = assertThrows(NotFoundIdException.class, () -> localDeviceService.findByUuid(badUuid));
 
-        String expectedMessage = "Device with uuid 1 does not exists";
+        String expectedMessage = ErrorMessage.LOCAL_DEVICE_NOT_FOUND + badUuid;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -110,9 +107,9 @@ class LocalDeviceServiceTest {
     void updateFailed() {
         when(localDeviceRepository.findByUuid(anyString())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> localDeviceService.update(localDeviceRequest));
+        Exception exception = assertThrows(NotFoundIdException.class, () -> localDeviceService.update(localDeviceRequest));
 
-        String expectedMessage = "Device with uuid " + badUuid + " does not exists";
+        String expectedMessage = ErrorMessage.LOCAL_DEVICE_NOT_FOUND + badUuid;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -131,9 +128,9 @@ class LocalDeviceServiceTest {
     void saveFailedBad() {
         when(deviceTemplateRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> localDeviceService.save(localDeviceRequest));
+        Exception exception = assertThrows(NotFoundIdException.class, () -> localDeviceService.save(localDeviceRequest));
 
-        String expectedMessage = "Device template does not exist by this id: " + localDeviceRequest.getDeviceTemplateId();
+        String expectedMessage = ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND + localDeviceRequest.getDeviceTemplateId();
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -151,9 +148,9 @@ class LocalDeviceServiceTest {
     void deleteFailed() {
         when(localDeviceRepository.findByUuid(anyString())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> localDeviceService.delete(badUuid));
+        Exception exception = assertThrows(NotFoundIdException.class, () -> localDeviceService.delete(badUuid));
 
-        String expectedMessage = "Device with uuid " + badUuid + " does not exists";
+        String expectedMessage = ErrorMessage.LOCAL_DEVICE_NOT_FOUND + badUuid;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
