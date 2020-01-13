@@ -23,6 +23,12 @@ import java.util.concurrent.ExecutionException;
 public class DeviceDataController {
   private DeviceDataServiceImpl deviceDataService;
   private DeviceDataStatisticServiceImpl deviceDataStatisticService;
+  
+  @GetMapping("/current-sensor-indication")
+  public String getCurrentSensorIndication (){
+      return "";
+  }
+
   @PostMapping("/statistics")
   public List<DeviceDataDto> getStatistic(@Valid @RequestBody StatisticParameters statisticParameters) {
     return deviceDataStatisticService.getStatistic(statisticParameters);

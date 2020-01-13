@@ -57,6 +57,7 @@ public class DeviceCacheConfig {
   private DeviceDto getRegisteredDevice(String uuId) throws IOException {
     String url = propertiesConfig.getMainApplicationHostName() + "/location-devices/" + uuId;
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
+    //!!!!!
     if (response.getStatusLine().getStatusCode() < HttpStatus.INTERNAL_SERVER_ERROR.value()) {
       HttpEntity entity = response.getEntity();
       return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);

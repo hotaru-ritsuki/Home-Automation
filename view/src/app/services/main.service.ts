@@ -13,13 +13,10 @@ export class MainService {
   constructor(private http: HttpClient) {
   }
 
-  getAllDeviceData(type, from, to): Observable<DeviceData[]> {
-    let params = new HttpParams();
-    params = params.append('type', type);
-    params = params.append('from', from);
-    params = params.append('to', to);
-
-    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params: params});
+  getAllDeviceData(type, from, to, locationId): Observable<DeviceData[]> {
+    console.log(from);
+    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
+      {type:type,from:from,to:to,locationId:locationId});
   }
 
 }

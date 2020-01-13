@@ -14,6 +14,8 @@ export class GraphicsDashbordComponent implements OnInit {
   constructor(private dataService: DataService) {
   }
 
+  locationId = 2;
+
   ngOnInit() {
   }
 
@@ -21,11 +23,15 @@ export class GraphicsDashbordComponent implements OnInit {
   filterByDateTime(from, to) {
     let fromDate = new Date(from);
     let toDate = new Date(to);
-    this.dataService.DateTime.next(this.dateParser(fromDate) + '&' + this.dateParser(toDate));
+    this.dataService.DateTime.next(this.dateParser(fromDate) + '&' + this.dateParser(toDate) + '&' +
+      this.locationId);
   }
 
   dateParser(toParse: Date) {
-    return toParse.getFullYear() + '-' + (toParse.getMonth() + 1) + '-' + toParse.getDate() + 'T' +
-      toParse.getHours() + ':' + toParse.getMinutes() + ':' + toParse.getSeconds() + '+01:00'
+    return toParse.getFullYear() + '-' + ('0' + toParse.getMonth() + 1).slice(-2) + '-' +
+      ('0'+toParse.getDate()).slice(-2) + 'T' +
+      ('0'+toParse.getHours()).slice(-2)  + ':' +  ('0'+toParse.getMinutes()).slice(-2)
+      + ':' +  ('0'+toParse.getSeconds()).slice(-2)  + '+01:00'
   }
+
 }

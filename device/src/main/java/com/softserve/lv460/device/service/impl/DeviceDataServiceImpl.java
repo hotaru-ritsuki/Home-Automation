@@ -29,8 +29,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     addToBatch(deviceCacheConfig.validateData(deviceData));
   }
 
-  private void addToBatch(DeviceData ValidDeviceData) {
-    batch.add(ValidDeviceData);
+  private void addToBatch(DeviceData validDeviceData) {
+    batch.add(validDeviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
       deviceDataRepository.saveAll(batch);
       batch.clear();

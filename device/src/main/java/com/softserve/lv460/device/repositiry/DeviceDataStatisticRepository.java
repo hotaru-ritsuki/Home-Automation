@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 
 public interface DeviceDataStatisticRepository extends MongoRepository<DeviceData, Long> {
-
-
-  @Query("{'data.?0':{$exists: true},'timestamp': {$gte:?1,$lt:?2}}")
-  List<DeviceData> getStatistic(String type, DateTime from, DateTime to);
+  @Query("{'data.?0':{$exists: true},'timestamp': {$gte:?1,$lt:?2},'data.locationId': '?3'}")
+  List<DeviceData> getStatistic(String type, DateTime from, DateTime to,  Long locationId);
 }

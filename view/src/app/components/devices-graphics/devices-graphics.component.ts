@@ -10,8 +10,7 @@ import {DataService} from "../../services/data.service";
 })
 export class DevicesGraphicsComponent implements OnInit {
   @Input() type: string;
-  @Input() from: string;
-  @Input() to: string;
+  @Input() locationId: number;
 
   constructor(private service: MainService, private dateService: DataService) {
   }
@@ -45,16 +44,17 @@ export class DevicesGraphicsComponent implements OnInit {
 
 
   ngOnInit() {
-   this.getData("2019-01-01T12:00:00+01:00","2021-01-01T12:00:00+01:00");
-    this.dateService.DateTime.subscribe((dateTime:string) => {
+    this.getData("2019-01-01T12:00:00+01:00", "2021-01-01T12:00:00+01:00",this.locationId);
+    console.log('log');
+    this.dateService.DateTime.subscribe((dateTime: string) => {
       let arr = dateTime.split('&');
-      this.getData(arr[0],arr[1]);
+      this.getData(arr[0], arr[1], arr[2]);
     });
 
   }
 
-  getData(dateFrom,dateTo) {
-    this.service.getAllDeviceData(this.type, dateFrom, dateTo)
+  getData(dateFrom, dateTo, locationId) {
+    this.service.getAllDeviceData(this.type, dateFrom, dateTo,locationId)
       .subscribe((res: DeviceData[]) => {
         let temperatures = [];
         for (const one of res) {
