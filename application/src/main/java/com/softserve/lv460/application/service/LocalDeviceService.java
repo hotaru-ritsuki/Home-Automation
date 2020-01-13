@@ -29,7 +29,7 @@ public class LocalDeviceService {
     }
 
     public List<LocalDevice> findAllByLocation(Location location) {
-        return localDeviceRepository.findAllByLocations(location);
+        return localDeviceRepository.findAllByLocation(location);
     }
 
     public LocalDevice update(LocalDeviceRequest localDevice) {
@@ -45,7 +45,7 @@ public class LocalDeviceService {
 
         localDevice.setLocation(locationService.findOne((localDeviceRequest.getLocationId())));
         DeviceTemplate deviceTemplate = deviceTemplateRepository.findById(localDeviceRequest.getDeviceTemplateId())
-                .orElseThrow(() -> new IllegalArgumentException("Supported device does not exist by this id: "
+                .orElseThrow(() -> new IllegalArgumentException("Device template does not exist by this id: "
                         + localDeviceRequest.getDeviceTemplateId()));
         localDevice.setDeviceTemplate(deviceTemplate);
         localDevice.setUuid(UUID.randomUUID().toString().substring(0, 32));
@@ -53,8 +53,10 @@ public class LocalDeviceService {
         return localDeviceRepository.save(localDevice);
     }
 
-    public void delete(String uuid) {
+    public String delete(String uuid) {
         localDeviceRepository.delete(findByUuid(uuid));
+
+        return uuid;
     }
 
 
