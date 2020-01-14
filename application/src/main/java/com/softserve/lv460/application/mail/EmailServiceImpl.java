@@ -23,5 +23,4 @@ public class EmailServiceImpl {
       exception.printStackTrace();
     }
   }
-
 }
