@@ -2,7 +2,7 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.dto.action.ActionDTO;
-import com.softserve.lv460.application.mapper.ActionMapper;
+import com.softserve.lv460.application.mapper.action.ActionMapper;
 import com.softserve.lv460.application.service.ActionService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,13 +48,13 @@ public class ActionController {
 
   @ApiOperation(value = "Update action")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.CREATED, response = ActionDTO.class),
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionDTO.class),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @PutMapping
   public ResponseEntity<ActionDTO> update(@RequestBody ActionDTO dto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(actionService.update(mapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.OK).body(mapper.toDto(actionService.update(mapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete action")

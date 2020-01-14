@@ -1,7 +1,8 @@
-package com.softserve.lv460.application.mapper;
+package com.softserve.lv460.application.mapper.action;
 
 import com.softserve.lv460.application.dto.action.ActionDTO;
 import com.softserve.lv460.application.entity.Action;
+import com.softserve.lv460.application.mapper.Mapper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

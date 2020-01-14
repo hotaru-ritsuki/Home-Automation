@@ -37,13 +37,13 @@ public class ActionRuleController {
 
   @ApiOperation(value = "Update action rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.CREATED, response = ActionRuleResponseDTO.class),
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionRuleResponseDTO.class),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @PutMapping
   public ResponseEntity<ActionRuleResponseDTO> update(@RequestBody ActionRuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(actionRuleService.update(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(actionRuleService.update(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete action rule")

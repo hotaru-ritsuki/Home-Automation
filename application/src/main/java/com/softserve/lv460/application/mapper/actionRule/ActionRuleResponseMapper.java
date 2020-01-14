@@ -2,8 +2,8 @@ package com.softserve.lv460.application.mapper.actionRule;
 
 import com.softserve.lv460.application.dto.actionRule.ActionRuleResponseDTO;
 import com.softserve.lv460.application.entity.ActionRule;
-import com.softserve.lv460.application.mapper.ActionMapper;
 import com.softserve.lv460.application.mapper.Mapper;
+import com.softserve.lv460.application.mapper.action.ActionMapper;
 import com.softserve.lv460.application.service.ActionService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

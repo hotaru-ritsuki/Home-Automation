@@ -8,4 +8,10 @@ public class ErrorMessage {
   public static final String ACTION_RULE_NOT_FOUND_BY_ID = "Action rule with action id %d and rule id %d does not exists";
   public static final String RULE_NOT_DELETED_BY_ID = "The rule does not deleted by id:";
   public static final String RULE_NOT_FOUND_BY_ID = "Rule with id %d does not exists";
+  public static final String LOCATION_NOT_FOUND_BY_ID = "Location with id %d does not exists";
+  public static final String LOCATION_NOT_DELETED_BY_ID = "The rule does not deleted by id:";
+  public static final String HOME_ALREADY_REGISTER = "Home with address %s is already registered";
+  public static final String HOME_NOT_FOUND_BY_ID = "Home with id %d does not exists";
+  public static final String HOME_NOT_DELETED_BY_ID = "The rule does not deleted by id:";
+  public static final String HOME_NOT_DELETED_HAVE_DEPENDENCIES = "Home with id %d has dependencies";
 }

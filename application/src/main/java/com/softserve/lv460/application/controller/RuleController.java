@@ -50,13 +50,13 @@ public class RuleController {
 
   @ApiOperation(value = "Update rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.CREATED, response = RuleResponseDTO.class),
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @PutMapping
   public ResponseEntity<RuleResponseDTO> update(@RequestBody RuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(ruleService.update(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(ruleService.update(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete rule")
@@ -68,5 +68,16 @@ public class RuleController {
   @DeleteMapping("/{rule_id}")
   public ResponseEntity<Long> delete(@PathVariable("rule_id") Long id) {
     return ResponseEntity.status(HttpStatus.OK).body(ruleService.delete(id));
+  }
+
+  @ApiOperation(value = "Return list of rule by local device")
+  @ApiResponses(value = {
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
+        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+  })
+  @GetMapping("/device/{local_device_id}")
+  public ResponseEntity<List<RuleResponseDTO>> findAllByUuid(@PathVariable("local_device_id") String uuid) {
+    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAllByLocalDevice(uuid).stream().map(responseMapper::toDto).collect(Collectors.toList()));
   }
 }
