@@ -2,4 +2,10 @@ package com.softserve.lv460.application.constant;
 
 public class ErrorMessage {
   public static final String FEATURE_NOT_DELETED_BY_ID = "The feature does not deleted by id: ";
+  public static final String ACTION_NOT_DELETED_BY_ID = "The action does not deleted by id:";
+  public static final String ACTION_NOT_FOUND_BY_ID = "Action with id %d does not exists";
+  public static final String ACTION_RULE_NOT_DELETED_BY_ID = "The action rule does not deleted by action id: %d and rule id %d";
+  public static final String ACTION_RULE_NOT_FOUND_BY_ID = "Action rule with action id %d and rule id %d does not exists";
+  public static final String RULE_NOT_DELETED_BY_ID = "The rule does not deleted by id:";
+  public static final String RULE_NOT_FOUND_BY_ID = "Rule with id %d does not exists";
 }

@@ -1,7 +1,7 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.dto.location.LocationRequest;
-import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.dto.location.LocationRequestDTO;
+import com.softserve.lv460.application.dto.location.LocationResponseDTO;
 import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
@@ -18,21 +18,21 @@ public class LocationService {
   private LocationRepository locationRepository;
   private HomeRepository homeRepository;
 
-  public static LocationResponse locationToResponse(Location location) {
-    LocationResponse response = new LocationResponse();
+  public static LocationResponseDTO locationToResponse(Location location) {
+    LocationResponseDTO response = new LocationResponseDTO();
     response.setId(location.getId());
     response.setName(location.getName());
     return response;
   }
 
-  public LocationResponse create(LocationRequest request) {
+  public LocationResponseDTO create(LocationRequestDTO request) {
     Location location = new Location();
     location.setName(request.getName());
     location.setHome(homeRepository.findById(request.getHomeId()).get());
     return locationToResponse(locationRepository.save(location));
   }
 
-  public List<LocationResponse> findAll() {
+  public List<LocationResponseDTO> findAll() {
     return locationRepository.findAll().stream().map(LocationService::locationToResponse).collect(Collectors.toList());
   }
 
@@ -41,11 +41,11 @@ public class LocationService {
           .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " not exists"));
   }
 
-  public LocationResponse findOneResponse(Long id) {
+  public LocationResponseDTO findOneResponse(Long id) {
     return locationToResponse(findOne(id));
   }
 
-  public Location update(LocationRequest update) {
+  public Location update(LocationRequestDTO update) {
     Location location = findOne(update.getId());
     location.setName(update.getName());
     return locationRepository.save(location);
@@ -56,7 +56,7 @@ public class LocationService {
     locationRepository.delete(location);
   }
 
-  public List<LocationResponse> findByHome(Long id) {
+  public List<LocationResponseDTO> findByHome(Long id) {
     return locationRepository.findAllByHome(homeRepository.findById(id)).stream().map(LocationService::locationToResponse).collect(Collectors.toList());
   }
 

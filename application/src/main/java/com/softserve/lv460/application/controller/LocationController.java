@@ -1,7 +1,7 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.dto.location.LocationRequest;
-import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.dto.location.LocationRequestDTO;
+import com.softserve.lv460.application.dto.location.LocationResponseDTO;
 import com.softserve.lv460.application.service.LocationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +19,17 @@ public class LocationController {
   }
 
   @PostMapping
-  public LocationResponse create(@RequestBody LocationRequest request) {
+  public LocationResponseDTO create(@RequestBody LocationRequestDTO request) {
     return locationService.create(request);
   }
 
   @GetMapping
-  public List<LocationResponse> findAll() {
+  public List<LocationResponseDTO> findAll() {
     return locationService.findAll();
   }
 
   @PutMapping
-  public void update(@RequestBody LocationRequest request) {
+  public void update(@RequestBody LocationRequestDTO request) {
     locationService.update(request);
   }
 
@@ -39,7 +39,7 @@ public class LocationController {
   }
 
   @GetMapping("/{location_id}")
-  public LocationResponse findOne(@PathVariable("location_id") Long id) {
+  public LocationResponseDTO findOne(@PathVariable("location_id") Long id) {
     return locationService.findOneResponse(id);
   }
 

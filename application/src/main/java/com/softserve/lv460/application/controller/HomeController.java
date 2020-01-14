@@ -1,7 +1,7 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.dto.home.HomeRequest;
-import com.softserve.lv460.application.dto.home.HomeResponse;
+import com.softserve.lv460.application.dto.home.HomeRequestDTO;
+import com.softserve.lv460.application.dto.home.HomeResponseDTO;
 import com.softserve.lv460.application.service.HomeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +19,17 @@ public class HomeController {
   }
 
   @PostMapping
-  public HomeResponse create(@RequestBody HomeRequest request) {
+  public HomeResponseDTO create(@RequestBody HomeRequestDTO request) {
     return homeService.create(request);
   }
 
   @GetMapping
-  public List<HomeResponse> findAll() {
+  public List<HomeResponseDTO> findAll() {
     return homeService.findAll();
   }
 
   @PutMapping
-  public void update(@RequestBody HomeRequest request) {
+  public void update(@RequestBody HomeRequestDTO request) {
     homeService.update(request);
   }
 
@@ -39,7 +39,7 @@ public class HomeController {
   }
 
   @GetMapping("/{home_id}")
-  public HomeResponse findOne(@PathVariable("home_id") Long id) {
+  public HomeResponseDTO findOne(@PathVariable("home_id") Long id) {
     return homeService.findOneResponse(id);
   }
 }

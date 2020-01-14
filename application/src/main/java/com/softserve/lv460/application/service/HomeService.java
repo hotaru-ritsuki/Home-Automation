@@ -1,8 +1,8 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.dto.home.HomeRequest;
-import com.softserve.lv460.application.dto.home.HomeResponse;
-import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.dto.home.HomeRequestDTO;
+import com.softserve.lv460.application.dto.home.HomeResponseDTO;
+import com.softserve.lv460.application.dto.location.LocationResponseDTO;
 import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.repository.HomeRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class HomeService {
   private HomeRepository homeRepository;
   private LocationService locationService;
 
-  public HomeResponse create(HomeRequest request) {
+  public HomeResponseDTO create(HomeRequestDTO request) {
     Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
     if (!isHome.isPresent()) {
       return homeToResponse(homeRepository.save(requestToHome(new Home(), request)));
@@ -27,9 +27,9 @@ public class HomeService {
     throw new RuntimeException("Home with address " + request.getAddressa() + " is already registered");
   }
 
-  public List<HomeResponse> findAll() {
+  public List<HomeResponseDTO> findAll() {
     List<Home> all = homeRepository.findAll();
-    List<HomeResponse> responses = new ArrayList<>();
+    List<HomeResponseDTO> responses = new ArrayList<>();
     for (Home home : all) {
       responses.add(homeToResponse(home));
     }
@@ -41,11 +41,11 @@ public class HomeService {
           .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " does not exist"));
   }
 
-  public HomeResponse findOneResponse(Long id) {
+  public HomeResponseDTO findOneResponse(Long id) {
     return homeToResponse(findOne(id));
   }
 
-  public Home update(HomeRequest request) {
+  public Home update(HomeRequestDTO request) {
     Home home = findOne(request.getId());
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
@@ -63,20 +63,20 @@ public class HomeService {
     }
   }
 
-  public HomeResponse homeToResponse(Home home) {
-    HomeResponse response = new HomeResponse();
+  public HomeResponseDTO homeToResponse(Home home) {
+    HomeResponseDTO response = new HomeResponseDTO();
     response.setId(home.getId());
     response.setCountry(home.getCountry());
     response.setCity(home.getCity());
     response.setAddressa(home.getAddressa());
-    List<LocationResponse> locationHome = locationService.findByHome(home.getId());
+    List<LocationResponseDTO> locationHome = locationService.findByHome(home.getId());
     if (!locationHome.isEmpty()) {
       response.setLocations(locationHome);
     }
     return response;
   }
 
-  private Home requestToHome(Home home, HomeRequest request) {
+  private Home requestToHome(Home home, HomeRequestDTO request) {
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
     home.setAddressa(request.getAddressa());
