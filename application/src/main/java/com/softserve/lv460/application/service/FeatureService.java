@@ -20,7 +20,7 @@ public class FeatureService {
     return featureRepository.save(feature);
   }
 
-  private Feature findFeature(Long id) {
+  public Feature findFeature(Long id) {
     return featureRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
   }
@@ -37,7 +37,7 @@ public class FeatureService {
   }
 
   public Long delete(Long id) {
-    if (!(featureRepository.findById(id).isPresent())) {
+    if (!featureRepository.findById(id).isPresent()) {
       throw new NotDeletedException(ErrorMessage.FEATURE_NOT_DELETED_BY_ID + id);
     }
     featureRepository.deleteById(id);
