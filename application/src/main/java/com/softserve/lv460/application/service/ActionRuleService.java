@@ -30,7 +30,7 @@ public class ActionRuleService {
   }
 
   public List<ActionRule> findAllByRuleId(Long ruleId) {
-    return actionRuleRepository.findAll().stream().filter(actionRule -> actionRule.getActionRuleId().getRuleId() == ruleId).collect(Collectors.toList());
+  return actionRuleRepository.findByRuleId(ruleId);
   }
 
   public ActionRule update(ActionRule entity) {
