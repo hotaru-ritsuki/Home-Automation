@@ -22,7 +22,7 @@ public class FeatureService {
 
   private Feature findFeature(Long id) {
     return featureRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
+        .orElseThrow(() -> new IllegalArgumentException("Feature with id " + id + "does not exists"));
   }
 
   public List<Feature> findAll() {
