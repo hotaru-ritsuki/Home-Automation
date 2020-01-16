@@ -1,6 +1,6 @@
 package com.softserve.lv460.application.specification;
 
-import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterRequest;
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterDTO;
 import com.softserve.lv460.application.entity.DeviceTemplate;
 import com.softserve.lv460.application.entity.Feature;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,7 +17,7 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
   private Integer releaseYear = null;
   private List<Long> featuresId = null;
 
-  public DeviceTemplateSpecification(DeviceTemplateFilterRequest filter) {
+  public DeviceTemplateSpecification(DeviceTemplateFilterDTO filter) {
     if (filter != null) {
       model = filter.getModel();
       brand = filter.getBrand();

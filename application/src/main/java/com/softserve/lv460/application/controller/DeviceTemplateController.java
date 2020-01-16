@@ -1,18 +1,22 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplatePageRequest;
+import com.softserve.lv460.application.constant.HttpStatuses;
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterDTO;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateRequestDTO;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateResponseDTO;
-import com.softserve.lv460.application.dto.page.DataResponse;
-import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.dto.data.DataResponse;
 import com.softserve.lv460.application.mapper.deviceTemplate.DeviceTemplateRequestMapper;
 import com.softserve.lv460.application.mapper.deviceTemplate.DeviceTemplateResponseMapper;
 import com.softserve.lv460.application.service.DeviceTemplateService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -23,46 +27,69 @@ public class DeviceTemplateController {
   private DeviceTemplateRequestMapper requestMapper;
   private DeviceTemplateResponseMapper responseMapper;
 
+  @ApiOperation(value = "Find all device template's brands")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+  })
   @GetMapping("/brands")
   public List<String> findAllBrands() {
     return deviceTemplateService.findAllBrands();
   }
 
+  @ApiOperation(value = "Find all device template's release years")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+  })
   @GetMapping("/years")
   public List<Integer> findAllReleaseYears() {
     return deviceTemplateService.findAllReleaseYears();
   }
 
-  @GetMapping
-  public List<DeviceTemplateResponseDTO> findAll() {
-    List<DeviceTemplate> allDevices = deviceTemplateService.findAll();
-    return allDevices.stream().map(responseMapper::toDto).collect(Collectors.toList());
-  }
-
+  @ApiOperation(value = "Update device template")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+          @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+  })
   @PutMapping
-  public DeviceTemplateRequestDTO update(@RequestBody DeviceTemplateRequestDTO dto) {
-    DeviceTemplate deviceTemplate = requestMapper.toEntity(dto);
-    deviceTemplateService.update(deviceTemplate);
-    return dto;
+  public ResponseEntity<DeviceTemplateResponseDTO> update(@RequestBody DeviceTemplateRequestDTO dto) {
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(responseMapper.toDto(deviceTemplateService.update(requestMapper.toEntity(dto))));
   }
 
+  @ApiOperation(value = "Create new device template")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+  })
   @PostMapping
-  public DeviceTemplateRequestDTO save(@RequestBody DeviceTemplateRequestDTO dto) {
-    DeviceTemplate deviceTemplate = requestMapper.toEntity(dto);
-    deviceTemplateService.save(deviceTemplate);
-    return dto;
+  public ResponseEntity<DeviceTemplateResponseDTO> save(@RequestBody DeviceTemplateRequestDTO dto) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body(responseMapper.toDto(deviceTemplateService.save(requestMapper.toEntity(dto))));
   }
 
-  @DeleteMapping
-  public Long delete(@RequestParam Long id) {
-    deviceTemplateService.delete(id);
-    return id;
+  @ApiOperation(value = "Delete device template by id")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+  })
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Long> delete(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.delete(id));
   }
 
-  @GetMapping("/filter")
-  public DataResponse<DeviceTemplateResponseDTO> findAllByFilter(DeviceTemplatePageRequest
-                                                                         deviceTemplatePageRequest) {
-    return deviceTemplateService.findAllByFilter(deviceTemplatePageRequest);
+  @ApiOperation(value = "Find device templates using filter request")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+  })
+  @GetMapping("/filter/page={page}")
+  public ResponseEntity<DataResponse<DeviceTemplateResponseDTO>> findAllByFilter(@PathVariable(name = "page") Integer page,
+                                                                                 DeviceTemplateFilterDTO request) {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllByFilter(page, request));
   }
 
 }

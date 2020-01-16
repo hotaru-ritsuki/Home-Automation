@@ -1,9 +1,9 @@
 package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
-import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplatePageRequest;
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterDTO;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateResponseDTO;
-import com.softserve.lv460.application.dto.page.DataResponse;
+import com.softserve.lv460.application.dto.data.DataResponse;
 import com.softserve.lv460.application.entity.DeviceTemplate;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.exception.exceptions.NotFoundException;
@@ -13,6 +13,7 @@ import com.softserve.lv460.application.repository.DeviceTemplateRepository;
 import com.softserve.lv460.application.specification.DeviceTemplateSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,10 +38,6 @@ public class DeviceTemplateService {
     return deviceTemplateRepository.findAllReleaseYears();
   }
 
-  public List<DeviceTemplate> findAll() {
-    return deviceTemplateRepository.findAll();
-  }
-
   public DeviceTemplate save(DeviceTemplate deviceTemplate) {
     return deviceTemplateRepository.save(deviceTemplate);
   }
@@ -60,42 +57,12 @@ public class DeviceTemplateService {
     return deviceTemplateRepository.save(deviceTemplate);
   }
 
-  public DataResponse<DeviceTemplateResponseDTO> findAllByFilter(DeviceTemplatePageRequest
-                                                                         deviceTemplatePageRequest) {
-//    if (deviceTemplatePageRequest.getSupportedDeviceFilterRequest() == null) {
-////      Page<DeviceTemplate> allDevices =
-////              deviceTemplateRepository.findAll(deviceTemplatePageRequest.getPaginationRequest().mapToPageRequest());
-////      return new DataResponse<>(allDevices.get().map(e -> responseMapper.toDto(e))
-////              .collect(Collectors.toList()),
-////              allDevices.getTotalPages(), allDevices.getTotalElements());
-////    }
-    DeviceTemplateSpecification deviceTemplateSpecifications =
-            new DeviceTemplateSpecification(deviceTemplatePageRequest.getSupportedDeviceFilterRequest());
+  public DataResponse<DeviceTemplateResponseDTO> findAllByFilter(Integer page,
+                                                                 DeviceTemplateFilterDTO request) {
+    DeviceTemplateSpecification deviceTemplateSpecifications = new DeviceTemplateSpecification(request);
     Page<DeviceTemplate> allByFilter = deviceTemplateRepository.findAll(deviceTemplateSpecifications,
-            deviceTemplatePageRequest.getPaginationRequest().mapToPageRequest());
+            PageRequest.of(page, 20));
     return new DataResponse<>(allByFilter.get().map(e -> responseMapper.toDto(e))
-            .collect(Collectors.toList()),
-            allByFilter.getTotalPages(), allByFilter.getTotalElements());
-
+            .collect(Collectors.toList()), allByFilter.getTotalPages(), allByFilter.getTotalElements());
   }
-
-//  public DataResponse<DeviceTemplateResponseDTO> findAllByFilter(DeviceTemplatePageRequest
-//                                                                         deviceTemplatePageRequest) {
-//    if (deviceTemplatePageRequest.getSupportedDeviceFilterRequest() == null) {
-//      Page<DeviceTemplate> allDevices =
-//              deviceTemplateRepository.findAll(deviceTemplatePageRequest.getPaginationRequest().mapToPageRequest());
-//      return new DataResponse<>(allDevices.get().map(DeviceTemplateResponseDTO::new)
-//              .collect(Collectors.toList()),
-//              allDevices.getTotalPages(), allDevices.getTotalElements());
-//    }
-//    DeviceTemplateSpecification deviceTemplateSpecifications =
-//            new DeviceTemplateSpecification(deviceTemplatePageRequest.getSupportedDeviceFilterRequest());
-//    Page<DeviceTemplate> allByFilter = deviceTemplateRepository.findAll(deviceTemplateSpecifications,
-//            deviceTemplatePageRequest.getPaginationRequest().mapToPageRequest());
-//    return new DataResponse<>(allByFilter.get().map(DeviceTemplateResponseDTO::new).collect(Collectors.toList()),
-//            allByFilter.getTotalPages(), allByFilter.getTotalElements());
-//
-//  }
-
-
 }
