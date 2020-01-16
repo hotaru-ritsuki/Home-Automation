@@ -66,10 +66,12 @@ public class DeviceFeatureController {
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
           @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
   })
   @DeleteMapping
   public ResponseEntity<DeviceFeatureId> delete(@RequestBody DeviceFeatureId id) {
-    return ResponseEntity.status(HttpStatus.OK).body(deviceFeatureService.delete(id));
+    deviceFeatureService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

@@ -1,10 +1,10 @@
 package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.HttpStatuses;
+import com.softserve.lv460.application.dto.data.DataResponse;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterDTO;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateRequestDTO;
 import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateResponseDTO;
-import com.softserve.lv460.application.dto.data.DataResponse;
 import com.softserve.lv460.application.mapper.deviceTemplate.DeviceTemplateRequestMapper;
 import com.softserve.lv460.application.mapper.deviceTemplate.DeviceTemplateResponseMapper;
 import com.softserve.lv460.application.service.DeviceTemplateService;
@@ -73,12 +73,14 @@ public class DeviceTemplateController {
   @ApiOperation(value = "Delete device template by id")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
           @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
   })
   @DeleteMapping("/{id}")
   public ResponseEntity<Long> delete(@PathVariable(name = "id") Long id) {
-    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.delete(id));
+    deviceTemplateService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @ApiOperation(value = "Find device templates using filter request")
