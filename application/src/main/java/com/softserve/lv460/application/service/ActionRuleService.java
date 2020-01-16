@@ -17,6 +17,9 @@ public class ActionRuleService {
   private ActionRuleRepository actionRuleRepository;
 
   public ActionRule create(ActionRule action) {
+    if (actionRuleRepository.findById(action.getActionRuleId()).isPresent()){
+      throw new IllegalArgumentException(String.format(ErrorMessage.ACTION_RULE_NOT_FOUND_BY_ID, action.getActionRuleId().getActionId(), action.getActionRuleId().getRuleId()));
+    }
     return actionRuleRepository.save(action);
   }
 
