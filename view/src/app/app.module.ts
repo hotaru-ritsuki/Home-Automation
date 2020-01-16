@@ -18,7 +18,8 @@ const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'statistic', component: GraphicsDashbordComponent},
   {
-    path: 'home/:id', component: HomeComponent, children: [{path: 'location/:id'}]
+    path: 'home/:id', component: HomeComponent, children:
+      [{path: 'location/:id',component: LocationsComponent}]
   },
 ];
 

@@ -1,0 +1,1 @@
+11:56:14.112 9727 [http-nio-8081-exec-1] ERROR c.s.l.d.c.DeviceDataController - Connect to localhost:8080 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect

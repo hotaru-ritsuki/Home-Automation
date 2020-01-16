@@ -1,5 +1,7 @@
 package com.softserve.lv460.device;
 
+import com.mongodb.MongoClient;
+import com.softserve.lv460.device.config.ChangeEventConfig;
 import com.softserve.lv460.device.config.PropertiesConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
