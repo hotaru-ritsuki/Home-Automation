@@ -29,8 +29,8 @@ public class RuleController {
   @ApiOperation(value = "Create new rule")
   @ApiResponses(value = {
         @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = RuleResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @PostMapping
   public ResponseEntity<RuleResponseDTO> create(@RequestBody RuleRequestDTO dto) {
@@ -40,8 +40,8 @@ public class RuleController {
   @ApiOperation(value = "Return list of rule")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @GetMapping
   public ResponseEntity<List<RuleResponseDTO>> findAll() {
@@ -51,6 +51,7 @@ public class RuleController {
   @ApiOperation(value = "Update rule")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
@@ -61,20 +62,23 @@ public class RuleController {
 
   @ApiOperation(value = "Delete rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = Long.class),
+        @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @DeleteMapping("/{rule_id}")
-  public ResponseEntity<Long> delete(@PathVariable("rule_id") Long id) {
-    return ResponseEntity.status(HttpStatus.OK).body(ruleService.delete(id));
+  public ResponseEntity<Void> delete(@PathVariable("rule_id") Long id) {
+    ruleService.delete(id);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @ApiOperation(value = "Return list of rule by local device")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
+        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
   })
   @GetMapping("/device/{local_device_id}")
   public ResponseEntity<List<RuleResponseDTO>> findAllByUuid(@PathVariable("local_device_id") String uuid) {

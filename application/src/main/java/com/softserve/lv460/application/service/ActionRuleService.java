@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -17,8 +16,8 @@ public class ActionRuleService {
   private ActionRuleRepository actionRuleRepository;
 
   public ActionRule create(ActionRule action) {
-    if (actionRuleRepository.findById(action.getActionRuleId()).isPresent()){
-      throw new IllegalArgumentException(String.format(ErrorMessage.ACTION_RULE_NOT_FOUND_BY_ID, action.getActionRuleId().getActionId(), action.getActionRuleId().getRuleId()));
+    if (actionRuleRepository.findById(action.getActionRuleId()).isPresent()) {
+      throw new IllegalArgumentException(String.format(ErrorMessage.ACTION_RULE_ALREADY_EXISTS, action.getActionRuleId().getActionId(), action.getActionRuleId().getRuleId()));
     }
     return actionRuleRepository.save(action);
   }
@@ -33,7 +32,7 @@ public class ActionRuleService {
   }
 
   public List<ActionRule> findAllByRuleId(Long ruleId) {
-  return actionRuleRepository.findByRuleId(ruleId);
+    return actionRuleRepository.findByRuleId(ruleId);
   }
 
   public ActionRule update(ActionRule entity) {

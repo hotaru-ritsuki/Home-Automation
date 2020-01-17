@@ -30,8 +30,8 @@ public class HomeController {
   @ApiOperation(value = "Create new home")
   @ApiResponses(value = {
         @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = HomeResponseDTO.class),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
+        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
   })
   @PostMapping
   public ResponseEntity<HomeResponseDTO> create(@RequestBody HomeRequestDTO request) {
@@ -41,8 +41,8 @@ public class HomeController {
   @ApiOperation(value = "Return list of home")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @GetMapping
   public ResponseEntity<List<HomeResponseDTO>> findAll() {
@@ -52,6 +52,7 @@ public class HomeController {
   @ApiOperation(value = "Update home")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
@@ -62,18 +63,22 @@ public class HomeController {
 
   @ApiOperation(value = "Delete home")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = Long.class),
+        @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @DeleteMapping("/{home_id}")
-  public ResponseEntity<Long> delete(@PathVariable("home_id") Long id) {
-    return ResponseEntity.status(HttpStatus.OK).body(homeService.delete(id));
+  public ResponseEntity<Void> delete(@PathVariable("home_id") Long id) {
+    homeService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @ApiOperation(value = "Return home by id")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
+        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
         @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
