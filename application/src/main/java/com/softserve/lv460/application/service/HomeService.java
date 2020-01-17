@@ -1,14 +1,13 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.dto.home.HomeRequest;
-import com.softserve.lv460.application.dto.home.HomeResponse;
-import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.Home;
+import com.softserve.lv460.application.exception.exceptions.HomeAlreadyRegisterException;
+import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.repository.HomeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,33 +18,24 @@ public class HomeService {
   private HomeRepository homeRepository;
   private LocationService locationService;
 
-  public HomeResponse create(HomeRequest request) {
+  public Home create(Home request) {
     Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
-    if (!isHome.isPresent()) {
-      return homeToResponse(homeRepository.save(requestToHome(new Home(), request)));
+    if (isHome.isPresent()) {
+      throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddressa()));
     }
-    throw new RuntimeException("Home with address " + request.getAddressa() + " is already registered");
+    return homeRepository.save(request);
   }
 
-  public List<HomeResponse> findAll() {
-    List<Home> all = homeRepository.findAll();
-    List<HomeResponse> responses = new ArrayList<>();
-    for (Home home : all) {
-      responses.add(homeToResponse(home));
-    }
-    return responses;
+  public List<Home> findAll() {
+    return homeRepository.findAll();
   }
 
   public Home findOne(Long id) {
     return homeRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " does not exist"));
+          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, id)));
   }
 
-  public HomeResponse findOneResponse(Long id) {
-    return homeToResponse(findOne(id));
-  }
-
-  public Home update(HomeRequest request) {
+  public Home update(Home request) {
     Home home = findOne(request.getId());
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
@@ -55,32 +45,12 @@ public class HomeService {
   }
 
   public void delete(Long id) {
-    Home home = findOne(id);
-    if (locationService.findByHome(id).isEmpty()) {
-      homeRepository.delete(home);
-    } else {
-      throw new RuntimeException("Home with id " + id + " has dependencies");
+    if (!homeRepository.findById(id).isPresent()) {
+      throw new NotDeletedException(ErrorMessage.HOME_NOT_DELETED_BY_ID + id);
+    } else if (!locationService.findByHome(id).isEmpty()) {
+      throw new RuntimeException(String.format(ErrorMessage.HOME_NOT_DELETED_HAVE_DEPENDENCIES, id));
     }
-  }
-
-  public HomeResponse homeToResponse(Home home) {
-    HomeResponse response = new HomeResponse();
-    response.setId(home.getId());
-    response.setCountry(home.getCountry());
-    response.setCity(home.getCity());
-    response.setAddressa(home.getAddressa());
-    List<LocationResponse> locationHome = locationService.findByHome(home.getId());
-    if (!locationHome.isEmpty()) {
-      response.setLocations(locationHome);
-    }
-    return response;
-  }
-
-  private Home requestToHome(Home home, HomeRequest request) {
-    home.setCountry(request.getCountry());
-    home.setCity(request.getCity());
-    home.setAddressa(request.getAddressa());
-    return home;
+    homeRepository.deleteById(id);
   }
 
 }
