@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Home} from './model/Home';
-import {HomeService} from './service/home.service';
+import {Home} from '../../models/Home';
+import {HomeService} from '../../services/home.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
       this.home = this.homes[0];
     });
     this.router.navigate(['home']);
-
   }
 
   ngOnInit() {

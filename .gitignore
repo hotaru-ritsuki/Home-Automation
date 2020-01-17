@@ -2,6 +2,7 @@ target/
 .idea/
 dist/
 tmp/
+logs/
 node_modules/
 *.iml
 *.iws

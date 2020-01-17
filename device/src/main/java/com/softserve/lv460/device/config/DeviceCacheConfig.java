@@ -4,57 +4,64 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.softserve.lv460.device.dto.DeviceDto;
+import com.softserve.lv460.device.constant.ExceptionMassages;
+import com.softserve.lv460.device.document.DeviceData;
+import com.softserve.lv460.device.dto.deviceDto.DeviceDto;
+import com.softserve.lv460.device.exception.exceptions.DeviceNotRegisteredException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableCaching
 public class DeviceCacheConfig {
 
-  @Autowired
-  private PropertiesConfig propertiesConfig;
+  private final PropertiesConfig propertiesConfig;
+  private LoadingCache<String, DeviceDto> loadingCache;
 
 
-  private LoadingCache<String, Boolean> loadingCache = CacheBuilder
-          .newBuilder()
-          .expireAfterWrite(1, TimeUnit.MINUTES)
-          .build(
-                  new CacheLoader<String, Boolean>() {
-                    @Override
-                    public Boolean load(String key) throws Exception {
-                      List<String> registeredDevicesUu = getRegisteredDevicesUu();
-                      return registeredDevicesUu.contains(key);
+  public DeviceCacheConfig(PropertiesConfig propertiesConfig) {
+    this.propertiesConfig = propertiesConfig;
+    this.loadingCache = CacheBuilder
+            .newBuilder()
+            .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+            .build(
+                    new CacheLoader<String, DeviceDto>() {
+                      @Override
+                      public DeviceDto load(String uuId) throws IOException {
+                        return getRegisteredDevice(uuId);
+                      }
                     }
-                  }
-          );
-
-
-  public Boolean isKeyValid(String key) throws ExecutionException {
-    return loadingCache.get(key);
+            );
   }
 
 
-  private List<String> getRegisteredDevicesUu() throws Exception {
-    String url = propertiesConfig.getMainApplicationHostName() + "/location-device";
+  public DeviceData validateData(DeviceData deviceData) throws ExecutionException {
+    DeviceDto deviceDto = loadingCache.get(deviceData.getUuId());
+    deviceData.getData().put("locationId", deviceDto.getLocation().getId().toString());
+    return deviceData;
+  }
+
+
+  private DeviceDto getRegisteredDevice(String uuId) throws IOException {
+    String url = propertiesConfig.getMainApplicationHostName() + "/location-devices/" + uuId;
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
-    HttpEntity entity = response.getEntity();
-    ObjectMapper mapper = new ObjectMapper();
-    List<DeviceDto> devices = mapper.readValue(entity.getContent(),
-            mapper.getTypeFactory().constructCollectionType(List.class, DeviceDto.class));
-    return devices.stream().map(DeviceDto::getUuid).collect(Collectors.toList());
+    if (response.getStatusLine().getStatusCode() < HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+      HttpEntity entity = response.getEntity();
+      return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);
+    }
+    throw new DeviceNotRegisteredException(ExceptionMassages.DEVICE_NOT_REGISTERED);
   }
 
   @Bean

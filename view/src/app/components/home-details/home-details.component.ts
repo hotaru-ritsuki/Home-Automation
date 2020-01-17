@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HomeService} from '../service/home.service';
-import {LocationService} from '../service/location.service';
-import {Locations} from '../model/Locations';
+import {HomeService} from '../../services/home.service';
+import {LocationService} from '../../services/location.service';
+import {Locations} from '../../models/Locations';
 
 @Component({
   selector: 'app-home-details',
