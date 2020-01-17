@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdPasswordDTO {
+public class UpdPasswordRequest {
   @NotBlank
   private String currentPassword;
   @NotBlank

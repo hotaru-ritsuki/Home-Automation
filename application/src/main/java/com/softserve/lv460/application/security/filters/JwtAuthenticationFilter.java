@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.security.filters;
 
+import com.softserve.lv460.application.constant.SecurityConfigProperties;
 import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
@@ -23,7 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private JwtTokenProvider tokenProvider;
   @Autowired
   private UserDetailsServiceImpl customUserDetailsService;
-
+@Autowired
+private SecurityConfigProperties securityConfigProperties;
 
   private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -49,8 +51,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private String getJwtFromRequest(HttpServletRequest request) {
-    String bearerToken = request.getHeader("Authorization");
-    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+    String bearerToken = request.getHeader(securityConfigProperties.header);
+    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(securityConfigProperties.tokenPrefix)) {
       return bearerToken.substring(6);
     }
     return null;

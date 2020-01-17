@@ -3,6 +3,7 @@ package com.softserve.lv460.application.security.service;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
 import com.softserve.lv460.application.security.jwt.UserPrincipal;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.util.Collections.emptyList;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
- @Autowired
-  private ApplicationUserRepository applicationUserRepository;
+ private final ApplicationUserRepository applicationUserRepository;
 
   @Override
   @Transactional

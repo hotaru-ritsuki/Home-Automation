@@ -1,67 +1,58 @@
 package com.softserve.lv460.application.security.jwt;
 
+import com.softserve.lv460.application.constant.SecurityConfigProperties;
+import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.repository.ApplicationUserRepository;
 import io.jsonwebtoken.*;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
+@AllArgsConstructor
 public class JwtTokenProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-  @Value("${jwtconf.SECRET}")
-  private String jwtSecret;
+  private final ApplicationUserRepository applicationUserRepository;
+  private final SecurityConfigProperties securityProperties;
 
-  @Value("${jwtconf.EXPIRATIONTIME}")
-  private int jwtExpirationInMs;
-
-  @Value("${jwtconf.TOKEN_PREFIX}")
-  private String TOKEN_PREFIX;
 
   public String generateAccessToken(Authentication authentication) {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-    Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
-    System.out.println(userPrincipal.getId());
-    System.out.println(userPrincipal.getUsername());
-    System.out.println(userPrincipal.getPassword());
-    System.out.println(userPrincipal.getAuthorities());
-    System.out.println(userPrincipal.toString());
+    Date expiryDate = new Date(new Date().getTime() + securityProperties.accessExpirationTime);
 
-    return TOKEN_PREFIX + Jwts.builder()
+    return securityProperties.tokenPrefix + Jwts.builder()
             .setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .signWith(SignatureAlgorithm.HS512, securityProperties.secret)
             .compact();
   }
+
   public String generateRefreshToken(Authentication authentication) {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    ApplicationUser applicationUser = applicationUserRepository.findByEmail(userPrincipal.getUsername()).get();
+            Date expiryDate = new Date(new Date().getTime() + securityProperties.refreshExpirationTime);
 
-    Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
-    System.out.println(userPrincipal.getId());
-    System.out.println(userPrincipal.getUsername());
-    System.out.println(userPrincipal.getPassword());
-    System.out.println(userPrincipal.getAuthorities());
-    System.out.println(userPrincipal.toString());
-
-    return TOKEN_PREFIX + Jwts.builder()
+    return securityProperties.tokenPrefix + Jwts.builder()
             .setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .signWith(SignatureAlgorithm.HS512, applicationUser.getSecret())
             .compact();
   }
+
   public String getEmailFromJWT(String token) {
     Claims claims = Jwts.parser()
-            .setSigningKey(jwtSecret)
+            .setSigningKey(securityProperties.secret)
             .parseClaimsJws(token)
             .getBody();
 
@@ -70,7 +61,7 @@ public class JwtTokenProvider {
 
   public boolean validateAccessToken(String authAccessToken) {
     try {
-      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authAccessToken);
+      Jwts.parser().setSigningKey(securityProperties.secret).parseClaimsJws(authAccessToken);
       return true;
     } catch (SignatureException ex) {
       logger.error("Invalid JWT signature");
@@ -85,21 +76,5 @@ public class JwtTokenProvider {
     }
     return false;
   }
-  public boolean validateRefreshToken(String authRefreshToken) {
-    try {
-      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authRefreshToken);
-      return true;
-    } catch (SignatureException ex) {
-      logger.error("Invalid JWT signature");
-    } catch (MalformedJwtException ex) {
-      logger.error("Invalid JWT token");
-    } catch (ExpiredJwtException ex) {
-      logger.error("Expired JWT token");
-    } catch (UnsupportedJwtException ex) {
-      logger.error("Unsupported JWT token");
-    } catch (IllegalArgumentException ex) {
-      logger.error("JWT claims string is empty.");
-    }
-    return false;
-  }
+
 }

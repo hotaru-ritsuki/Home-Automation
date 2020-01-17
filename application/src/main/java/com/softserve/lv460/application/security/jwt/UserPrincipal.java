@@ -2,6 +2,8 @@ package com.softserve.lv460.application.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.softserve.lv460.application.entity.ApplicationUser;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
+@Data
 public class UserPrincipal implements UserDetails {
   private Long id;
 
@@ -21,12 +25,6 @@ public class UserPrincipal implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-    this.id = id;
-    this.username = email;
-    this.password = password;
-    this.authorities = authorities;
-  }
 
   public static UserPrincipal create(ApplicationUser user) {
     List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
@@ -39,25 +37,6 @@ public class UserPrincipal implements UserDetails {
             user.getPassword(),
             authorities
     );
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  @Override
-  public String getUsername() {
-    return username;
-  }
-
-  @Override
-  public String getPassword() {
-    return password;
-  }
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authorities;
   }
 
   @Override

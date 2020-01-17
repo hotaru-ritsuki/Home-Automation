@@ -6,7 +6,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class JWTUserResponse {
-  private String accessToken;
-  private String refreshToken;
+@NoArgsConstructor
+public class UserRegistrationRequest {
+  private String email;
+  private String password;
+  private String firstName;
+  private String lastName;
 }
