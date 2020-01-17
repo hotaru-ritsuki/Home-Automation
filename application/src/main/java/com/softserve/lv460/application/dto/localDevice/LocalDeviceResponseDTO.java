@@ -5,8 +5,8 @@ import com.softserve.lv460.application.entity.Location;
 import lombok.Data;
 
 @Data
-public class LocalDeviceResponse {
+public class LocalDeviceResponseDTO {
     private String uuid;
     private Location location;
-    private DeviceTemplate supportedDevice;
+    private DeviceTemplate deviceTemplate;
 }

@@ -1,7 +1,7 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequest;
-import com.softserve.lv460.application.entity.LocalDevice;
+import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequestDTO;
+import com.softserve.lv460.application.dto.localDevice.LocalDeviceResponseDTO;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import com.softserve.lv460.application.service.LocationService;
 import lombok.AllArgsConstructor;
@@ -17,34 +17,33 @@ public class LocalDeviceController {
     private LocalDeviceService localDeviceService;
     private LocationService locationService;
 
-    @PostMapping()
-    public void save(@RequestBody LocalDeviceRequest localDeviceRequest) {
-        localDeviceService.save(localDeviceRequest);
+    @PostMapping
+    public LocalDeviceResponseDTO save(@RequestBody LocalDeviceRequestDTO localDeviceRequestDTO) {
+        return localDeviceService.save(localDeviceRequestDTO);
     }
 
-    @GetMapping()
-    public List<LocalDevice> findAll() {
+    @GetMapping
+    public List<LocalDeviceResponseDTO> findAll() {
         return localDeviceService.findAll();
     }
 
     @GetMapping("/location/{location_id}")
-    public List<LocalDevice> findByLocation(@PathVariable("location_id") Long id){
+    public List<LocalDeviceResponseDTO> findByLocation(@PathVariable("location_id") Long id) {
         return localDeviceService.findAllByLocation(locationService.findOne(id));
     }
 
     @GetMapping("/{uuid}")
-    public LocalDevice findOne(@PathVariable("uuid") String uuid) {
-        System.out.println(uuid);
+    public LocalDeviceResponseDTO findOne(@PathVariable("uuid") String uuid) {
         return localDeviceService.findByUuid(uuid);
     }
 
     @PutMapping()
-    public void update(@RequestBody LocalDevice localDevice) {
-        localDeviceService.update(localDevice);
+    public LocalDeviceResponseDTO update(@RequestBody LocalDeviceRequestDTO localDevice) {
+        return localDeviceService.update(localDevice);
     }
 
     @DeleteMapping("/{uuid}")
-    public void delete(@PathVariable("uuid") String uuid) {
-        localDeviceService.delete(uuid);
+    public String delete(@PathVariable("uuid") String uuid) {
+        return localDeviceService.delete(uuid);
     }
 }
