@@ -35,12 +35,11 @@ public class RuleService {
     return ruleRepository.save(rule);
   }
 
-  public Long delete(Long id) {
+  public void delete(Long id) {
     if (!ruleRepository.findById(id).isPresent()) {
       throw new NotDeletedException(ErrorMessage.RULE_NOT_DELETED_BY_ID + id);
     }
     ruleRepository.deleteById(id);
-    return id;
   }
 
   public List<Rule> findAllByLocalDevice(String uuid) {

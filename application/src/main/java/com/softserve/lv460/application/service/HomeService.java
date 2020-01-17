@@ -44,14 +44,13 @@ public class HomeService {
 
   }
 
-  public Long delete(Long id) {
+  public void delete(Long id) {
     if (!homeRepository.findById(id).isPresent()) {
       throw new NotDeletedException(ErrorMessage.HOME_NOT_DELETED_BY_ID + id);
     } else if (!locationService.findByHome(id).isEmpty()) {
       throw new RuntimeException(String.format(ErrorMessage.HOME_NOT_DELETED_HAVE_DEPENDENCIES, id));
     }
     homeRepository.deleteById(id);
-    return id;
   }
 
 }

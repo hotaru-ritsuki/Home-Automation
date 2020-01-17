@@ -35,11 +35,10 @@ public class ActionService {
     return actionRepository.save(action);
   }
 
-  public Long delete(Long id) {
+  public void delete(Long id) {
     if (!actionRepository.findById(id).isPresent()) {
       throw new NotDeletedException(ErrorMessage.ACTION_NOT_DELETED_BY_ID + id);
     }
     actionRepository.deleteById(id);
-    return id;
   }
 }

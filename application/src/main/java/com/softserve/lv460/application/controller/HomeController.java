@@ -29,45 +29,38 @@ public class HomeController {
 
   @ApiOperation(value = "Create new home")
   @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = HomeResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = HomeResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<HomeResponseDTO> create(@RequestBody HomeRequestDTO request) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(homeService.create(requestMapper.toEntity(request))));
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper
+          .toDto(homeService.create(requestMapper.toEntity(request))));
   }
 
   @ApiOperation(value = "Return list of home")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
   })
   @GetMapping
   public ResponseEntity<List<HomeResponseDTO>> findAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAll().stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAll().stream().map(responseMapper::toDto)
+          .collect(Collectors.toList()));
   }
 
   @ApiOperation(value = "Update home")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<HomeResponseDTO> update(@RequestBody HomeRequestDTO request) {
-    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(homeService.update(requestMapper.toEntity(request))));
+    return ResponseEntity.status(HttpStatus.OK)
+          .body(responseMapper.toDto(homeService.update(requestMapper.toEntity(request))));
   }
 
   @ApiOperation(value = "Delete home")
   @ApiResponses(value = {
         @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping("/{home_id}")
   public ResponseEntity<Void> delete(@PathVariable("home_id") Long id) {
@@ -77,10 +70,7 @@ public class HomeController {
 
   @ApiOperation(value = "Return home by id")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
   })
   @GetMapping("/{home_id}")
   public ResponseEntity<HomeResponseDTO> findOne(@PathVariable("home_id") Long id) {

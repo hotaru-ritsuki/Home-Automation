@@ -26,33 +26,28 @@ public class ActionRuleController {
 
   @ApiOperation(value = "Create new action rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = ActionRuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = ActionRuleResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<ActionRuleResponseDTO> create(@RequestBody ActionRuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(actionRuleService.create(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(actionRuleService
+          .create(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Update action rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionRuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionRuleResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<ActionRuleResponseDTO> update(@RequestBody ActionRuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(actionRuleService.update(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(actionRuleService
+          .update(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete action rule")
   @ApiResponses(value = {
         @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping
   public ResponseEntity<Void> delete(@RequestBody ActionRuleId id) {

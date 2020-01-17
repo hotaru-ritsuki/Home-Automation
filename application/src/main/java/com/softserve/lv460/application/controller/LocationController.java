@@ -29,45 +29,38 @@ public class LocationController {
 
   @ApiOperation(value = "Create new location")
   @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = LocationResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = LocationResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<LocationResponseDTO> create(@RequestBody LocationRequestDTO request) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(locationService.create(requestMapper.toEntity(request))));
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(locationService
+          .create(requestMapper.toEntity(request))));
   }
 
   @ApiOperation(value = "Return list of location")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
   })
   @GetMapping
   public ResponseEntity<List<LocationResponseDTO>> findAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(locationService.findAll().stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    return ResponseEntity.status(HttpStatus.OK).body(locationService.findAll().stream()
+          .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
   @ApiOperation(value = "Update location")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<LocationResponseDTO> update(@RequestBody LocationRequestDTO request) {
-    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(locationService.update(requestMapper.toEntity(request))));
+    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(locationService
+          .update(requestMapper.toEntity(request))));
   }
 
   @ApiOperation(value = "Delete location")
   @ApiResponses(value = {
         @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @DeleteMapping("/{location_id}")
   public ResponseEntity<Void> delete(@PathVariable("location_id") Long id) {
@@ -77,10 +70,7 @@ public class LocationController {
 
   @ApiOperation(value = "Return location by id")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
   })
   @GetMapping("/{location_id}")
   public ResponseEntity<LocationResponseDTO> findOne(@PathVariable("location_id") Long id) {

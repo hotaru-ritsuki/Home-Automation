@@ -28,60 +28,52 @@ public class RuleController {
 
   @ApiOperation(value = "Create new rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = RuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = RuleResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<RuleResponseDTO> create(@RequestBody RuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(ruleService.create(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper.toDto(ruleService
+          .create(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Return list of rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class)
   })
   @GetMapping
   public ResponseEntity<List<RuleResponseDTO>> findAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAll().stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAll().stream().map(responseMapper::toDto)
+          .collect(Collectors.toList()));
   }
 
   @ApiOperation(value = "Update rule")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<RuleResponseDTO> update(@RequestBody RuleRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(ruleService.update(requestMapper.toEntity(dto))));
+    return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(ruleService
+          .update(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete rule")
   @ApiResponses(value = {
         @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
   })
   @DeleteMapping("/{rule_id}")
   public ResponseEntity<Void> delete(@PathVariable("rule_id") Long id) {
     ruleService.delete(id);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @ApiOperation(value = "Return list of rule by local device")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class)
   })
   @GetMapping("/device/{local_device_id}")
   public ResponseEntity<List<RuleResponseDTO>> findAllByUuid(@PathVariable("local_device_id") String uuid) {
-    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAllByLocalDevice(uuid).stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAllByLocalDevice(uuid).stream()
+          .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 }

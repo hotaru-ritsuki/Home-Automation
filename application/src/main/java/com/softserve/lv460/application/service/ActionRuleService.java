@@ -41,11 +41,10 @@ public class ActionRuleService {
     return actionRuleRepository.save(action);
   }
 
-  public ActionRuleId delete(ActionRuleId id) {
+  public void delete(ActionRuleId id) {
     if (!actionRuleRepository.findById(id).isPresent()) {
       throw new NotDeletedException(String.format(ErrorMessage.ACTION_RULE_NOT_DELETED_BY_ID, id.getActionId(), id.getRuleId()));
     }
     actionRuleRepository.deleteById(id);
-    return id;
   }
 }

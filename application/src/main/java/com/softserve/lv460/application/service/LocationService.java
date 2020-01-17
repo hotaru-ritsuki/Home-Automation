@@ -36,12 +36,11 @@ public class LocationService {
     return locationRepository.save(location);
   }
 
-  public Long delete(Long id) {
+  public void delete(Long id) {
     if (!locationRepository.findById(id).isPresent()) {
       throw new NotDeletedException(ErrorMessage.LOCATION_NOT_DELETED_BY_ID + id);
     }
     locationRepository.deleteById(id);
-    return id;
   }
 
   public List<Location> findByHome(Long id) {
