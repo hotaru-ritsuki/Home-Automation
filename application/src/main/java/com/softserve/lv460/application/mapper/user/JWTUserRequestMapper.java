@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.mapper.user;
 
+import com.softserve.lv460.application.Application;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.mapper.Mapper;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
@@ -14,11 +15,11 @@ public class JWTUserRequestMapper implements Mapper<ApplicationUser, JWTUserRequ
 
   @Override
   public ApplicationUser toEntity(JWTUserRequest dto) {
-    return null;
+    return modelMapper.map(dto, ApplicationUser.class);
   }
 
   @Override
   public JWTUserRequest toDto(ApplicationUser entity) {
-    return modelMapper.map(entity,JWTUserRequest.class);
+    return modelMapper.map(entity, JWTUserRequest.class);
   }
 }
