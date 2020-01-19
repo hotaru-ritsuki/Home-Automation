@@ -38,7 +38,7 @@ public class LocationService {
 
   public void delete(Long id) {
     if (!locationRepository.findById(id).isPresent()) {
-      throw new NotDeletedException(ErrorMessage.LOCATION_NOT_DELETED_BY_ID + id);
+      throw new NotDeletedException(String.format(ErrorMessage.LOCATION_NOT_DELETED_BY_ID, id));
     }
     locationRepository.deleteById(id);
   }

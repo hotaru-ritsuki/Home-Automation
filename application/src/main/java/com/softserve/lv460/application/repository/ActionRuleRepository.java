@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface ActionRuleRepository extends JpaRepository<ActionRule, ActionRuleId> {
-  @Query(value = "SELECT * from actions_rule where rule_id = :rule", nativeQuery = true)
+  @Query("SELECT a from ActionRule a where a.actionRuleId.ruleId = ?1")
   List<ActionRule> findByRuleId(@Param("rule") Long rule);
 }
