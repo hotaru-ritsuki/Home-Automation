@@ -19,7 +19,7 @@ const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
   {path: '', component: MainComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'device', component: DevicesComponent},
+  {path: 'device', component: DevicesComponent}
 ];
 @NgModule({
 
@@ -30,7 +30,7 @@ const routes: Routes = [
     DevicesComponent,
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
-    MainComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

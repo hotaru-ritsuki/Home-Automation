@@ -27,7 +27,7 @@ public class LocalDeviceService {
 
     public LocalDeviceResponseDTO findByUuid(String uuid) {
         return responseMapper.toDto(localDeviceRepository.findByUuid(uuid)
-                .orElseThrow(() -> new NotFoundIdException(ErrorMessage.LOCAL_DEVICE_NOT_FOUND + uuid)));
+                .orElseThrow(() -> new NotFoundIdException(String.format(ErrorMessage.LOCAL_DEVICE_NOT_FOUND, uuid))));
     }
 
     public List<LocalDeviceResponseDTO> findAll() {
@@ -53,8 +53,8 @@ public class LocalDeviceService {
 
         localDevice.setLocation(locationService.findOne((localDeviceRequestDTO.getLocationId())));
         DeviceTemplate deviceTemplate = deviceTemplateRepository.findById(localDeviceRequestDTO.getDeviceTemplateId())
-                .orElseThrow(() -> new NotFoundIdException(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND
-                        + localDeviceRequestDTO.getDeviceTemplateId()));
+                .orElseThrow(() -> new NotFoundIdException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND,
+                        localDeviceRequestDTO.getDeviceTemplateId())));
         localDevice.setDeviceTemplate(deviceTemplate);
         localDevice.setUuid(UUID.randomUUID().toString().substring(0, 32));
 
