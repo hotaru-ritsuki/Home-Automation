@@ -44,7 +44,7 @@ public class ApplicationUser {
 
   private String secret;
 
-  private boolean isEnabled;
+  private Boolean enabled;
 }
 
 

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "jwtconf")
 public class SecurityConfigProperties {
-  public String secret;
-  public long accessExpirationTime; // 1 day by default
-  public long refreshExpirationTime;
-  public String tokenPrefix;
-  public String header;
-  public String signUpUrl;
-  public String signInUrl;
+  private String secret;
+  private Long accessExpirationTime; // 1 day by default
+  private Long refreshExpirationTime;
+  private String tokenPrefix;
+  private String header;
+  private String signUpUrl;
+  private String signInUrl;
 }

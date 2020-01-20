@@ -51,8 +51,8 @@ private SecurityConfigProperties securityConfigProperties;
   }
 
   private String getJwtFromRequest(HttpServletRequest request) {
-    String bearerToken = request.getHeader(securityConfigProperties.header);
-    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(securityConfigProperties.tokenPrefix)) {
+    String bearerToken = request.getHeader(securityConfigProperties.getHeader());
+    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(securityConfigProperties.getTokenPrefix())) {
       return bearerToken.substring(6);
     }
     return null;

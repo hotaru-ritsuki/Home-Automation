@@ -26,13 +26,13 @@ public class JwtTokenProvider {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-    Date expiryDate = new Date(new Date().getTime() + securityProperties.accessExpirationTime);
+    Date expiryDate = new Date(new Date().getTime() + securityProperties.getAccessExpirationTime());
 
-    return securityProperties.tokenPrefix + Jwts.builder()
+    return securityProperties.getTokenPrefix() + Jwts.builder()
             .setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, securityProperties.secret)
+            .signWith(SignatureAlgorithm.HS512, securityProperties.getSecret())
             .compact();
   }
 
@@ -40,9 +40,9 @@ public class JwtTokenProvider {
 
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
     ApplicationUser applicationUser = applicationUserRepository.findByEmail(userPrincipal.getUsername()).get();
-            Date expiryDate = new Date(new Date().getTime() + securityProperties.refreshExpirationTime);
+            Date expiryDate = new Date(new Date().getTime() + securityProperties.getRefreshExpirationTime());
 
-    return securityProperties.tokenPrefix + Jwts.builder()
+    return securityProperties.getTokenPrefix() + Jwts.builder()
             .setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
@@ -52,7 +52,7 @@ public class JwtTokenProvider {
 
   public String getEmailFromJWT(String token) {
     Claims claims = Jwts.parser()
-            .setSigningKey(securityProperties.secret)
+            .setSigningKey(securityProperties.getSecret())
             .parseClaimsJws(token)
             .getBody();
 
@@ -61,18 +61,10 @@ public class JwtTokenProvider {
 
   public boolean validateAccessToken(String authAccessToken) {
     try {
-      Jwts.parser().setSigningKey(securityProperties.secret).parseClaimsJws(authAccessToken);
+      Jwts.parser().setSigningKey(securityProperties.getSecret()).parseClaimsJws(authAccessToken);
       return true;
-    } catch (SignatureException ex) {
-      logger.error("Invalid JWT signature");
-    } catch (MalformedJwtException ex) {
-      logger.error("Invalid JWT token");
-    } catch (ExpiredJwtException ex) {
-      logger.error("Expired JWT token");
-    } catch (UnsupportedJwtException ex) {
-      logger.error("Unsupported JWT token");
-    } catch (IllegalArgumentException ex) {
-      logger.error("JWT claims string is empty.");
+    } catch (RuntimeException e){
+      logger.error(e.getMessage());
     }
     return false;
   }
