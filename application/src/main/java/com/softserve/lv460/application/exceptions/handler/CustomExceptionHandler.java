@@ -21,26 +21,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Custom exception handler.
- *
- * @author Vasyl Petrashchuk
- * @version 1.0
- */
-
 @AllArgsConstructor
 @RestControllerAdvice
 @Slf4j
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   private ErrorAttributes errorAttributes;
 
-  /**
-   * Method intercept exception {@link RuntimeException}.
-   *
-   * @param ex      Exception witch should be intercepted.
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(RuntimeException.class)
   public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
@@ -48,24 +34,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
-  /**
-   * Method intercept exception {@link BadEmailOrPasswordException}.
-   *
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(AuthenticationException.class)
   public final ResponseEntity<Object> authenticationException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
   }
 
-  /**
-   * Method intercept exception {@link MethodArgumentTypeMismatchException}.
-   *
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public final ResponseEntity<Object> handleConversionFailedException(
           MethodArgumentTypeMismatchException ex, WebRequest request) {
@@ -81,26 +55,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
-  /**
-   * Method intercept exception {@link BadRefreshTokenException}.
-   *
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(BadRefreshTokenException.class)
   public final ResponseEntity<Object> handleBadRefreshTokenException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
-
-  /**
-   * Method intercept exception {@link NotCurrentUserException}.
-   *
-   * @param ex      Exception witch should be intercepted.
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(NotCurrentUserException.class)
   public final ResponseEntity<Object> handleUserGoalsWhereNotSavedException(NotCurrentUserException ex,
                                                                             WebRequest request) {
@@ -109,14 +69,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
-
-  /**
-   * Method interceptor exception {@link EmailNotVerified}.
-   *
-   * @param ex      Exception witch should be intercepted.
-   * @param request contain  detail about occur exception
-   * @return ResponseEntity witch  contain http status and body  with message of exception.
-   */
   @ExceptionHandler(EmailNotVerified.class)
   public final ResponseEntity<Object> handleEmailNotVerified(EmailNotVerified ex, WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
@@ -124,15 +76,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResponse);
   }
 
-  /**
-   * Customize the response for HttpMessageNotReadableException.
-   *
-   * @param ex      the exception
-   * @param headers the headers to be written to the response
-   * @param status  the selected response status
-   * @param request the current request
-   * @return a {@code ResponseEntity} message
-   */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
           HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

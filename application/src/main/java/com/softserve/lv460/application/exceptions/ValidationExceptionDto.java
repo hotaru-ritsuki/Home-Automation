@@ -5,13 +5,6 @@ import org.springframework.validation.FieldError;
 
 import java.io.Serializable;
 
-/**
- * Class extends implements {@link Serializable}
- * Custom ExceptionDto for sending messages about incorrect fiels
- *
- * @author Vasyl Petrashchuk
- * @version 1.0
- */
 @Data
 public class ValidationExceptionDto implements Serializable {
   private String name;

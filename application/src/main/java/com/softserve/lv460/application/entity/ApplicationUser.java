@@ -38,12 +38,15 @@ public class ApplicationUser {
           inverseJoinColumns = @JoinColumn(name = "home_id")
   )
   private List<Home> homes = new ArrayList<>();
+
   @Transient
   @ElementCollection(fetch = FetchType.EAGER)
   Set<Role> roles = Collections.singleton(Role.ROLE_USER);
 
+  @NotNull
   private String secret;
 
+  @Column(columnDefinition = "boolean default false")
   private Boolean enabled;
 }
 
