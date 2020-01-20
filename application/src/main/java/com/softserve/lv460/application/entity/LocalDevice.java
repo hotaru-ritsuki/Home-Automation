@@ -18,11 +18,11 @@ public class LocalDevice {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
     @NotNull
-    private Location locations;
+    private Location location;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supported_device_id")
     @NotNull
-    private DeviceTemplate supportedDevice;
+    private DeviceTemplate deviceTemplate;
 
 }
