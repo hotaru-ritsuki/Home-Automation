@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.softserve.lv460.application.entity.enums.ActionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,19 +12,16 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "features")
-public class Feature {
+@Table(name = "actions")
+public class Action {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @NotNull
-  private String name;
-  @NotNull
   private String description;
+  @NotNull
+  private ActionType type;
   @ManyToMany
   @JsonIgnore
-  @JoinTable(name = "device_features",
-        joinColumns = @JoinColumn(name = "features_id"),
-        inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<DeviceTemplate> deviceTemplates;
+  private List<Rule> rule;
 }
