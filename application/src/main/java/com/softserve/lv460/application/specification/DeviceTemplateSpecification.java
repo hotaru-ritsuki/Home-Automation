@@ -11,11 +11,11 @@ import java.util.List;
 
 
 public class DeviceTemplateSpecification implements Specification<DeviceTemplate> {
-  private String model = null;
-  private String brand = null;
-  private String type = null;
-  private Integer releaseYear = null;
-  private List<Long> featuresId = null;
+  private String model;
+  private String brand;
+  private String type;
+  private Integer releaseYear;
+  private List<Long> featuresId;
 
   public DeviceTemplateSpecification(DeviceTemplateFilterDTO filter) {
     if (filter != null) {

@@ -22,12 +22,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class DeviceTemplateService {
+  private static final int pageSize = 20;
   private DeviceTemplateRepository deviceTemplateRepository;
   private DeviceTemplateResponseMapper responseMapper;
 
   public DeviceTemplate findById(Long id) {
     return deviceTemplateRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND_BY_ID + id));
+            .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND_BY_ID, id)));
   }
 
   public List<String> findAllBrands() {
@@ -39,20 +40,22 @@ public class DeviceTemplateService {
   }
 
   public DeviceTemplate save(DeviceTemplate deviceTemplate) {
+    System.out.println(deviceTemplate);
     return deviceTemplateRepository.save(deviceTemplate);
   }
 
-  public Long delete(Long id) {
+
+  public void delete(Long id) {
     if (!deviceTemplateRepository.findById(id).isPresent()) {
-      throw new NotDeletedException(ErrorMessage.DEVICE_TEMPLATE_NOT_DELETED_BY_ID + id);
+      throw new NotDeletedException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_DELETED_BY_ID, id));
     }
     deviceTemplateRepository.deleteById(id);
-    return id;
   }
 
   public DeviceTemplate update(DeviceTemplate deviceTemplate) {
     if (!deviceTemplateRepository.findById(deviceTemplate.getId()).isPresent()) {
-      throw new NotUpdatedException(ErrorMessage.DEVICE_TEMPLATE_NOT_UPDATED_BY_ID);
+      throw new NotUpdatedException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_UPDATED_BY_ID,
+              deviceTemplate.getId()));
     }
     return deviceTemplateRepository.save(deviceTemplate);
   }
@@ -61,7 +64,7 @@ public class DeviceTemplateService {
                                                                  DeviceTemplateFilterDTO request) {
     DeviceTemplateSpecification deviceTemplateSpecifications = new DeviceTemplateSpecification(request);
     Page<DeviceTemplate> allByFilter = deviceTemplateRepository.findAll(deviceTemplateSpecifications,
-            PageRequest.of(page, 20));
+            PageRequest.of(page, pageSize));
     return new DataResponse<>(allByFilter.get().map(e -> responseMapper.toDto(e))
             .collect(Collectors.toList()), allByFilter.getTotalPages(), allByFilter.getTotalElements());
   }

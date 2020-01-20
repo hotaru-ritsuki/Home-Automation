@@ -29,29 +29,25 @@ public class DeviceTemplateController {
 
   @ApiOperation(value = "Find all device template's brands")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
   })
   @GetMapping("/brands")
-  public List<String> findAllBrands() {
-    return deviceTemplateService.findAllBrands();
+  public ResponseEntity<List<String>> findAllBrands() {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllBrands());
   }
 
   @ApiOperation(value = "Find all device template's release years")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = Integer.class)
   })
   @GetMapping("/years")
-  public List<Integer> findAllReleaseYears() {
-    return deviceTemplateService.findAllReleaseYears();
+  public ResponseEntity<List<Integer>> findAllReleaseYears() {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllReleaseYears());
   }
 
   @ApiOperation(value = "Update device template")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-          @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceTemplateResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<DeviceTemplateResponseDTO> update(@RequestBody DeviceTemplateRequestDTO dto) {
@@ -61,21 +57,19 @@ public class DeviceTemplateController {
 
   @ApiOperation(value = "Create new device template")
   @ApiResponses(value = {
-          @ApiResponse(code = 201, message = HttpStatuses.CREATED),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = DeviceTemplateResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<DeviceTemplateResponseDTO> save(@RequestBody DeviceTemplateRequestDTO dto) {
+    System.out.println(dto);
     return ResponseEntity.status(HttpStatus.CREATED)
             .body(responseMapper.toDto(deviceTemplateService.save(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete device template by id")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping("/{id}")
   public ResponseEntity<Long> delete(@PathVariable(name = "id") Long id) {
@@ -85,13 +79,11 @@ public class DeviceTemplateController {
 
   @ApiOperation(value = "Find device templates using filter request")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DataResponse.class)
   })
   @GetMapping("/filter/page={page}")
   public ResponseEntity<DataResponse<DeviceTemplateResponseDTO>> findAllByFilter(@PathVariable(name = "page") Integer page,
                                                                                  DeviceTemplateFilterDTO request) {
     return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllByFilter(page, request));
   }
-
 }

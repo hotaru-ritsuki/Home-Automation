@@ -14,15 +14,10 @@ import java.util.stream.Collectors;
 @Component
 public class DeviceTemplateRequestMapper implements Mapper<DeviceTemplate, DeviceTemplateRequestDTO> {
   private ModelMapper modelMapper;
-  private FeatureService featureService;
 
   @Override
   public DeviceTemplate toEntity(DeviceTemplateRequestDTO dto) {
-    DeviceTemplate deviceTemplate = modelMapper.map(dto, DeviceTemplate.class);
-    deviceTemplate.setFeatures(dto.getFeaturesId().stream()
-            .map(id -> featureService.findFeature(id))
-            .collect(Collectors.toList()));
-    return deviceTemplate;
+    return modelMapper.map(dto, DeviceTemplate.class);
   }
 
   @Override
