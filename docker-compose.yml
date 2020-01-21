@@ -50,8 +50,5 @@ services:
     build: ./view
     ports:
       - "4200:4200"
-    volumes:
-      - ./webapp:/opt/angular
-      - ./node_modules
     restart: always
 

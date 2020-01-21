@@ -1,18 +1,11 @@
-FROM node:12.14.0-alpine AS builder
+FROM node:12.14.0 AS builder
 
-WORKDIR /app
+RUN npm install
+RUN $(npm bin)/ng build
 
-COPY . .
-
-RUN npm install && \
-    npm run build
-
-FROM nginx:alpine
-
-EXPOSE 4200
+FROM nginx
 
 COPY --from=builder /app/dist/* /usr/share/nginx/html/
 
-CMD ng serve
-
+EXPOSE 4200
 
