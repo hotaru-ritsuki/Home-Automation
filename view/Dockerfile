@@ -1,11 +1,23 @@
-FROM node:12.14.0 AS builder
+FROM node:12.14.0 as builder
 
-RUN npm install
-RUN $(npm bin)/ng build
+RUN apk update && apk add --no-cache make git
 
-FROM nginx
+WORKDIR /app
 
-COPY --from=builder /app/dist/* /usr/share/nginx/html/
+COPY package.json package-lock.json  /app/
+
+RUN cd /app && npm set progress=false && npm install
+
+COPY .  /app
+
+RUN cd /app && npm run build
+
+FROM nginx:alpine
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 4200
 
+CMD ["nginx", "-g", "daemon off;"]
