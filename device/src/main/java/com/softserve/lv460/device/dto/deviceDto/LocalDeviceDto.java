@@ -1,6 +1,6 @@
 package com.softserve.lv460.device.dto.deviceDto;
 
-import com.softserve.lv460.device.dto.locationDto.LocationDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeviceDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LocalDeviceDto {
   private String uuid;
   private LocationDto location;
-  private Object supportedDevice;
 }

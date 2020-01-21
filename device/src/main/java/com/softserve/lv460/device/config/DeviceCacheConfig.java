@@ -6,9 +6,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.softserve.lv460.device.constant.ExceptionMassages;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.dto.deviceDto.DeviceDto;
+import com.softserve.lv460.device.dto.deviceDto.LocalDeviceDto;
 import com.softserve.lv460.device.exception.exceptions.DeviceNotRegisteredException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceCacheConfig {
 
   private final PropertiesConfig propertiesConfig;
-  private LoadingCache<String, DeviceDto> loadingCache;
+  private LoadingCache<String, LocalDeviceDto> loadingCache;
 
 
   public DeviceCacheConfig(PropertiesConfig propertiesConfig) {
@@ -37,9 +36,9 @@ public class DeviceCacheConfig {
             .newBuilder()
             .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
             .build(
-                    new CacheLoader<String, DeviceDto>() {
+                    new CacheLoader<String, LocalDeviceDto>() {
                       @Override
-                      public DeviceDto load(String uuId) throws IOException {
+                      public LocalDeviceDto load(String uuId) throws IOException {
                         return getRegisteredDevice(uuId);
                       }
                     }
@@ -48,21 +47,27 @@ public class DeviceCacheConfig {
 
 
   public DeviceData validateData(DeviceData deviceData) throws ExecutionException {
-    DeviceDto deviceDto = loadingCache.get(deviceData.getUuId());
-    deviceData.getData().put("locationId", deviceDto.getLocation().getId().toString());
+    LocalDeviceDto registeredDeviceDto = loadingCache.get(deviceData.getUuId());
+    deviceData.getData().put("locationId", registeredDeviceDto.getLocation().getId().toString());
     return deviceData;
   }
 
 
-  private DeviceDto getRegisteredDevice(String uuId) throws IOException {
-    String url = propertiesConfig.getMainApplicationHostName() + "/location-devices/" + uuId;
+  private LocalDeviceDto getRegisteredDevice(String uuId) throws IOException {
+    String localDeviceUrl = propertiesConfig.getMainApplicationHostName() + "/location-devices/";
+    HttpEntity localDeviceEntity = getResponseEntity(localDeviceUrl + uuId);
+    return new ObjectMapper().readValue(localDeviceEntity.getContent(), LocalDeviceDto.class);
+  }
+
+
+  private HttpEntity getResponseEntity(String url) throws IOException {
     CloseableHttpResponse response = httpClient().execute(new HttpGet(url));
-    if (response.getStatusLine().getStatusCode() < HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-      HttpEntity entity = response.getEntity();
-      return new ObjectMapper().readValue(entity.getContent(), DeviceDto.class);
+    if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+      return response.getEntity();
     }
     throw new DeviceNotRegisteredException(ExceptionMassages.DEVICE_NOT_REGISTERED);
   }
+
 
   @Bean
   CloseableHttpClient httpClient() {

@@ -28,7 +28,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
-    addToBatch(deviceCacheConfig.validateData(deviceData));
+    addToBatch(deviceData);
   }
 
   @Override

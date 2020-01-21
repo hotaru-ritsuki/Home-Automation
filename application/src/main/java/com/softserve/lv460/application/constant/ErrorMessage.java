@@ -15,4 +15,10 @@ public class ErrorMessage {
   public static final String HOME_NOT_DELETED_BY_ID = "The rule wasn't deleted by id:";
   public static final String HOME_NOT_DELETED_HAVE_DEPENDENCIES = "Home with id %d has dependencies";
   public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exists";
+  public static final String DEVICE_TEMPLATE_NOT_DELETED_BY_ID = "The device template wasn't delete by id: ";
+  public static final String DEVICE_TEMPLATE_NOT_UPDATED_BY_ID = "The device template wasn't update by id: ";
+  public static final String DEVICE_TEMPLATE_NOT_FOUND_BY_ID = "The device template wasn't find by id: ";
+  public static final String DEVICE_FEATURE_NOT_FOUND_BY_ID = "The device-feature wasn't find by: ";
+  public static final String DEVICE_FEATURE_NOT_DELETED_BY_ID = "The device-feature wasn't delete by: ";
+  public static final String DEVICE_FEATURE_ALREADY_EXISTS = "This device feature already exists";
 }

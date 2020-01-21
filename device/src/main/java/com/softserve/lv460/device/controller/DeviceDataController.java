@@ -36,7 +36,6 @@ public class DeviceDataController {
     return ResponseEntity.status(HttpStatus.OK).body(deviceDataService.getLastByUuId(uuId));
   }
 
-
   @ApiOperation(value = "save data from device")
   @ApiResponses(value = {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),

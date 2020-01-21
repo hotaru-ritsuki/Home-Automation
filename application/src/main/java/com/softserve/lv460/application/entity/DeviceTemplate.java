@@ -28,7 +28,6 @@ public class DeviceTemplate {
   @Column(name = "powerSupply")
   private String powerSupply;
   @ManyToMany
-  @JsonIgnore
   @JoinTable(name = "device_features",
           joinColumns = @JoinColumn(name = "device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))

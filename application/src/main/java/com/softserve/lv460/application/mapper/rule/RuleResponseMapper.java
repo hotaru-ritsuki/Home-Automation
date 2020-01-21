@@ -27,7 +27,8 @@ public class RuleResponseMapper implements Mapper<Rule, RuleResponseDTO> {
   public RuleResponseDTO toDto(Rule entity) {
     RuleResponseDTO dto = modelMapper.map(entity, RuleResponseDTO.class);
     dto.setUuid(entity.getLocalDevice().getUuid());
-    dto.setActionRule(actionRuleService.findAllByRuleId(entity.getId()).stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    dto.setActionRule(actionRuleService.findAllByRuleId(entity.getId()).stream()
+            .map(responseMapper::toDto).collect(Collectors.toList()));
     return dto;
   }
 }

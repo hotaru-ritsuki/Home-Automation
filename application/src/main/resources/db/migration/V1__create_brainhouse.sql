@@ -1,6 +1,7 @@
 create table device_features (
   device_id bigint not null,
-  features_id bigint not null) engine=MyISAM;
+  features_id bigint not null,
+  specification varchar(255) not null) engine=MyISAM;
 
 create table device_template (
   id bigint not null auto_increment,

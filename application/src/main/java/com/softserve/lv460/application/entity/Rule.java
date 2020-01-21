@@ -3,6 +3,7 @@ package com.softserve.lv460.application.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "rules")
+@ToString(exclude = "action")
 public class Rule {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

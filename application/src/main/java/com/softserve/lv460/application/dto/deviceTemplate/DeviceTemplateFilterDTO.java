@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class DeviceTemplateFilterRequest {
+public class DeviceTemplateFilterDTO {
   private String model;
   private String brand;
   private String type;

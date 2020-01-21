@@ -1,5 +1,6 @@
 package com.softserve.lv460.device.document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.lv460.device.constant.ValidationConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DeviceData {
   @Id
   private String id;
