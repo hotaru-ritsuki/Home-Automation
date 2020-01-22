@@ -35,6 +35,7 @@ public class SwaggerConfig {
           .produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE));
   }
 
+
   private ApiKey apiKey() {
     return new ApiKey("token", "Authorization", "header");
   }
