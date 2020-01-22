@@ -1,0 +1,86 @@
+.page{
+  display: grid;
+  grid-template-columns: 10% 10% 30% 30% 20%;
+  grid-template-rows: 20% 20% 20% 10% 30%;
+}
+
+.home-choose{
+  grid-area: 1 / 1 / 5 / 3;
+  /*border: 1px solid black;*/
+  /*overflow-y : scroll;*/
+}
+
+
+.home-choose-item{
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  border-bottom: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  transition: 0.3s;
+}
+
+/*.home-list:last-child{
+  border-bottom: 1px solid lightgray;
+}
+
+.home-list:first-child{
+  border-top: 1px solid lightgray;
+}*/
+
+img{
+  width: 24px !important;
+  height: 24px !important;
+}
+
+span{
+  margin-right: 3%;
+}
+
+.location-choose{
+  grid-area: 1 / 3 / 6 / span 4;
+  margin-left: 40%;
+  width: 100%;
+}
+
+.location-choose-item{
+  font-family: 'Lato', sans-serif;
+  width: 100%;
+  transition: 0.3s;
+  outline: none;
+  cursor: pointer;
+}
+
+.location-choose-item:hover{
+  border: 1px solid gray;
+}
+
+.location-choose{
+  margin-top: 2%;
+}
+
+.location-choose:first-child{
+  margin-top: 0;
+}
+
+.bottom-border:after {
+  content: ""; /* This is necessary for the pseudo element to work. */
+  display: block; /* This will put the pseudo element on its own line. */
+  margin: 0 auto; /* This will center the border. */
+  width: 90%; /* Change this to whatever width you want. */
+  padding-top: 10px; /* This creates some space between the element and the border. */
+  border-bottom: 1px solid lightgray; /* This creates the border. Replace black with whatever color you want. */
+  transform: scale(0.7);
+  transition: 0.3s;
+}
+
+.home-choose-item:hover:after{
+  transform: scale(1);
+}
+
+.arrow-icon-span{
+  margin-left: 90%;
+}
+

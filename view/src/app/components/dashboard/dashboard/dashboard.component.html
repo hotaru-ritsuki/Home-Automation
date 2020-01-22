@@ -1,0 +1,17 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<div class="page">
+  <div *ngIf="homes" class="home-choose">
+    <ul class="list-group home-list" *ngFor="let home of homes">
+      <li class="list-group-item home-choose-item bottom-border" (click)="searchLocationsByHomeAddress(home.addressa)">
+        <span><img src="https://i.ya-webdesign.com/images/home-png.png"></span>{{home.addressa}}
+        <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
+    </ul>
+  </div>
+  <div *ngIf="homes">
+    <ul class="list-group location-choose" *ngFor="let loc of locations">
+      <li class="list-group-item location-choose-item" routerLink="/locations" (click)="setLocation(loc)">
+        <span><img src="https://static.thenounproject.com/png/17576-200.png"></span>{{loc.name}}
+        <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
+    </ul>
+  </div>
+</div>
