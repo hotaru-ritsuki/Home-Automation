@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class DeviceTemplateService {
-  private static final int pageSize = 20;
+  private static final int PAGE_SIZE = 20;
   private DeviceTemplateRepository deviceTemplateRepository;
   private DeviceTemplateResponseMapper responseMapper;
 
@@ -64,7 +64,7 @@ public class DeviceTemplateService {
                                                                  DeviceTemplateFilterDTO request) {
     DeviceTemplateSpecification deviceTemplateSpecifications = new DeviceTemplateSpecification(request);
     Page<DeviceTemplate> allByFilter = deviceTemplateRepository.findAll(deviceTemplateSpecifications,
-            PageRequest.of(page, pageSize));
+            PageRequest.of(page, PAGE_SIZE));
     return new DataResponse<>(allByFilter.get().map(e -> responseMapper.toDto(e))
             .collect(Collectors.toList()), allByFilter.getTotalPages(), allByFilter.getTotalElements());
   }

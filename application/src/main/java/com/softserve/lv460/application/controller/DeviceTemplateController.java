@@ -61,7 +61,6 @@ public class DeviceTemplateController {
   })
   @PostMapping
   public ResponseEntity<DeviceTemplateResponseDTO> save(@RequestBody DeviceTemplateRequestDTO dto) {
-    System.out.println(dto);
     return ResponseEntity.status(HttpStatus.CREATED)
             .body(responseMapper.toDto(deviceTemplateService.save(requestMapper.toEntity(dto))));
   }
