@@ -18,8 +18,8 @@ export class DevicesComponent {
   constructor(private http: HttpClient, private deviceService: LocalDeviceService) {
     this.deviceService.getLocation()
       .subscribe((response) => {
-      this.locationResponse = response;
-    });
+        this.locationResponse = response;
+      });
     this.deviceService.getSupportDevices()
       .subscribe((response) => {
         this.supportDeviceResponse = response;
