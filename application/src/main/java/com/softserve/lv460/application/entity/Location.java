@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +15,4 @@ public class Location {
   private String name;
   @ManyToOne
   private Home home;
-
-  @OneToMany
-  private List<LocalDevice> localDevices;
 }

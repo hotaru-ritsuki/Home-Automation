@@ -23,11 +23,9 @@ public class DeviceTemplate {
   private String model;
   @NotNull
   private String type;
-
-  @Column(name = "release_year")
+  @Column(name = "releaseYear")
   private Integer releaseYear;
-
-  @Column(name = "power_supply")
+  @Column(name = "powerSupply")
   private String powerSupply;
   @ManyToMany
   @JsonIgnore

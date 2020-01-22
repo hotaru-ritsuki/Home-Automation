@@ -1,15 +1,14 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.dto.location.LocationRequest;
-import com.softserve.lv460.application.dto.location.LocationResponse;
+import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.Location;
+import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,47 +17,34 @@ public class LocationService {
   private LocationRepository locationRepository;
   private HomeRepository homeRepository;
 
-  public static LocationResponse locationToResponse(Location location) {
-    LocationResponse response = new LocationResponse();
-    response.setId(location.getId());
-    response.setName(location.getName());
-    response.setLocalDevices(location.getLocalDevices());
-    return response;
+  public Location create(Location request) {
+    return locationRepository.save(request);
   }
 
-  public LocationResponse create(LocationRequest request) {
-    Location location = new Location();
-    location.setName(request.getName());
-    location.setHome(homeRepository.findById(request.getHomeId()).get());
-    return locationToResponse(locationRepository.save(location));
-  }
-
-  public List<LocationResponse> findAll() {
-    return locationRepository.findAll().stream().map(LocationService::locationToResponse).collect(Collectors.toList());
+  public List<Location> findAll() {
+    return locationRepository.findAll();
   }
 
   public Location findOne(Long id) {
     return locationRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException("Home with id " + id + " not exists"));
+          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.LOCATION_NOT_FOUND_BY_ID, id)));
   }
 
-  public LocationResponse findOneResponse(Long id) {
-    return locationToResponse(findOne(id));
-  }
-
-  public Location update(LocationRequest update) {
+  public Location update(Location update) {
     Location location = findOne(update.getId());
     location.setName(update.getName());
     return locationRepository.save(location);
   }
 
   public void delete(Long id) {
-    Location location = findOne(id);
-    locationRepository.delete(location);
+    if (!locationRepository.findById(id).isPresent()) {
+      throw new NotDeletedException(String.format(ErrorMessage.LOCATION_NOT_DELETED_BY_ID, id));
+    }
+    locationRepository.deleteById(id);
   }
 
-  public List<LocationResponse> findByHome(Long id) {
-    return locationRepository.findAllByHome(homeRepository.findById(id)).stream().map(LocationService::locationToResponse).collect(Collectors.toList());
+  public List<Location> findByHome(Long id) {
+    return locationRepository.findAllByHome(homeRepository.findById(id));
   }
 
 }
