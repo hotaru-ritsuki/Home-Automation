@@ -30,12 +30,12 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
   @Override
   public Predicate toPredicate(Root<DeviceTemplate> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
     List<Predicate> predicates = new ArrayList<>();
-      predicates.add(findByModel(root, builder));
-      predicates.add(findByBrand(root, builder));
-      predicates.add(findByType(root, builder));
-      predicates.add(findByBrand(root, builder));
-      predicates.add(findByFeatures(root, builder));
-      predicates.add(findByReleaseYear(root, builder));
+    predicates.add(findByModel(root, builder));
+    predicates.add(findByBrand(root, builder));
+    predicates.add(findByType(root, builder));
+    predicates.add(findByBrand(root, builder));
+    predicates.add(findByFeatures(root, builder));
+    predicates.add(findByReleaseYear(root, builder));
     return builder.and(predicates.toArray(new Predicate[0]));
   }
 
@@ -89,6 +89,4 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     }
     return predicate;
   }
-
-
 }
