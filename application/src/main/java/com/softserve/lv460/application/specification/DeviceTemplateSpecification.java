@@ -1,48 +1,28 @@
 package com.softserve.lv460.application.specification;
 
-import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterDTO;
-import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateFilterRequest;
 import com.softserve.lv460.application.entity.Feature;
+import com.softserve.lv460.application.entity.DeviceTemplate;
+import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
 
-
+@AllArgsConstructor
 public class DeviceTemplateSpecification implements Specification<DeviceTemplate> {
-  private String model;
-  private String brand;
-  private String type;
-  private Integer releaseYear;
-  private List<Long> featuresId;
-
-  public DeviceTemplateSpecification(DeviceTemplateFilterDTO filter) {
-    if (filter != null) {
-      model = filter.getModel();
-      brand = filter.getBrand();
-      type = filter.getType();
-      releaseYear = filter.getReleaseYear();
-      featuresId = filter.getFeaturesId();
-    }
-  }
+  private DeviceTemplateFilterRequest filter;
 
   @Override
   public Predicate toPredicate(Root<DeviceTemplate> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-    List<Predicate> predicates = new ArrayList<>();
-    predicates.add(findByModel(root, builder));
-    predicates.add(findByBrand(root, builder));
-    predicates.add(findByType(root, builder));
-    predicates.add(findByBrand(root, builder));
-    predicates.add(findByFeatures(root, builder));
-    predicates.add(findByReleaseYear(root, builder));
-    return builder.and(predicates.toArray(new Predicate[0]));
+    return builder.and(findByModel(root, builder), findByBrand(root, builder), findByType(root, builder),
+            findByFeatures(root, builder), findByReleaseYear(root, builder)
+    );
   }
 
   private Predicate findByModel(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (model != null) {
-      predicate = cb.equal(r.get("model"), model);
+    if (filter.getModel() != null) {
+      predicate = cb.equal(r.get("model"), filter.getModel());
     } else {
       predicate = cb.conjunction();
     }
@@ -51,8 +31,8 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByBrand(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (brand != null) {
-      predicate = cb.equal(r.get("brand"), brand);
+    if (filter.getBrand() != null) {
+      predicate = cb.equal(r.get("brand"), filter.getBrand());
     } else {
       predicate = cb.conjunction();
     }
@@ -61,8 +41,8 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByType(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (type != null) {
-      predicate = cb.equal(r.get("type"), type);
+    if (filter.getType() != null) {
+      predicate = cb.equal(r.get("type"), filter.getType());
     } else {
       predicate = cb.conjunction();
     }
@@ -71,9 +51,9 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByFeatures(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (featuresId != null) {
+    if (filter.getFeaturesId() != null) {
       Join<DeviceTemplate, Feature> feature = r.join("features");
-      predicate = cb.and(cb.in(feature.get("id")).value(featuresId));
+      predicate = cb.and(cb.in(feature.get("id")).value(filter.getFeaturesId()));
     } else {
       predicate = cb.conjunction();
     }
@@ -82,11 +62,13 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByReleaseYear(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (releaseYear != null) {
-      predicate = cb.equal(r.get("releaseYear"), releaseYear);
+    if (filter.getReleaseYear() != null) {
+      predicate = cb.equal(r.get("releaseYear"), filter.getReleaseYear());
     } else {
       predicate = cb.conjunction();
     }
     return predicate;
   }
+
+
 }

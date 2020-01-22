@@ -1,6 +1,6 @@
 create table actions (id bigint not null auto_increment, description varchar(255) not null, type integer not null, primary key (id)) engine=InnoDB;
 create table actions_rule (action_id bigint not null, rule_id bigint not null, action_specification varchar(255) not null, primary key (action_id, rule_id)) engine=InnoDB;
-create table device_features (features_id bigint not null, device_id bigint not null, specification varchar(255)) engine=InnoDB;
+create table device_features (features_id bigint not null, device_id bigint not null) engine=InnoDB;
 create table device_template (id bigint not null auto_increment, brand varchar(255) not null, model varchar(255) not null, power_supply varchar(255), release_year integer, type varchar(255) not null, primary key (id)) engine=InnoDB;
 create table features (id bigint not null auto_increment, description varchar(255) not null, name varchar(255) not null, primary key (id)) engine=InnoDB;
 create table home (id bigint not null auto_increment, addressa varchar(255), city varchar(255), country varchar(255), primary key (id)) engine=InnoDB;
@@ -20,4 +20,3 @@ alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_
 alter table users add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
 alter table user_home add constraint FKecghr2udqlel8f11r5i373kqn foreign key (home_id) references home (id);
 alter table user_home add constraint FKo8lycc0bd4as3hocqeprxhrsw foreign key (user_id) references users (id);
-

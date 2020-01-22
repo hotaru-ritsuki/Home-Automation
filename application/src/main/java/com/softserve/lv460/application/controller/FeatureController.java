@@ -2,7 +2,7 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.dto.feature.FeatureDTO;
 import com.softserve.lv460.application.entity.Feature;
-import com.softserve.lv460.application.mapper.feature.FeatureMapper;
+import com.softserve.lv460.application.mapper.FeatureMapper;
 import com.softserve.lv460.application.service.FeatureService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
