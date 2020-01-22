@@ -10,7 +10,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
+import com.softserve.lv460.device.action.ActionExecutor;
 import com.softserve.lv460.device.controller.DeviceDataController;
+import com.softserve.lv460.device.dto.rule.ActionRule;
 import com.softserve.lv460.device.dto.rule.RuleDto;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -33,12 +35,14 @@ public class ChangeStreamConfig {
   private final MongoClient mongoClient;
   private final CloseableHttpClient httpClient;
   private final PropertiesConfig propertiesConfig;
+  private final ActionExecutor actionExecutor;
   private LoadingCache<String, List<RuleDto>> cache;
   private static Logger logger = LoggerFactory.getLogger(DeviceDataController.class);
 
-  public ChangeStreamConfig(MongoClient mongoClient, CloseableHttpClient httpClient, PropertiesConfig propertiesConfig) {
+  public ChangeStreamConfig(MongoClient mongoClient, CloseableHttpClient httpClient, PropertiesConfig propertiesConfig, ActionExecutor actionExecutor) {
     this.httpClient = httpClient;
     this.propertiesConfig = propertiesConfig;
+    this.actionExecutor = actionExecutor;
     this.mongoClient = mongoClient;
     this.cache = CacheBuilder
             .newBuilder()
@@ -63,7 +67,9 @@ public class ChangeStreamConfig {
         List<RuleDto> rules = getCache(fullDocument.getString("uuId"));
         for (RuleDto rule : rules) {
           if (checkRuleCondition(rule, (Document) fullDocument.get("data"))) {
-
+            for (ActionRule actionRule : rule.getActionRule()) {
+              actionExecutor.doAction(actionRule);
+            }
           }
         }
       };

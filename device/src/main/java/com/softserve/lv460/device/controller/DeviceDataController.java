@@ -40,12 +40,12 @@ public class DeviceDataController {
   @ApiResponses(value = {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
           @ApiResponse(code = 503, message = HttpStatuses.SERVICE_UNAVAILABLE),
-          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT)
+          @ApiResponse(code = 200, message = HttpStatuses.CREATED)
   })
   @PostMapping
   public ResponseEntity<Object> save(@Valid @RequestBody DeviceData deviceData) throws ExecutionException {
     deviceDataService.save(deviceData);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @ApiOperation(value = "returns list of device data by specific parameters")

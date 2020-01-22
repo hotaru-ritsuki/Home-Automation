@@ -1,15 +1,14 @@
 package com.softserve.lv460.device.dto.rule;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RuleDto {
-  private Long id;
-  private String name;
-  private String conditions;
-  private List<ActionRule> actionRule;
+public class Action {
+  private String type;
 }

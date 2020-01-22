@@ -28,16 +28,15 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
-    addToBatch(deviceData);
+    DeviceData validData = deviceCacheConfig.validateData(deviceData);
+    addToBatch(validData);
   }
 
   @Override
   public DeviceData getLastByUuId(String uuId) {
-    System.out.println(uuId);
-    System.out.println(String.format(ExceptionMassages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId));
     return deviceDataRepository.findFirstByUuIdOrderByTimestampAsc(uuId)
             .orElseThrow(() -> new IllegalArgumentException(String.format
-                    ("%s=%s",ExceptionMassages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId)));
+                    (ExceptionMassages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId)));
   }
 
 
