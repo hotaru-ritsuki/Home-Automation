@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class DeviceTemplateResponse {
+public class DeviceTemplateResponseDTO {
   private Long id;
   private String brand;
   private String model;
@@ -16,14 +16,4 @@ public class DeviceTemplateResponse {
   private Integer releaseYear;
   private String powerSupply;
   private List<Feature> features;
-
-  public DeviceTemplateResponse(DeviceTemplate deviceTemplate) {
-    id = deviceTemplate.getId();
-    brand = deviceTemplate.getBrand();
-    model = deviceTemplate.getModel();
-    type = deviceTemplate.getType();
-    releaseYear = deviceTemplate.getReleaseYear();
-    powerSupply = deviceTemplate.getPowerSupply();
-    features = new ArrayList<>(deviceTemplate.getFeatures());
-  }
 }
