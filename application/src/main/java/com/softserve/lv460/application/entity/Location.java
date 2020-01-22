@@ -2,6 +2,7 @@ package com.softserve.lv460.application.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Data

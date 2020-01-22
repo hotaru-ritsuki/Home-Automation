@@ -1,0 +1,54 @@
+version: '3'
+services:
+  application:
+    container_name: application
+    build: ./application
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    restart: always
+    links:
+      - mysql-db
+    volumes:
+      - ./webapp:/opt/application
+
+  device:
+    container_name: device
+    build: ./device
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo-db
+    volumes:
+      - ./webapp:/opt/device
+    restart: always
+    links:
+      - mongo-db
+
+  mysql-db:
+    container_name: mysql_db
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: brainhouse
+
+  mongo-db:
+    container_name: mongo_db
+    image: mongo:4.2.2
+    ports:
+      - "27017:27017"
+    restart: always
+
+  angular:
+    container_name: angular
+    build: ./view
+    ports:
+      - "4200:80"
+    restart: always
+
