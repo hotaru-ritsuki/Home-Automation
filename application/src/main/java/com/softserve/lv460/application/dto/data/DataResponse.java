@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.dto.page;
+package com.softserve.lv460.application.dto.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
