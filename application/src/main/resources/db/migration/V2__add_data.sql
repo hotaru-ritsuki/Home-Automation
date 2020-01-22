@@ -49,19 +49,14 @@ insert into local_device (uuid, location_id, supported_device_id)
 insert into local_device (uuid, location_id, supported_device_id)
   values ('bf85b676-2a3b-11ea', 3, 1);
 
-
-
 insert into features (id, description, name)
   values (1, 'Temperature', 'getTemperature');
 
 insert into features (id, description, name)
   values (2, 'Humidity', 'getHumidity');
 
-insert into device_features (device_id, features_id)
-  values (1, 2);
-
-insert into device_features (device_id, features_id)
-  values (2, 1);
+insert into device_features (device_id, features_id, specification)
+  values (1, 2, '{"columnName": "temperature", "type": "numeric", "restriction": {"min": 15, "max": 25}}');
 
 insert into actions (description, type)
   values ('"send mail',1);
