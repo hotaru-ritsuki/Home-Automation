@@ -14,8 +14,8 @@ import java.util.List;
 @Repository
 public interface DeviceTemplateRepository extends JpaRepository<DeviceTemplate, Long>,
         JpaSpecificationExecutor<DeviceTemplate> {
-  @Query(value = "select distinct dt.brand from device_template dt order by dt.brand", nativeQuery = true)
+  @Query("SELECT DISTINCT dt.brand FROM DeviceTemplate dt ORDER BY dt.brand")
   List<String> findAllBrands();
-  @Query(value = "select distinct dt.release_year from device_template dt order by dt.release_year", nativeQuery = true)
+  @Query("SELECT DISTINCT dt.releaseYear FROM DeviceTemplate dt ORDER BY dt.releaseYear")
   List<Integer> findAllReleaseYears();
 }

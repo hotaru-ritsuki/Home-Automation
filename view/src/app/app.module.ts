@@ -7,12 +7,17 @@ import {HomeDetailsComponent} from './components/home-details/home-details.compo
 import {DevicesGraphicsComponent} from './components/devices-graphics/devices-graphics.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ChartsModule} from "ng2-charts";
+import {RouterModule, Routes} from '@angular/router';
 import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics-dashbord.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
-import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './components/main/main.component';
+<<<<<<< HEAD
 import {LocationsComponent} from './components/locations/locations.component';
+=======
+import {DevicesComponent} from "./components/local-device/devices.component";
+import {FormsModule} from "@angular/forms";
+>>>>>>> e0d68ebb3be929cd23a3f56dd495e0a2c849d7d1
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -22,13 +27,13 @@ const routes: Routes = [
       [{path: 'location/:id',component: LocationsComponent}]
   },
 ];
-
 @NgModule({
 
   declarations: [
     AppComponent,
     HomeComponent,
     HomeDetailsComponent,
+    DevicesComponent,
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
     MainComponent,
@@ -39,6 +44,7 @@ const routes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     ChartsModule,
+    FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),

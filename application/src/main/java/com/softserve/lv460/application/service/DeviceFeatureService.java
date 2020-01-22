@@ -22,30 +22,30 @@ public class DeviceFeatureService {
     return deviceFeatureRepository.findByDeviceId(deviceId);
   }
 
-  private DeviceFeature findDeviceFeature(DeviceFeatureId id) {
+  private DeviceFeature findByDeviceFeatureId(DeviceFeatureId id) {
     return deviceFeatureRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException(ErrorMessage.DEVICE_FEATURE_NOT_FOUND_BY_ID +
-                    "device id: " + id.getDeviceId() + ", feature id: " + id.getFeatureId()));
+            .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DEVICE_FEATURE_NOT_FOUND_BY_ID,
+                    id.getDeviceId(), id.getFeatureId())));
   }
 
   public DeviceFeature update(DeviceFeature deviceFeature) {
-    findDeviceFeature(deviceFeature.getDeviceFeatureId());
+    findByDeviceFeatureId(deviceFeature.getDeviceFeatureId());
     return deviceFeatureRepository.save(deviceFeature);
   }
 
   public DeviceFeature save(DeviceFeature deviceFeature) {
     if (deviceFeatureRepository.findById(deviceFeature.getDeviceFeatureId()).isPresent()) {
-      throw new NotCreatedException(ErrorMessage.DEVICE_FEATURE_ALREADY_EXISTS);
+      throw new NotCreatedException((String.format(ErrorMessage.DEVICE_FEATURE_ALREADY_EXISTS,
+              deviceFeature.getDeviceFeatureId().getDeviceId(), deviceFeature.getDeviceFeatureId().getFeatureId())));
     }
     return deviceFeatureRepository.save(deviceFeature);
   }
 
-  public DeviceFeatureId delete(DeviceFeatureId id) {
+  public void delete(DeviceFeatureId id) {
     if (!deviceFeatureRepository.findById(id).isPresent()) {
-      throw new NotDeletedException(ErrorMessage.DEVICE_FEATURE_NOT_DELETED_BY_ID +
-              "device id: " + id.getDeviceId() + ", feature id: " + id.getFeatureId());
+      throw new NotDeletedException(String.format(ErrorMessage.DEVICE_FEATURE_NOT_DELETED_BY_ID, id.getDeviceId(),
+              id.getFeatureId()));
     }
     deviceFeatureRepository.deleteById(id);
-    return id;
   }
 }

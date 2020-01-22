@@ -12,5 +12,4 @@ public class DeviceTemplateRequestDTO {
   private String type;
   private Integer releaseYear;
   private String powerSupply;
-  private List<Long> featuresId;
 }

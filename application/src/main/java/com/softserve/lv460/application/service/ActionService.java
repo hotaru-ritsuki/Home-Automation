@@ -37,7 +37,7 @@ public class ActionService {
 
   public void delete(Long id) {
     if (!actionRepository.findById(id).isPresent()) {
-      throw new NotDeletedException(ErrorMessage.ACTION_NOT_DELETED_BY_ID + id);
+      throw new NotDeletedException(String.format(ErrorMessage.ACTION_NOT_DELETED_BY_ID, id));
     }
     actionRepository.deleteById(id);
   }

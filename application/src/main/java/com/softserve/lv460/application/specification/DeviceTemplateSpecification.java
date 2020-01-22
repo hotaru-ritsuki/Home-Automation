@@ -11,11 +11,11 @@ import java.util.List;
 
 
 public class DeviceTemplateSpecification implements Specification<DeviceTemplate> {
-  private String model = null;
-  private String brand = null;
-  private String type = null;
-  private Integer releaseYear = null;
-  private List<Long> featuresId = null;
+  private String model;
+  private String brand;
+  private String type;
+  private Integer releaseYear;
+  private List<Long> featuresId;
 
   public DeviceTemplateSpecification(DeviceTemplateFilterDTO filter) {
     if (filter != null) {
@@ -30,12 +30,12 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
   @Override
   public Predicate toPredicate(Root<DeviceTemplate> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
     List<Predicate> predicates = new ArrayList<>();
-      predicates.add(findByModel(root, builder));
-      predicates.add(findByBrand(root, builder));
-      predicates.add(findByType(root, builder));
-      predicates.add(findByBrand(root, builder));
-      predicates.add(findByFeatures(root, builder));
-      predicates.add(findByReleaseYear(root, builder));
+    predicates.add(findByModel(root, builder));
+    predicates.add(findByBrand(root, builder));
+    predicates.add(findByType(root, builder));
+    predicates.add(findByBrand(root, builder));
+    predicates.add(findByFeatures(root, builder));
+    predicates.add(findByReleaseYear(root, builder));
     return builder.and(predicates.toArray(new Predicate[0]));
   }
 
@@ -89,6 +89,4 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     }
     return predicate;
   }
-
-
 }

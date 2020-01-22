@@ -37,7 +37,7 @@ public class RuleService {
 
   public void delete(Long id) {
     if (!ruleRepository.findById(id).isPresent()) {
-      throw new NotDeletedException(ErrorMessage.RULE_NOT_DELETED_BY_ID + id);
+      throw new NotDeletedException(String.format(ErrorMessage.RULE_NOT_DELETED_BY_ID, id));
     }
     ruleRepository.deleteById(id);
   }

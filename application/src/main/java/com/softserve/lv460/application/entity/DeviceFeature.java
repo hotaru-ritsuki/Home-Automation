@@ -19,3 +19,4 @@ public class DeviceFeature {
   @NotNull
   private String specification;
 }
+

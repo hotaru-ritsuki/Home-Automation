@@ -29,9 +29,7 @@ public class DeviceFeatureController {
 
   @ApiOperation(value = "Update device - feature")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
-          @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceFeatureResponseDTO.class)
   })
   @PutMapping
   public ResponseEntity<DeviceFeatureResponseDTO> update(DeviceFeatureRequestDTO dto) {
@@ -40,8 +38,7 @@ public class DeviceFeatureController {
 
   @ApiOperation(value = "Find device-features with device id")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceFeatureResponseDTO.class)
   })
   @GetMapping("/{id}")
   public ResponseEntity<List<DeviceFeatureResponseDTO>> findByDeviceId(@PathVariable(name = "id") Long deviceId) {
@@ -53,21 +50,18 @@ public class DeviceFeatureController {
 
   @ApiOperation(value = "Create new device-feature")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = DeviceFeatureResponseDTO.class)
   })
   @PostMapping
   public ResponseEntity<DeviceFeatureResponseDTO> save(@RequestBody DeviceFeatureRequestDTO dto) {
-    return ResponseEntity.status(HttpStatus.OK)
+    return ResponseEntity.status(HttpStatus.CREATED)
             .body(responseMapper.toDto(deviceFeatureService.save(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete device-feature")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
           @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-          @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping
   public ResponseEntity<DeviceFeatureId> delete(@RequestBody DeviceFeatureId id) {
