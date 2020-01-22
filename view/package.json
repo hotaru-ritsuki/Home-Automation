@@ -31,7 +31,8 @@
     "ngx-bootstrap": "^5.2.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "ag-grid-angular": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.800.6",

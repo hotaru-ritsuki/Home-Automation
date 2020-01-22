@@ -5,7 +5,6 @@ package com.softserve.lv460.application.exceptions;
  * Exception that we get when user trying to verify email
  * with token that has expired.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class UserActivationEmailTokenExpiredException extends RuntimeException {

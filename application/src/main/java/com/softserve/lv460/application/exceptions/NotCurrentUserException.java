@@ -4,7 +4,6 @@ package com.softserve.lv460.application.exceptions;
  * Class extends exception {@link RuntimeException}.
  * Exception that we get when token does not belong to current user
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class NotCurrentUserException extends RuntimeException {

@@ -5,7 +5,6 @@ package com.softserve.lv460.application.exceptions;
  * Exception that we get when user trying to sign up
  * with email that already registered.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class UserAlreadyRegisteredException extends RuntimeException {

@@ -83,8 +83,15 @@ public class HomeService {
     return home;
   }
 
-  public Home findHomeByAddress(String address){
-    return homeRepository.findByAddressa(address).orElseThrow(() -> new IllegalArgumentException("There is no such" +
+  public HomeResponse findHomeByAddress(String address){
+    HomeResponse homeResponse = new HomeResponse();
+    Home home = homeRepository.findByAddressa(address).orElseThrow(() -> new IllegalArgumentException("There is no such" +
       "home with address " + address));
+    homeResponse.setAddressa(home.getAddressa());
+    homeResponse.setCity(home.getCity());
+    homeResponse.setId(home.getId());
+    homeResponse.setLocations(locationService.findByHome(home.getId()));
+    homeResponse.setCountry(home.getCountry());
+    return homeResponse;
   }
 }

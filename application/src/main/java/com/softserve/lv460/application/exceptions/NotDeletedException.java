@@ -5,7 +5,6 @@ package com.softserve.lv460.application.exceptions;
  * Exception that we get when we try deleting some object but such object not exist,
  * or not deleted successfully
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class NotDeletedException extends RuntimeException {

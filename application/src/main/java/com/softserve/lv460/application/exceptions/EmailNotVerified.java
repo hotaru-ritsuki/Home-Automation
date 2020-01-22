@@ -5,7 +5,6 @@ package com.softserve.lv460.application.exceptions;
  * Exception that we get when a use tries
  * to sign in before email verification.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class EmailNotVerified extends RuntimeException {

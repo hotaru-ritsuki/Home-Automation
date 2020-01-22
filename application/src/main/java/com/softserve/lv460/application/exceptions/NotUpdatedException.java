@@ -6,7 +6,6 @@ package com.softserve.lv460.application.exceptions;
  * but such object not exist,
  * or updating have failed
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class NotUpdatedException extends RuntimeException {

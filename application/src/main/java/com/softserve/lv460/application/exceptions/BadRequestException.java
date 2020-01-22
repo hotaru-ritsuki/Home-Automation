@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Class extends exception {@link RuntimeException}.
  * Exception that we get when user trying to pass bad request.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)

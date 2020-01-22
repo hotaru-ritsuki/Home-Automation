@@ -44,8 +44,8 @@ public class HomeController {
     return homeService.findOneResponse(id);
   }
 
-  @GetMapping("/find")
-  public Home findOneByAddress(String address){
+  @GetMapping("/find/{address}")
+  public HomeResponse findOneByAddress(@PathVariable String address){
     return homeService.findHomeByAddress(address);
   }
 }

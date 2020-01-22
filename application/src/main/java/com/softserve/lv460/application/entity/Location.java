@@ -1,8 +1,8 @@
 package com.softserve.lv460.application.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,18 +17,6 @@ public class Location {
   @ManyToOne
   private Home home;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JsonIgnore
-  @JoinTable(name = "local_device",
-    joinColumns = @JoinColumn(name = "location_id"),
-    inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<DeviceTemplate> devices;
-
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JsonIgnore
-  @JoinTable(name = "device_features",
-    joinColumns = @JoinColumn(name = "feature_id"),
-    inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<Feature> features;
-
+  @OneToMany
+  private List<LocalDevice> localDevices;
 }

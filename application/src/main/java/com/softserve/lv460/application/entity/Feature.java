@@ -19,10 +19,10 @@ public class Feature {
   private String name;
   @NotNull
   private String description;
-  @ManyToMany
-  @JsonIgnore
-  @JoinTable(name = "device_features",
-          joinColumns = @JoinColumn(name = "features_id"),
-          inverseJoinColumns = @JoinColumn(name = "device_id"))
-  private List<DeviceTemplate> deviceTemplates;
+//  @ManyToMany
+//  @JsonIgnore
+//  @JoinTable(name = "device_features",
+//          joinColumns = @JoinColumn(name = "features_id"),
+//          inverseJoinColumns = @JoinColumn(name = "device_id"))
+//  private List<DeviceTemplate> deviceTemplates;
 }

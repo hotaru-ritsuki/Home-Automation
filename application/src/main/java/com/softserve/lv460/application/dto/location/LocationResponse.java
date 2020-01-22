@@ -1,6 +1,6 @@
 package com.softserve.lv460.application.dto.location;
 
-import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.entity.LocalDevice;
 import lombok.Data;
 
 import java.util.List;
@@ -9,5 +9,5 @@ import java.util.List;
 public class LocationResponse {
   private Long id;
   private String name;
-  private List<DeviceTemplate> devises;
+  private List<LocalDevice> localDevices;
 }

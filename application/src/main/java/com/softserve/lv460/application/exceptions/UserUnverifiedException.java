@@ -7,7 +7,6 @@ import org.springframework.security.core.AuthenticationException;
  * Exception that we get when user trying to sign-in
  * to account that has not verified email.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 public class UserUnverifiedException extends AuthenticationException {

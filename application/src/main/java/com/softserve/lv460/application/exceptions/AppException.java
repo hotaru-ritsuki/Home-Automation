@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Class extends exception {@link RuntimeException}.
  *
- * @author Vasyl Petrashchuk
  * @version 1.0
  */
 

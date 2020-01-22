@@ -35,12 +35,4 @@ public class DeviceTemplate {
           joinColumns = @JoinColumn(name = "device_id"),
           inverseJoinColumns = @JoinColumn(name = "features_id"))
   private List<Feature> features;
-
-
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JsonIgnore
-  @JoinTable(name = "local_device",
-    joinColumns = @JoinColumn(name = "device_id"),
-    inverseJoinColumns = @JoinColumn(name = "location_id"))
-  private List<Location> locations;
 }
