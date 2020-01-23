@@ -3,6 +3,7 @@ package com.softserve.lv460.application.service;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
+import com.softserve.lv460.application.exception.exceptions.TelegramUserAlreadyRegisterException;
 import com.softserve.lv460.application.repository.TelegramUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,10 @@ public class TelegramUserService {
   private TelegramUserRepository telegramUserRepository;
 
   public TelegramUser create(TelegramUser telegramUser) {
-    return telegramUserRepository.save(telegramUser);
+    if (!telegramUserRepository.findByUsername(telegramUser.getUsername()).isPresent()) {
+      return telegramUserRepository.save(telegramUser);
+    }
+    throw new TelegramUserAlreadyRegisterException(String.format(ErrorMessage.TELEGRAM_ALREADY_REGISTER, telegramUser.getUsername()));
   }
 
   public List<TelegramUser> findAll() {
@@ -30,6 +34,7 @@ public class TelegramUserService {
   }
 
   public TelegramUser findByUsername(String username) {
-    return telegramUserRepository.findByUsername(username);
+    return telegramUserRepository.findByUsername(username)
+          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.TELEGRAM_NOT_FOUND_BY_USERNAME, username)));
   }
 }

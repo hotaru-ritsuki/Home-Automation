@@ -27,7 +27,8 @@ public class ErrorMessage {
   public static final String HOME_NOT_DELETED_HAVE_DEPENDENCIES = "Home with id %d has dependencies";
   public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exists";
   public static final String TELEGRAM_NOT_DELETED_BY_ID = "The user's telegram wasn't deleted by id: %d";
-  public static final String TELEGRAM_NOT_FOUND_BY_ID = "User's telegram with id %d does not exists";
+  public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "User's telegram with username %s does not exists";
+  public static final String TELEGRAM_ALREADY_REGISTER = "User's telegram with username %s is already registered";
 
 
 }
