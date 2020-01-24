@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {DeviceData} from "../models/DeviceData";
+import {DeviceData} from '../models/DeviceData';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class MainService {
     params = params.append('from', from);
     params = params.append('to', to);
 
-    return this.http.get<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params: params});
+    return this.http.get<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params});
   }
 
 }

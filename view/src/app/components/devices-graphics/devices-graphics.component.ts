@@ -62,8 +62,8 @@ export class DevicesGraphicsComponent implements OnInit {
           let temp = new Map(Object.entries(one.data)).get(this.type);
           temperatures.push(temp)
         }
-        this.ChartData = [{data: temperatures, label: this.type, fill: true, backgroundColor: 'rgba(0, 0, 0, 0)'}]
-      })
+        this.ChartData = [{data: temperatures, label: this.type, fill: true, backgroundColor: 'rgba(0, 0, 0, 0)'}];
+      });
   }
 
 }

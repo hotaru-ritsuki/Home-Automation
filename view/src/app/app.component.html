@@ -1,12 +1,13 @@
-<header>
-  <ul>
-    <li routerLink="">Main Page</li>
-    <li routerLink="statistic">Statistic</li>
-    <li routerLink="home">Home</li>
-    <li routerLink="device">Device</li>
-
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-primary" [containerInside]="false">
+  <ul class="navbar-nav mr-auto">
+    <li routerLink="" class="nav-item"><a class="nav-link">Main Page</a></li>
+    <li routerLink="statistic" class="nav-item"><a class="nav-link">Statistic</a></li>
+    <li routerLink="home" class="nav-item"><a class="nav-link">Home</a></li>
+    <li routerLink="device" class="nav-item"><a class="nav-link">Device</a></li>
+    <li routerLink="dashboard" class="nav-item"><a class="nav-link">Dashboard</a></li>
   </ul>
-</header>
+</mdb-navbar>
 <router-outlet></router-outlet>
 <footer>
 </footer>
+

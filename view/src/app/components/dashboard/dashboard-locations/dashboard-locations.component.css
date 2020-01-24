@@ -1,0 +1,8 @@
+.page{
+  display: grid;
+  grid-template-columns: repeat(5, 20%);
+  grid-template-rows: repeat(5, 20%);
+}
+.devices{
+  grid-area: 1 / 2 / 6 / 5;
+}

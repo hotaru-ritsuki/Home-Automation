@@ -1,4 +1,11 @@
-<p>dashboard-locations works!</p>
-<div *ngIf="location">
-  <h4>{{location.name}}</h4>
+<div class="page">
+  <div class="devices" *ngFor="let dev of localDevices">
+    <!--   <h4>{{dev.uuid}}</h4>-->
+    <h4>{{dev.uuid}}</h4>
+
+    <div *ngFor="let feature of features">
+      <h4>{{feature.featureDTO.name}}</h4>
+    </div>
+  </div>
+  <app-dashboard-graphics></app-dashboard-graphics>
 </div>
