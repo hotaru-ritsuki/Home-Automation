@@ -1,79 +1,22 @@
-create table device_features (
-  device_id bigint not null,
-  features_id bigint not null) engine=MyISAM;
-
-create table device_template (
-  id bigint not null auto_increment,
-  brand varchar(255) not null,
-  model varchar(255) not null,
-  power_supply varchar(255),
-  release_year integer,
-  type varchar(255) not null,
-  primary key (id)) engine=MyISAM;
-
-create table features (
-  id bigint not null auto_increment,
-  description varchar(255) not null,
-  name varchar(255) not null,
-  primary key (id)) engine=MyISAM;
-
-create table home (
-  id bigint not null auto_increment,
-  addressa varchar(255),
-  city varchar(255),
-  country varchar(255),
-  primary key (id)) engine=MyISAM;
-
-create table local_device (
-  uuid varchar(32) not null,
-  location_id bigint,
-  supported_device_id bigint,
-  primary key (uuid)) engine=MyISAM;
-
-create table location (
-  id bigint not null auto_increment,
-  name varchar(255),
-  home_id bigint,
-  primary key (id)) engine=MyISAM;
-
-create table user_home (
-  user_id bigint not null,
-  home_id bigint not null) engine=MyISAM;
-
-create table users (
-  id bigint not null auto_increment,
-  email varchar(32) not null,
-  password varchar(255) not null,
-  primary key (id)) engine=MyISAM;
-
-alter table users
-  add constraint UK_6dotkott2kjsp8vw4d0m25fb7
-  unique (email);
-
-alter table device_features
-  add constraint FKcjsjodj6lwm8tldpiaflvjkns
-  foreign key (features_id) references features (id);
-
-alter table device_features
-  add constraint FK7uivhprva3mke1uvk59m42r0a
-  foreign key (device_id) references device_template (id);
-
-alter table local_device
-  add constraint FK7rpxlg1mxbilymldv41omxywi
-  foreign key (location_id) references location (id);
-
-alter table local_device
-  add constraint FKlnc4rmqppjpxf8lhqglwi9gjm
-  foreign key (supported_device_id) references device_template (id);
-
-alter table location
-  add constraint FKqvj3evkkjc33etbi5ksb6u748
-  foreign key (home_id) references home (id);
-
-alter table user_home
-  add constraint FKecghr2udqlel8f11r5i373kqn
-  foreign key (home_id) references home (id);
-
-alter table user_home
-  add constraint FKo8lycc0bd4as3hocqeprxhrsw
-  foreign key (user_id) references users (id);
+create table actions (id bigint not null auto_increment, description varchar(255) not null, type integer not null, primary key (id)) engine=InnoDB;
+create table actions_rule (action_id bigint not null, rule_id bigint not null, action_specification varchar(255) not null, primary key (action_id, rule_id)) engine=InnoDB;
+create table device_features (features_id bigint not null, device_id bigint not null, specification varchar(255)) engine=InnoDB;
+create table device_template (id bigint not null auto_increment, brand varchar(255) not null, model varchar(255) not null, power_supply varchar(255), release_year integer, type varchar(255) not null, primary key (id)) engine=InnoDB;
+create table features (id bigint not null auto_increment, description varchar(255) not null, name varchar(255) not null, primary key (id)) engine=InnoDB;
+create table home (id bigint not null auto_increment, addressa varchar(255), city varchar(255), country varchar(255), primary key (id)) engine=InnoDB;
+create table local_device (uuid varchar(32) not null, location_id bigint not null, supported_device_id bigint not null, primary key (uuid)) engine=InnoDB;
+create table location (id bigint not null auto_increment, name varchar(255), home_id bigint, primary key (id)) engine=InnoDB;
+create table rules (id bigint not null auto_increment, conditions varchar(255), name varchar(255), local_device_uuid varchar(32), primary key (id)) engine=InnoDB;
+create table user_home (user_id bigint not null, home_id bigint not null) engine=InnoDB;
+create table users (id bigint not null auto_increment, email varchar(32) not null, password varchar(255) not null, primary key (id)) engine=InnoDB;
+alter table actions_rule add constraint FKdrnem74m95bpp2s23adqb7u0a foreign key (rule_id) references rules (id);
+alter table actions_rule add constraint FKkbdxmu5bsutxkvor7stne0wbb foreign key (action_id) references actions (id);
+alter table device_features add constraint FK7uivhprva3mke1uvk59m42r0a foreign key (device_id) references device_template (id);
+alter table device_features add constraint FKcjsjodj6lwm8tldpiaflvjkns foreign key (features_id) references features (id);
+alter table local_device add constraint FK7rpxlg1mxbilymldv41omxywi foreign key (location_id) references location (id);
+alter table local_device add constraint FKlnc4rmqppjpxf8lhqglwi9gjm foreign key (supported_device_id) references device_template (id);
+alter table location add constraint FKqvj3evkkjc33etbi5ksb6u748 foreign key (home_id) references home (id);
+alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_device_uuid) references local_device (uuid);
+alter table users add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
+alter table user_home add constraint FKecghr2udqlel8f11r5i373kqn foreign key (home_id) references home (id);
+alter table user_home add constraint FKo8lycc0bd4as3hocqeprxhrsw foreign key (user_id) references users (id);

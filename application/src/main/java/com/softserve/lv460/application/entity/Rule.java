@@ -19,7 +19,7 @@ public class Rule {
   private String conditions;
   @ManyToOne
   private LocalDevice localDevice;
-  @ManyToMany(mappedBy = "rule")
+  @ManyToMany(mappedBy = "rule",fetch = FetchType.LAZY)
   @JsonIgnore
   private List<Action> action;
 
