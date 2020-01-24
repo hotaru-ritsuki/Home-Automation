@@ -19,6 +19,8 @@
         <org.apache.httpcomponents.version>4.5.7</org.apache.httpcomponents.version>
         <joda-time.version>2.9.9</joda-time.version>
         <commons-io.version>2.6</commons-io.version>
+        <swagger.version>2.9.2</swagger.version>
+        <mapper.version>2.3.2</mapper.version>
     </properties>
 
     <dependencies>
@@ -29,11 +31,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${mapper.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
