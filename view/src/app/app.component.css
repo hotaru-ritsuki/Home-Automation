@@ -1,18 +1,11 @@
-.navbar{
-  width: 100%;
-}
-
 .nav-item{
   outline: none;
   cursor: pointer;
 }
 
-footer{
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 70px;
+.footer {
+  position: inherit;
+  margin-top: 5%;
   width: 100%;
-  background-color: #3f51b5;
 }
 

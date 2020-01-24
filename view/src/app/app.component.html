@@ -1,13 +1,21 @@
+<div class="page">
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-primary" [containerInside]="false">
   <ul class="navbar-nav mr-auto">
-    <li routerLink="" class="nav-item"><a class="nav-link">Main Page</a></li>
-    <li routerLink="statistic" class="nav-item"><a class="nav-link">Statistic</a></li>
-    <li routerLink="home" class="nav-item"><a class="nav-link">Home</a></li>
-    <li routerLink="device" class="nav-item"><a class="nav-link">Device</a></li>
-    <li routerLink="dashboard" class="nav-item"><a class="nav-link">Dashboard</a></li>
+    <li routerLink="" class="nav-item"><a class="nav-link waves-light">Main Page</a></li>
+    <li routerLink="statistic" class="nav-item"><a class="nav-link waves-light">Statistic</a></li>
+    <li routerLink="home" class="nav-item"><a class="nav-link waves-light">Home</a></li>
+    <li routerLink="device" class="nav-item"><a class="nav-link waves-light">Device</a></li>
+    <li routerLink="dashboard" class="nav-item"><a class="nav-link waves-light">Dashboard</a></li>
   </ul>
 </mdb-navbar>
+</div>
 <router-outlet></router-outlet>
-<footer>
+<div class="footer">
+<footer class="page-footer font-small blue align-bottom">
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://mdbootstrap.com/education/angular/"> MDBootstrap.com</a>
+  </div>
 </footer>
+</div>
+
 

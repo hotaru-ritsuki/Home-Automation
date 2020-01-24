@@ -9,7 +9,7 @@
   </div>
   <div *ngIf="homes" class="location-choose">
     <ul class="list-group">
-      <li class="list-group-item location-choose-item" *ngFor="let loc of locations" routerLink="/locations" (click)="setLocation(loc)">
+      <li class="list-group-item location-choose-item bottom-border" *ngFor="let loc of locations" routerLink="/locations" (click)="setLocation(loc)">
         <span><img src="https://static.thenounproject.com/png/17576-200.png"></span>{{loc.name}}
         <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
     </ul>

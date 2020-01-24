@@ -18,6 +18,7 @@ import {DashboardLocationsComponent} from './components/dashboard/dashboard-loca
 import {DashboardGraphicsComponent} from './components/dashboard/dashboard-graphics/dashboard-graphics.component';
 import {WavesModule, NavbarModule, MDBBootstrapModule} from 'angular-bootstrap-md';
 import {ChartsModule} from 'ng2-charts';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -54,6 +55,7 @@ const routes: Routes = [
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     ChartsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
