@@ -31,6 +31,8 @@ public class DeviceTemplateService {
             .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND_BY_ID, id)));
   }
 
+  public List<DeviceTemplate> findAll() {return deviceTemplateRepository.findAll();}
+
   public List<String> findAllBrands() {
     return deviceTemplateRepository.findAllBrands();
   }
@@ -69,3 +71,4 @@ public class DeviceTemplateService {
             .collect(Collectors.toList()), allByFilter.getTotalPages(), allByFilter.getTotalElements());
   }
 }
+

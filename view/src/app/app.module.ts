@@ -14,6 +14,7 @@ import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from "./components/local-device/devices.component";
 import {FormsModule} from "@angular/forms";
+import {ConstantsService} from "./services/constant/constants.service";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -42,7 +43,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [],
+  providers: [ConstantsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

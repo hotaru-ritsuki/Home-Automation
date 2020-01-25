@@ -1,23 +1,27 @@
 FROM node:12.14.0 as builder
 
-RUN apk update && apk add --no-cache make git
+RUN apt update
+
+RUN apt install -y git nginx
+
+RUN mkdir /app
 
 WORKDIR /app
 
-COPY package.json package-lock.json  /app/
+COPY . .
 
-RUN cd /app && npm set progress=false && npm install
+RUN npm i
 
-COPY .  /app
+RUN npm run build
 
-RUN cd /app && npm run build
+RUN rm -rf /var/www/html
 
-FROM nginx:alpine
+RUN mv ./dist/view /var/www/html
 
-RUN rm -rf /usr/share/nginx/html/*
+RUN mv ./default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+RUN rm -rf /app
 
-EXPOSE 4200
+RUN service nginx restart
 
 CMD ["nginx", "-g", "daemon off;"]
