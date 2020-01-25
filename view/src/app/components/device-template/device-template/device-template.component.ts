@@ -10,7 +10,7 @@ import {DevicesTeamplateService} from "../../../services/devices-teamplate.servi
 })
 export class DeviceTemplateComponent implements OnInit {
   pageForUrl: number;
-  countOfPages: number;
+  countOfPages: Array<number>;
   devicesWithFilter: {
     content: Device[],
     totalPages: number,
@@ -54,9 +54,14 @@ export class DeviceTemplateComponent implements OnInit {
   }
   getAllDevices() {
     this.checkFeaturesCheckBox();
+    const pages = [];
     this.deviceService.getDevicesByFilter(this.pageForUrl, this.filterRequest).subscribe((res) => {
-      this.countOfPages = res.totalPages;
+      for (let i = 0; i < res.totalPages; i++) {
+        pages.push(i);
+      }
+      this.countOfPages = pages;
       this.devicesWithFilter = res;
+      this.pageForUrl = 0;
     });
   }
 
@@ -85,6 +90,10 @@ export class DeviceTemplateComponent implements OnInit {
   }
   selectModels(event: any) {
     this.filterRequest.model = event.target.value;
+  }
+  getPage(page: number) {
+    this.pageForUrl = page;
+    this.getAllDevices();
   }
 
 }

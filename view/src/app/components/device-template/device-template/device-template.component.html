@@ -54,7 +54,9 @@
   </div>
 
   <div class="main" *ngIf="devicesWithFilter != null">
-
+    <div *ngIf="devicesWithFilter.content.length <=0">
+      <p>There is no devices with your filtration</p>
+    </div>
     <div *ngFor="let device of devicesWithFilter.content">
       <div class="list-group">
         <div style="margin: 10px 0"
@@ -72,35 +74,15 @@
         </div>
       </div>
     </div>
-
-    <!--  <div *ngFor="let device of devicesWithFilter.content">-->
-    <!--    <p>Brand: {{device.brand}}</p>-->
-    <!--    <p>Model: {{device.model}}</p>-->
-    <!--    <p>Type: {{device.type}}</p>-->
-    <!--    <p>Year: {{device.releaseYear}}</p>-->
-    <!--    <p *ngIf="device.features.length > 0">-->
-    <!--      Features: <span style="background-color: lightgray; margin: 10px"-->
-    <!--                      *ngFor="let feature of device.features">{{feature.name}} </span></p>-->
-    <!--    <hr>-->
-    <!--  </div>-->
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
-    </nav>
+  </div>
+  <div class="pag">
+    <ul class="pagination">
+      <li style="padding-right: 10px" *ngFor="let page of countOfPages" class="page-item">
+        <button type="button" class="btn btn-outline-primary buttoned" value="{{page + 1}}"
+                (click)="getPage(page)">{{page + 1}}
+        </button>
+      </li>
+    </ul>
   </div>
 </div>
 </html>
-
-
-
-
-
-
-
-
