@@ -14,12 +14,14 @@ import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from "./components/local-device/devices.component";
 import {FormsModule} from "@angular/forms";
+import { DeviceTemplateComponent } from './components/device-template/device-template/device-template.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
   {path: '', component: MainComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'device', component: DevicesComponent}
+  {path: 'device', component: DevicesComponent},
+  {path: 'device-template', component: DeviceTemplateComponent}
 ];
 @NgModule({
 
@@ -30,7 +32,8 @@ const routes: Routes = [
     DevicesComponent,
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
-    MainComponent
+    MainComponent,
+    DeviceTemplateComponent
   ],
   imports: [
     BrowserModule,

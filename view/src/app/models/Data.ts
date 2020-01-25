@@ -1,6 +1,6 @@
-export class Data {
+export class Data<T> {
   constructor(
-    public content: [],
+    public content: [T],
     public totalPages: number,
     public totalElements: number
   ) {
