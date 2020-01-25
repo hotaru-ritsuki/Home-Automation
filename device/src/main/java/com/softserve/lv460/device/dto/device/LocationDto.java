@@ -1,4 +1,4 @@
-package com.softserve.lv460.device.dto.deviceDto;
+package com.softserve.lv460.device.dto.device;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

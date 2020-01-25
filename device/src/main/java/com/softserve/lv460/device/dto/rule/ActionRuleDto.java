@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActionRule {
+public class ActionRuleDto {
   private String actionSpecification;
-  private Action action;
+  private ActionDto action;
 }

@@ -1,7 +1,7 @@
 package com.softserve.lv460.device.service;
 
-import com.softserve.lv460.device.dto.deviceDto.DeviceDataDto;
-import com.softserve.lv460.device.dto.parametersDto.StatisticParameters;
+import com.softserve.lv460.device.dto.device.DeviceDataDto;
+import com.softserve.lv460.device.dto.parameters.StatisticParameters;
 
 import java.util.List;
 

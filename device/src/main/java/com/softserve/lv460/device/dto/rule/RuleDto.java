@@ -11,5 +11,5 @@ public class RuleDto {
   private Long id;
   private String name;
   private String conditions;
-  private List<ActionRule> actionRule;
+  private List<ActionRuleDto> actionRule;
 }

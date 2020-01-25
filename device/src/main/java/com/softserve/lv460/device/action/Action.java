@@ -1,8 +1,8 @@
 package com.softserve.lv460.device.action;
 
-import com.softserve.lv460.device.dto.rule.ActionRule;
+import java.util.Map;
 
 public interface Action {
-  void execute(ActionRule actionRule);
+  void execute(Map<String,String> actionData);
   String getType();
 }

@@ -1,19 +1,19 @@
-package com.softserve.lv460.device.config;
+package com.softserve.lv460.device.config.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.softserve.lv460.device.config.PropertiesConfig;
 import com.softserve.lv460.device.constant.ExceptionMassages;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.dto.deviceDto.LocalDeviceDto;
+import com.softserve.lv460.device.dto.device.LocalDeviceDto;
 import com.softserve.lv460.device.exception.exceptions.DeviceNotRegisteredException;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableCaching
 public class DeviceCacheConfig {
 
   private final PropertiesConfig propertiesConfig;

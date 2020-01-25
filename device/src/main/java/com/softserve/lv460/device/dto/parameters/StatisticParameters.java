@@ -1,4 +1,4 @@
-package com.softserve.lv460.device.dto.parametersDto;
+package com.softserve.lv460.device.dto.parameters;
 
 import com.softserve.lv460.device.constant.ValidationConstants;
 import lombok.AllArgsConstructor;
