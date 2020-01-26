@@ -10,4 +10,7 @@ public class PropertiesConfig {
   private String mainApplicationHostName;
   private Integer batchSize;
   private Integer batchTime;
+  private Integer cacheExpiration;
+  private String database;
+  private String collection;
 }
