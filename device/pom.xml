@@ -95,6 +95,7 @@
                     </includes>
                     <appName>device-automation</appName>
 
+
                     <processTypes>
                         <web>java $JAVA_OPTS $JAVA_TOOL_OPTIONS -Dserver.port=$PORT -jar target/device-0.0.1.jar</web>
                     </processTypes>

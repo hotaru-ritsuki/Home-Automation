@@ -22,6 +22,10 @@ RUN mv ./default.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /app
 
+
 RUN service nginx restart
 
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
+
+

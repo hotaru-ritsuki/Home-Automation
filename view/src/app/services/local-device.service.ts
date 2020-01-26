@@ -9,6 +9,7 @@ import {ConstantsService} from "./constant/constants.service";
 })
 export class LocalDeviceService {
   answer: any;
+  upgrade: any;
   constant:string;
 
   constructor(private http: HttpClient, private _constant: ConstantsService) {
@@ -23,12 +24,16 @@ export class LocalDeviceService {
     return this.http.get<Location[]>(this.constant + '/locations');
   }
 
+  getLocalDevice(uuid:string): Observable<Device[]> {
+    return this.http.get<Device[]>(this.constant + '/location-devices/' + uuid);
+  }
+
   findAll(): Observable<Device[]> {
     return this.http.get<Device[]>(this.constant + '/location-devices');
   }
 
   update(): Observable<Device[]> {
-    return this.http.put<Device[]>(this.constant + '/location-devices', this.answer);
+    return this.http.put<Device[]>(this.constant + '/location-devices', this.upgrade);
   }
 
   save(location, supportDevice) {
