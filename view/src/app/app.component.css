@@ -154,3 +154,11 @@ body {
     #fff;
 }
 
+.rightPlace{
+  position: absolute;
+  right: 12%;
+}
+.rightPlaceIn{
+  position:absolute;
+  right: 2.5%;
+}

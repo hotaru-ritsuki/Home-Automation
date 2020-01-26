@@ -3,9 +3,9 @@
     <li routerLink="">Main Page</li>
     <li *ngIf="isSignedIn" routerLink="statistic">Statistic</li>
     <li *ngIf="isSignedIn" routerLink="home">Home</li>
-    <li right=20px position=absolute *ngIf="!isSignedIn" routerLink="login">Login</li>
-    <li right=10px position=absolute *ngIf="!isSignedIn" routerLink="register">Register</li>
-    <li class="rightPlace" right="20px" position="absolute" *ngIf="isSignedIn">Welcome back, {{localStorageService.getFirstName()}}</li>
+    <li class="rightPlace" *ngIf="!isSignedIn" routerLink="login">Login</li>
+    <li class="rightPlaceIn"*ngIf="!isSignedIn" routerLink="register">Register</li>
+    <li class="rightPlace" *ngIf="isSignedIn">Welcome back, {{localStorageService.getFirstName()}}</li>
 
   </ul>
 </header>

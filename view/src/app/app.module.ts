@@ -27,14 +27,6 @@ const routes: Routes = [
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
   {path: 'activationEmail', component: ActivationEmailComponent}
-  // {path: 'auth',
-  //   component: SecureComponent,
-  //   children: [
-  //     { path: '', component: SignInComponent },
-  //     { path: 'sign-up', component: SignUpComponent },
-  //     { path: 'activation-email', component: ActivationEmailComponent }
-  //   ]
-  // }
 ];
 
 @NgModule({
