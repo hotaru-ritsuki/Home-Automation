@@ -6,7 +6,6 @@ import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
 import com.softserve.lv460.application.security.dto.UserRegistrationRequest;
-import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import com.softserve.lv460.application.service.ApplicationUserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,7 +29,6 @@ import javax.validation.constraints.NotBlank;
 public class UserApplicationController {
   private final ApplicationUserService applicationUserService;
   private final AuthenticationManager authenticationManager;
-  private final JwtTokenProvider jwtTokenProvider;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -38,7 +36,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping("/login")
-  public ResponseEntity<JWTUserResponse> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
+  public ResponseEntity<JWTSuccessLogIn> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(),
@@ -46,10 +44,7 @@ public class UserApplicationController {
             )
     );
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String accessToken = jwtTokenProvider.generateAccessToken(loginRequest.getEmail());
-    String refreshToken = jwtTokenProvider.generateRefreshToken(loginRequest.getEmail());
-
-    return ResponseEntity.ok(new JWTUserResponse(accessToken, refreshToken));
+    return ResponseEntity.ok(applicationUserService.login(loginRequest, authentication));
   }
 
   @ApiOperation("Registration")
@@ -65,12 +60,12 @@ public class UserApplicationController {
 
   @ApiOperation("Updating access token by refresh token")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = JWTUserResponse.class),
           @ApiResponse(code = 400, message = ErrorMessage.REFRESH_TOKEN_NOT_VALID)
   })
 
   @GetMapping("/refreshTokens")
-  public ResponseEntity<Object> updateAccessToken(@RequestParam @NotBlank String refreshToken) {
+  public ResponseEntity<JWTUserResponse> updateAccessToken(@RequestParam @NotBlank String refreshToken) {
     return ResponseEntity.ok().body(applicationUserService.updateAccessTokens(refreshToken));
   }
 

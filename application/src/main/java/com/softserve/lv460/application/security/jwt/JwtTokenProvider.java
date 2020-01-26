@@ -11,13 +11,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultJwtParser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -30,7 +27,7 @@ public class JwtTokenProvider {
 
   public String generateAccessToken(String username) {
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getAccessExpirationTime());
-log.info("Access Token for "+username+" created.");
+    log.info("Access Token for " + username + " created.");
     return securityProperties.getTokenPrefix() + Jwts.builder()
             .setSubject(username)
             .setIssuedAt(new Date())
@@ -45,9 +42,9 @@ log.info("Access Token for "+username+" created.");
 
   public String generateRefreshToken(String username) {
     ApplicationUser appUser = applicationUserRepository.findByEmail(username)
-            .orElseThrow(() -> new NotFoundException("Bad email"));
+            .orElseThrow(() -> new NotFoundException("Bad email :"));
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getRefreshExpirationTime());
-    log.info("Access Token for "+username+" with secret: "+appUser.getSecret()+" created.");
+    log.info("Access Token for " + username + " with secret: " + appUser.getSecret() + " created.");
     return Jwts.builder()
             .setSubject(username)
             .setIssuedAt(new Date())
@@ -58,7 +55,7 @@ log.info("Access Token for "+username+" created.");
   }
 
   public String generateRefreshToken(Authentication authentication) {
-    return this.generateRefreshToken(((UserPrincipal)authentication.getPrincipal()).getUsername());
+    return this.generateRefreshToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
   }
 
   public String getEmailFromJWT(String token) {
@@ -66,14 +63,14 @@ log.info("Access Token for "+username+" created.");
     String unsignedToken = splitToken[0] + "." + splitToken[1] + ".";
     DefaultJwtParser parser = new DefaultJwtParser();
     Jwt<?, ?> jwt = parser.parse(unsignedToken);
-    log.info("Email "+((Claims) jwt.getBody()).getSubject()+" from token: "+token);
+    log.info("Email " + ((Claims) jwt.getBody()).getSubject() + " from token: " + token);
     return ((Claims) jwt.getBody()).getSubject();
   }
 
   public boolean isTokenValid(String token, String secret) {
     try {
       Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-      log.info("Given token: "+token+" with secret:"+secret+" is valid");
+      log.info("Given token: " + token + " with secret:" + secret + " is valid");
       return true;
     } catch (Exception e) {
       log.error("Given token is not valid: " + e.getMessage());
@@ -82,6 +79,6 @@ log.info("Access Token for "+username+" created.");
   }
 
   public boolean validateAccessToken(String authAccessToken) {
-    return this.isTokenValid(authAccessToken,securityProperties.getSecret());
+    return this.isTokenValid(authAccessToken, securityProperties.getSecret());
   }
 }

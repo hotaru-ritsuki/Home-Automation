@@ -61,13 +61,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
   ],
-  /*
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: InterceptorService,
     multi: true
   }],
-  */
   bootstrap: [AppComponent]
 })
 export class AppModule {

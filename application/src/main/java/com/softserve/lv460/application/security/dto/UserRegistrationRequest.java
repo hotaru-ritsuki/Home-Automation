@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
@@ -13,8 +14,10 @@ import javax.validation.constraints.Size;
 public class UserRegistrationRequest {
   @Email
   private String email;
-  @Size(min=8)
+  @Size(min = 8)
   private String password;
+  @NotBlank
   private String firstName;
+  @NotBlank
   private String lastName;
 }

@@ -38,11 +38,11 @@ export class LogInComponent implements OnInit {
     this.loadingAnim = true;
     this.userLogInService.logIn(userLogIn).subscribe(
       (data: SuccessLogIn) => {
-        this.loadingAnim = false;
         this.userLogInService.saveUserToLocalStorage(data);
         this.router.navigate(['/'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
+        this.loadingAnim = false;
       },
       (errors: HttpErrorResponse) => {
         try {

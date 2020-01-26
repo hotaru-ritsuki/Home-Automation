@@ -8,6 +8,7 @@ import com.softserve.lv460.application.exception.exceptions.UserAlreadyRegistere
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
+import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
 import com.softserve.lv460.application.security.dto.UserRegistrationRequest;
@@ -15,6 +16,7 @@ import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +33,8 @@ public class ApplicationUserService {
 
   public JWTUserRequest save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
-      log.error("User with email: "+userRequest.getEmail()+" already exist.");
-      throw new UserAlreadyRegisteredException("User with email already exist");
+      log.error("User with email: " + userRequest.getEmail() + " already exist.");
+      throw new UserAlreadyRegisteredException("User with email " + userRequest.getEmail() + " already exist");
     }
     ApplicationUser applicationUser = userRegistrationRequestMapper.toEntity(userRequest);
     applicationUserRepository.save(applicationUser);
@@ -40,27 +42,24 @@ public class ApplicationUserService {
 
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Transactional
   public JWTUserResponse updateAccessTokens(String refreshToken) {
     String email;
     try {
       email = jwtTokenProvider.getEmailFromJWT(refreshToken);
-      log.info("Email from refreshToken: "+refreshToken+" is "+email);
+      log.info("Email from refreshToken: " + refreshToken + " is " + email);
     } catch (ExpiredJwtException e) {
-      log.error("Bad Refresh Token: "+refreshToken);
+      log.error("Bad Refresh Token: " + refreshToken);
       throw new BadRefreshTokenException(REFRESH_TOKEN_NOT_VALID);
     }
     ApplicationUser user = applicationUserRepository
             .findByEmail(email)
             .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + email));
-    log.info("User have found : "+user.toString());
+    log.info("User have found : " + user.toString());
     String newRefreshTokenKey = jwtTokenProvider.generateRefreshToken(email);
-    log.info("New RefreshTokenKey : "+newRefreshTokenKey+" for email: "+email);
+    log.info("New RefreshTokenKey : " + newRefreshTokenKey + " for email: " + email);
     applicationUserRepository.updateSecret(newRefreshTokenKey, user.getId());
-    log.info("Updated secret : "+newRefreshTokenKey+" for id:"+user.getId());
+    log.info("Updated secret : " + newRefreshTokenKey + " for id:" + user.getId());
 
     if (jwtTokenProvider.isTokenValid(refreshToken, user.getSecret())) {
       return new JWTUserResponse(
@@ -72,4 +71,10 @@ public class ApplicationUserService {
   }
 
 
+  public JWTSuccessLogIn login(JWTUserRequest loginRequest, Authentication auth) {
+    ApplicationUser user = applicationUserRepository
+            .findByEmail(loginRequest.getEmail())
+            .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + loginRequest.getEmail()));
+    return new JWTSuccessLogIn(user.getId(), jwtTokenProvider.generateAccessToken(auth), jwtTokenProvider.generateRefreshToken(auth), user.getFirstName());
+  }
 }

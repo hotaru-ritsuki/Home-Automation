@@ -17,7 +17,7 @@ import static java.util.Collections.emptyList;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
- private final ApplicationUserRepository applicationUserRepository;
+  private final ApplicationUserRepository applicationUserRepository;
 
   @Override
   @Transactional

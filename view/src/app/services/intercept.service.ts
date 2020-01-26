@@ -35,30 +35,23 @@ export class InterceptorService implements HttpInterceptor {
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.includes('login') || req.url.includes('register')) {
-      console.log('HIIIIIIIII');
       return next.handle(req);
     }
-    console.log('1');
     if (this.localStorageService.getAccessToken()) {
-      console.log('2');
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
-    console.log('3');
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED) {
-          console.log('Unauthor');
           return this.handle401Error(req, next);
         }
         if (error.status === FORBIDDEN) {
-          console.log('Forbidden');
           return this.handle403Error(req);
         }
         if (error.status === NOT_FOUND) {
-          console.log('Not_found');
           return this.handle404Error(req);
         }
-        console.log(error.status.toString());
+        this.router.navigate(['/login']).then(r => r);
         return throwError(error);
       })
     );

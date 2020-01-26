@@ -33,7 +33,7 @@ export class LocalStorageService {
     localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
   }
 
-  private getUserId(): number {
+  public getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
@@ -41,7 +41,7 @@ export class LocalStorageService {
     localStorage.setItem(this.USER_ID, String(userId));
     this.userIdBehaviourSubject.next(this.getUserId());
   }
-  private getFirstName(): string {
+  public getFirstName(): string {
     return localStorage.getItem(this.FIRST_NAME);
   }
 

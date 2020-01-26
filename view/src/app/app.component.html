@@ -1,11 +1,11 @@
 <header>
   <ul>
     <li routerLink="">Main Page</li>
-    <li routerLink="statistic">Statistic</li>
-    <li routerLink="home">Home</li>
-    <li routerLink="login">Login</li>
-    <li routerLink="register">Register</li>
-    <li routerLink="activationEmail">Activate Email</li>
+    <li *ngIf="isSignedIn" routerLink="statistic">Statistic</li>
+    <li *ngIf="isSignedIn" routerLink="home">Home</li>
+    <li right=20px position=absolute *ngIf="!isSignedIn" routerLink="login">Login</li>
+    <li right=10px position=absolute *ngIf="!isSignedIn" routerLink="register">Register</li>
+    <li class="rightPlace" right="20px" position="absolute" *ngIf="isSignedIn">Welcome back, {{localStorageService.getFirstName()}}</li>
 
   </ul>
 </header>

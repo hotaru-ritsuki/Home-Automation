@@ -13,13 +13,9 @@ export class JwtService {
   public isExpired(token: string): boolean {
     if (token != null) {
       const jwtData = token.split('.')[1];
-      console.log(jwtData);
       const decodedJwtJsonData = window.atob(jwtData);
-      console.log(window.atob(jwtData));
       const decodedJwtData = JSON.parse(decodedJwtJsonData);
-      console.log(JSON.parse(decodedJwtJsonData));
       const dateInSecond = (new Date().getTime() / 1000);
-      console.log(decodedJwtData.exp);
       return dateInSecond > decodedJwtData.exp;
     } else {
       return false;

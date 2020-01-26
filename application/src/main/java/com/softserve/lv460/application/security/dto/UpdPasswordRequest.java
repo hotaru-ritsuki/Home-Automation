@@ -10,11 +10,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdPasswordRequest {
+  private Long userId;
   @NotBlank
   private String currentPassword;
   @NotBlank
   private String password;
-  @NotBlank
-  private String confirmPassword;
 
 }
