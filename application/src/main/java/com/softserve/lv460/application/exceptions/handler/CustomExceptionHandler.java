@@ -1,6 +1,9 @@
 package com.softserve.lv460.application.exceptions.handler;
 
-import com.softserve.lv460.application.exceptions.*;
+import com.softserve.lv460.application.exception.exceptions.BadRefreshTokenException;
+import com.softserve.lv460.application.exception.exceptions.EmailNotVerified;
+import com.softserve.lv460.application.exception.exceptions.NotCurrentUserException;
+import com.softserve.lv460.application.exception.exceptions.ValidationExceptionDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;

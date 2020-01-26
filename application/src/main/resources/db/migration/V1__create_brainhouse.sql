@@ -41,10 +41,14 @@ create table user_home (
   home_id bigint not null) engine=MyISAM;
 
 create table users (
-  id bigint not null auto_increment,
-  email varchar(32) not null,
-  password varchar(255) not null,
-  primary key (id)) engine=MyISAM;
+id bigint not null auto_increment,
+ email varchar(255) not null,
+  enabled boolean default false,
+   firstName varchar(255) not null,
+    lastName varchar(255) not null,
+     password varchar(255) not null,
+      secret varchar(255) not null,
+       primary key (id)) engine=MyISAM;
 
 alter table users
   add constraint UK_6dotkott2kjsp8vw4d0m25fb7
@@ -77,3 +81,6 @@ alter table user_home
 alter table user_home
   add constraint FKo8lycc0bd4as3hocqeprxhrsw
   foreign key (user_id) references users (id);
+
+
+

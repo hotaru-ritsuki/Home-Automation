@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.exceptions;
+package com.softserve.lv460.application.exception.exceptions;
 
 import lombok.Data;
 import org.springframework.validation.FieldError;

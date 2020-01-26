@@ -3,6 +3,10 @@ target/
 dist/
 tmp/
 node_modules/
+
+#logs
+device/logs/
+
 *.iml
 *.iws
 *.iml
@@ -19,6 +23,7 @@ node_modules/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
 
 # Package Files #
 *.jar

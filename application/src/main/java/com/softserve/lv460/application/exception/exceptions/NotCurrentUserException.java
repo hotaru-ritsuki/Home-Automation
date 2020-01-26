@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.exceptions;
+package com.softserve.lv460.application.exception.exceptions;
 
 public class NotCurrentUserException extends RuntimeException {
 

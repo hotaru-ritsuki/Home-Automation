@@ -40,7 +40,6 @@ private SecurityConfigProperties securityConfigProperties;
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception ex) {
@@ -53,7 +52,7 @@ private SecurityConfigProperties securityConfigProperties;
   private String getJwtFromRequest(HttpServletRequest request) {
     String bearerToken = request.getHeader(securityConfigProperties.getHeader());
     if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(securityConfigProperties.getTokenPrefix())) {
-      return bearerToken.substring(6);
+      return bearerToken.substring(7);
     }
     return null;
   }
