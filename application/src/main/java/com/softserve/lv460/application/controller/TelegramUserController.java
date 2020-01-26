@@ -2,7 +2,6 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.dto.telegramUser.TelegramUserDTO;
-import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.mapper.telegramUser.TelegramUserMapper;
 import com.softserve.lv460.application.service.TelegramUserService;
 import io.swagger.annotations.ApiOperation;
@@ -18,24 +17,11 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/telegramBot")
+@RequestMapping("/telegram-bot")
 @CrossOrigin
 public class TelegramUserController {
   private TelegramUserService telegramUserService;
   private TelegramUserMapper mapper;
-
-  @ApiOperation(value = "Add user's telegram")
-  @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED)
-  })
-  @PostMapping
-  public ResponseEntity<Void> create(@RequestParam String username, @RequestParam String chatId) {
-    TelegramUser telegramUser = new TelegramUser();
-    telegramUser.setUsername(username);
-    telegramUser.setChatId(chatId);
-    telegramUserService.create(telegramUser);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
-  }
 
   @ApiOperation(value = "Return list of user's telegram")
   @ApiResponses(value = {
@@ -63,18 +49,16 @@ public class TelegramUserController {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserDTO.class)
   })
   @GetMapping("/user/{username}")
-  public ResponseEntity<TelegramUserDTO> findAllByUsername(@PathVariable("username") String username) {
+  public ResponseEntity<TelegramUserDTO> findByUsername(@PathVariable("username") String username) {
     return ResponseEntity.status(HttpStatus.OK).body(mapper.toDto(telegramUserService.findByUsername(username)));
   }
 
-  @ApiOperation(value = "Return user's telegram by username")
+  @ApiOperation(value = "Return user's telegram chat id by username")
   @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = Long.class)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
   })
   @GetMapping("/user/id/{username}")
-  public ResponseEntity<Long> findAIdByUsername(@PathVariable("username") String username) {
-    return ResponseEntity.status(HttpStatus.OK).body(telegramUserService.findByUsername(username).getId());
+  public ResponseEntity<String> findChatIdByUsername(@PathVariable("username") String username) {
+    return ResponseEntity.status(HttpStatus.OK).body(telegramUserService.findByUsername(username).getChatId());
   }
-
-
 }
