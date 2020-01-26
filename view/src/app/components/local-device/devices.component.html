@@ -6,34 +6,143 @@
 <p *ngFor="let device of allDevice">{{device.uuid}}</p>
 <p>End</p>
 
-<form #form = 'ngForm'>
-<div class="add-local-device">
-  <div>
-    <fieldset>
-      <legend class="labelForm">Room:</legend>
-      <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
-        <option selected="selected" *ngFor="let location of locationResponse"
-                [ngValue]="location">{{location.name}}</option>
-      </select>
-    </fieldset>
-  </div>
+<ul>
+  <li>
+    <button style="">Save</button>
+  </li>
+  <li>
+    <button style="">Delete</button>
+  </li>
+  <li>
+    <button style="">Change location</button>
+  </li>
+</ul>
 
-  <div>
-    <fieldset>
-      <legend class="labelForm">Device:</legend>
-      <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
-        <option *ngFor="let supportDevice of supportDeviceResponse"
-                [ngValue]="supportDevice">{{supportDevice.model}}</option>
-      </select>
-    </fieldset>
-  </div>
+<form #form='ngForm'>
+  <div class="add-local-device">
+    <div>
+      <fieldset>
+        <legend class="labelForm">Room:</legend>
+        <label>
+          <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
+            <option selected="selected" *ngFor="let location of locationResponse"
+                    [ngValue]="location">{{location.name}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
 
-  <br>
-  <div class="button_cont" align="center">
-    <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
-    <button [disabled]="form.invalid" *ngIf="form.invalid" class="example_c"target="_blank" (click)="save()">Save</button>
-    <button [disabled]="form.invalid" *ngIf="form.valid" class="example_c example_c_fill"target="_blank" (click)="save()">Save</button>
+    <div>
+      <fieldset>
+        <legend class="labelForm">Device:</legend>
+        <label>
+          <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
+            <option *ngFor="let supportDevice of supportDeviceResponse"
+                    [ngValue]="supportDevice">{{supportDevice.model}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <br>
+    <div class="button_cont" align="center">
+      <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
+      <button [disabled]="form.invalid" *ngIf="form.invalid" class="example_c" target="_blank" (click)="save()">Save
+      </button>
+      <button [disabled]="form.invalid" *ngIf="form.valid" class="example_c example_c_fill" target="_blank"
+              (click)="save()">Save
+      </button>
+    </div>
   </div>
-</div>
 </form>
 
+
+<form #deleteForm='ngForm'>
+  <div class="add-local-device">
+    <div>
+      <fieldset>
+        <legend class="labelForm">Room:</legend>
+        <label>
+          <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
+            <option selected="selected" *ngFor="let location of locationResponse"
+                    [ngValue]="location">{{location.name}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <div>
+      <fieldset>
+        <legend class="labelForm">Device:</legend>
+        <label>
+          <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
+            <option *ngFor="let supportDevice of supportDeviceResponse"
+                    [ngValue]="supportDevice">{{supportDevice.model}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <br>
+    <div class="button_cont" align="center">
+      <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
+      <button [disabled]="deleteForm.invalid" *ngIf="deleteForm.invalid" class="example_c" target="_blank"
+              (click)="save()">Delete
+      </button>
+      <button [disabled]="deleteForm.invalid" *ngIf="deleteForm.valid" class="example_c example_c_fill" target="_blank"
+              (click)="save()">Delete
+      </button>
+    </div>
+  </div>
+</form>
+
+<form #updateForm='ngForm'>
+  <div class="add-local-device">
+    <div>
+      <fieldset>
+        <legend class="labelForm">Room:</legend>
+        <label>
+          <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
+            <option selected="selected" *ngFor="let location of locationResponse"
+                    [ngValue]="location">{{location.name}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <div>
+      <fieldset>
+        <legend class="labelForm">Device:</legend>
+        <label>
+          <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
+            <option *ngFor="let supportDevice of supportDeviceResponse"
+                    [ngValue]="supportDevice">{{supportDevice.model}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <div>
+      <fieldset>
+        <legend class="labelForm">New location:</legend>
+        <label>
+          <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
+            <option selected="selected" *ngFor="let location of locationResponse"
+                    [ngValue]="location">{{location.name}}</option>
+          </select>
+        </label>
+      </fieldset>
+    </div>
+
+    <br>
+    <div class="button_cont" align="center">
+      <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
+      <button [disabled]="updateForm.invalid" *ngIf="updateForm.invalid" class="example_c" target="_blank"
+              (click)="save()">Change location
+      </button>
+      <button [disabled]="updateForm.invalid" *ngIf="updateForm.valid" class="example_c example_c_fill" target="_blank"
+              (click)="save()">Change location
+      </button>
+    </div>
+  </div>
+</form>

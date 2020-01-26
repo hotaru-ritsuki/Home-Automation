@@ -27,6 +27,10 @@ export class LocalDeviceService {
     return this.http.get<Device[]>(this.constant + '/location-devices');
   }
 
+  update(): Observable<Device[]> {
+    return this.http.put<Device[]>(this.constant + '/location-devices', this.answer);
+  }
+
   save(location, supportDevice) {
     var uuid = '2323';
     this.answer = {
@@ -35,7 +39,7 @@ export class LocalDeviceService {
       deviceTemplateId: supportDevice.id
     };
     console.log(this.answer);
-    this.http.post(this.constant + '/location-devices', this.answer).subscribe();
+    this.http.post(this.constant + '/location-devices', this.answer);
   }
 
 }
