@@ -33,8 +33,7 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     predicates.add(findByModel(root, builder));
     predicates.add(findByBrand(root, builder));
     predicates.add(findByType(root, builder));
-    predicates.add(findByBrand(root, builder));
-    predicates.add(findByFeatures(root, builder));
+    predicates.add(findByFeatures(root, builder, query));
     predicates.add(findByReleaseYear(root, builder));
     return builder.and(predicates.toArray(new Predicate[0]));
   }
@@ -69,11 +68,12 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     return predicate;
   }
 
-  private Predicate findByFeatures(Root<DeviceTemplate> r, CriteriaBuilder cb) {
+  private Predicate findByFeatures(Root<DeviceTemplate> r, CriteriaBuilder cb, CriteriaQuery query) {
     Predicate predicate;
     if (featuresId != null && !featuresId.isEmpty()) {
       Join<DeviceTemplate, Feature> feature = r.join("features");
       predicate = cb.and(cb.in(feature.get("id")).value(featuresId));
+      query.distinct(true);
     } else {
       predicate = cb.conjunction();
     }

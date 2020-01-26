@@ -41,7 +41,7 @@
     </div>
 
     <div *ngIf="allFeatures != null">
-      <h3>Features: </h3>
+      <h4>Features: </h4>
       <div class="custom-control custom-checkbox" *ngFor="let feature of allFeatures">
         <input class="featuresCheckbox custom-control-input" type="checkbox" id="{{feature.name}}"
                value="{{feature.id}}">
@@ -55,7 +55,7 @@
 
   <div class="main" *ngIf="devicesWithFilter != null">
     <div *ngIf="devicesWithFilter.content.length <=0">
-      <p>There is no devices with your filtration</p>
+      <p class="no-device">There is no devices with your filtration</p>
     </div>
     <div *ngFor="let device of devicesWithFilter.content">
       <div class="list-group">
