@@ -2,11 +2,8 @@ package com.softserve.lv460.device.exception.handler;
 
 
 import com.softserve.lv460.device.constant.ExceptionMassages;
-import com.softserve.lv460.device.controller.DeviceDataController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +27,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 
   @ExceptionHandler(RuntimeException.class)
-  public final ResponseEntity<Object> handleRuntimeException(WebRequest request,RuntimeException ex) {
+  public final ResponseEntity<Object> handleRuntimeException(WebRequest request, RuntimeException ex) {
     log.error(ex.getLocalizedMessage());
     Map<String, Object> errorAttributes = this
             .errorAttributes.getErrorAttributes(request, true);
@@ -39,9 +36,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
 
-
   @ExceptionHandler(ConnectException.class)
-  public final ResponseEntity<Object> handleConnectException(WebRequest request,ConnectException ex) {
+  public final ResponseEntity<Object> handleConnectException(WebRequest request, ConnectException ex) {
     log.error(ex.getLocalizedMessage());
     Map<String, Object> errorAttributes = this
             .errorAttributes.getErrorAttributes(request, true);

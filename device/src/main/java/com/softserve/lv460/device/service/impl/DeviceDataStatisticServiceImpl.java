@@ -22,7 +22,7 @@ public class DeviceDataStatisticServiceImpl implements DeviceDataStatisticServic
   public List<DeviceDataDto> getStatistic(StatisticParameters statisticParameters) {
     return deviceDataRepository.getStatistic(statisticParameters.getType()
             , parser(statisticParameters.getFrom()),
-            parser(statisticParameters.getTo()),statisticParameters.getLocationId()).stream()
+            parser(statisticParameters.getTo()), statisticParameters.getLocationId()).stream()
             .map(deviceData -> new DeviceDataDto(deviceData.getUuId(), deviceData.getData(), deviceData.getTimestamp()))
             .collect(Collectors.toList());
   }

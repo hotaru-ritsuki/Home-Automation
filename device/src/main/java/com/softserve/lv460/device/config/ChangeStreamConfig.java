@@ -39,11 +39,8 @@ public class ChangeStreamConfig {
 
     deviceData.doOnNext((event) -> {
       List<RuleDto> rules = ruleCacheConfig.getCache(event.getBody().getUuId());
-      for (RuleDto rule : rules) {
-        if (checkRuleCondition(rule, event.getBody().getData())) {
-          executeActions(rule);
-        }
-      }
+      rules.stream().filter((rule) ->
+              checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
     }).subscribe();
   }
 

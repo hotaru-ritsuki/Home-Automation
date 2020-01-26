@@ -41,8 +41,6 @@ public class RuleCacheConfig {
             );
   }
 
-
-
   public List<RuleDto> getCache(String uuId) {
     try {
       return cache.get(uuId);
@@ -51,7 +49,6 @@ public class RuleCacheConfig {
       return Collections.emptyList();
     }
   }
-
 
   private List<RuleDto> getRules(String uuId) throws IOException {
     String deviceRuleUrl = propertiesConfig.getMainApplicationHostName() + "/rules/device/" + uuId;

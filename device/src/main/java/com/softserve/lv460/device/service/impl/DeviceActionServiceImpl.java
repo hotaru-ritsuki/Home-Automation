@@ -21,7 +21,7 @@ public class DeviceActionServiceImpl implements DeviceActionService {
     List<DeviceActionData> deviceActionDataList = deviceActionRepository.findByUuIdAndStatus(uuId, Status.WAITING);
     deviceActionDataList.forEach((deviceActionData) -> deviceActionData.setStatus(Status.RECEIVED));
     return deviceActionRepository.saveAll(deviceActionDataList).stream().map(deviceActionData ->
-            new DeviceActionDataDto(deviceActionData.getData(),deviceActionData.getTimestamp()))
+            new DeviceActionDataDto(deviceActionData.getData(), deviceActionData.getTimestamp()))
             .collect(Collectors.toList());
   }
 
