@@ -1,0 +1,2 @@
+09:15:50.997 304178 [http-nio-8080-exec-1] ERROR c.s.l.a.s.jwt.JwtTokenProvider - JWT strings must contain exactly 2 period characters. Found: 4
+09:18:15.661 448842 [http-nio-8080-exec-6] ERROR c.s.l.a.s.jwt.JwtTokenProvider - JWT strings must contain exactly 2 period characters. Found: 4

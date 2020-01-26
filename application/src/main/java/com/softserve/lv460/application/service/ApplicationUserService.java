@@ -33,6 +33,7 @@ public class ApplicationUserService {
     applicationUser.setPassword(passwordEncoder.encode(password));
     applicationUserRepository.save(applicationUser);
   }
+
   public boolean checkIfValidOldPassword(ApplicationUser applicationUser, String oldPassword) {
     return passwordEncoder.matches(oldPassword, applicationUser.getPassword());
   }

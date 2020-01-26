@@ -12,16 +12,13 @@ import com.softserve.lv460.application.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Locale;
 
 @AllArgsConstructor
 @RestController
@@ -34,10 +31,10 @@ public class UserApplicationController {
   @PostMapping("/signin")
   public ResponseEntity<JWTUserResponse> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    loginRequest.getEmail(),
-                    loginRequest.getPassword()
-            )
+        new UsernamePasswordAuthenticationToken(
+            loginRequest.getEmail(),
+            loginRequest.getPassword()
+        )
     );
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,18 +49,17 @@ public class UserApplicationController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @RequestMapping(value ="/changePassword", method = RequestMethod.POST)
-  public void changePassword(@Valid UpdPasswordRequest password){
+  @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+  public void changePassword(@Valid UpdPasswordRequest password) {
 
     ApplicationUser applicationUser =
         (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if(applicationUserService.checkIfValidOldPassword(applicationUser, password.getPassword())){
+    if (applicationUserService.checkIfValidOldPassword(applicationUser, password.getPassword())) {
       applicationUserService.changeUserPassword(applicationUser, password.getPassword());
-    }else{
+    } else {
       throw new BadEmailOrPasswordException("Wrong password");
     }
-
 
     EmailServiceImpl mailSender = new EmailServiceImpl();
     mailSender.sendMessage(applicationUser.getEmail(), "Changed password", "Your password had been changed");

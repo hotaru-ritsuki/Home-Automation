@@ -1,8 +1,8 @@
 insert into users (email, password)
-  values ('olga7325@gmail.com', '123');
+  values ('olga7325@gmail.com', '123456789');
 
 insert into users (email, password)
-  values ('vasya@gmail.com', '1111');
+  values ('vasya@gmail.com', '987654321');
 
 insert into home (addressa, city, country)
   values ('Rynok sqr 5', 'Lviv', 'Ukraine');
