@@ -5,7 +5,9 @@ public class BotPhrases {
   public static final String START_PHRASE = "Hello! You are welcome."
         + "\nUse /help for instruction";
   public static final String STOP_PHRASE = "Bye!";
-  public static final String HELP_PHRASE = "Instruction"
+  public static final String HELP_PHRASE = "Our bot send you notification," +
+        "\nvisit our site www. to detail information"
+        + "\nBot command:"
         + "\n/help - instruction"
         + "\n/stop - stop using bot";
   public static final String ALREADY_REGISTER = "Hello again. But why?";
