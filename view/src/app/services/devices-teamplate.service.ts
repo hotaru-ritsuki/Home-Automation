@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Data} from "../models/Data";
-import {Device} from "../models/Device";
-import {Feature} from "../models/Feature";
-import {ConstantsService} from "./constant/constants.service";
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Data} from '../models/Data';
+import {Device} from '../models/Device';
+import {Feature} from '../models/Feature';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevicesTeamplateService {
-  constant:string;
+  URL = 'http://localhost:8080/devices';
+  URL2 = 'http://localhost:8080/features';
 
-  constructor(private http: HttpClient, private _constant: ConstantsService) {
-    this.constant = this._constant.baseApplicationUrl;
+  constructor(private http: HttpClient) {
+
   }
-
-  URL = this.constant + '/devices';
-  URL2 = this.constant + '/features';
-
   getDevicesByFilter(page, filterRequest): Observable<Data<Device>> {
     let params = new HttpParams();
-      params = params.append('model', filterRequest.model);
-      params = params.append('type', filterRequest.type);
-      params = params.append('brand', filterRequest.brand);
-      params = params.append('releaseYear', filterRequest.releaseYear);
-      params = params.append('featuresId', filterRequest.featuresId);
+    params = params.append('model', filterRequest.model);
+    params = params.append('type', filterRequest.type);
+    params = params.append('brand', filterRequest.brand);
+    params = params.append('releaseYear', filterRequest.releaseYear);
+    params = params.append('featuresId', filterRequest.featuresId);
     return this.http.get<Data<Device>>(this.URL + '/filter/page=' + page, {params});
   }
   getAllBrands(): Observable<Array<string>> {

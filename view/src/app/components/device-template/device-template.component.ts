@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Device} from "../../models/Device";
-import {Feature} from "../../models/Feature";
-import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
+import {Device} from '../../models/Device';
+import {Feature} from '../../models/Feature';
+import {DevicesTeamplateService} from '../../services/devices-teamplate.service';
 
 @Component({
   selector: 'app-device-template',
