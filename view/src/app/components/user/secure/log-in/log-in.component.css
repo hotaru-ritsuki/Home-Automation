@@ -13,5 +13,16 @@
 }
 
 .error, .validation-error {
+  margin-left: 10px;
   color: red;
+}
+.btn{
+  width: 100%;
+  margin-left: 10px;
+}
+.register{
+  margin-top: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+  text-align: center;
 }
