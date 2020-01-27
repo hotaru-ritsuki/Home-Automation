@@ -1,21 +1,28 @@
-.container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.chart {
-  margin-top: 50px;
+.features {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
+.feature {
+  width: 40%;
+}
+
+
 .graphic {
-  justify-content: center;
-  box-sizing: border-box;
-  width: 50%;
-  margin-right: 5%;
-  margin-left: 5%;
+  margin-top: 2%;
+  margin-left: 10%;
+  width: 80%;
+  padding-bottom: 90px;
+}
+
+
+.light-box {
+  margin-top: 1%;
+  width: 60%;
+  margin-left: 20%;
 }
 
 .date {

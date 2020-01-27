@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Device} from '../models/Device';
-import {ConstantsService} from "./constant/constants.service";
+import {ConstantsService} from './constant/constants.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {ConstantsService} from "./constant/constants.service";
 export class LocalDeviceService {
   answer: any;
   upgrade: any;
-  constant:string;
+  constant: string;
 
   constructor(private http: HttpClient, private _constant: ConstantsService) {
     this.constant = this._constant.baseApplicationUrl;
@@ -24,7 +24,7 @@ export class LocalDeviceService {
     return this.http.get<Location[]>(this.constant + '/locations');
   }
 
-  getLocalDevice(uuid:string): Observable<Device[]> {
+  getLocalDevice(uuid: string): Observable<Device[]> {
     return this.http.get<Device[]>(this.constant + '/location-devices/' + uuid);
   }
 
@@ -37,7 +37,7 @@ export class LocalDeviceService {
   }
 
   save(location, supportDevice) {
-    var uuid = '2323';
+    let uuid = '2323';
     this.answer = {
       uuid: '213',
       locationId: location.id,
