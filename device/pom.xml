@@ -121,6 +121,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>2.0.16</version>
+                <configuration>
+                    <includeTarget>false</includeTarget>
+                    <includes>
+                        <include>target/device-0.0.1.jar</include>
+                    </includes>
+                    <appName>device-automation</appName>
+
+
+                    <processTypes>
+                        <web>java $JAVA_OPTS $JAVA_TOOL_OPTIONS -Dserver.port=$PORT -jar target/device-0.0.1.jar</web>
+                    </processTypes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

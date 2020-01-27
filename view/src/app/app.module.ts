@@ -13,6 +13,7 @@ import {ChartsModule} from "ng2-charts";
 import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics-dashbord.component';
 import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from "./components/local-device/devices.component";
+import {ConstantsService} from "./services/constant/constants.service";
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
 import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
@@ -54,8 +55,10 @@ const routes: Routes = [
     DateTimePickerModule,
     RouterModule.forRoot(routes)
   ],
+
   providers:
-    [{
+    [ConstantsService,
+      {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true

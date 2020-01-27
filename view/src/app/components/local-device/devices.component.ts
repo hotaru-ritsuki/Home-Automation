@@ -11,6 +11,7 @@ import {Device} from '../../models/Device';
 export class DevicesComponent {
   locationResponse: any;
   supportDeviceResponse: Device[];
+  allDevice: any;
 
   respLocation: any;
   respSupportDevice: any;
@@ -23,6 +24,14 @@ export class DevicesComponent {
     this.deviceService.getSupportDevices()
       .subscribe((response) => {
         this.supportDeviceResponse = response;
+      });
+    this.deviceService.findAll()
+      .subscribe((response) => {
+        this.allDevice = response;
+      });
+    this.deviceService.update()
+      .subscribe((response) => {
+        this.allDevice = response;
       });
     console.log(this.locationResponse);
   }
