@@ -1,4 +1,4 @@
-.nav-item {
+.nav-link {
   outline: none;
   cursor: pointer;
 }
@@ -19,19 +19,20 @@
 .greeting-text {
   text-align: center;
   margin-top: 5%;
-  font-family: Lobster;
+  font-family: Roboto;
 }
 
 .text-size {
   font-size: 100px;
 }
 
-.rightPlace{
+.rightPlace {
   position: absolute;
   right: 12%;
 }
-.rightPlaceIn{
-  position:absolute;
+
+.rightPlaceIn {
+  position: absolute;
   right: 2.5%;
 }
 

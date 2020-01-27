@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Home} from '../model/Home';
-import {add} from 'ngx-bootstrap/chronos';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +38,9 @@ export class HomeService {
 
   getHomeByAddress(address: string): Observable<Home> {
     return this.http.get<Home>(this.URLFind + '/' + address);
-}
+  }
+
+  getHomesByUser(userId: number) {
+    return this.http.get<Home[]>(this.URL + '/user/' + userId);
+  }
 }

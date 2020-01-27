@@ -20,9 +20,9 @@ import {LogInComponent} from './components/user/secure/log-in/log-in.component';
 import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
-import {MDBBootstrapModule, NavbarModule, WavesModule, ButtonsModule} from 'angular-bootstrap-md';
+import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
-import { SliderModule } from 'angular-image-slider';
+import {SliderModule} from 'angular-image-slider';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -32,8 +32,10 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
   {path: 'locations', component: DashboardLocationsComponent},
   {path: 'login', component: LogInComponent},
-  {path: 'register', component: SignUpComponent}
+  {path: 'register', component: SignUpComponent},
+  {path: 'device-template', component: DeviceTemplateComponent}
 ];
+
 @NgModule({
 
   declarations: [

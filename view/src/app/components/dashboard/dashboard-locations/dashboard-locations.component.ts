@@ -31,9 +31,11 @@ export class DashboardLocationsComponent implements OnInit {
     this.location = this.dashboardLocationsService.getLocation();
     this.dashboardService.getLocalDevicesByLocation(this.location).subscribe(res => {
       this.localDevices = Object.assign([], res);
+      console.log(this.localDevices);
       for (const dev of this.localDevices) {
         this.getFeatureByDevice(dev.deviceTemplate);
       }
+      console.log(this.featuresGraphics);
     });
   }
 

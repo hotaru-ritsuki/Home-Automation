@@ -15,7 +15,7 @@
     </div>
   </div>
 </div>
-<div class="graphics" *ngIf="features.length>0">
+<div class="graphics" *ngIf="features.length>0 || featuresGraphics.length > 0">
   <div class="date">
     <div class="text">From</div>
     <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time'
