@@ -10,14 +10,13 @@ import {ConstantsService} from "./constant/constants.service";
   providedIn: 'root'
 })
 export class DevicesTeamplateService {
-  constant:string;
+  URL: string;
+  URL2: string;
 
   constructor(private http: HttpClient, private _constant: ConstantsService) {
-    this.constant = this._constant.baseApplicationUrl;
+    this.URL = this._constant.baseApplicationUrl + '/devices';
+    this.URL2 = this._constant.baseApplicationUrl + '/features';
   }
-
-  URL = this.constant + '/devices';
-  URL2 = this.constant + '/features';
 
   getDevicesByFilter(page, filterRequest): Observable<Data<Device>> {
     let params = new HttpParams();
