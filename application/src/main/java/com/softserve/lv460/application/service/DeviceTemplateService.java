@@ -22,13 +22,21 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class DeviceTemplateService {
-  private static final int PAGE_SIZE = 20;
+  private static final int PAGE_SIZE = 10;
   private DeviceTemplateRepository deviceTemplateRepository;
   private DeviceTemplateResponseMapper responseMapper;
 
   public DeviceTemplate findById(Long id) {
     return deviceTemplateRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DEVICE_TEMPLATE_NOT_FOUND_BY_ID, id)));
+  }
+
+  public List<String> findAllTypes() {
+    return deviceTemplateRepository.findAllTypes();
+  }
+
+  public List<String> findAllModels() {
+    return deviceTemplateRepository.findAllModels();
   }
 
   public List<String> findAllBrands() {
@@ -40,7 +48,6 @@ public class DeviceTemplateService {
   }
 
   public DeviceTemplate save(DeviceTemplate deviceTemplate) {
-    System.out.println(deviceTemplate);
     return deviceTemplateRepository.save(deviceTemplate);
   }
 

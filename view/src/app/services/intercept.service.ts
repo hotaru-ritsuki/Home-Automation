@@ -51,7 +51,6 @@ export class InterceptorService implements HttpInterceptor {
         if (error.status === NOT_FOUND) {
           return this.handle404Error(req);
         }
-        this.router.navigate(['/login']).then(r => r);
         return throwError(error);
       })
     );
