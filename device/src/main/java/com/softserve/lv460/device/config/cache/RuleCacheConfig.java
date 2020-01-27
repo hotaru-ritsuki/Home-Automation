@@ -54,7 +54,7 @@ public class RuleCacheConfig {
     String deviceRuleUrl = propertiesConfig.getMainApplicationHostName() + "/rules/device/" + uuId;
     CloseableHttpResponse response = httpClient.execute(new HttpGet(deviceRuleUrl));
     return new ObjectMapper().readValue(response.getEntity().getContent(),
-            new TypeReference<List<RuleDto>>() {
+            new TypeReference<>() {
             });
   }
 }

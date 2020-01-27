@@ -3,7 +3,7 @@
   <form #registerForm="ngForm" (ngSubmit)="register(userSignUp)">
     <div class="validation-error"
          *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
-      <div *ngIf="firstNameControl.errors.required">
+      <div style="margin-left: 10px" *ngIf="firstNameControl.errors.required">
         First Name is required field
       </div>
       <div *ngIf="firstNameControl.errors.minlength">

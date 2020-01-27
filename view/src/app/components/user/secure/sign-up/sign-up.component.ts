@@ -34,6 +34,7 @@ export class SignUpComponent implements OnInit {
       () => {
         this.router.navigateByUrl('/login').then(r => r);
         this.loadingAnim = false;
+        this.router.navigateByUrl('').then(r => r);
       },
       (errors: HttpErrorResponse) => {
           this.passwordErrorMessageBackEnd = 'Incorrect Data';

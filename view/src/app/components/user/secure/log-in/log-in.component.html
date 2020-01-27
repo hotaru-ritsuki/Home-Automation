@@ -40,13 +40,9 @@
            required minlength="8">
 
 
-    <p></p>
-
     <div class="error" *ngIf="backEndError!=null">
       {{backEndError}}
     </div>
-
-    <p></p>
 
 
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
@@ -56,10 +52,7 @@
 
   </form>
 
-  <p></p>
-  <button class="btn btn-primary register" routerLink="../register">
-    Register
-  </button>
-
-  <p></p>
+  <div class="register" routerLink="../register">
+      Dont have an account?
+  </div>
 </div>
