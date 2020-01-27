@@ -19,4 +19,7 @@ public class SecurityConfigProperties {
   private String signUpUrl;
   private String signInUrl;
   private String refreshTokensUrl;
+  private String locationUrl;
+  private String rulesUrl;
+  private String telegramUrl;
 }
