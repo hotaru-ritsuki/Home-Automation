@@ -38,4 +38,9 @@ public class ApplicationUserService {
     return passwordEncoder.matches(oldPassword, applicationUser.getPassword());
   }
 
+  public ApplicationUser findByEmail(String email) {
+    return applicationUserRepository.findByEmail(email)
+          .orElseThrow(() -> new IllegalArgumentException("Error"));
+  }
+
 }

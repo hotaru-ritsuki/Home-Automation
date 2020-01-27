@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,10 +32,10 @@ public class UserApplicationController {
   @PostMapping("/signin")
   public ResponseEntity<JWTUserResponse> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            loginRequest.getEmail(),
-            loginRequest.getPassword()
-        )
+          new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+          )
     );
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,10 +53,9 @@ public class UserApplicationController {
   @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
   public void changePassword(@Valid UpdPasswordRequest password) {
 
-    ApplicationUser applicationUser =
-        (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    if (applicationUserService.checkIfValidOldPassword(applicationUser, password.getPassword())) {
+    String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    ApplicationUser applicationUser = applicationUserService.findByEmail(email);
+    if (applicationUserService.checkIfValidOldPassword(applicationUser, password.getCurrentPassword())) {
       applicationUserService.changeUserPassword(applicationUser, password.getPassword());
     } else {
       throw new BadEmailOrPasswordException("Wrong password");

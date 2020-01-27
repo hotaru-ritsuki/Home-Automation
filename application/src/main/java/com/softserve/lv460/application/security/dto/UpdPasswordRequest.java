@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class UpdPasswordRequest {
   @Id
-  @NotBlank
   private Integer id;
   @NotBlank
   private String currentPassword;
