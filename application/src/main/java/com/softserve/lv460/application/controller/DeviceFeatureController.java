@@ -26,7 +26,6 @@ public class DeviceFeatureController {
   private DeviceFeatureResponseMapper responseMapper;
   private DeviceFeatureRequestMapper requestMapper;
 
-
   @ApiOperation(value = "Update device - feature")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceFeatureResponseDTO.class)

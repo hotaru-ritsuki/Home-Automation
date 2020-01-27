@@ -1,7 +1,5 @@
-INSERT INTO `users` (`email`, `password`) VALUES ('olga7325@gmail.com', '123'), ('vasya@gmail.com', '1111');
-
-SELECT @usero := `users`.`id` FROM `users` WHERE `users`.`email` = 'olga7325@gmail.com';
-SELECT @userv := `users`.`id` FROM `users` WHERE `users`.`email` = 'vasya@gmail.com';
+INSERT INTO `users`(`email`,`first_name`,`last_name`,`password`,`secret`) VALUES ('lol@gmail.com','Lol','OMG','password','LV460JAVA'),
+                                                        ('kek@gmail.com','Kek','SDL','password','LV460JAVA');
 
 INSERT INTO `home` (`addressa`, `city`, `country`) VALUES ('Rynok sqr 5', 'Lviv', 'Ukraine'), ('Valova str 11', 'Lviv', 'Ukraine');
 
@@ -22,8 +20,8 @@ SELECT @locationHvalova := `location`.`id` FROM `location` WHERE `location`.`nam
 SELECT @locationKT := `location`.`id` FROM `location` WHERE `location`.`name` = 'kitchen';
 SELECT @locationBRvalova := `location`.`id` FROM `location` WHERE `location`.`name` = 'bedroom';
 
-INSERT INTO `user_home` (`user_id`, `home_id`) VALUES ((SELECT @usero), (SELECT @rynok)),
-                                                ((SELECT @userv), (SELECT @rynok));
+INSERT INTO `user_home` (`user_id`, `home_id`) VALUES ('1', (SELECT @rynok)),
+                                                ('2', (SELECT @rynok));
 
 INSERT INTO `device_template` (`id`, `brand`, `model`, `power_supply`, `release_year`, `type`)
     VALUES (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter'),

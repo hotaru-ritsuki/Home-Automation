@@ -5,6 +5,7 @@ import {DeviceData} from "../models/DeviceData";
 import {ConstantsService} from "./constant/constants.service";
 
 
+
 @Injectable({
   providedIn: 'root'
 })

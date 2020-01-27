@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class DeviceTemplateService {
-  private static final int PAGE_SIZE = 20;
+  private static final int PAGE_SIZE = 10;
   private DeviceTemplateRepository deviceTemplateRepository;
   private DeviceTemplateResponseMapper responseMapper;
 
@@ -33,6 +33,14 @@ public class DeviceTemplateService {
 
   public List<DeviceTemplate> findAll() {return deviceTemplateRepository.findAll();}
 
+  public List<String> findAllTypes() {
+    return deviceTemplateRepository.findAllTypes();
+  }
+
+  public List<String> findAllModels() {
+    return deviceTemplateRepository.findAllModels();
+  }
+
   public List<String> findAllBrands() {
     return deviceTemplateRepository.findAllBrands();
   }
@@ -42,7 +50,6 @@ public class DeviceTemplateService {
   }
 
   public DeviceTemplate save(DeviceTemplate deviceTemplate) {
-    System.out.println(deviceTemplate);
     return deviceTemplateRepository.save(deviceTemplate);
   }
 

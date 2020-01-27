@@ -38,6 +38,24 @@ public class DeviceTemplateController {
             .stream().map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
+  @ApiOperation(value = "Find all device template's models")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  })
+  @GetMapping("/models")
+  public ResponseEntity<List<String>> findAllModels() {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllModels());
+  }
+
+  @ApiOperation(value = "Find all device template's types")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  })
+  @GetMapping("/types")
+  public ResponseEntity<List<String>> findAllTypes() {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllTypes());
+  }
+
   @ApiOperation(value = "Find all device template's brands")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)

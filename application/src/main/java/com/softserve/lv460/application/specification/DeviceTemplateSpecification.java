@@ -33,15 +33,14 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     predicates.add(findByModel(root, builder));
     predicates.add(findByBrand(root, builder));
     predicates.add(findByType(root, builder));
-    predicates.add(findByBrand(root, builder));
-    predicates.add(findByFeatures(root, builder));
+    predicates.add(findByFeatures(root, builder, query));
     predicates.add(findByReleaseYear(root, builder));
     return builder.and(predicates.toArray(new Predicate[0]));
   }
 
   private Predicate findByModel(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (model != null) {
+    if (model != null && !model.equals("")) {
       predicate = cb.equal(r.get("model"), model);
     } else {
       predicate = cb.conjunction();
@@ -51,7 +50,7 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByBrand(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (brand != null) {
+    if (brand != null && !brand.equals("")) {
       predicate = cb.equal(r.get("brand"), brand);
     } else {
       predicate = cb.conjunction();
@@ -61,7 +60,7 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
 
   private Predicate findByType(Root<DeviceTemplate> r, CriteriaBuilder cb) {
     Predicate predicate;
-    if (type != null) {
+    if (type != null && !type.equals("")) {
       predicate = cb.equal(r.get("type"), type);
     } else {
       predicate = cb.conjunction();
@@ -69,11 +68,12 @@ public class DeviceTemplateSpecification implements Specification<DeviceTemplate
     return predicate;
   }
 
-  private Predicate findByFeatures(Root<DeviceTemplate> r, CriteriaBuilder cb) {
+  private Predicate findByFeatures(Root<DeviceTemplate> r, CriteriaBuilder cb, CriteriaQuery query) {
     Predicate predicate;
-    if (featuresId != null) {
+    if (featuresId != null && !featuresId.isEmpty()) {
       Join<DeviceTemplate, Feature> feature = r.join("features");
       predicate = cb.and(cb.in(feature.get("id")).value(featuresId));
+      query.distinct(true);
     } else {
       predicate = cb.conjunction();
     }

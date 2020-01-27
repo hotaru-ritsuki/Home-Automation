@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConstantsService {
-  readonly baseApplicationUrl: string =  'https://auotomation-application.herokuapp.com';
+  readonly baseApplicationUrl: string =  'http://localhost:8080';
   readonly baseDeviceUrl: string = 'http://localhost:8081';
 }
