@@ -1,4 +1,4 @@
-.nav-item{
+.nav-item {
   outline: none;
   cursor: pointer;
 }
@@ -9,20 +9,20 @@
   width: 100%;
 }
 
-.image-slider{
+.image-slider {
   margin-top: 2%;
   margin-left: 10%;
   width: 80%;
   height: 80%;
 }
 
-.greeting-text{
+.greeting-text {
   text-align: center;
   margin-top: 5%;
   font-family: Lobster;
 }
 
-.text-size{
+.text-size {
   font-size: 100px;
 }
 

@@ -18,7 +18,6 @@ export class GraphicsDashbordComponent implements OnInit {
   }
 
   filterByDateTime(from, to) {
-    console.log(from + 'asfasfafasfasf');
     const fromDate = new Date(from);
     const toDate = new Date(to);
     this.dataService.DateTime.next(this.dateParser(fromDate) + '&' + this.dateParser(toDate));

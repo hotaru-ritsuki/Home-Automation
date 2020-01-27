@@ -40,9 +40,9 @@ export class DashboardLocationsComponent implements OnInit {
   getFeatureByDevice(device: Device) {
     this.dashboardService.getDeviceFeatureByDevice(device).subscribe(res => {
       for (const feat of res) {
-        if(feat.featureDTO.name === 'getLight') {
+        if (feat.featureDTO.name === 'getLight') {
           this.features.push(feat);
-        } else{
+        } else {
           this.featuresGraphics.push(feat);
         }
       }

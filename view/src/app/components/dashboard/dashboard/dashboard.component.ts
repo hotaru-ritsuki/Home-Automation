@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HomeService} from '../../../home/service/home.service';
 import {Home} from '../../../home/model/Home';
 import {Locations} from '../../../home/model/Locations';
@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   locations: Locations[] = [];
   homes: Home[] = [];
+
   constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService) {
     this.router.navigate(['dashboard']);
     this.homeService.getHomes().subscribe(res => {

@@ -12,7 +12,8 @@ import {FeatureDTO} from '../../../models/FeatureDTO';
 export class DashboardService {
   private URL = 'http://localhost:8080/location-devices/location';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getLocalDevicesByLocation(location: Locations): Observable<LocalDevice[]> {
     return this.http.get<LocalDevice[]>(this.URL + '/' + location.id);

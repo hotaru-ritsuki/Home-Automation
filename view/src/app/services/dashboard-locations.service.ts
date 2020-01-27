@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Locations} from '../home/model/Locations';
 
 @Injectable({
@@ -6,7 +6,9 @@ import {Locations} from '../home/model/Locations';
 })
 export class DashboardLocationsService {
   location: Locations;
-  constructor() { }
+
+  constructor() {
+  }
 
   getLocation() {
     return this.location;
