@@ -12,11 +12,11 @@ create table users (
 id bigint not null auto_increment,
  email varchar(255) not null,
   enabled boolean default false,
-   firstName varchar(255) not null,
-    lastName varchar(255) not null,
+   first_name varchar(255) not null,
+    last_name varchar(255) not null,
      password varchar(255) not null,
       secret varchar(255) not null,
-       primary key (id)) engine=MyISAM;
+       primary key (id)) engine=InnoDB;
 create table telegram_user (id bigint not null auto_increment, chat_id varchar(255), username varchar(255), primary key (id)) engine=InnoDB;
 alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);
 alter table telegram_user add constraint UK_c7f0a9nq5qaaquhoyswh9pn5 unique (username);

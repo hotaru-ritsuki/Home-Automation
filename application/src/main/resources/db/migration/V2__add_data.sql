@@ -1,7 +1,7 @@
-insert into users (email, password, firstName, lastName,secret)
+insert into users (email, password, first_name, last_name,secret)
   values ('olga7325@gmail.com', '12345678','olga','lol','lolipop');
 
-insert into users (email, password, firstName, lastName,secret)
+insert into users (email, password, first_name, last_name,secret)
   values ('vasya@gmail.com', '11111111','vasyl','petrashchuk','lolipop');
 
 insert into home (addressa, city, country)

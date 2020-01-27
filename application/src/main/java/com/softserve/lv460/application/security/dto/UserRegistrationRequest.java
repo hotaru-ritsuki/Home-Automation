@@ -16,8 +16,6 @@ public class UserRegistrationRequest {
   private String email;
   @Size(min = 8)
   private String password;
-  @NotBlank
   private String firstName;
-  @NotBlank
   private String lastName;
 }

@@ -24,7 +24,6 @@ import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin
 @RequestMapping("/users")
 public class UserApplicationController {
   private final ApplicationUserService applicationUserService;
@@ -54,8 +53,7 @@ public class UserApplicationController {
   })
   @PostMapping("/register")
   public ResponseEntity<?> signUp(@RequestBody UserRegistrationRequest userRequest) {
-    applicationUserService.save(userRequest);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+    return ResponseEntity.ok().body(applicationUserService.save(userRequest));
   }
 
   @ApiOperation("Updating access token by refresh token")
