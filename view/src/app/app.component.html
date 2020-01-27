@@ -3,8 +3,10 @@
     <li routerLink="">Main Page</li>
     <li *ngIf="isSignedIn" routerLink="statistic">Statistic</li>
     <li *ngIf="isSignedIn" routerLink="home">Home</li>
+    <li *ngIf="isSignedIn" routerLink="device">Device</li>
+    <li *ngIf="isSignedIn" routerLink="device-template">Devices</li>
     <li class="rightPlace" *ngIf="!isSignedIn" routerLink="login">Login</li>
-    <li class="rightPlaceIn"*ngIf="!isSignedIn" routerLink="register">Register</li>
+    <li class="rightPlaceIn" *ngIf="!isSignedIn" routerLink="register">Register</li>
     <li class="rightPlace" *ngIf="isSignedIn">Welcome back, {{localStorageService.getFirstName()}}</li>
   </ul>
 </header>

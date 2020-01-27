@@ -18,4 +18,8 @@ public interface DeviceTemplateRepository extends JpaRepository<DeviceTemplate, 
   List<String> findAllBrands();
   @Query("SELECT DISTINCT dt.releaseYear FROM DeviceTemplate dt ORDER BY dt.releaseYear")
   List<Integer> findAllReleaseYears();
+  @Query("SELECT DISTINCT dt.type FROM DeviceTemplate dt ORDER BY dt.type")
+  List<String> findAllTypes();
+  @Query("SELECT DISTINCT dt.model FROM DeviceTemplate dt ORDER BY dt.model")
+  List<String> findAllModels();
 }

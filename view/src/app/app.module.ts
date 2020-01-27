@@ -12,7 +12,8 @@ import {DevicesGraphicsComponent} from './components/devices-graphics/devices-gr
 import {ChartsModule} from "ng2-charts";
 import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics-dashbord.component';
 import {MainComponent} from './components/main/main.component';
-import {DevicesComponent} from './components/local-device/devices.component';
+import {DevicesComponent} from "./components/local-device/devices.component";
+import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
 import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
 import {LogInComponent} from './components/user/secure/log-in/log-in.component';
@@ -23,10 +24,12 @@ const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'home', component: HomeComponent},
   {path: 'device', component: DevicesComponent},
+  {path: 'device-template', component: DeviceTemplateComponent},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
   {path: 'activationEmail', component: ActivationEmailComponent}
 ];
+
 @NgModule({
 
   declarations: [
@@ -36,11 +39,11 @@ const routes: Routes = [
     DevicesComponent,
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
+    MainComponent,
+    DeviceTemplateComponent,
     LogInComponent,
     SignUpComponent,
-    DevicesComponent,
-    ActivationEmailComponent,
-    MainComponent
+    ActivationEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -49,16 +52,17 @@ const routes: Routes = [
     ChartsModule,
     FormsModule,
     DateTimePickerModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
-    FormsModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: InterceptorService,
-    multi: true
-  }],
-  bootstrap: [AppComponent]
+  providers:
+    [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }],
+  bootstrap:
+    [AppComponent]
 })
+
 export class AppModule {
 }
