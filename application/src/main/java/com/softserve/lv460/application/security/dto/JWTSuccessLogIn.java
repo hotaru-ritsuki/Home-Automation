@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdPasswordRequest {
+public class JWTSuccessLogIn {
   private Long userId;
-  @NotBlank
-  private String currentPassword;
-  @NotBlank
-  private String password;
-
+  private String accessToken;
+  private String refreshToken;
+  private String firstName;
 }

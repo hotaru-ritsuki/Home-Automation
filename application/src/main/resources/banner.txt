@@ -1,0 +1,11 @@
+${Ansi.BLUE}
+${Ansi.BLUE}       ____            _       _    _
+${Ansi.BLUE}      |  _ \          (_)     | |  | |
+${Ansi.BLUE}      | |_) |_ __ __ _ _ _ __ | |__| | ___  _   _ ___  ___
+${Ansi.BLUE}      |  _ <| '__/ _` | | '_ \|  __  |/ _ \| | | / __|/ _ \
+${Ansi.BLUE}      | |_) | | | (_| | | | | | |  | | (_) | |_| \__ |  __/
+${Ansi.BLUE}      |____/|_|  \__,_|_|_| |_|_|  |_|\___/ \__,_|___/\___|
+${Ansi.BLUE}
+${Ansi.BLUE}
+${Ansi.BLUE} :: Spring Boot ${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
+

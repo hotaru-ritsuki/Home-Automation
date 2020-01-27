@@ -8,7 +8,15 @@ create table local_device (uuid varchar(255) not null, location_id bigint not nu
 create table location (id bigint not null auto_increment, name varchar(255), home_id bigint, primary key (id)) engine=InnoDB;
 create table rules (id bigint not null auto_increment, conditions varchar(255), name varchar(255), local_device_uuid varchar(255), primary key (id)) engine=InnoDB;
 create table user_home (user_id bigint not null, home_id bigint not null) engine=InnoDB;
-create table users (id bigint not null auto_increment, email varchar(32) not null, password varchar(255) not null, primary key (id)) engine=InnoDB;
+create table users (
+id bigint not null auto_increment,
+ email varchar(255) not null,
+  enabled boolean default false,
+   first_name varchar(255) not null,
+    last_name varchar(255) not null,
+     password varchar(255) not null,
+      secret varchar(255) not null,
+       primary key (id)) engine=InnoDB;
 create table telegram_user (id bigint not null auto_increment, chat_id varchar(255), username varchar(255), primary key (id)) engine=InnoDB;
 alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);
 alter table telegram_user add constraint UK_c7f0a9nq5qaaquhoyswh9pn5 unique (username);
@@ -23,4 +31,3 @@ alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_
 alter table users add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
 alter table user_home add constraint FKecghr2udqlel8f11r5i373kqn foreign key (home_id) references home (id);
 alter table user_home add constraint FKo8lycc0bd4as3hocqeprxhrsw foreign key (user_id) references users (id);
-

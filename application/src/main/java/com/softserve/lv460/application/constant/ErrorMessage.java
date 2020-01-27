@@ -26,6 +26,9 @@ public class ErrorMessage {
   public static final String HOME_NOT_DELETED_BY_ID = "The rule wasn't deleted by id: %d";
   public static final String HOME_NOT_DELETED_HAVE_DEPENDENCIES = "Home with id %d has dependencies";
   public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exists";
+  public static final String USER_ALREADY_EXISTS = "User with specified email already exists";
+  public static final String REFRESH_TOKEN_NOT_VALID = "Refresh token is not valid";
+  public static final String USER_NOT_FOUND_BY_EMAIL = "User with email %d not found";
   public static final String TELEGRAM_NOT_DELETED_BY_ID = "The user's telegram wasn't deleted by id: %d";
   public static final String TELEGRAM_NOT_DELETED_BY_USERNAME = "The user's telegram wasn't deleted by username: %s";
   public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "User's telegram with username %s does not exist";

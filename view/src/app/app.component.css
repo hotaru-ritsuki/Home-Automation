@@ -27,3 +27,138 @@ li{
   margin-left: 30px;
   outline: none;
 }
+
+header.nav-deux .c-nav--primary__listitem .c-button {
+  padding: .75rem 1rem;
+  color:
+    #fff;
+}
+.c-nav--primary__listitem .c-button {
+  padding: .75rem 1rem;
+}
+.c-button.v--primary {
+  background-color:
+    #611f69;
+  color: #fff;
+  fill:
+    #fff;
+}
+.c-nav--primary__listitem > a, .c-nav--primary__listitem > span {
+  border: none;
+  color: #454545;
+}
+.c-button {
+  display: inline-block;
+  white-space: nowrap;
+  flex-basis: auto;
+  width: auto;
+}
+.c-button {
+  font-size: .875rem;
+}
+.c-button {
+  font-size: calc(.875rem + (0 * (100vw - 400px)/ 624));
+}
+.c-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: 0 0;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
+  font-family: Slack-Circular-Pro,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;
+  font-weight: 700;
+  line-height: 1.28571429;
+  letter-spacing: .8px;
+  font-size: .875rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 19px 40px 20px;
+  display: block;
+  width: 100%;
+  transition: box-shadow 420ms cubic-bezier(.165,.84,.44,1),color 420ms cubic-bezier(.165,.84,.44,1),background 420ms cubic-bezier(.165,.84,.44,1);
+}
+.t-contains-reverse-links .t-default-link, .t-default-link, a {
+  color: #1264a3;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px solid #1264a3;
+  word-break: break-word;
+}
+a {
+  background: 0 0;
+}
+*, ::after, ::before {
+  box-sizing: inherit;
+}
+header.nav-deux .c-nav--primary__listitem {
+  font-size: 1rem;
+}
+header.nav-deux .c-nav--primary__listitem {
+  font-size: calc(.875rem + (2 * (100vw - 400px)/ 624));
+}
+header.nav-deux .c-nav--primary__listitem {
+  font-family: Slack-Circular-Pro,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;
+  font-weight: 400;
+  line-height: 1.28571429;
+  letter-spacing: normal;
+  font-size: .875rem;
+}
+.c-nav--primary__listitem {
+  font-size: 1rem;
+}
+.c-nav--primary__listitem {
+  font-size: calc(.875rem + (2 * (100vw - 400px)/ 624));
+}
+.c-nav--primary__listitem {
+  font-family: Slack-Circular-Pro,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;
+  font-weight: 400;
+  line-height: 1.28571429;
+  letter-spacing: normal;
+  font-size: .875rem;
+}
+.c-nav__list {
+  list-style: none;
+}
+address, ol, p, ul {
+  font-size: 1.125rem;
+}
+address, ol, p, ul {
+  font-size: calc(1.125rem + (0 * (100vw - 400px)/ 624));
+}
+address, ol, p, ul {
+  font-family: Slack-Circular-Pro,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;
+  font-weight: 400;
+  line-height: 1.44444444;
+  letter-spacing: normal;
+  font-size: 1.125rem;
+}
+body {
+  -moz-osx-font-smoothing: grayscale;
+  font-family: Slack-Circular-Pro,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;
+}
+:root {
+  --sidebar-color:
+    #4d394b;
+  --sidebar-highlight-color:
+    #4c9689;
+  --attachment-color:
+    #1d1d1d;
+  --more-count: '+1';
+  --article-theme-primary:
+    #4a154b;
+  --article-theme-secondary:
+    #fff;
+}
+
+.rightPlace{
+  position: absolute;
+  right: 12%;
+}
+.rightPlaceIn{
+  position:absolute;
+  right: 2.5%;
+}

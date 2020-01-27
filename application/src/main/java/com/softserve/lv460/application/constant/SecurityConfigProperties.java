@@ -18,4 +18,5 @@ public class SecurityConfigProperties {
   private String header;
   private String signUpUrl;
   private String signInUrl;
+  private String refreshTokensUrl;
 }

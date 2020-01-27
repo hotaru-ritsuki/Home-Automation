@@ -2,7 +2,7 @@ package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.Feature;
-import com.softserve.lv460.application.exceptions.NotDeletedException;
+import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.repository.FeatureRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

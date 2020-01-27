@@ -26,7 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@Import(SecurityConfigProperties.class)
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
@@ -65,8 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().exceptionHandling()
             .authenticationEntryPoint(unauthorizedHandler)
             .and().authorizeRequests()
-            .antMatchers(HttpMethod.POST, securityConfigProperties.getSignUpUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getSignUpUrl()).permitAll()
             .antMatchers(securityConfigProperties.getSignInUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -26,9 +26,11 @@ public class ApplicationUser {
   private String password;
 
   @NotNull
+  @Column(name = "first_name")
   private String firstName;
 
   @NotNull
+  @Column(name = "last_name")
   private String lastName;
 
   @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
