@@ -36,6 +36,6 @@ export class UserSignUpService {
     };
     console.log(body);
 
-    return this.http.post('http://localhost:8080/users/register', body);
+    return this.http.post('https://application-appl.herokuapp.com/users/register', body);
   }
 }

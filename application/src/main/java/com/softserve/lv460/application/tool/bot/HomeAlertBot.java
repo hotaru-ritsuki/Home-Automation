@@ -36,7 +36,7 @@ public class HomeAlertBot extends TelegramLongPollingBot {
 
   @Override
   public String getBotToken() {
-    return null;
+    return "1063385637:AAF2u88hfmblJwCVvr-5Zto8Uc86IjAA3VI";
   }
 
   private void sendMessageToUser(SendMessage message) {

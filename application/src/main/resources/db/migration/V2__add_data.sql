@@ -1,6 +1,11 @@
 INSERT INTO `users`(`email`,`first_name`,`last_name`,`password`,`secret`) VALUES ('lol@gmail.com','Lol','OMG','password','LV460JAVA'),
                                                         ('kek@gmail.com','Kek','SDL','password','LV460JAVA');
 
+SELECT @usero := `users`.`id` FROM `users` WHERE `users`.`email` = 'lol@gmail.com';
+SELECT @userv := `users`.`id` FROM `users` WHERE `users`.`email` = 'kek@gmail.com';
+
+
+
 INSERT INTO `home` (`addressa`, `city`, `country`) VALUES ('Rynok sqr 5', 'Lviv', 'Ukraine'), ('Valova str 11', 'Lviv', 'Ukraine');
 
 SELECT @rynok := `home`.`id` FROM `home` WHERE `home`.`addressa` = 'Rynok sqr 5';
@@ -20,8 +25,8 @@ SELECT @locationHvalova := `location`.`id` FROM `location` WHERE `location`.`nam
 SELECT @locationKT := `location`.`id` FROM `location` WHERE `location`.`name` = 'kitchen';
 SELECT @locationBRvalova := `location`.`id` FROM `location` WHERE `location`.`name` = 'bedroom';
 
-INSERT INTO `user_home` (`user_id`, `home_id`) VALUES ('1', (SELECT @rynok)),
-                                                ('2', (SELECT @rynok));
+INSERT INTO `user_home` (`user_id`, `home_id`) VALUES ((SELECT @usero), (SELECT @rynok)),
+                                                ((SELECT @userv), (SELECT @rynok));
 
 INSERT INTO `device_template` (`id`, `brand`, `model`, `power_supply`, `release_year`, `type`)
     VALUES (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter'),
