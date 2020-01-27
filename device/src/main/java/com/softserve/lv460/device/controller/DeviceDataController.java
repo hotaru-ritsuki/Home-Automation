@@ -3,8 +3,8 @@ package com.softserve.lv460.device.controller;
 
 import com.softserve.lv460.device.constant.HttpStatuses;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.dto.deviceDto.DeviceDataDto;
-import com.softserve.lv460.device.dto.parametersDto.StatisticParameters;
+import com.softserve.lv460.device.dto.device.DeviceDataDto;
+import com.softserve.lv460.device.dto.parameters.StatisticParameters;
 import com.softserve.lv460.device.service.impl.DeviceDataServiceImpl;
 import com.softserve.lv460.device.service.impl.DeviceDataStatisticServiceImpl;
 import io.swagger.annotations.ApiOperation;

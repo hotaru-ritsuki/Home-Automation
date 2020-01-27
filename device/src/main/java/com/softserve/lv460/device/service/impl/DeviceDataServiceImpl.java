@@ -1,7 +1,7 @@
 package com.softserve.lv460.device.service.impl;
 
-import com.softserve.lv460.device.config.DeviceCacheConfig;
 import com.softserve.lv460.device.config.PropertiesConfig;
+import com.softserve.lv460.device.config.cache.DeviceCacheConfig;
 import com.softserve.lv460.device.constant.ExceptionMassages;
 import com.softserve.lv460.device.document.DeviceData;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;

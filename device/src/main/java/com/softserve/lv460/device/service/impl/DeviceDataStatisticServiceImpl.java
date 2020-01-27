@@ -1,7 +1,7 @@
 package com.softserve.lv460.device.service.impl;
 
-import com.softserve.lv460.device.dto.deviceDto.DeviceDataDto;
-import com.softserve.lv460.device.dto.parametersDto.StatisticParameters;
+import com.softserve.lv460.device.dto.device.DeviceDataDto;
+import com.softserve.lv460.device.dto.parameters.StatisticParameters;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataStatisticService;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class DeviceDataStatisticServiceImpl implements DeviceDataStatisticServic
   public List<DeviceDataDto> getStatistic(StatisticParameters statisticParameters) {
     return deviceDataRepository.getStatistic(statisticParameters.getType()
             , parser(statisticParameters.getFrom()),
-            parser(statisticParameters.getTo()),statisticParameters.getLocationId()).stream()
+            parser(statisticParameters.getTo()), statisticParameters.getLocationId()).stream()
             .map(deviceData -> new DeviceDataDto(deviceData.getUuId(), deviceData.getData(), deviceData.getTimestamp()))
             .collect(Collectors.toList());
   }

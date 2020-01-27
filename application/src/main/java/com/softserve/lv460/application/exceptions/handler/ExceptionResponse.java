@@ -6,11 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
-/**
- * Response object with information of occur exception.
- *
- * @version 1.0
- */
 @Data
 @NoArgsConstructor
 public class ExceptionResponse {
@@ -22,9 +17,6 @@ public class ExceptionResponse {
   @JsonIgnore
   private String path;
 
-  /**
-   * Constructor with parameters.
-   */
   public ExceptionResponse(Map<String, Object> errorAttributes) {
     this.setPath((String) errorAttributes.get("path"));
     this.setMessage((String) errorAttributes.get("message"));

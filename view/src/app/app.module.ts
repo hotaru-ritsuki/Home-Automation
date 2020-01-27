@@ -1,25 +1,28 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
+import {RouterModule, Routes} from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
+import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {HomeDetailsComponent} from './home/home-details/home-details.component';
 import {DevicesGraphicsComponent} from './components/devices-graphics/devices-graphics.component';
-import {HttpClientModule} from '@angular/common/http';
-import {RouterModule, Routes} from '@angular/router';
+import {ChartsModule} from 'ng2-charts';
 import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics-dashbord.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from './components/local-device/devices.component';
-import {FormsModule} from '@angular/forms';
+import {DeviceTemplateComponent} from './components/device-template/device-template.component';
+import {InterceptorService} from './services/intercept.service';
+import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
+import {LogInComponent} from './components/user/secure/log-in/log-in.component';
+import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
-import {MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
-import {ChartsModule} from 'ng2-charts';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MDBBootstrapModule, NavbarModule, WavesModule, ButtonsModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
-import {SliderModule} from 'angular-image-slider';
+import { SliderModule } from 'angular-image-slider';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -27,9 +30,10 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'device', component: DevicesComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'locations', component: DashboardLocationsComponent}
+  {path: 'locations', component: DashboardLocationsComponent},
+  {path: 'login', component: LogInComponent},
+  {path: 'register', component: SignUpComponent}
 ];
-
 @NgModule({
 
   declarations: [
@@ -40,9 +44,14 @@ const routes: Routes = [
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
     MainComponent,
+    DeviceTemplateComponent,
+    LogInComponent,
+    SignUpComponent,
+    ActivationEmailComponent,
     DashboardComponent,
-    DashboardLocationsComponent,
     LightToggleComponent,
+    DashboardLocationsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -53,15 +62,20 @@ const routes: Routes = [
     DateTimePickerModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
-    WavesModule,
     NavbarModule,
     MDBBootstrapModule.forRoot(),
-    ChartsModule,
-    NgbModule,
-    SliderModule
+    WavesModule,
+    SliderModule,
+    ButtonsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers:
+    [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }],
+  bootstrap:
+    [AppComponent]
 })
 export class AppModule {
 }

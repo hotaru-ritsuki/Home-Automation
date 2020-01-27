@@ -4,6 +4,7 @@ import {Home} from '../../../home/model/Home';
 import {Locations} from '../../../home/model/Locations';
 import {Router} from '@angular/router';
 import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +16,9 @@ export class DashboardComponent implements OnInit {
   locations: Locations[] = [];
   homes: Home[] = [];
 
-  constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService) {
+  constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService,
+              private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
-    this.homeService.getHomes().subscribe(res => {
-      this.homes = res;
-    });
   }
 
   searchLocationsByHomeAddress(homeAddress: string) {
