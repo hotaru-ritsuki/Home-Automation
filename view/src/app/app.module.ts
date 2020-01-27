@@ -19,13 +19,15 @@ import {InterceptorService} from './services/intercept.service';
 import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
 import {LogInComponent} from './components/user/secure/log-in/log-in.component';
 import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
+import {AuthGuardService} from "./services/auth-guard.service";
+import {HomePageGuardService} from "./services/homepage-guard.service";
 
 const routes: Routes = [
-  {path: 'statistic', component: GraphicsDashbordComponent},
-  {path: '', component: MainComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'device', component: DevicesComponent},
-  {path: 'device-template', component: DeviceTemplateComponent},
+  {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
+  {path: '', component: MainComponent, canActivate: [HomePageGuardService]},
+  {path: 'home', component: HomeComponent , canActivate: [AuthGuardService]},
+  {path: 'device', component: DevicesComponent , canActivate: [AuthGuardService]},
+  {path: 'device-template', component: DeviceTemplateComponent,  canActivate: [AuthGuardService]},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
   {path: 'activationEmail', component: ActivationEmailComponent}
