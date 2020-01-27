@@ -32,13 +32,13 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = true;
     this.userSecurityService.signUp(userSignUp).subscribe(
       () => {
+        this.router.navigateByUrl('/login').then(r => r);
         this.loadingAnim = false;
-        this.router.navigateByUrl('../').then(r => r);
       },
       (errors: HttpErrorResponse) => {
           this.passwordErrorMessageBackEnd = 'Incorrect Data';
+          this.loadingAnim = false;
         });
-    this.loadingAnim = false;
   }
 
 

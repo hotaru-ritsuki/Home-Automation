@@ -18,6 +18,8 @@ import {InterceptorService} from './services/intercept.service';
 import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
 import {LogInComponent} from './components/user/secure/log-in/log-in.component';
 import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
+import {AuthGuardService} from "./services/auth-guard.service";
+import {HomePageGuardService} from "./services/homepage-guard.service";
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
@@ -25,15 +27,15 @@ import {LightToggleComponent} from './components/dashboard/light-toggle/light-to
 import {SliderModule} from 'angular-image-slider';
 
 const routes: Routes = [
-  {path: 'statistic', component: GraphicsDashbordComponent},
-  {path: '', component: MainComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'device', component: DevicesComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'locations', component: DashboardLocationsComponent},
+  {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
+  {path: '', component: MainComponent, canActivate: [HomePageGuardService]},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
+  {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
+  {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
-  {path: 'device-template', component: DeviceTemplateComponent}
+  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({

@@ -8,7 +8,6 @@ import {LocalStorageService} from './services/local-storage.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isSignedIn = false;
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService) {
@@ -17,9 +16,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.localStorageService.getFirstName()) {
-      this.isSignedIn = true;
+
+  }
+  isSignedIn(): boolean{
+    if(this.localStorageService.getFirstName()){
+      return true;
     }
+    return false;
+  }
+  logout(){
+    this.localStorageService.clear()
+    this.router.navigateByUrl("");
   }
 
 }

@@ -1,15 +1,16 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo" [containerInside]="false">
   <ul class="navbar-nav mr-auto">
     <li routerLink="" class="nav-link waves-light">Main Page</li>
-    <li *ngIf="isSignedIn" routerLink="statistic" class="nav-link waves-light">Statistic</li>
-    <li *ngIf="isSignedIn" routerLink="home" class="nav-link waves-light">Home</li>
-    <li *ngIf="isSignedIn" routerLink="device" class="nav-link waves-light">Device</li>
-    <li *ngIf="isSignedIn" routerLink="device-template" class="nav-link waves-light">Devices</li>
-    <li *ngIf="isSignedIn" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
-    <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn" routerLink="login">Login</li>
-    <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn" routerLink="register">Register</li>
-    <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn">Welcome
+    <li *ngIf="isSignedIn()" routerLink="statistic" class="nav-link waves-light">Statistic</li>
+    <li *ngIf="isSignedIn()" routerLink="home" class="nav-link waves-light">Home</li>
+    <li *ngIf="isSignedIn()" routerLink="device" class="nav-link waves-light">Device</li>
+    <li *ngIf="isSignedIn()" routerLink="device-template" class="nav-link waves-light">Devices</li>
+    <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
+    <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="login">Login</li>
+    <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
+    <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
+    <li class="rightPlaceIn" *ngIf="isSignedIn()" (click)="logout()">Logout</li>
   </ul>
 </mdb-navbar>
 <router-outlet></router-outlet>
