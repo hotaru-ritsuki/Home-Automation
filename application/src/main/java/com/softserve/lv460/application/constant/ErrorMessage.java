@@ -10,7 +10,7 @@ public class ErrorMessage {
   public static final String DEVICE_FEATURE_NOT_DELETED_BY_ID = "The device-feature wasn't removed by device id: %d " +
         "and feature id: %d";
   public static final String DEVICE_FEATURE_ALREADY_EXISTS = "Device feature with device id: %d and feature id: %d " +
-        "already exist";
+        "already exists";
   public static final String LOCAL_DEVICE_NOT_FOUND = "The device is not found by id: %s";
   public static final String DEVICE_TEMPLATE_NOT_FOUND = "The device template is not found by id: %d";
   public static final String ACTION_NOT_DELETED_BY_ID = "The action wasn't deleted by id: %d";
@@ -25,7 +25,7 @@ public class ErrorMessage {
   public static final String HOME_NOT_FOUND_BY_ID = "Home with id %d does not exist";
   public static final String HOME_NOT_DELETED_BY_ID = "The rule wasn't deleted by id: %d";
   public static final String HOME_NOT_DELETED_HAVE_DEPENDENCIES = "Home with id %d has dependencies";
-  public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exist";
+  public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exists";
   public static final String TELEGRAM_NOT_DELETED_BY_ID = "The user's telegram wasn't deleted by id: %d";
   public static final String TELEGRAM_NOT_DELETED_BY_USERNAME = "The user's telegram wasn't deleted by username: %s";
   public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "User's telegram with username %s does not exist";
