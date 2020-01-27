@@ -13,10 +13,10 @@ export class LocalDeviceService {
   }
 
   getSupportDevices(): Observable<Device[]> {
-     return this.http.get<Device[]>('http://localhost:8080/supported-device/getAll');
+    return this.http.get<Device[]>('http://localhost:8080/devices/filter');
   }
   getLocation(): Observable<Location[]> {
-    return this.http.get<Location[]>('http://localhost:8080/location');
+    return this.http.get<Location[]>('http://localhost:8080/locations');
   }
 
   save(location, supportDevice) {

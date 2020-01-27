@@ -4,6 +4,7 @@ import com.softserve.lv460.application.constant.SecurityConfigProperties;
 import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @AllArgsConstructor
+@NoArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private JwtTokenProvider tokenProvider;

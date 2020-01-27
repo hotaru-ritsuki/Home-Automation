@@ -6,7 +6,6 @@
     <li class="rightPlace" *ngIf="!isSignedIn" routerLink="login">Login</li>
     <li class="rightPlaceIn"*ngIf="!isSignedIn" routerLink="register">Register</li>
     <li class="rightPlace" *ngIf="isSignedIn">Welcome back, {{localStorageService.getFirstName()}}</li>
-
   </ul>
 </header>
 <router-outlet></router-outlet>
