@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -26,6 +27,16 @@ public class DeviceTemplateController {
   private DeviceTemplateService deviceTemplateService;
   private DeviceTemplateRequestMapper requestMapper;
   private DeviceTemplateResponseMapper responseMapper;
+
+  @ApiOperation(value = "Find all device templates")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  })
+  @GetMapping
+  public ResponseEntity<List<DeviceTemplateResponseDTO>> findAll() {
+    return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAll()
+            .stream().map(responseMapper::toDto).collect(Collectors.toList()));
+  }
 
   @ApiOperation(value = "Find all device template's models")
   @ApiResponses(value = {

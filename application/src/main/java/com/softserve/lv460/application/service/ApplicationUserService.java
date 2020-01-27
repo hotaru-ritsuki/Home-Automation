@@ -17,6 +17,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class ApplicationUserService {
   private final UserRegistrationRequestMapper userRegistrationRequestMapper;
   private final JwtTokenProvider jwtTokenProvider;
   private final JWTUserRequestMapper jwtUserRequestMapper;
+  private PasswordEncoder passwordEncoder;
 
   public JWTUserRequest save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
@@ -53,8 +55,8 @@ public class ApplicationUserService {
       throw new BadRefreshTokenException(REFRESH_TOKEN_NOT_VALID);
     }
     ApplicationUser user = applicationUserRepository
-            .findByEmail(email)
-            .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + email));
+          .findByEmail(email)
+          .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + email));
     log.info("User have found : " + user.toString());
     String newRefreshTokenKey = jwtTokenProvider.generateRefreshToken(email);
     log.info("New RefreshTokenKey : " + newRefreshTokenKey + " for email: " + email);
@@ -63,8 +65,8 @@ public class ApplicationUserService {
 
     if (jwtTokenProvider.isTokenValid(refreshToken, user.getSecret())) {
       return new JWTUserResponse(
-              jwtTokenProvider.generateAccessToken(email),
-              jwtTokenProvider.generateRefreshToken(email)
+            jwtTokenProvider.generateAccessToken(email),
+            jwtTokenProvider.generateRefreshToken(email)
       );
     }
     throw new BadRefreshTokenException(REFRESH_TOKEN_NOT_VALID);
@@ -73,8 +75,22 @@ public class ApplicationUserService {
 
   public JWTSuccessLogIn login(JWTUserRequest loginRequest, Authentication auth) {
     ApplicationUser user = applicationUserRepository
-            .findByEmail(loginRequest.getEmail())
-            .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + loginRequest.getEmail()));
+          .findByEmail(loginRequest.getEmail())
+          .orElseThrow(() -> new BadEmailException(ErrorMessage.USER_NOT_FOUND_BY_EMAIL + loginRequest.getEmail()));
     return new JWTSuccessLogIn(user.getId(), jwtTokenProvider.generateAccessToken(auth), jwtTokenProvider.generateRefreshToken(auth), user.getFirstName());
+  }
+
+  public void changeUserPassword(ApplicationUser applicationUser, String password) {
+    applicationUser.setPassword(passwordEncoder.encode(password));
+    applicationUserRepository.save(applicationUser);
+  }
+
+  public boolean checkIfValidOldPassword(ApplicationUser applicationUser, String oldPassword) {
+    return passwordEncoder.matches(oldPassword, applicationUser.getPassword());
+  }
+
+  public ApplicationUser findByEmail(String email) {
+    return applicationUserRepository.findByEmail(email)
+          .orElseThrow(() -> new IllegalArgumentException("Error"));
   }
 }

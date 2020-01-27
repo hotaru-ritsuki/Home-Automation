@@ -36,7 +36,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_DATABASE: brainhouse
+      MYSQL_DATABASE: brainHouse
 
   mongo-db:
     container_name: mongo_db
@@ -49,6 +49,6 @@ services:
     container_name: angular
     build: ./view
     ports:
-      - "4200:80"
+      - "80:80"
     restart: always
 

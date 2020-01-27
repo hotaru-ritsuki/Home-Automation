@@ -3,18 +3,21 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Device} from '../models/Device';
 import {Data} from '../models/Data';
+import {ConstantsService} from "./constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
-  URL = 'http://localhost:8080/devices';
+  constant:string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _constant: ConstantsService) {
+    this.constant = this._constant.baseApplicationUrl;
   }
 
+
   getDevices(): Observable<Device[]> {
-    return this.http.get<Device[]>(this.URL);
+    return this.http.get<Device[]>(this.constant + '/devices');
   }
 
   // @ts-ignore
