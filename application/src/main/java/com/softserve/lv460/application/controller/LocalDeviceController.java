@@ -71,7 +71,7 @@ public class LocalDeviceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
     })
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<LocalDeviceResponseDTO> update(@RequestBody LocalDeviceRequestDTO localDevice) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 responseMapper.toDto(localDeviceService.update(requestMapper.toEntity(localDevice))));

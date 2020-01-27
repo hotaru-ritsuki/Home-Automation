@@ -3,13 +3,16 @@ import {HttpClient} from '@angular/common/http';
 import {UserLogIn} from '../models/UserLogIn';
 import {SuccessLogIn} from '../models/SuccessLogin';
 import {LocalStorageService} from '../services/local-storage.service';
+import {ConstantsService} from "./constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserLogInService {
+  constant:string;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private _constant: ConstantsService) {
+  this.constant = this._constant.baseApplicationUrl;
   }
 
   public logIn(model: UserLogIn) {
@@ -17,7 +20,7 @@ export class UserLogInService {
       email: model.email,
       password: model.password
     };
-    return this.http.post<SuccessLogIn>('http://localhost:8080/users/login', body);
+    return this.http.post<SuccessLogIn>(this.constant + '/users/login', body);
   }
 
   public saveUserToLocalStorage(data: SuccessLogIn) {

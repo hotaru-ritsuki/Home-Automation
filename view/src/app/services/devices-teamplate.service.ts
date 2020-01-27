@@ -4,17 +4,21 @@ import {Observable} from "rxjs";
 import {Data} from "../models/Data";
 import {Device} from "../models/Device";
 import {Feature} from "../models/Feature";
+import {ConstantsService} from "./constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevicesTeamplateService {
-  URL = 'http://localhost:8080/devices';
-  URL2 = 'http://localhost:8080/features';
+  constant:string;
 
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient, private _constant: ConstantsService) {
+    this.constant = this._constant.baseApplicationUrl;
   }
+
+  URL = this.constant + '/devices';
+  URL2 = this.constant + '/features';
+
   getDevicesByFilter(page, filterRequest): Observable<Data<Device>> {
     let params = new HttpParams();
       params = params.append('model', filterRequest.model);

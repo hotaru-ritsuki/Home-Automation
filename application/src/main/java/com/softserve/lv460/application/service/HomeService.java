@@ -53,4 +53,8 @@ public class HomeService {
     homeRepository.deleteById(id);
   }
 
+  public List<Home> findAllByUser(Long userId) {
+    return homeRepository.findByUserId(userId);
+  }
+
 }

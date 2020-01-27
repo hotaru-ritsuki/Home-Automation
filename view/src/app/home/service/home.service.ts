@@ -9,6 +9,7 @@ import {Home} from '../model/Home';
 export class HomeService {
 
   URL = 'http://localhost:8080/homes';
+  URLFind = 'http://localhost:8080/homes/find';
 
   id = new Subject();
 
@@ -33,5 +34,13 @@ export class HomeService {
 
   putHome(answer: { id: number, country: string, city: string, addressa: string }) {
     return this.http.put(this.URL, answer);
+  }
+
+  getHomeByAddress(address: string): Observable<Home> {
+    return this.http.get<Home>(this.URLFind + '/' + address);
+  }
+
+  getHomesByUser(userId: number) {
+    return this.http.get<Home[]>(this.URL + '/user/' + userId);
   }
 }

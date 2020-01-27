@@ -1,0 +1,44 @@
+<link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/ej2-inputs/styles/material.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/ej2-popups/styles/material.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/ej2-lists/styles/material.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet"/>
+
+
+<div class="devices">
+  <div *ngFor="let feature of features">
+    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
+      <div class="light-box" *ngSwitchCase="'light'">
+        <app-light-toggle deviceId="1" [location]="location"></app-light-toggle>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="graphics" *ngIf="features.length>0 || featuresGraphics.length > 0">
+  <div class="date">
+    <div class="text">From</div>
+    <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time'
+                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
+    </ejs-datetimepicker>
+    <div class="text">To</div>
+    <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select date and time'
+                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
+    </ejs-datetimepicker>
+    <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Submit</div>
+  </div>
+  <div class="features">
+    <div class="feature" *ngFor="let feature of featuresGraphics">
+      <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
+        <div class="graphic" *ngSwitchCase="'temperature'">
+          <app-devices-graphics type="temperature" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
+                                locationId="{{location.id}}"></app-devices-graphics>
+        </div>
+        <div class="graphic" *ngSwitchCase="'humidity'">
+          <app-devices-graphics type="humidity" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
+                                locationId="{{location.id}}"></app-devices-graphics>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

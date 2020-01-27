@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DeviceData} from '../models/DeviceData';
 
@@ -13,13 +13,9 @@ export class MainService {
   constructor(private http: HttpClient) {
   }
 
-  getAllDeviceData(type, from, to): Observable<DeviceData[]> {
-    let params = new HttpParams();
-    params = params.append('type', type);
-    params = params.append('from', from);
-    params = params.append('to', to);
-
-    return this.http.get<DeviceData[]>(this.apiUrl + '/device-data/statistics', {params: params});
+  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
+    console.log(type1, from1, to1, locationId1);
+    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
+      {type: type1, from: from1, to: to1, locationId: locationId1});
   }
-
 }

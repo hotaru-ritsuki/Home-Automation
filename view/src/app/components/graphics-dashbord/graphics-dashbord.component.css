@@ -1,15 +1,16 @@
-.container{
+.container {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.chart{
+.chart {
   margin-top: 50px;
   display: flex;
   flex-direction: row;
 }
-.graphic{
+
+.graphic {
   justify-content: center;
   box-sizing: border-box;
   width: 50%;
@@ -17,14 +18,15 @@
   margin-left: 5%;
 }
 
-.date{
+.date {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
-.button{
+
+.button {
   width: 15%;
   margin-top: 10px;
   margin-left: 20px;
@@ -36,13 +38,15 @@
   font-family: sans-serif;
   cursor: pointer;
 }
-.button:hover{
+
+.button:hover {
   transition: 1s;
   background-color: snow;
-  border-color: rgb(0,128,128);
-  color:rgb(0,128,128) ;
+  border-color: rgb(0, 128, 128);
+  color: rgb(0, 128, 128);
 }
-.text{
+
+.text {
   font-family: sans-serif;
   padding-top: 4px;
   padding-bottom: 4px;

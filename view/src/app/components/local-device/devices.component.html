@@ -2,34 +2,36 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 
-<form #form = 'ngForm'>
-<div class="add-local-device">
-  <div>
-    <fieldset>
-      <legend class="labelForm">Room:</legend>
-      <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
-        <option selected="selected" *ngFor="let location of locationResponse"
-                [ngValue]="location">{{location.name}}</option>
-      </select>
-    </fieldset>
-  </div>
+<form #form='ngForm'>
+  <div class="add-local-device">
+    <div>
+      <fieldset>
+        <legend class="labelForm">Room:</legend>
+        <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
+          <option selected="selected" *ngFor="let location of locationResponse"
+                  [ngValue]="location">{{location.name}}</option>
+        </select>
+      </fieldset>
+    </div>
 
-  <div>
-    <fieldset>
-      <legend class="labelForm">Device:</legend>
-      <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
-        <option *ngFor="let supportDevice of supportDeviceResponse"
-                [ngValue]="supportDevice">{{supportDevice.model}}</option>
-      </select>
-    </fieldset>
-  </div>
+    <div>
+      <fieldset>
+        <legend class="labelForm">Device:</legend>
+        <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
+          <option *ngFor="let supportDevice of supportDeviceResponse"
+                  [ngValue]="supportDevice">{{supportDevice.model}}</option>
+        </select>
+      </fieldset>
+    </div>
 
-  <br>
-  <div class="button_cont" align="center">
-    <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
-    <button [disabled]="form.invalid" *ngIf="form.invalid" class="example_c"target="_blank" (click)="save()">Save</button>
-    <button [disabled]="form.invalid" *ngIf="form.valid" class="example_c example_c_fill"target="_blank" (click)="save()">Save</button>
+    <br>
+    <div class="button_cont" align="center">
+      <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
+      <button [disabled]="form.invalid" *ngIf="form.invalid" class="example_c" target="_blank" (click)="save()">Save
+      </button>
+      <button [disabled]="form.invalid" *ngIf="form.valid" class="example_c example_c_fill" target="_blank"
+              (click)="save()">Save
+      </button>
+    </div>
   </div>
-</div>
 </form>
-

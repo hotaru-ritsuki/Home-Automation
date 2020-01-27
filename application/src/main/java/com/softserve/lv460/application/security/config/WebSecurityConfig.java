@@ -67,7 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getSignUpUrl()).permitAll()
             .antMatchers(securityConfigProperties.getSignInUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
-            .anyRequest().permitAll()
+            .antMatchers(securityConfigProperties.getLocationUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getRulesUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getTelegramUrl()).permitAll()
+            .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
