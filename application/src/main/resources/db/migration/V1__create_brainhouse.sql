@@ -9,6 +9,9 @@ create table location (id bigint not null auto_increment, name varchar(255), hom
 create table rules (id bigint not null auto_increment, conditions varchar(255), name varchar(255), local_device_uuid varchar(255), primary key (id)) engine=InnoDB;
 create table user_home (user_id bigint not null, home_id bigint not null) engine=InnoDB;
 create table users (id bigint not null auto_increment, email varchar(32) not null, password varchar(255) not null, primary key (id)) engine=InnoDB;
+create table telegram_user (id bigint not null auto_increment, chat_id varchar(255), username varchar(255), primary key (id)) engine=InnoDB;
+alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);
+alter table telegram_user add constraint UK_c7f0a9nq5qaaquhoyswh9pn5 unique (username);
 alter table actions_rule add constraint FKdrnem74m95bpp2s23adqb7u0a foreign key (rule_id) references rules (id);
 alter table actions_rule add constraint FKkbdxmu5bsutxkvor7stne0wbb foreign key (action_id) references actions (id);
 alter table device_features add constraint FK7uivhprva3mke1uvk59m42r0a foreign key (device_id) references device_template (id);
