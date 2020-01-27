@@ -8,13 +8,13 @@
 
 <ul>
   <li>
-    <button style="">Save</button>
+    <button class="btn btn-outline-primary butt">Save</button>
   </li>
   <li>
-    <button style="">Delete</button>
+    <button class="btn btn-outline-primary butt">Delete</button>
   </li>
   <li>
-    <button style="">Change location</button>
+    <button class="btn btn-outline-primary butt">Change location</button>
   </li>
 </ul>
 
@@ -137,10 +137,10 @@
     <br>
     <div class="button_cont" align="center">
       <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
-      <button [disabled]="updateForm.invalid" *ngIf="updateForm.invalid" class="example_c" target="_blank"
+      <button [disabled]="updateForm.invalid" *ngIf="updateForm.invalid" class="btn btn-outline-primary butt" target="_blank"
               (click)="save()">Change location
       </button>
-      <button [disabled]="updateForm.invalid" *ngIf="updateForm.valid" class="example_c example_c_fill" target="_blank"
+      <button [disabled]="updateForm.invalid" *ngIf="updateForm.valid" class="btn btn-outline-primary butt" target="_blank"
               (click)="save()">Change location
       </button>
     </div>
