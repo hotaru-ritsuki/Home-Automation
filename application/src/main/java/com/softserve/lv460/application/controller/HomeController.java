@@ -76,4 +76,14 @@ public class HomeController {
   public ResponseEntity<HomeResponseDTO> findOne(@PathVariable("home_id") Long id) {
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(homeService.findOne(id)));
   }
+
+  @ApiOperation(value = "Return list of home by user")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
+  })
+  @GetMapping("/user/{user_id}")
+  public ResponseEntity<List<HomeResponseDTO>> findAllByUserId(@PathVariable("user_id") Long userId) {
+    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllByUser(userId).stream().map(responseMapper::toDto)
+      .collect(Collectors.toList()));
+  }
 }

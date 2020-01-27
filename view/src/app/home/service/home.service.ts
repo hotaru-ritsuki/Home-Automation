@@ -2,36 +2,45 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Home} from '../model/Home';
-import {ConstantsService} from "../../services/constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
-  id = new Subject();
-  constant:string;
 
-  constructor(private http: HttpClient, private _constant: ConstantsService) {
-    this.constant = this._constant.baseApplicationUrl;
+  URL = 'http://localhost:8080/homes';
+  URLFind = 'http://localhost:8080/homes/find';
+
+  id = new Subject();
+
+  constructor(private http: HttpClient) {
   }
 
   getHomes(): Observable<Home[]> {
-    return this.http.get<Home[]>(this.constant + '/homes');
+    return this.http.get<Home[]>(this.URL);
   }
 
   getHome(id: number): Observable<Home> {
-    return this.http.get<Home>(this.constant + '/homes/' + id);
+    return this.http.get<Home>(this.URL + '/' + id);
   }
 
   postHome(answer: { country: string, city: string, addressa: string }): Observable<Home> {
-    return this.http.post<Home>(this.constant + '/homes', answer);
+    return this.http.post<Home>(this.URL, answer);
   }
 
   deleteHome(id: number) {
-    return this.http.delete(this.constant + '/homes/' + id);
+    return this.http.delete(this.URL + '/' + id);
   }
 
   putHome(answer: { id: number, country: string, city: string, addressa: string }) {
-    return this.http.put(this.constant + '/homes', answer);
+    return this.http.put(this.URL, answer);
+  }
+
+  getHomeByAddress(address: string): Observable<Home> {
+    return this.http.get<Home>(this.URLFind + '/' + address);
+  }
+
+  getHomesByUser(userId: number) {
+    return this.http.get<Home[]>(this.URL + '/user/' + userId);
   }
 }
