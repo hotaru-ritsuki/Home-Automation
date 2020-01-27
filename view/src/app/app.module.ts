@@ -15,10 +15,11 @@ import {DevicesComponent} from './components/local-device/devices.component';
 import {FormsModule} from '@angular/forms';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
-import {DashboardGraphicsComponent} from './components/dashboard/dashboard-graphics/dashboard-graphics.component';
-import {WavesModule, NavbarModule, MDBBootstrapModule} from 'angular-bootstrap-md';
+import {MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {ChartsModule} from 'ng2-charts';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
+import {SliderModule} from 'angular-image-slider';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -40,7 +41,7 @@ const routes: Routes = [
     MainComponent,
     DashboardComponent,
     DashboardLocationsComponent,
-    DashboardGraphicsComponent,
+    LightToggleComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +57,7 @@ const routes: Routes = [
     MDBBootstrapModule.forRoot(),
     ChartsModule,
     NgbModule,
+    SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

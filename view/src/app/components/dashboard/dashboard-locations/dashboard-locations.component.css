@@ -1,8 +1,64 @@
-.page{
-  display: grid;
-  grid-template-columns: repeat(5, 20%);
-  grid-template-rows: repeat(5, 20%);
+.features {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-.devices{
-  grid-area: 1 / 2 / 6 / 5;
+
+.feature {
+  width: 40%;
+}
+
+
+.graphic {
+  margin-top: 2%;
+  margin-left: 10%;
+  width: 80%;
+  padding-bottom: 90px;
+}
+
+
+.light-box {
+  margin-top: 1%;
+  width: 60%;
+  margin-left: 20%;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button {
+  width: 15%;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  text-align: center;
+  border: 1px solid #eaeaea;
+  font-size: 14px;
+  font-family: sans-serif;
+  cursor: pointer;
+}
+
+.button:hover {
+  transition: 1s;
+  background-color: snow;
+  border-color: rgb(0, 128, 128);
+  color: rgb(0, 128, 128);
+}
+
+.text {
+  font-family: sans-serif;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 16px;
+  margin-right: 10px;
+  margin-left: 10px;
+
 }

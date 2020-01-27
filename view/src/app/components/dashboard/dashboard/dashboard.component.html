@@ -1,8 +1,9 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <div class="page">
   <div *ngIf="homes" class="home-choose scrollbar scrollbar-primary">
-    <ul class="list-group home-list" *ngFor="let home of homes">
-      <li class="list-group-item home-choose-item bottom-border" (click)="searchLocationsByHomeAddress(home.addressa)">
+    <ul class="list-group home-list">
+      <li class="list-group-item home-choose-item bottom-border" *ngFor="let home of homes"
+           (click)="searchLocationsByHomeAddress(home.addressa)">
         <span><img src="https://i.ya-webdesign.com/images/home-png.png"></span>{{home.addressa}}
         <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
     </ul>
