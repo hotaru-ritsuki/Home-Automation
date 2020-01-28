@@ -15,7 +15,7 @@ export class LightToggleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isTurnedOn = true;
+    this.isTurnedOn = false;
   }
 
   switchLight() {
