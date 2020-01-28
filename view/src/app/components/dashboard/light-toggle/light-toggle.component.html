@@ -1,0 +1,10 @@
+<p><span *ngIf="!isTurnedOn"><img src="https://img.icons8.com/wired/64/000000/light-on.png" class="light-icon"></span>
+  <span *ngIf="isTurnedOn"><img src="https://img.icons8.com/dusk/64/000000/light-on.png" class="light-icon"></span>
+  Lights in {{location.name}}
+  <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()">
+    <span class="slider round"></span>
+  </label>
+  </span>
+</p>
+
+

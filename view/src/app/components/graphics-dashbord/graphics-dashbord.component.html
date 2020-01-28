@@ -9,10 +9,12 @@
 <div class="container">
   <div class="date">
     <div class="text">From</div>
-    <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
+    <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time'
+                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
     </ejs-datetimepicker>
     <div class="text">To</div>
-    <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select date and time' [value]='dateValue'  [min]='minDate' [max]='maxDate'>
+    <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select date and time'
+                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
     </ejs-datetimepicker>
     <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Submit</div>
   </div>

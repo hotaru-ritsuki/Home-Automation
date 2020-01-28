@@ -1,50 +1,55 @@
 package com.softserve.lv460.device.service.impl;
 
-import com.softserve.lv460.device.config.DeviceCacheConfig;
 import com.softserve.lv460.device.config.PropertiesConfig;
+import com.softserve.lv460.device.config.cache.DeviceCacheConfig;
+import com.softserve.lv460.device.constant.ExceptionMassages;
 import com.softserve.lv460.device.document.DeviceData;
-import com.softserve.lv460.device.exceptions.DeviceNotRegisteredException;
-import com.softserve.lv460.device.exceptions.Massages;
 import com.softserve.lv460.device.repositiry.DeviceDataRepository;
 import com.softserve.lv460.device.service.DeviceDataService;
-import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import javax.annotation.PostConstruct;
+import java.util.concurrent.*;
 
 @Service
-@AllArgsConstructor
 public class DeviceDataServiceImpl implements DeviceDataService {
-  private List<DeviceData> batch = Collections.synchronizedList(new LinkedList<>());
+  private ConcurrentLinkedQueue<DeviceData> batch;
   private DeviceDataRepository deviceDataRepository;
   private DeviceCacheConfig deviceCacheConfig;
   private PropertiesConfig propertiesConfig;
 
-  @Override
-  public void save(DeviceData deviceData) throws ExecutionException {
-    if (deviceCacheConfig.isKeyValid(deviceData.getUuId())) {
-      addToBatch(deviceData);
-    } else throw new DeviceNotRegisteredException(Massages.DEVICE_NOT_REGISTERED);
+  public DeviceDataServiceImpl(DeviceDataRepository deviceDataRepository, DeviceCacheConfig deviceCacheConfig, PropertiesConfig propertiesConfig) {
+    batch = new ConcurrentLinkedQueue<>();
+    this.deviceDataRepository = deviceDataRepository;
+    this.deviceCacheConfig = deviceCacheConfig;
+    this.propertiesConfig = propertiesConfig;
   }
 
-  private void addToBatch(DeviceData deviceData) {
-    batch.add(deviceData);
+
+  @Override
+  public void save(DeviceData deviceData) throws ExecutionException {
+    DeviceData validData = deviceCacheConfig.validateData(deviceData);
+    addToBatch(validData);
+  }
+
+  @Override
+  public DeviceData getLastByUuId(String uuId) {
+    return deviceDataRepository.findFirstByUuIdOrderByTimestampAsc(uuId)
+            .orElseThrow(() -> new IllegalArgumentException(String.format
+                    (ExceptionMassages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId)));
+  }
+
+
+  private void addToBatch(DeviceData validDeviceData) {
+    batch.add(validDeviceData);
     if (batch.size() == propertiesConfig.getBatchSize()) {
-      System.out.println(batch);
       deviceDataRepository.saveAll(batch);
       batch.clear();
     }
   }
 
-  @Bean
-  private void timer() {
+  @PostConstruct
+  private void saveAfterDelay() {
     final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
     ses.scheduleWithFixedDelay(() -> {
       if (!batch.isEmpty()) {

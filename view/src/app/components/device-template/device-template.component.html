@@ -1,0 +1,90 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family: "Lato", sans-serif;
+    }
+  </style>
+</head>
+
+<div class="all-page">
+  <div class="left-bar">
+
+    <h3>Filtration: </h3>
+    <div class="test-class">
+      <span>Choose brand:<br></span>
+      <select class="select-fields form-control dropdown" (change)="selectBrand($event)">
+        <option value="">All brands</option>
+        <option *ngFor="let brand of allBrands" value="{{brand}}">{{brand}}</option>
+      </select>
+    </div>
+    <div class="test-class">
+      <span>Choose model:<br></span>
+      <select class="select-fields form-control dropdown" (change)="selectModels($event)">
+        <option value="">All models</option>
+        <option *ngFor="let model of allModels" value="{{model}}">{{model}}</option>
+      </select>
+    </div>
+    <div class="test-class">
+      <span>Choose type:<br></span>
+      <select class="select-fields form-control dropdown" (change)="selectType($event)">
+        <option value="">All types</option>
+        <option *ngFor="let type of allTypes" value="{{type}}">{{type}}</option>
+      </select>
+    </div>
+    <div class="test-class">
+      <span>Choose release year:<br></span>
+      <select class="select-fields form-control dropdown" (change)="selectYear($event)">
+        <option value="">All years</option>
+        <option *ngFor="let year of allYears" value="{{year}}">{{year}} year</option>
+      </select>
+    </div>
+
+    <div *ngIf="allFeatures != null">
+      <h4>Features: </h4>
+      <div class="custom-control custom-checkbox" *ngFor="let feature of allFeatures">
+        <input class="featuresCheckbox custom-control-input" type="checkbox" id="{{feature.name}}"
+               value="{{feature.id}}">
+        <label class="custom-control-label" for="{{feature.name}}">{{feature.name}}</label>
+      </div>
+    </div>
+
+    <button style="margin-top: 10px" type="button" class="btn btn-outline-primary buttoned" (click)="getAllDevices()">
+      Filtering
+    </button>
+
+  </div>
+
+  <div class="main" *ngIf="devicesWithFilter != null">
+    <div *ngIf="devicesWithFilter.content.length <=0">
+      <p class="no-device">There is no devices with your filtration</p>
+    </div>
+    <div *ngFor="let device of devicesWithFilter.content">
+      <div class="list-group">
+        <div style="margin: 10px 0"
+             class="show-all-devices list-group-item list-group-item-action flex-column align-items-start active">
+          <div style="margin-bottom: 10px" class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{device.brand}} {{device.model}}</h5>
+            <small>{{device.releaseYear}}</small>
+          </div>
+          <p>Type: <span>{{device.type}}</span></p>
+          <p>Power Supply: <span>{{device.powerSupply}}</span></p>
+          <div>
+            <p *ngIf="device.features.length > 0">
+              Features: <span class="show-features" *ngFor="let feature of device.features">{{feature.name}} </span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pag">
+    <ul class="pagination">
+      <li style="padding-right: 10px" *ngFor="let page of countOfPages" class="page-item">
+        <button type="button" class="btn btn-outline-primary buttoned" value="{{page + 1}}"
+                (click)="getPage(page)">{{page + 1}}
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+</html>
