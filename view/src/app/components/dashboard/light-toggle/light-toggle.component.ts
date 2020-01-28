@@ -1,5 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Locations} from '../../../home/model/Locations';
+import {DashboardService} from '../service/dashboard.service';
+import {LocalDevice} from '../../../models/LocalDevice';
+import {Device} from '../../../models/Device';
+import {DeviceData} from '../../../models/DeviceData';
+import {LightResp} from '../../../models/LightResp';
 
 @Component({
   selector: 'app-light-toggle',
@@ -7,19 +12,27 @@ import {Locations} from '../../../home/model/Locations';
   styleUrls: ['./light-toggle.component.css']
 })
 export class LightToggleComponent implements OnInit {
-  @Input() deviceId: number;
+  @Input() uuid: string;
   @Input() location: Locations;
-  isTurnedOn: boolean;
+  isTurnedOn: string;
+  type = 'light';
 
-  constructor() {
+  constructor(private dashboardService: DashboardService) {
   }
 
   ngOnInit() {
-    this.isTurnedOn = true;
+    this.dashboardService.getCurrentServiceIndicators(this.uuid).subscribe(res => {
+      const dev: DeviceData = res;
+      this.isTurnedOn = new Map(Object.entries(dev.data)).get(this.type);
+    });
   }
 
   switchLight() {
-    this.isTurnedOn = !this.isTurnedOn;
+    if (this.isTurnedOn === 'on') {
+      this.isTurnedOn = 'off';
+    } else {
+      this.isTurnedOn = 'on';
+    }
   }
 
 }

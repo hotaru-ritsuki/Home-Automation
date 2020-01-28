@@ -55,7 +55,6 @@ const routes: Routes = [
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
-
   ],
   imports: [
     BrowserModule,

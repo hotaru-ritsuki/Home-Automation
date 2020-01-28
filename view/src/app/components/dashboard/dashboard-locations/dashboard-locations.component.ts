@@ -8,6 +8,7 @@ import {Device} from '../../../models/Device';
 import {DashboardService} from '../service/dashboard.service';
 import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DataService} from '../../../services/data.service';
+import {DeviceFeature} from '../../../models/DeviceFeature';
 
 @Component({
   selector: 'app-dashboard-locations',
@@ -22,30 +23,32 @@ export class DashboardLocationsComponent implements OnInit {
   public minDate: Date = new Date('01/01/2019 00:00 AM');
   public maxDate: Date = new Date('01/01/2021 12:00 AM');
   public dateValue: '';
+  private devicesFeatures: DeviceFeature[] = [];
+  private devicesFeaturesGraphics: DeviceFeature[] = [];
 
   constructor(private router: Router, private dashboardLocationsService: DashboardLocationsService,
               private localDeviceService: LocalDeviceService, private dashboardService: DashboardService,
               private dataService: DataService) {
     this.router.navigate(['locations']);
-    this.features = [];
     this.location = this.dashboardLocationsService.getLocation();
     this.dashboardService.getLocalDevicesByLocation(this.location).subscribe(res => {
       this.localDevices = Object.assign([], res);
-      console.log(this.localDevices);
       for (const dev of this.localDevices) {
-        this.getFeatureByDevice(dev.deviceTemplate);
+        this.getFeatureByDevice(dev);
       }
-      console.log(this.featuresGraphics);
     });
+    console.log(this.devicesFeatures, this.devicesFeaturesGraphics);
   }
 
-  getFeatureByDevice(device: Device) {
-    this.dashboardService.getDeviceFeatureByDevice(device).subscribe(res => {
+  getFeatureByDevice(localDevice: LocalDevice) {
+    this.dashboardService.getDeviceFeatureByDevice(localDevice.deviceTemplate).subscribe(res => {
       for (const feat of res) {
         if (feat.featureDTO.name === 'getLight') {
-          this.features.push(feat);
+          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO);
+          this.devicesFeatures.push(dev);
         } else {
-          this.featuresGraphics.push(feat);
+          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO);
+          this.devicesFeaturesGraphics.push(dev);
         }
       }
     });

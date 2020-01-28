@@ -11,7 +11,7 @@ export class MainComponent implements OnInit {
   public imagesUrl;
 
   constructor(private router: Router) {
-
+    this.router.navigate(['']);
     this.imagesUrl = [
       'https://www.archermind.com/en/wp-content/uploads/2016/05/smart-home.jpg',
       'https://inhabitat.com/wp-content/blogs.dir/1/files/2018/01/Nanoleaf-Remote.jpg',
