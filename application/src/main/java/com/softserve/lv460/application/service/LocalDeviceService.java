@@ -52,7 +52,7 @@ public class LocalDeviceService {
         device.setDeviceTemplate(deviceTemplate);
         device.setUuid(UUID.randomUUID().toString().substring(0, 32));
 
-        return localDeviceRepository.save(localDevice);
+        return localDeviceRepository.save(device);
     }
 
     public String delete(String uuid) {

@@ -45,7 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**");
+            "/webjars/**",
+            securityConfigProperties.getLocationUrl(),
+            securityConfigProperties.getRulesUrl(),
+            securityConfigProperties.getTelegramUrl()
+            );
   }
 
   @Bean
@@ -67,9 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getSignUpUrl()).permitAll()
             .antMatchers(securityConfigProperties.getSignInUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getLocationUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getRulesUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getTelegramUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

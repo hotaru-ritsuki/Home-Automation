@@ -10,7 +10,7 @@
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
     <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
-    <li class="rightPlaceIn" *ngIf="isSignedIn()" (click)="logout()">Logout</li>
+    <li class="rightPlaceIn nav-link waves-light" *ngIf="isSignedIn()" (click)="logout()">Logout</li>
   </ul>
 </mdb-navbar>
 <router-outlet></router-outlet>

@@ -1,10 +1,8 @@
-INSERT INTO `users`(`email`,`first_name`,`last_name`,`password`,`secret`) VALUES ('lol@gmail.com','Lol','OMG','password','LV460JAVA'),
-                                                        ('kek@gmail.com','Kek','SDL','password','LV460JAVA');
+INSERT INTO `users`(`email`,`first_name`,`last_name`,`password`,`secret`) VALUES ('lol@gmail.com','Lol','OMG','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA'),
+                                                        ('kek@gmail.com','Kek','SDL','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA');
 
 SELECT @usero := `users`.`id` FROM `users` WHERE `users`.`email` = 'lol@gmail.com';
 SELECT @userv := `users`.`id` FROM `users` WHERE `users`.`email` = 'kek@gmail.com';
-
-
 
 INSERT INTO `home` (`addressa`, `city`, `country`) VALUES ('Rynok sqr 5', 'Lviv', 'Ukraine'), ('Valova str 11', 'Lviv', 'Ukraine');
 
