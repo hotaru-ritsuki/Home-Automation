@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService,
               private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
-    this.homeService.getHomesByUser(this.localStorageService.getUserId()).subscribe(res => {
+    this.homeService.getHomes().subscribe(res => {
       this.homes = res;
     });
   }
