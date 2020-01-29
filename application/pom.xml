@@ -16,7 +16,6 @@
         <spring-boot-starter-mail.version>2.0.1.RELEASE</spring-boot-starter-mail.version>
     </properties>
 
-
     <parent>
         <artifactId>home_authomation</artifactId>
         <groupId>com.softserve.lv-460</groupId>
