@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.addAllowedHeader("*");
     configuration.addAllowedOrigin("http://localhost:4200");
+    configuration.addAllowedOrigin("https://best-home-automation.herokuapp.com");
     configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
     configuration.addExposedHeader("Authorization");
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

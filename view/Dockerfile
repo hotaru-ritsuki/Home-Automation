@@ -1,7 +1,5 @@
 FROM node:12.14.0-alpine as node
 
-WORKDIR /usr/src/app
-
 COPY package*.json ./
 
 RUN npm install
