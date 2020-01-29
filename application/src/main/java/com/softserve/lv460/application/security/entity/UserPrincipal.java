@@ -1,4 +1,4 @@
-package com.softserve.lv460.application.security.jwt;
+package com.softserve.lv460.application.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.softserve.lv460.application.entity.ApplicationUser;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor

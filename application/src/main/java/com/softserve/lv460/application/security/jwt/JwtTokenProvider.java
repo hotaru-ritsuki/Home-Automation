@@ -4,6 +4,7 @@ import com.softserve.lv460.application.constant.SecurityConfigProperties;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.exception.exceptions.NotFoundException;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
+import com.softserve.lv460.application.security.entity.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
@@ -28,7 +29,7 @@ public class JwtTokenProvider {
   public String generateAccessToken(String username) {
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getAccessExpirationTime());
     log.info("Access Token for " + username + " created.");
-    return securityProperties.getTokenPrefix() + Jwts.builder()
+    return Jwts.builder()
             .setSubject(username)
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)

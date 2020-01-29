@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdPasswordRequest {
-  private Long userId;
   @NotBlank
+  @Size(min=8,max=30)
   private String currentPassword;
   @NotBlank
+  @Size(min = 8,max=30)
   private String password;
-
 }

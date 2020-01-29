@@ -17,6 +17,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,17 +81,19 @@ public class ApplicationUserService {
     return new JWTSuccessLogIn(user.getId(), jwtTokenProvider.generateAccessToken(auth), jwtTokenProvider.generateRefreshToken(auth), user.getFirstName());
   }
 
-  public void changeUserPassword(ApplicationUser applicationUser, String password) {
+  public void changeUserPassword(Long userId, String password) {
+    ApplicationUser applicationUser=applicationUserRepository.findById(userId)
+            .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     applicationUser.setPassword(passwordEncoder.encode(password));
     applicationUserRepository.save(applicationUser);
   }
 
-  public boolean checkIfValidOldPassword(ApplicationUser applicationUser, String oldPassword) {
-    return passwordEncoder.matches(oldPassword, applicationUser.getPassword());
+  public boolean checkIfValidOldPassword(String newPassword, String oldPassword) {
+    return passwordEncoder.matches(oldPassword, newPassword);
   }
 
   public ApplicationUser findByEmail(String email) {
     return applicationUserRepository.findByEmail(email)
-          .orElseThrow(() -> new IllegalArgumentException("Error"));
+          .orElseThrow(() -> new UsernameNotFoundException("Bad credentials"));
   }
 }
