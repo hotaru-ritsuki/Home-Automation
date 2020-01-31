@@ -2,8 +2,11 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
+import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
+import com.softserve.lv460.application.events.ResendTokenEvent;
 import com.softserve.lv460.application.exception.exceptions.BadEmailOrPasswordException;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
@@ -84,10 +87,8 @@ public class UserApplicationController {
         userPrincipal.toString();
         if (applicationUserService.checkIfValidOldPassword(userPrincipal.getPassword(), password.getCurrentPassword())) {
             applicationUserService.changeUserPassword(userPrincipal.getId(), password.getPassword());
-            mailSender.sendMessage(userPrincipal.getUsername(),
-                    "Home-Automation - Password Changed",
-                    "Dear " + userPrincipal.getFirstname() + ", you received this, because your password has been changed.\n" +
-                            "If it wasn't you can restore your password in login page");
+            mailSender.sendMessage(userPrincipal.getUsername(), MailMessages.PASWORD_CHANGED_SUBJECT,
+                    String.format(MailMessages.CONGRATS, applicationUserService.findById(userPrincipal.getId()).getFirstName()) + MailMessages.PASSWORD_CHANGED_BODY);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             throw new BadEmailOrPasswordException("Wrong password");
@@ -100,8 +101,17 @@ public class UserApplicationController {
         return ResponseEntity.ok().build();
     }
 
+
+    @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
+    public ResponseEntity<?> resendRegistrationToken(final HttpServletRequest request, @RequestParam("email") final String email) {
+        VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
+        eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(request), verificationToken.getToken()));
+        return ResponseEntity.ok().build();
+    }
+
+
     private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + "/users" + request.getContextPath();
     }
 
 

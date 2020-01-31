@@ -89,7 +89,7 @@ id bigint not null auto_increment,
 expiry_date datetime,
 token varchar(255),
 user_id bigint,
-primary key (id)) engine=InnoDB
+primary key (id)) engine=InnoDB;
 
 
 alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);

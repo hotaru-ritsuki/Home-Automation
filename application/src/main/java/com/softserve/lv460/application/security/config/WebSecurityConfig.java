@@ -59,10 +59,12 @@ private JwtAuthenticationFilter jwtAuthenticationFilter;
             .antMatchers(securityConfigProperties.getRulesUrl()).permitAll()
             .antMatchers(securityConfigProperties.getTelegramUrl()).permitAll()
             .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
+            .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
   }
 
   @Override

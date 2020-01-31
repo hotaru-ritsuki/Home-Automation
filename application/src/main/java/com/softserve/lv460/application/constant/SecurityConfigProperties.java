@@ -25,4 +25,5 @@ public class SecurityConfigProperties {
   private String rulesUrl;
   private String telegramUrl;
   private String verifyEmail;
+  private String resendRegistrationToken;
 }

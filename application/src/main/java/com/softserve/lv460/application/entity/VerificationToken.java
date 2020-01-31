@@ -13,10 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VerificationToken {
-  private static final int EXPIRATION = 60 * 24;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NonNull
@@ -24,15 +23,15 @@ public class VerificationToken {
 
   @NonNull
   @OneToOne(targetEntity = ApplicationUser.class, fetch = FetchType.EAGER)
-  @JoinColumn(nullable = false, name = "user_id")
+  @JoinColumn(nullable = false, name = "user_id", unique = true)
   private ApplicationUser user;
 
-  private Date expiryDate = calculateExpiryDate(EXPIRATION);
+  private Date expiryDate = calculateExpiryDate();
 
-  private Date calculateExpiryDate(int expiryTimeInMinutes) {
+  public Date calculateExpiryDate() {
     Calendar cal = Calendar.getInstance();
     cal.setTime(new Timestamp(cal.getTime().getTime()));
-    cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+    cal.add(Calendar.HOUR, 24);
     return new Date(cal.getTime().getTime());
   }
 
