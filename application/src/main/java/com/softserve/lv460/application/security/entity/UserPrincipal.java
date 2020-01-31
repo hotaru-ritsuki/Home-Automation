@@ -26,7 +26,6 @@ public class UserPrincipal implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-
   public static UserPrincipal create(ApplicationUser user) {
     List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
             new SimpleGrantedAuthority(role.name())
@@ -60,5 +59,4 @@ public class UserPrincipal implements UserDetails {
   public boolean isEnabled() {
     return this.enabled;
   }
-
 }

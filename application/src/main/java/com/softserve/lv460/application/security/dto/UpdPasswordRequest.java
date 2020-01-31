@@ -12,9 +12,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UpdPasswordRequest {
   @NotBlank
-  @Size(min=8,max=30)
+  @Size(min = 8, max = 30)
   private String currentPassword;
   @NotBlank
-  @Size(min = 8,max=30)
+  @Size(min = 8, max = 30)
   private String password;
 }

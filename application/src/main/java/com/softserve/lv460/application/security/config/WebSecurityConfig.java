@@ -30,12 +30,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
         prePostEnabled = true
 )
 @AllArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class
+WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private UserDetailsServiceImpl userDetailsService;
   private SecurityConfigProperties securityConfigProperties;
   private JwtAuthenticationEntryPoint unauthorizedHandler;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
-private JwtAuthenticationFilter jwtAuthenticationFilter;
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Override
   public void configure(WebSecurity web) throws Exception {
@@ -64,15 +65,13 @@ private JwtAuthenticationFilter jwtAuthenticationFilter;
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
   }
 
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
   }
-
-
+  
   @Bean(BeanIds.AUTHENTICATION_MANAGER)
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {

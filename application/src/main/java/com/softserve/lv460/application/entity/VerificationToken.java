@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VerificationToken {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -34,5 +33,4 @@ public class VerificationToken {
     cal.add(Calendar.HOUR, 24);
     return new Date(cal.getTime().getTime());
   }
-
 }
