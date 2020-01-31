@@ -58,6 +58,7 @@ private JwtAuthenticationFilter jwtAuthenticationFilter;
             .antMatchers(securityConfigProperties.getLocationUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRulesUrl()).permitAll()
             .antMatchers(securityConfigProperties.getTelegramUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

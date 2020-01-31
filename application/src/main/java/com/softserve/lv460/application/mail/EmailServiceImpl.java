@@ -23,4 +23,7 @@ public class EmailServiceImpl {
       exception.printStackTrace();
     }
   }
+  public void sendMessage(SimpleMailMessage simpleMailMessage){
+emailSender.send(simpleMailMessage);
+  }
 }

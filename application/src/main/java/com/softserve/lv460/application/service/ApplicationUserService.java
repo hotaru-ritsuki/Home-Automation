@@ -1,13 +1,17 @@
 package com.softserve.lv460.application.service;
 
+import com.softserve.lv460.application.Application;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.exception.exceptions.BadEmailException;
 import com.softserve.lv460.application.exception.exceptions.BadRefreshTokenException;
+import com.softserve.lv460.application.exception.exceptions.TokenNotValidException;
 import com.softserve.lv460.application.exception.exceptions.UserAlreadyRegisteredException;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
+import com.softserve.lv460.application.repository.VerificationTokenRepository;
 import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
@@ -16,11 +20,14 @@ import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.Token;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Calendar;
 
 import static com.softserve.lv460.application.constant.ErrorMessage.REFRESH_TOKEN_NOT_VALID;
 
@@ -31,17 +38,18 @@ public class ApplicationUserService {
   private final ApplicationUserRepository applicationUserRepository;
   private final UserRegistrationRequestMapper userRegistrationRequestMapper;
   private final JwtTokenProvider jwtTokenProvider;
-  private final JWTUserRequestMapper jwtUserRequestMapper;
-  private PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
+  private final VerificationTokenRepository verificationTokenRepository;
 
-  public JWTUserRequest save(UserRegistrationRequest userRequest) {
+
+  public ApplicationUser save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
       log.error("User with email: " + userRequest.getEmail() + " already exist.");
       throw new UserAlreadyRegisteredException("User with email " + userRequest.getEmail() + " already exist");
     }
     ApplicationUser applicationUser = userRegistrationRequestMapper.toEntity(userRequest);
     applicationUserRepository.save(applicationUser);
-    return jwtUserRequestMapper.toDto(applicationUser);
+    return applicationUser;
 
   }
 
@@ -96,4 +104,26 @@ public class ApplicationUserService {
     return applicationUserRepository.findByEmail(email)
           .orElseThrow(() -> new UsernameNotFoundException("Bad credentials"));
   }
+
+  public void createVerificationTokenForUser(ApplicationUser user, String token) {
+    VerificationToken myToken = new VerificationToken(token,user);
+    verificationTokenRepository.save(myToken);
+  }
+
+  public void validateVerificationToken(String token) {
+    VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(()->new TokenNotValidException("Verification Token is not valid"));
+
+    Calendar cal = Calendar.getInstance();
+    if ((verificationToken.getExpiryDate()
+            .getTime()
+            - cal.getTime()
+            .getTime()) <= 0) {
+      verificationTokenRepository.delete(verificationToken);
+      throw new TokenNotValidException("Verification Token is expired");
+    }
+    ApplicationUser applicationUser=verificationToken.getUser();
+    applicationUser.setEnabled(true);
+    applicationUserRepository.save(applicationUser);
+  }
+
 }

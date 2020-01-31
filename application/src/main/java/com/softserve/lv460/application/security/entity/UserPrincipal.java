@@ -22,6 +22,8 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String password;
 
+  private Boolean enabled;
+
   private Collection<? extends GrantedAuthority> authorities;
 
 
@@ -34,6 +36,7 @@ public class UserPrincipal implements UserDetails {
             user.getId(),
             user.getEmail(),
             user.getPassword(),
+            user.getEnabled(),
             authorities
     );
   }
@@ -55,6 +58,7 @@ public class UserPrincipal implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return this.enabled;
   }
+
 }

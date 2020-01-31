@@ -24,4 +24,5 @@ public class SecurityConfigProperties {
   private String locationUrl;
   private String rulesUrl;
   private String telegramUrl;
+  private String verifyEmail;
 }

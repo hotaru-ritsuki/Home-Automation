@@ -26,6 +26,10 @@ public class JwtTokenProvider {
   private final SecurityConfigProperties securityProperties;
 
 
+  public String generateAccessToken(Authentication authentication) {
+    return this.generateAccessToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
+  }
+
   public String generateAccessToken(String username) {
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getAccessExpirationTime());
     log.info("Access Token for " + username + " created.");
@@ -37,8 +41,8 @@ public class JwtTokenProvider {
             .compact();
   }
 
-  public String generateAccessToken(Authentication authentication) {
-    return this.generateAccessToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
+  public String generateRefreshToken(Authentication authentication) {
+    return this.generateRefreshToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
   }
 
   public String generateRefreshToken(String username) {
@@ -55,10 +59,6 @@ public class JwtTokenProvider {
 
   }
 
-  public String generateRefreshToken(Authentication authentication) {
-    return this.generateRefreshToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
-  }
-
   public String getEmailFromJWT(String token) {
     String[] splitToken = token.split("\\.");
     String unsignedToken = splitToken[0] + "." + splitToken[1] + ".";
@@ -66,6 +66,10 @@ public class JwtTokenProvider {
     Jwt<?, ?> jwt = parser.parse(unsignedToken);
     log.info("Email " + ((Claims) jwt.getBody()).getSubject() + " from token: " + token);
     return ((Claims) jwt.getBody()).getSubject();
+  }
+
+  public boolean validateAccessToken(String authAccessToken) {
+    return this.isTokenValid(authAccessToken, securityProperties.getSecret());
   }
 
   public boolean isTokenValid(String token, String secret) {
@@ -77,9 +81,5 @@ public class JwtTokenProvider {
       log.error("Given token is not valid: " + e.getMessage());
     }
     return false;
-  }
-
-  public boolean validateAccessToken(String authAccessToken) {
-    return this.isTokenValid(authAccessToken, securityProperties.getSecret());
   }
 }
