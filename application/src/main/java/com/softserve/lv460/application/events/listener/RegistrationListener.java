@@ -35,7 +35,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(user.getEmail());
         email.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
-        email.setText(MailMessages.CONGRATS
+        email.setText(String.format(MailMessages.CONGRATS,user.getFirstName())
                 + String.format(MailMessages.VERIFY_EMAIL_BODY, confirmationUrl)
                 + MailMessages.SIGN);
         return email;

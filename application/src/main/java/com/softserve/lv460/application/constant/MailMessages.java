@@ -9,11 +9,11 @@ public class MailMessages {
     public static final String VERIFY_EMAIL_SUBJECT = "Home-Automation — Registration Confirmation";
     public static final String RESENDING_ACTIVATION_TOKEN_SUBJECT = "Home-Automation — Resending Activation";
     public static final String VERIFY_EMAIL_BODY = "\nPlease verify your email address to complete your BrainHouse Account." +
-            "\n To verify your account just follow the link: {}" +
-            "\nThis link will expire in 24 hours. " +
+            "\n To verify your account just follow the link: %s\n" +
+            "This link will expire in 24 hours. " +
             "\nIf it has expired, try to request a new verification email.\n";
     //Mischiefs
-    public static final String CONGRATS = "Dear {},\n";
+    public static final String CONGRATS = "Dear %s,\n";
     public static final String SIGN = "\nBest regards,\nBrain House";
 
 
