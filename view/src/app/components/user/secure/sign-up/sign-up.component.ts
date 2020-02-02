@@ -41,8 +41,6 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = false;
   }
 
-
-
   private setNullAllMessage() {
     this.firstNameErrorMessageBackEnd = null;
     this.lastNameErrorMessageBackEnd = null;

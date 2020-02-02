@@ -47,7 +47,6 @@ location_id bigint not null,
 supported_device_id bigint not null,
 primary key (uuid)) engine=InnoDB;
 
-
 create table location (
 id bigint not null auto_increment,
 name varchar(255), home_id bigint,
@@ -86,11 +85,10 @@ primary key (id)) engine=InnoDB;
 
 create table verification_token (
 id bigint not null auto_increment,
-expiry_date datetime,
-token varchar(255),
-user_id bigint,
-primary key (id)) engine=InnoDB;
-
+ expiry_date datetime ,
+  token varchar(255),
+  user_id bigint unique not null,
+   primary key (id)) engine=InnoDB;
 
 alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);
 alter table telegram_user add constraint UK_c7f0a9nq5qaaquhoyswh9pn5 unique (username);

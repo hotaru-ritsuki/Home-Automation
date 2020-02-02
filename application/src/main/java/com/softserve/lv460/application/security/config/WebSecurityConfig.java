@@ -30,8 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
         prePostEnabled = true
 )
 @AllArgsConstructor
-public class
-WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private UserDetailsServiceImpl userDetailsService;
   private SecurityConfigProperties securityConfigProperties;
   private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -71,7 +70,7 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
   }
-  
+
   @Bean(BeanIds.AUTHENTICATION_MANAGER)
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {

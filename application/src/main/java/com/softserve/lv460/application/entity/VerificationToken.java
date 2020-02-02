@@ -3,9 +3,7 @@ package com.softserve.lv460.application.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,12 +23,5 @@ public class VerificationToken {
   @JoinColumn(nullable = false, name = "user_id", unique = true)
   private ApplicationUser user;
 
-  private Date expiryDate = calculateExpiryDate();
-
-  public Date calculateExpiryDate() {
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(new Timestamp(cal.getTime().getTime()));
-    cal.add(Calendar.HOUR, 24);
-    return new Date(cal.getTime().getTime());
-  }
+  private LocalDateTime expiryDate = LocalDateTime.now().plusDays(1);
 }

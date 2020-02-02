@@ -4,15 +4,11 @@ import com.softserve.lv460.application.constant.SecurityConfigProperties;
 import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -48,5 +44,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     filterChain.doFilter(request, response);
   }
-
 }

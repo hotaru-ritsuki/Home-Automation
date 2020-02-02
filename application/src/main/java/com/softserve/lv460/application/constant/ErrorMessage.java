@@ -37,4 +37,5 @@ public class ErrorMessage {
   public static final String USER_NOT_FOUND_BY_ID = "User with id %d not found";
   public static final String REFRESH_TOKEN_NOT_VALID = "Refresh token is not valid";
   public static final String VERIFICATION_TOKEN_IS_EXPIRED = "Verification Token is expired";
+  public static final String VERIFICATION_TOKEN_IS_NOT_VALID = "Verification token is not valid";
 }

@@ -1,6 +1,5 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.exception.exceptions.*;
@@ -21,10 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.softserve.lv460.application.constant.ErrorMessage.REFRESH_TOKEN_NOT_VALID;
+import static com.softserve.lv460.application.constant.ErrorMessage.*;
 
 @Slf4j
 @AllArgsConstructor
@@ -39,7 +38,7 @@ public class ApplicationUserService {
   public ApplicationUser save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
       log.error("User with email: " + userRequest.getEmail() + " already exist.");
-      throw new UserAlreadyRegisteredException(String.format(ErrorMessage.USER_ALREADY_EXISTS, userRequest.getEmail()));
+      throw new UserAlreadyRegisteredException(String.format(USER_ALREADY_EXISTS, userRequest.getEmail()));
     }
     ApplicationUser applicationUser = userRegistrationRequestMapper.toEntity(userRequest);
     applicationUserRepository.save(applicationUser);
@@ -59,7 +58,7 @@ public class ApplicationUserService {
     }
     ApplicationUser user = applicationUserRepository
             .findByEmail(email)
-            .orElseThrow(() -> new BadEmailException(String.format(ErrorMessage.USER_NOT_FOUND_BY_EMAIL, email)));
+            .orElseThrow(() -> new BadEmailException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
     log.info("User have found : " + user.toString());
     String newRefreshTokenKey = jwtTokenProvider.generateRefreshToken(email);
     log.info("New RefreshTokenKey : " + newRefreshTokenKey + " for email: " + email);
@@ -78,13 +77,13 @@ public class ApplicationUserService {
   public JWTSuccessLogIn login(JWTUserRequest loginRequest, Authentication auth) {
     ApplicationUser user = applicationUserRepository
             .findByEmail(loginRequest.getEmail())
-            .orElseThrow(() -> new BadEmailException(String.format(ErrorMessage.USER_NOT_FOUND_BY_EMAIL, loginRequest.getEmail())));
+            .orElseThrow(() -> new BadEmailException(String.format(USER_NOT_FOUND_BY_EMAIL, loginRequest.getEmail())));
     return new JWTSuccessLogIn(user.getId(), jwtTokenProvider.generateAccessToken(auth), jwtTokenProvider.generateRefreshToken(auth), user.getFirstName());
   }
 
   public void changeUserPassword(Long userId, String password) {
     ApplicationUser applicationUser = applicationUserRepository.findById(userId)
-            .orElseThrow(() -> new UsernameNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_BY_ID, userId)));
+            .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_ID, userId)));
     applicationUser.setPassword(passwordEncoder.encode(password));
     applicationUserRepository.save(applicationUser);
   }
@@ -95,7 +94,7 @@ public class ApplicationUserService {
 
   public ApplicationUser findByEmail(String email) {
     return applicationUserRepository.findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_BY_EMAIL, email)));
+            .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
   }
 
   public VerificationToken createVerificationTokenForUser(ApplicationUser user, String token) {
@@ -105,15 +104,10 @@ public class ApplicationUserService {
   }
 
   public void validateVerificationToken(String token) {
-    VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() -> new TokenNotValidException("Verification Token is not valid"));
-
-    Calendar cal = Calendar.getInstance();
-    if ((verificationToken.getExpiryDate()
-            .getTime()
-            - cal.getTime()
-            .getTime()) <= 0) {
+    VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() -> new TokenNotValidException(VERIFICATION_TOKEN_IS_NOT_VALID));
+    if (verificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
       verificationTokenRepository.delete(verificationToken);
-      throw new TokenNotValidException(ErrorMessage.VERIFICATION_TOKEN_IS_EXPIRED);
+      throw new TokenNotValidException(VERIFICATION_TOKEN_IS_EXPIRED);
     }
     ApplicationUser applicationUser = verificationToken.getUser();
     applicationUser.setEnabled(true);
@@ -122,19 +116,18 @@ public class ApplicationUserService {
   }
 
   public ApplicationUser findById(Long id) {
-    return applicationUserRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User with id does not exist"));
+    return applicationUserRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_ID, id)));
   }
 
   public VerificationToken generateNewVerificationToken(String email) throws UserAlreadyActivated {
-    ApplicationUser applicationUser = applicationUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with this email doesn't exist"));
+    ApplicationUser applicationUser = applicationUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
     if (applicationUser.getEnabled()) {
-      throw new UserAlreadyActivated(ErrorMessage.USER_ALREADY_ACTIVATED);
+      throw new UserAlreadyActivated(USER_ALREADY_ACTIVATED);
     }
     if (verificationTokenRepository.findByUserId(applicationUser.getId()).isPresent()) {
       verificationTokenRepository.delete(verificationTokenRepository.findByUserId(applicationUser.getId()).get());
     }
     VerificationToken verificationToken = createVerificationTokenForUser(applicationUser, UUID.randomUUID().toString());
-    verificationToken.setExpiryDate(verificationToken.calculateExpiryDate());
     verificationTokenRepository.save(verificationToken);
     return verificationToken;
   }

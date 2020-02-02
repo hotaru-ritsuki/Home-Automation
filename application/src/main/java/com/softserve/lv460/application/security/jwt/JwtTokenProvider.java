@@ -17,24 +17,24 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+import static com.softserve.lv460.application.constant.ErrorMessage.USER_NOT_FOUND_BY_EMAIL;
+
 @Slf4j
 @Component
 @AllArgsConstructor
 public class JwtTokenProvider {
-
   private final ApplicationUserRepository applicationUserRepository;
   private final SecurityConfigProperties securityProperties;
-
 
   public String generateAccessToken(Authentication authentication) {
     return this.generateAccessToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
   }
 
-  public String generateAccessToken(String username) {
+  public String generateAccessToken(String email) {
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getAccessExpirationTime());
-    log.info("Access Token for " + username + " created.");
+    log.info("Access Token for " + email + " created.");
     return Jwts.builder()
-            .setSubject(username)
+            .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS256, securityProperties.getSecret())
@@ -45,13 +45,13 @@ public class JwtTokenProvider {
     return this.generateRefreshToken(((UserPrincipal) authentication.getPrincipal()).getUsername());
   }
 
-  public String generateRefreshToken(String username) {
-    ApplicationUser appUser = applicationUserRepository.findByEmail(username)
-            .orElseThrow(() -> new NotFoundException("Bad email :"));
+  public String generateRefreshToken(String email) {
+    ApplicationUser appUser = applicationUserRepository.findByEmail(email)
+            .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getRefreshExpirationTime());
-    log.info("Access Token for " + username + " with secret: " + appUser.getSecret() + " created.");
+    log.info("Access Token for " + email + " with secret: " + appUser.getSecret() + " created.");
     return Jwts.builder()
-            .setSubject(username)
+            .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS256, appUser.getSecret())

@@ -4,17 +4,14 @@ import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.events.ResendTokenEvent;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
-import com.softserve.lv460.application.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
-
 @AllArgsConstructor
 @Component
 public class ResendTokenListener implements ApplicationListener<ResendTokenEvent> {
-  private final ApplicationUserService service;
   private final EmailServiceImpl mailSender;
 
   @Override
@@ -23,7 +20,7 @@ public class ResendTokenListener implements ApplicationListener<ResendTokenEvent
   }
 
   private SimpleMailMessage resendToken(ResendTokenEvent event, ApplicationUser user, String token) {
-    String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
+    String confirmationUrl = event.getAppUrl() + "registrationConfirm?token=" + token;
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(user.getEmail());
     email.setSubject(MailMessages.RESENDING_ACTIVATION_TOKEN_SUBJECT);

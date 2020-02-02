@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.softserve.lv460.application.constant.ErrorMessage.USER_NOT_FOUND_BY_EMAIL;
+import static com.softserve.lv460.application.constant.ErrorMessage.USER_NOT_FOUND_BY_ID;
+
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -20,18 +23,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String email)
           throws UsernameNotFoundException {
     ApplicationUser user = applicationUserRepository.findByEmail(email).orElseThrow(
-            () -> new UsernameNotFoundException("User not found with email : " + email)
+            () -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email))
     );
     return UserPrincipal.create(user);
   }
 
-  // This method is used by JWTAuthenticationFilter
   @Transactional
   public UserDetails loadUserById(Long id) {
     ApplicationUser user = applicationUserRepository.findById(id).orElseThrow(
-            () -> new UsernameNotFoundException("User not found with id : " + id)
+            () -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_ID, id))
     );
-
     return UserPrincipal.create(user);
   }
 }

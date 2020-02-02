@@ -2,6 +2,7 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
+import com.softserve.lv460.application.constant.LinkConfigProperties;
 import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
@@ -40,6 +41,7 @@ public class UserApplicationController {
   private final EmailServiceImpl mailSender;
   private final ApplicationEventPublisher eventPublisher;
   private final JWTUserRequestMapper modelMapper;
+  private final LinkConfigProperties linkConfigProperties;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -66,7 +68,7 @@ public class UserApplicationController {
   @PostMapping("/register")
   public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest, final HttpServletRequest request) {
     ApplicationUser applicationUser = applicationUserService.save(userRequest);
-    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getAppUrl(request)));
+    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getAppUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(applicationUser));
   }
 
@@ -87,7 +89,6 @@ public class UserApplicationController {
   })
   @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
   public ResponseEntity changePassword(@RequestBody @Valid UpdPasswordRequest password, @CurrentUser UserPrincipal userPrincipal) {
-    userPrincipal.toString();
     if (applicationUserService.checkIfValidOldPassword(userPrincipal.getPassword(), password.getCurrentPassword())) {
       applicationUserService.changeUserPassword(userPrincipal.getId(), password.getPassword());
       mailSender.sendMessage(userPrincipal.getUsername(), MailMessages.PASWORD_CHANGED_SUBJECT,
@@ -103,7 +104,7 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
+  @RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
   public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestParam("token") final String token) {
     applicationUserService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
@@ -117,11 +118,11 @@ public class UserApplicationController {
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestParam("email") final String email) {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
-    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(request), verificationToken.getToken()));
+    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
 
-  private String getAppUrl(HttpServletRequest request) {
-    return "http://" + request.getServerName() + ":" + request.getServerPort() + "/users" + request.getContextPath();
+  public String getAppUrl() {
+    return linkConfigProperties.getViewUrl() + "users/";
   }
 }

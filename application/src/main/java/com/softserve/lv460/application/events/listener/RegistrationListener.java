@@ -19,11 +19,11 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
   private final EmailServiceImpl mailSender;
 
   @Override
-  public void onApplicationEvent(final OnRegistrationCompleteEvent event) {
+  public void onApplicationEvent(OnRegistrationCompleteEvent event) {
     this.confirmRegistration(event);
   }
 
-  private void confirmRegistration(final OnRegistrationCompleteEvent event) {
+  private void confirmRegistration(OnRegistrationCompleteEvent event) {
     ApplicationUser user = event.getUser();
     String token = UUID.randomUUID().toString();
     service.createVerificationTokenForUser(user, token);
@@ -31,7 +31,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
   }
 
   private SimpleMailMessage constructEmailMessage(OnRegistrationCompleteEvent event, ApplicationUser user, String token) {
-    String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
+    String confirmationUrl = event.getAppUrl() + "registrationConfirm?token=" + token;
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(user.getEmail());
     email.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
