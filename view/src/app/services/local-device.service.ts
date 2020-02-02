@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Device} from '../models/Device';
 import {ConstantsService} from './constant/constants.service';
+import {LocalDevice} from "../models/LocalDevice";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class LocalDeviceService {
     return this.http.put<Device[]>(this.constant + '/location-devices', this.upgrade);
   }
 
-  save(location, supportDevice) {
+  save(location, supportDevice) : Observable<LocalDevice> {
     let uuid = '2323';
     this.answer = {
       uuid: '213',
@@ -44,7 +45,7 @@ export class LocalDeviceService {
       deviceTemplateId: supportDevice.id
     };
     console.log(this.answer);
-    this.http.post(this.constant + '/location-devices', this.answer);
+    return this.http.post<LocalDevice>(this.constant + '/location-devices', this.answer);
   }
 
 }

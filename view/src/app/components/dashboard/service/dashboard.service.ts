@@ -10,7 +10,7 @@ import {FeatureDTO} from '../../../models/FeatureDTO';
   providedIn: 'root'
 })
 export class DashboardService {
-  private URL = 'http://localhost:8080/location-devices/location';
+  private URL = 'https://application-appl.herokuapp.com/location-devices/location';
 
   constructor(private http: HttpClient) {
   }
@@ -20,6 +20,6 @@ export class DashboardService {
   }
 
   getDeviceFeatureByDevice(device: Device) {
-    return this.http.get<FeatureDTO[]>('http://localhost:8080/deviceFeatures/' + device.id);
+    return this.http.get<FeatureDTO[]>('https://application-appl.herokuapp.com/deviceFeatures/' + device.id);
   }
 }

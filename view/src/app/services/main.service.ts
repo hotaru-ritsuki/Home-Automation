@@ -8,7 +8,7 @@ import {DeviceData} from '../models/DeviceData';
   providedIn: 'root'
 })
 export class MainService {
-  private apiUrl = 'http://localhost:8081';
+  private apiUrl = 'https://test-home-automations.herokuapp.com';
 
   constructor(private http: HttpClient) {
   }
