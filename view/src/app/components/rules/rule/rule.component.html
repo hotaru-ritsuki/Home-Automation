@@ -1,0 +1,21 @@
+<div class="rule-container">
+  <div *ngFor="let rule of rules" class="rule">
+    <div class="rule-info">
+      <div class="circle">{{rule.name.slice(0, 1).toLowerCase()}}</div>
+      <div class="info">{{rule.name}}</div>
+    </div>
+    <div class="rule-buttons">
+      <div class="rule-img">
+        <img src="https://image.flaticon.com/icons/svg/61/61456.svg">
+      </div>
+      <div class="rule-img">
+        <img src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
+      </div>
+    </div>
+  </div>
+  <div class="add-rule">
+    <div class="plus">
+      +
+    </div>
+  </div>
+</div>

@@ -11,7 +11,6 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService) {
-    this.router.navigate(['']);
 
   }
 

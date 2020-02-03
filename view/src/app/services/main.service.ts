@@ -1,21 +1,26 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {DeviceData} from '../models/DeviceData';
+import {Rule} from "../models/Rule";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainService {
-  private apiUrl = 'https://test-home-automations.herokuapp.com';
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
 
-  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-    console.log(type1, from1, to1, locationId1);
-    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
-      {type: type1, from: from1, to: to1, locationId: locationId1});
+
+  getRules(): Observable<Rule[]> {
+    return this.http.get<Rule[]>(this.apiUrl + '/rules')
   }
+
+  // getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
+  //   console.log(type1, from1, to1, locationId1);
+  //   return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
+  //     {type: type1, from: from1, to: to1, locationId: locationId1});
+  // }
 }
