@@ -6,12 +6,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import {HomeDetailsComponent} from './home/home-details/home-details.component';
 import {DevicesGraphicsComponent} from './components/devices-graphics/devices-graphics.component';
 import {ChartsModule} from 'ng2-charts';
 import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics-dashbord.component';
-import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
@@ -30,10 +27,8 @@ import { RuleComponent } from './components/rules/rule/rule.component';
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
   {path: 'rules', component: RuleComponent},
-  {path: '', component: MainComponent, canActivate: [HomePageGuardService]},
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
+  {path: '', component: DashboardComponent},
   {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
@@ -44,12 +39,9 @@ const routes: Routes = [
 
   declarations: [
     AppComponent,
-    HomeComponent,
-    HomeDetailsComponent,
     DevicesComponent,
     DevicesGraphicsComponent,
     GraphicsDashbordComponent,
-    MainComponent,
     DeviceTemplateComponent,
     LogInComponent,
     SignUpComponent,

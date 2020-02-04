@@ -1,8 +1,5 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo" [containerInside]="false">
+<mdb-navbar *ngIf="isSignedIn()" SideClass="navbar navbar-expand-lg navbar-dark indigo" [containerInside]="false">
   <ul class="navbar-nav mr-auto">
-    <li routerLink="" class="nav-link waves-light">Main Page</li>
-    <li *ngIf="isSignedIn()" routerLink="statistic" class="nav-link waves-light">Statistic</li>
-    <li *ngIf="isSignedIn()" routerLink="home" class="nav-link waves-light">Home</li>
     <li *ngIf="isSignedIn()" routerLink="device" class="nav-link waves-light">Device</li>
     <li *ngIf="isSignedIn()" routerLink="device-template" class="nav-link waves-light">Devices</li>
     <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
@@ -15,7 +12,7 @@
   </ul>
 </mdb-navbar>
 <router-outlet></router-outlet>
-<div class="footer">
+<div  class="footer" *ngIf="isSignedIn()">
   <footer class="page-footer font-small indigo align-bottom">
     <div class="footer-copyright text-center py-3">© 2020 Copyright:
       <a href="https://www.softserveinc.com/"> SoftServe IT Academy</a>

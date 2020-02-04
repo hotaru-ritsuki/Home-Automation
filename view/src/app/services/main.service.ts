@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Rule} from "../models/Rule";
+import {DeviceData} from "../models/DeviceData";
 
 
 @Injectable({
@@ -18,9 +19,8 @@ export class MainService {
     return this.http.get<Rule[]>(this.apiUrl + '/rules')
   }
 
-  // getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-  //   console.log(type1, from1, to1, locationId1);
-  //   return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
-  //     {type: type1, from: from1, to: to1, locationId: locationId1});
-  // }
+  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
+    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
+      {type: type1, from: from1, to: to1, locationId: locationId1});
+  }
 }
