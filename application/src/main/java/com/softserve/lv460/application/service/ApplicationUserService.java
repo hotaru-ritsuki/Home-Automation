@@ -41,7 +41,6 @@ public class ApplicationUserService {
     ApplicationUser applicationUser = userRegistrationRequestMapper.toEntity(userRequest);
     applicationUserRepository.save(applicationUser);
     return jwtUserRequestMapper.toDto(applicationUser);
-
   }
 
   @Transactional

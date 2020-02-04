@@ -38,6 +38,7 @@ public class LocalDeviceService {
         LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
 
         localDeviceByUuid.setLocation(locationService.findOne(localDevice.getLocation().getId()));
+        localDeviceByUuid.setDescription(localDevice.getDescription());
 
         return localDeviceRepository.save(localDeviceByUuid);
     }
@@ -51,6 +52,7 @@ public class LocalDeviceService {
                         localDevice.getDeviceTemplate().getId())));
         device.setDeviceTemplate(deviceTemplate);
         device.setUuid(UUID.randomUUID().toString().substring(0, 32));
+        device.setDescription(localDevice.getDescription());
 
         return localDeviceRepository.save(device);
     }

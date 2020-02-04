@@ -4,7 +4,7 @@ create table device_features (features_id bigint not null, device_id bigint not 
 create table device_template (id bigint not null auto_increment, brand varchar(255) not null, model varchar(255) not null, power_supply varchar(255), release_year integer, type varchar(255) not null, primary key (id)) engine=InnoDB;
 create table features (id bigint not null auto_increment, description varchar(255) not null, name varchar(255) not null, primary key (id)) engine=InnoDB;
 create table home (id bigint not null auto_increment, addressa varchar(255), city varchar(255), country varchar(255), primary key (id)) engine=InnoDB;
-create table local_device (uuid varchar(255) not null, location_id bigint not null, supported_device_id bigint not null, primary key (uuid)) engine=InnoDB;
+create table local_device (uuid varchar(255) not null, description varchar(255) not null, location_id bigint not null, supported_device_id bigint not null, primary key (uuid)) engine=InnoDB;
 create table location (id bigint not null auto_increment, name varchar(255), home_id bigint, primary key (id)) engine=InnoDB;
 create table rules (id bigint not null auto_increment, conditions varchar(255), name varchar(255), local_device_uuid varchar(255), primary key (id)) engine=InnoDB;
 create table user_home (user_id bigint not null, home_id bigint not null) engine=InnoDB;
