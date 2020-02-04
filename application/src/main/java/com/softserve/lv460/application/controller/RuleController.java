@@ -77,7 +77,7 @@ public class RuleController {
           .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Return list of rule by local device")
+  @ApiOperation(value = "Return list of rule by home")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class)
   })
