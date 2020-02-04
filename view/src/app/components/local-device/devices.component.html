@@ -6,12 +6,12 @@
 
 <div class="all">
   <div class="locations-list">
-    <div class="">
+    <div class="list-local">
       <ul class="list-group">
-        <li class="list-group-item" aria-disabled="true"> <button type="button" (click)="findAll()" class="btn">All</button></li>
+        <li class="list-group-item" aria-disabled="true"> <button type="button" (click)="chooseHome(1)" class="btn btn-light" style="width: 100%">All</button></li>
         <li class="list-group-item"
             *ngFor="let location of allLocationsByHome">
-          <button type="button" class="btn" (click)="chooseLocation(location.id)">{{location.name}}</button>
+          <button type="button" class="btn btn-light" (click)="chooseLocation(location.id)" style="width: 100%">{{location.name}}</button>
         </li>
       </ul>
     </div>

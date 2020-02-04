@@ -2,6 +2,7 @@ package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.exception.exceptions.NotFoundIdException;
@@ -32,6 +33,10 @@ public class LocalDeviceService {
 
     public List<LocalDevice> findAllByLocation(Location location) {
         return localDeviceRepository.findAllByLocation(location);
+    }
+
+    public List<LocalDevice> findAllByHome(Home home) {
+        return localDeviceRepository.findAllByHome(home);
     }
 
     public LocalDevice update(LocalDevice localDevice) {

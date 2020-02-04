@@ -28,6 +28,10 @@
   float: right;
 }
 
+.left:hover {
+  color: red;
+}
+
 .btn-add-device {
   margin: 10px 10px 10px 0px;
 }

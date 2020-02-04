@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
 import {LocationService} from "../../home/service/location.service";
+import {HomeService} from "../../home/service/home.service";
 
 @Component({
   selector: 'app-devices',
@@ -14,12 +15,12 @@ export class DevicesComponent implements OnInit{
   supportDeviceResponse: Device[];
   allDevice: any;
 
-  respLocation: any;
-  respSupportDevice: any;
   allLocationsByHome: any;
   locationId : number;
+  homeId: number;
 
-  constructor(private http: HttpClient, private deviceService: LocalDeviceService, private locationService: LocationService ) {
+  constructor(private http: HttpClient, private deviceService: LocalDeviceService,
+              private locationService: LocationService, private homeService: HomeService) {
   }
 
   ngOnInit() {
@@ -35,17 +36,17 @@ export class DevicesComponent implements OnInit{
       .subscribe((response) => {
         this.allDevice = response;
       });
-    this.locationService.getLocations()
+    this.deviceService.findLocationByHome(1)
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
   }
 
-  findAll() {
-    this.deviceService.findAll()
-      .subscribe((response) => {
-        this.allDevice = response;
-      });
+  chooseHome(id:number) {
+    this.homeId = id;
+    this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
+      this.allDevice = response;
+    });
   }
 
   chooseLocation(id:number) {
@@ -56,7 +57,9 @@ export class DevicesComponent implements OnInit{
   }
 
   delete(uuid: string) {
-    this.deviceService.delete(uuid);
+    this.deviceService.delete(uuid).subscribe(success =>{
+      console.log("success");
+    });;
     console.log(uuid);
   }
 }

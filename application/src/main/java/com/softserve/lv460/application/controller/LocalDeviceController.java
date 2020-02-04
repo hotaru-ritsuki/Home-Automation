@@ -5,6 +5,7 @@ import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequestDTO;
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceResponseDTO;
 import com.softserve.lv460.application.mapper.localDevice.LocalDeviceRequestMapper;
 import com.softserve.lv460.application.mapper.localDevice.LocalDeviceResponseMapper;
+import com.softserve.lv460.application.service.HomeService;
 import com.softserve.lv460.application.service.LocalDeviceService;
 import com.softserve.lv460.application.service.LocationService;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class LocalDeviceController {
     private LocalDeviceService localDeviceService;
     private LocationService locationService;
+    private HomeService homeService;
     private LocalDeviceResponseMapper responseMapper;
     private LocalDeviceRequestMapper requestMapper;
 
@@ -55,6 +57,16 @@ public class LocalDeviceController {
     @GetMapping("/location/{location_id}")
     public ResponseEntity<List<LocalDeviceResponseDTO>> findByLocation(@PathVariable("location_id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(localDeviceService.findAllByLocation(locationService.findOne(id)).
+                stream().map(responseMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @ApiOperation(value = "Return list of device in home")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    })
+    @GetMapping("/home/{home_id}")
+    public ResponseEntity<List<LocalDeviceResponseDTO>> findByHome(@PathVariable("home_id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(localDeviceService.findAllByHome(homeService.findOne(id)).
                 stream().map(responseMapper::toDto).collect(Collectors.toList()));
     }
 
