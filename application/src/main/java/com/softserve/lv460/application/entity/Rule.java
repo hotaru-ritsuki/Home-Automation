@@ -17,6 +17,8 @@ public class Rule {
   private Long id;
   private String name;
   private String conditions;
+  private Boolean able;
+  private String description;
   @ManyToOne
   private LocalDevice localDevice;
   @ManyToMany(mappedBy = "rule")
