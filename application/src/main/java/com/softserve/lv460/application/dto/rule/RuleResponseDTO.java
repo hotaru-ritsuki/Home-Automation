@@ -11,7 +11,7 @@ public class RuleResponseDTO {
   private String name;
   private String conditions;
   private String uuid;
-  private Boolean able;
+  private Boolean active;
   private String description;
   private List<ActionRuleResponseDTO> actionRule;
 }

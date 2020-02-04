@@ -33,7 +33,7 @@ public class RuleService {
     Rule rule = findAction(entity.getId());
     rule.setName(entity.getName());
     rule.setConditions(entity.getConditions());
-    rule.setAble(entity.getAble());
+    rule.setActive(entity.getActive());
     rule.setDescription(entity.getDescription());
     return ruleRepository.save(rule);
   }
