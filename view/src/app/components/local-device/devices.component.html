@@ -8,10 +8,10 @@
   <div class="locations-list">
     <div class="">
       <ul class="list-group">
-        <li class="list-group-item disabled" aria-disabled="true">All</li>
-        <li class="list-group-item disabled" aria-disabled="true"
+        <li class="list-group-item" aria-disabled="true"> <button type="button" (click)="findAll()" class="btn">All</button></li>
+        <li class="list-group-item"
             *ngFor="let location of allLocationsByHome">
-          <button type="button" class="btn">{{location.name}}</button>
+          <button type="button" class="btn" (click)="chooseLocation(location.id)">{{location.name}}</button>
         </li>
       </ul>
     </div>
@@ -26,12 +26,12 @@
   <div class="device">
     <div class="card device-info" *ngFor="let device of allDevice">
       <div class="card-header">
-        {{device.uuid}}
-        <a href="#" class="btn btn-light left">X</a>
+        {{device.description}}
+        <button class="btn btn-light left" type="button" (click)="delete(device.uuid)">X</button>
       </div>
       <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <h5 class="card-title">{{device.uuid}}</h5>
+        <p class="card-text">here should be information from the device</p>
       </div>
     </div>
     <div class="btn-add-device">

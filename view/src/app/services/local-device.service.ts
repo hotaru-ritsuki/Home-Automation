@@ -33,8 +33,17 @@ export class LocalDeviceService {
     return this.http.get<Device[]>(this.constant + '/location-devices');
   }
 
+  findAllByLocation(id:number): Observable<Location[]> {
+    return this.http.get<Location[]>(this.constant + '/location-devices/' + 'location/' + id);
+  }
+
   update(): Observable<Device[]> {
     return this.http.put<Device[]>(this.constant + '/location-devices', this.upgrade);
+  }
+
+  delete(uuid: string) {
+    this.http.get(this.constant + '/location-devices/' + uuid);
+    console.log(this.constant + '/location-devices/' + uuid);
   }
 
   save(location, supportDevice) : Observable<LocalDevice> {

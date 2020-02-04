@@ -17,6 +17,7 @@ export class DevicesComponent implements OnInit{
   respLocation: any;
   respSupportDevice: any;
   allLocationsByHome: any;
+  locationId : number;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, private locationService: LocationService ) {
   }
@@ -38,5 +39,24 @@ export class DevicesComponent implements OnInit{
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
+  }
+
+  findAll() {
+    this.deviceService.findAll()
+      .subscribe((response) => {
+        this.allDevice = response;
+      });
+  }
+
+  chooseLocation(id:number) {
+    this.locationId = id;
+    this.deviceService.findAllByLocation(this.locationId).subscribe((response) => {
+      this.allDevice = response;
+    });
+  }
+
+  delete(uuid: string) {
+    this.deviceService.delete(uuid);
+    console.log(uuid);
   }
 }
