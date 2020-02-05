@@ -2,19 +2,23 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Home} from '../model/Home';
+import {ConstantsService} from "../../services/constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
+  constant:string;
+  URL:string;
+  URLFind:string
 
-  URL = 'http://localhost:8080/homes';
-  URLFind = 'http://localhost:8080/homes/find';
+  constructor(private http: HttpClient, private _constant: ConstantsService) {
+    this.constant = this._constant.baseApplicationUrl;
+    this.URL = this._constant.baseApplicationUrl + '/homes';
+    this.URLFind = this._constant.baseApplicationUrl +'/homes/find';
+  }
 
   id = new Subject();
-
-  constructor(private http: HttpClient) {
-  }
 
   getHomes(): Observable<Home[]> {
     return this.http.get<Home[]>(this.URL);

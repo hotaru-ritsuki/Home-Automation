@@ -18,8 +18,6 @@ export class UserSignUpService {
       firstName: userRegister.firstName,
       lastName: userRegister.lastName
     };
-    console.log(body);
-
     return this.http.post(this.constants.baseApplicationUrl+'/users/register', body);
   }
 }

@@ -29,14 +29,9 @@ export class DevicesComponent {
       .subscribe((response) => {
         this.allDevice = response;
       });
-    this.deviceService.update()
-      .subscribe((response) => {
-        this.allDevice = response;
-      });
-    console.log(this.locationResponse);
   }
 
   save() {
-    this.deviceService.save(this.respLocation, this.respSupportDevice);
+    this.deviceService.save(this.respLocation, this.respSupportDevice).subscribe();
   }
 }
