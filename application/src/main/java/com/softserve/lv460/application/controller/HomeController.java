@@ -39,16 +39,6 @@ public class HomeController {
           .toDto(homeService.create(requestMapper.toEntity(request), user.getId())));
   }
 
-  @ApiOperation(value = "Return list of home")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
-  })
-  @GetMapping("/all")
-  public ResponseEntity<List<HomeResponseDTO>> findAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAll().stream().map(responseMapper::toDto)
-          .collect(Collectors.toList()));
-  }
-
   @ApiOperation(value = "Update home")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
