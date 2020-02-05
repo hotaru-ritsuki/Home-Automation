@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;

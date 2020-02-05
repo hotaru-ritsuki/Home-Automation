@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.config;
 
 import com.google.common.collect.Sets;
+import com.softserve.lv460.application.security.entity.UserPrincipal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ public class SwaggerConfig {
   public Docket productApi() {
     return new Docket(DocumentationType.SWAGGER_2)
           .groupName("SpringBoot-Swagger-API")
+          .ignoredParameterTypes(UserPrincipal.class)
           .select()
           .apis(RequestHandlerSelectors.basePackage("com.softserve.lv460.application.controller"))
           .build()
@@ -33,6 +35,7 @@ public class SwaggerConfig {
           .securityContexts(Collections.singletonList(securityContext()))
           .consumes(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE))
           .produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE));
+
   }
 
   private ApiKey apiKey() {

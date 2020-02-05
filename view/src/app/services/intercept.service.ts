@@ -12,7 +12,7 @@ import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {LocalStorageService} from './local-storage.service';
 import {Router} from '@angular/router';
-import {ConstantsService} from "./constant/constants.service";
+import {ConstantsService} from './constant/constants.service';
 
 interface NewTokenPair {
   accessToken: string;
@@ -33,7 +33,7 @@ export class InterceptorService implements HttpInterceptor {
               private router: Router,
               private constant: ConstantsService) {
     this.applicationUrl = this.constant.baseApplicationUrl;
-    this.updateAccessTokenUrl = this.constant.baseApplicationUrl+'/users/refreshTokens';
+    this.updateAccessTokenUrl = this.constant.baseApplicationUrl + '/users/refreshTokens';
   }
 
   /**

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {UserChangePassword} from "../../../../models/UserChangePassword";
-import {UserChangePasswordService} from "../../../../services/user-change-password.service";
+import {UserChangePassword} from '../../../models/UserChangePassword';
+import {UserChangePasswordService} from '../../../services/user-change-password.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',

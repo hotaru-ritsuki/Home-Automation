@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSignUp } from '../../../../models/UserSignUp';
+import { UserSignUp } from '../../../models/UserSignUp';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {UserSignUpService} from '../../../../services/user-sign-up.service';
+import {UserSignUpService} from '../../../services/user-sign-up.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',

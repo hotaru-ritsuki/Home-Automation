@@ -1,5 +1,8 @@
 package com.softserve.lv460.application.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
@@ -27,6 +30,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -87,7 +91,7 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+  @PostMapping("/changePassword")
   public ResponseEntity changePassword(@RequestBody @Valid UpdPasswordRequest password, @CurrentUser UserPrincipal userPrincipal) {
     if (applicationUserService.checkIfValidOldPassword(userPrincipal.getPassword(), password.getCurrentPassword())) {
       applicationUserService.changeUserPassword(userPrincipal.getId(), password.getPassword());
@@ -104,8 +108,8 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
-  public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestParam("token") final String token) {
+  @GetMapping("/confirmRegistration")
+  public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestBody String token) {
     applicationUserService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
@@ -115,8 +119,8 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
-  public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestParam("email") final String email) {
+  @GetMapping(value = "/resendRegistrationToken")
+  public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
