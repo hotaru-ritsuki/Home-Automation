@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSignUp } from '../../../../models/UserSignUp';
+import { UserSignUp } from '../../../models/UserSignUp';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {UserSignUpService} from '../../../../services/user-sign-up.service';
+import {UserSignUpService} from '../../../services/user-sign-up.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -32,17 +32,14 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = true;
     this.userSecurityService.signUp(userSignUp).subscribe(
       () => {
-        this.router.navigateByUrl('/login').then(r => r);
-        this.loadingAnim = false;
-        this.router.navigateByUrl('').then(r => r);
+        this.router.navigateByUrl('login').then(r => r);
       },
       (errors: HttpErrorResponse) => {
           this.passwordErrorMessageBackEnd = 'Incorrect Data';
           this.loadingAnim = false;
         });
+    this.loadingAnim = false;
   }
-
-
 
   private setNullAllMessage() {
     this.firstNameErrorMessageBackEnd = null;

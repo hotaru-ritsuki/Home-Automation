@@ -15,27 +15,39 @@ import {MainComponent} from './components/main/main.component';
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
-import {LogInComponent} from './components/user/secure/log-in/log-in.component';
-import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
-import {AuthGuardService} from "./services/auth-guard.service";
-import {HomePageGuardService} from "./services/homepage-guard.service";
+import {SignUpComponent} from './components/user/sign-up/sign-up.component';
+import {LogInComponent} from './components/user/log-in/log-in.component';
+import {AuthGuardService} from './services/auth-guard.service';
+import {HomePageGuardService} from './services/homepage-guard.service';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
 import {SliderModule} from 'angular-image-slider';
+import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
+import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
+import {UserComponent} from './components/user/user.component';
+import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: '', component: MainComponent, canActivate: [HomePageGuardService]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
-  {path: 'login', component: LogInComponent},
-  {path: 'register', component: SignUpComponent},
-  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]}
+  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'users',
+    component: UserComponent,
+    children: [
+      { path: 'login', component: LogInComponent},
+      { path: 'register', component: SignUpComponent},
+      { path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService] },
+      { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent}
+    ]
+  },
+  {path: '', component: MainComponent, canActivate: [HomePageGuardService]}
 ];
 
 @NgModule({
@@ -51,11 +63,13 @@ const routes: Routes = [
     DeviceTemplateComponent,
     LogInComponent,
     SignUpComponent,
-    ActivationEmailComponent,
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
-
+    ChangePasswordComponent,
+    ConfirmRegistrationComponent,
+    ResendRegistrationTokenComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -65,12 +79,13 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { enableTracing: true }),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     WavesModule,
     SliderModule,
     ButtonsModule,
+    NgbModule
   ],
   providers:
     [{
