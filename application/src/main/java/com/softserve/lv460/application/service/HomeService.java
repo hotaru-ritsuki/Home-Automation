@@ -60,7 +60,7 @@ public class HomeService {
   }
 
   public List<Home> findAllByUser(Long userId) {
-    return homeRepository.findByUserId(userId);
+    return homeRepository.findAllByApplicationUsers(userService.findById(userId));
   }
 
 }
