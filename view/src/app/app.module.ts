@@ -32,6 +32,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { RestorePasswordComponent } from './components/user/restore-password/restore-password/restore-password.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ModalComponent} from './components/modal/modal.component';
+import { RestorePasswordPart2Component } from './components/restore-password-part2/restore-password-part2.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -40,6 +41,7 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'users/restorePassword/:token', component: RestorePasswordPart2Component,  canActivate: [AuthGuardService]},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {path: 'users',
     component: UserComponent,
@@ -76,7 +78,8 @@ const routes: Routes = [
     ResendRegistrationTokenComponent,
     UserComponent,
     RestorePasswordComponent,
-    ModalComponent
+    ModalComponent,
+    RestorePasswordPart2Component
   ],
   imports: [
     BrowserModule,

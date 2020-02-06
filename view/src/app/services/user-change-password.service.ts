@@ -23,7 +23,7 @@ export class UserChangePasswordService {
     return this.http.post(this.constant + '/users/changePassword', body);
   }
 
-  public findUserByEmail(email: string): Observable<UserLogIn>{
-    return this.http.get<UserLogIn>(this.constant + '/users/' + email);
+  public findUserByEmail(email: string): Observable<any>{
+    return this.http.get<any>(this.constant + '/users/restorePassword/' + email);
   }
 }

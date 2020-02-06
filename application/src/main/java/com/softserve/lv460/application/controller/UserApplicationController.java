@@ -4,11 +4,11 @@ import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
 import com.softserve.lv460.application.constant.MailMessages;
-import com.softserve.lv460.application.dto.location.LocationResponseDTO;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.events.ResendTokenEvent;
+import com.softserve.lv460.application.events.RestoreEvent;
 import com.softserve.lv460.application.exception.exceptions.BadEmailOrPasswordException;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
@@ -123,13 +123,16 @@ public class UserApplicationController {
     return ResponseEntity.ok().build();
   }
 
-  @ApiOperation(value = "Find user by email")
+  @ApiOperation("Restore password")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
-  @GetMapping("/{email}")
-  public ResponseEntity<ApplicationUser> findByEmail(@Valid @PathVariable("email") String email) {
-    return ResponseEntity.status(HttpStatus.OK).body(applicationUserService.findByEmail(email));
+  @GetMapping("/restorePassword/{email}")
+  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+    ApplicationUser user = applicationUserService.findByEmail(email);
+    eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
+    return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 
   public String getAppUrl() {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
@@ -20,11 +20,8 @@ export class DevicesComponent implements OnInit{
   allLocationsByHome: any;
   locationId : number;
   homeId: number;
-  indexModal: number;
-  public locationid = 1;
 
-  constructor(private http: HttpClient, private deviceService: LocalDeviceService,
-              private locationService: LocationService, private homeService: HomeService, public dialog: MatDialog) {
+  constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -60,12 +57,7 @@ export class DevicesComponent implements OnInit{
     });
   }
 
-  delete(uuid: string) {
-    this.deviceService.delete(uuid).subscribe(r=>r);
-    console.log(uuid);
-  }
-
   openModal(uuid: string) {
-    this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}})
+    this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}});
   }
 }
