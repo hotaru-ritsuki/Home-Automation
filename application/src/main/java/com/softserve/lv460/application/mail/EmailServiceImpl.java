@@ -1,16 +1,16 @@
 package com.softserve.lv460.application.mail;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@AllArgsConstructor
 public class EmailServiceImpl {
 
-  @Autowired
-  public JavaMailSender emailSender;
+  private final JavaMailSender emailSender;
 
   public void sendMessage(String to, String subject, String text) {
     try {
@@ -22,5 +22,9 @@ public class EmailServiceImpl {
     } catch (MailException exception) {
       exception.printStackTrace();
     }
+  }
+
+  public void sendMessage(SimpleMailMessage simpleMailMessage) {
+    emailSender.send(simpleMailMessage);
   }
 }

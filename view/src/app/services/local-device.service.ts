@@ -50,8 +50,8 @@ export class LocalDeviceService {
     return this.http.put<Device[]>(this.constant + '/location-devices', this.upgrade);
   }
 
-  delete(uuid: string): Observable{
-    this.http.delete(this.constant + '/location-devices/' + uuid);
+  delete(uuid: string): Observable<void> {
     console.log(this.constant + '/location-devices/' + uuid);
+    return this.http.delete<void>(this.constant + '/location-devices/' + uuid);
   }
 }

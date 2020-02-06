@@ -76,4 +76,14 @@ public class RuleController {
     return ResponseEntity.status(HttpStatus.OK).body(ruleService.findAllByLocalDevice(uuid).stream()
           .map(responseMapper::toDto).collect(Collectors.toList()));
   }
+
+  @ApiOperation(value = "Return list of rule by home")
+  @ApiResponses(value = {
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = RuleResponseDTO.class)
+  })
+  @GetMapping("/home/{home_id}")
+  public ResponseEntity<List<RuleResponseDTO>> findAllByHome(@PathVariable("home_id") Long home) {
+    return ResponseEntity.status(HttpStatus.OK).body(ruleService.findByHome(home).stream()
+          .map(responseMapper::toDto).collect(Collectors.toList()));
+  }
 }

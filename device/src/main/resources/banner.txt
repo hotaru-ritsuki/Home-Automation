@@ -1,0 +1,11 @@
+${Ansi.RED}
+${Ansi.RED}       ____            _       _    _
+${Ansi.RED}      |  _ \          (_)     | |  | |
+${Ansi.RED}      | |_) |_ __ __ _ _ _ __ | |__| | ___  _   _ ___  ___
+${Ansi.RED}      |  _ <| '__/ _` | | '_ \|  __  |/ _ \| | | / __|/ _ \
+${Ansi.RED}      | |_) | | | (_| | | | | | |  | | (_) | |_| \__ |  __/
+${Ansi.RED}      |____/|_|  \__,_|_|_| |_|_|  |_|\___/ \__,_|___/\___|
+${Ansi.RED}
+${Ansi.RED}
+${Ansi.RED} :: Spring Boot ${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
+

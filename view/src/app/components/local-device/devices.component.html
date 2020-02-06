@@ -1,7 +1,28 @@
 <div class="nav-bar">
-  <a href="src/app/app.component.html">Administration</a> >
-  <a href="src/app/home/home-details/home-details.component.html">Homes</a> >
+  <span routerLink="../main" class="register">Administration</span> >
+  <span routerLink="../home" class="register">Homes</span> >
   <a href=""></a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div class="all">
@@ -16,10 +37,10 @@
       </ul>
     </div>
     <div class="btn-add-device">
-      <a href="#" class="btn btn-primary">Add location</a>
+      <a href="#" class="btn btn-outline-primary">Add location</a>
     </div>
     <div class="btn-add-device">
-      <a href="#" class="btn btn-primary">Configure rule</a>
+      <a href="#" class="btn btn-outline-primary">Configure rule</a>
     </div>
   </div>
 
@@ -27,7 +48,7 @@
     <div class="card device-info" *ngFor="let device of allDevice">
       <div class="card-header">
         {{device.description}}
-        <button class="btn btn-light left" type="button" (click)="delete(device.uuid)">X</button>
+        <button class="btn btn-light left" type="button" (click)="openModal(device.uuid)">X</button>
       </div>
       <div class="card-body">
         <h5 class="card-title">{{device.uuid}}</h5>
@@ -35,7 +56,7 @@
       </div>
     </div>
     <div class="btn-add-device">
-      <a href="#" class="btn btn-primary">Add new device</a>
+      <a href="#" class="btn btn-outline-primary">Add new device</a>
     </div>
   </div>
 </div>

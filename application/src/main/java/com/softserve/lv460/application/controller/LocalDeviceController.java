@@ -97,6 +97,6 @@ public class LocalDeviceController {
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> delete(@PathVariable("uuid") String uuid) {
         localDeviceService.delete(uuid);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

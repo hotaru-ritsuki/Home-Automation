@@ -1,6 +1,7 @@
-package com.softserve.lv460.application.security.jwt;
+package com.softserve.lv460.application.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -23,8 +23,9 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String password;
 
-  private Collection<? extends GrantedAuthority> authorities;
+  private Boolean enabled;
 
+  private Collection<? extends GrantedAuthority> authorities;
 
   public static UserPrincipal create(ApplicationUser user) {
     List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
@@ -35,6 +36,7 @@ public class UserPrincipal implements UserDetails {
             user.getId(),
             user.getEmail(),
             user.getPassword(),
+            user.getEnabled(),
             authorities
     );
   }
@@ -56,6 +58,6 @@ public class UserPrincipal implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return this.enabled;
   }
 }

@@ -4,6 +4,8 @@ import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
 import {LocationService} from "../../home/service/location.service";
 import {HomeService} from "../../home/service/home.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalComponent} from "../modal/modal.component";
 
 @Component({
   selector: 'app-devices',
@@ -18,9 +20,11 @@ export class DevicesComponent implements OnInit{
   allLocationsByHome: any;
   locationId : number;
   homeId: number;
+  indexModal: number;
+  public locationid = 1;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService,
-              private locationService: LocationService, private homeService: HomeService) {
+              private locationService: LocationService, private homeService: HomeService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -57,9 +61,11 @@ export class DevicesComponent implements OnInit{
   }
 
   delete(uuid: string) {
-    this.deviceService.delete(uuid).subscribe(success =>{
-      console.log("success");
-    });;
+    this.deviceService.delete(uuid).subscribe(r=>r);
     console.log(uuid);
+  }
+
+  openModal(uuid: string) {
+    this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}})
   }
 }

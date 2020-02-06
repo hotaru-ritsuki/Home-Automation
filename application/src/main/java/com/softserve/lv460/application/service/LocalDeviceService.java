@@ -36,7 +36,7 @@ public class LocalDeviceService {
     }
 
     public List<LocalDevice> findAllByHome(Home home) {
-        return localDeviceRepository.findAllByHome(home);
+        return localDeviceRepository.findAllByLocationIn(locationService.findByHome(home.getId()));
     }
 
     public LocalDevice update(LocalDevice localDevice) {

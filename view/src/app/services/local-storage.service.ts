@@ -8,7 +8,7 @@ export class LocalStorageService {
   private readonly ACCESS_TOKEN = 'accessToken';
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
-   private readonly FIRST_NAME = 'firstName';
+  private readonly FIRST_NAME = 'firstName';
 
    firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirstName());
    userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());

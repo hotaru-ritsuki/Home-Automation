@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserLogInService } from '../../../../services/user-log-in.service';
-import { UserLogIn } from '../../../../models/UserLogIn';
+import { UserLogInService } from '../../../services/user-log-in.service';
+import { UserLogIn } from '../../../models/UserLogIn';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SuccessLogIn } from '../../../../models/SuccessLogin';
+import { SuccessLogIn } from '../../../models/SuccessLogin';
 
 import { Router } from '@angular/router';
 
@@ -14,10 +14,8 @@ import { Router } from '@angular/router';
 export class LogInComponent implements OnInit {
   userLogIn: UserLogIn;
   loadingAnim: boolean;
-
   emailErrorMessageBackEnd: string;
   passwordErrorMessageBackEnd: string;
-
   backEndError: string;
 
   constructor(
