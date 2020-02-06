@@ -21,7 +21,8 @@ export class DeviceTemplateComponent implements OnInit {
     featuresId: [],
     model: '',
     releaseYear: '',
-    type: ''
+    type: '',
+    image: ''
   };
   featuresId: Array<number> = [];
   allBrands: Array<string>;

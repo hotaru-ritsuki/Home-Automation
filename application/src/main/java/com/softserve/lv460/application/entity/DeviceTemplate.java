@@ -27,6 +27,8 @@ public class DeviceTemplate {
   private Integer releaseYear;
   @Column(name = "powerSupply")
   private String powerSupply;
+  @NotNull
+  private String image;
   @ManyToMany
   @JsonIgnore
   @JoinTable(name = "device_features",

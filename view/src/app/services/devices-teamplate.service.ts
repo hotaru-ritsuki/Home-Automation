@@ -24,6 +24,7 @@ export class DevicesTeamplateService {
       params = params.append('type', filterRequest.type);
       params = params.append('brand', filterRequest.brand);
       params = params.append('releaseYear', filterRequest.releaseYear);
+      params = params.append('image', filterRequest.image);
       params = params.append('featuresId', filterRequest.featuresId);
     return this.http.get<Data<Device>>(this.URL + '/filter/page=' + page, {params});
   }

@@ -15,5 +15,6 @@ public class DeviceTemplateResponseDTO {
   private String type;
   private Integer releaseYear;
   private String powerSupply;
+  private String image;
   private List<Feature> features;
 }

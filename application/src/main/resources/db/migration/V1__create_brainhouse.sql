@@ -1,7 +1,10 @@
 create table actions (id bigint not null auto_increment, description varchar(255) not null, type integer not null, primary key (id)) engine=InnoDB;
 create table actions_rule (action_id bigint not null, rule_id bigint not null, action_specification varchar(255) not null, primary key (action_id, rule_id)) engine=InnoDB;
 create table device_features (features_id bigint not null, device_id bigint not null, specification varchar(255)) engine=InnoDB;
-create table device_template (id bigint not null auto_increment, brand varchar(255) not null, model varchar(255) not null, power_supply varchar(255), release_year integer, type varchar(255) not null, primary key (id)) engine=InnoDB;
+create table device_template (id bigint not null auto_increment, brand varchar(255) not null, model varchar(255) not
+null, power_supply varchar(255), release_year integer, type varchar(255) not null, image varchar(255) not null, primary
+key (id))
+engine=InnoDB;
 create table features (id bigint not null auto_increment, description varchar(255) not null, name varchar(255) not null, primary key (id)) engine=InnoDB;
 create table home (id bigint not null auto_increment, addressa varchar(255), city varchar(255), country varchar(255), primary key (id)) engine=InnoDB;
 create table local_device (uuid varchar(255) not null, location_id bigint not null, supported_device_id bigint not null, primary key (uuid)) engine=InnoDB;
