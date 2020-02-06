@@ -74,7 +74,7 @@ public class HomeController {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
   })
   @GetMapping
-  public ResponseEntity<List<HomeResponseDTO>> findAllByUserId(@CurrentUser UserPrincipal user) {
+  public ResponseEntity<List<HomeResponseDTO>> findAllByUser(@CurrentUser UserPrincipal user) {
     return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllByUser(user.getId()).stream().map(responseMapper::toDto)
           .collect(Collectors.toList()));
   }
