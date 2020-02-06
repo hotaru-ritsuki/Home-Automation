@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Rule} from "../models/Rule";
 import {DeviceData} from "../models/DeviceData";
+import {LocalDevice} from "../models/LocalDevice";
+import {FeatureDTO} from "../models/FeatureDTO";
 
 
 @Injectable({
@@ -17,6 +19,18 @@ export class MainService {
 
   getRules(): Observable<Rule[]> {
     return this.http.get<Rule[]>(this.apiUrl + '/rules')
+  }
+
+  getDevicesTypes() {
+    return this.http.get<string[]>(this.apiUrl + '/devices/types')
+  }
+
+  getAllLocalDevice(): Observable<LocalDevice[]> {
+    return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices')
+  }
+
+  getSpecification(id): Observable<FeatureDTO[]> {
+    return this.http.get<FeatureDTO[]>(this.apiUrl + '/deviceFeatures/' + id)
   }
 
   getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {

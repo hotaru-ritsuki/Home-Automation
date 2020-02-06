@@ -2,14 +2,22 @@
   <div *ngFor="let rule of rules" class="rule">
     <div class="rule-info">
       <div class="circle">{{rule.name.slice(0, 1).toLowerCase()}}</div>
-      <div class="info">{{rule.name}}</div>
+      <div class="info">
+        <div>
+          {{rule.name}}
+        </div>
+        <div style="font-size: 12px">
+          {{rule.description}}
+        </div>
+      </div>
     </div>
     <div class="rule-buttons">
       <div class="rule-img">
         <img src="https://image.flaticon.com/icons/svg/61/61456.svg">
       </div>
       <div class="rule-img">
-        <img src="https://image.flaticon.com/icons/svg/59/59252.svg">
+        <img
+          [src]="rule.active?'https://image.flaticon.com/icons/svg/633/633816.svg':'https://image.flaticon.com/icons/svg/92/92381.svg'">
       </div>
       <div class="rule-img">
         <img src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
@@ -17,7 +25,7 @@
     </div>
   </div>
   <div class="add-rule">
-    <div class="plus">
+    <div routerLink="configure" class="plus">
       +
     </div>
   </div>

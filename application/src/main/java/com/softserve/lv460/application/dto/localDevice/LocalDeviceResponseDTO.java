@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.dto.localDevice;
 
+import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateResponseDTO;
 import com.softserve.lv460.application.entity.DeviceTemplate;
 import com.softserve.lv460.application.entity.Location;
 import lombok.Data;
@@ -8,5 +9,5 @@ import lombok.Data;
 public class LocalDeviceResponseDTO {
     private String uuid;
     private Location location;
-    private DeviceTemplate deviceTemplate;
+    private DeviceTemplateResponseDTO deviceTemplate;
 }

@@ -16,17 +16,23 @@ import {SignUpComponent} from './components/user/secure/sign-up/sign-up.componen
 import {LogInComponent} from './components/user/secure/log-in/log-in.component';
 import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
 import {AuthGuardService} from "./services/auth-guard.service";
-import {HomePageGuardService} from "./services/homepage-guard.service";
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
 import {SliderModule} from 'angular-image-slider';
-import { RuleComponent } from './components/rules/rule/rule.component';
+import {RuleComponent} from './components/rules/rule/rule.component';
+import {
+  DialogOverviewExampleDialog,
+  RuleConfigurationComponent
+} from './components/rules/rule-configuration/rule-configuration.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from "@angular/material";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
   {path: 'rules', component: RuleComponent},
+  {path: 'rules/configure', component: RuleConfigurationComponent},
   {path: '', component: DashboardComponent},
   {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
@@ -50,8 +56,10 @@ const routes: Routes = [
     LightToggleComponent,
     DashboardLocationsComponent,
     RuleComponent,
-
+    RuleConfigurationComponent,
+    DialogOverviewExampleDialog,
   ],
+  entryComponents: [DialogOverviewExampleDialog],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -63,10 +71,17 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
+    NgbModule,
     WavesModule,
     SliderModule,
     ButtonsModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule
   ],
+
+
   providers:
     [{
       provide: HTTP_INTERCEPTORS,

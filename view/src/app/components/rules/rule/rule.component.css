@@ -92,5 +92,6 @@ img {
   color: white;
   margin-top: 10px;
   margin-right: 5%;
+  outline: none;
   cursor: pointer;
 }

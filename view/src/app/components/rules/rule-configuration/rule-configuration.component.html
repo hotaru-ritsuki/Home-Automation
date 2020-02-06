@@ -1,0 +1,25 @@
+<div class="rule-container">
+  <input placeholder="Name" type="text" class="form-control typeahead-basic" [(ngModel)]="model"/>
+  <input placeholder="Description" type="text" class="form-control typeahead-basic" [(ngModel)]="model"/>
+  <div class="conditions">
+    <div class="row-cond">
+      <div class="cond">
+        <div class="text">When...</div>
+        <div class="circle" (click)="save()">+</div>
+      </div>
+      <div class="items">
+        <div *ngFor="let item of fromData" class="item">
+          <img class="gear" src="https://image.flaticon.com/icons/svg/1242/1242392.svg">
+          <div class="title">{{item.type}}</div>
+          <div class="data">{{item.currentFeature + ' ' + item.currentOperator + ' ' + item.state}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row-cond">
+      <div class="cond">
+        <div class="text">Than...</div>
+        <div class="circle">+</div>
+      </div>
+    </div>
+  </div>
+</div>
