@@ -47,7 +47,17 @@
   <div *ngFor="let feature of devicesFeatures">
     <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
       <div class="light-box" *ngSwitchCase="'light'">
-        <app-light-toggle [uuid]="feature.uuid" [location]="location"></app-light-toggle>
+        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'"></app-light-toggle>
+      </div>
+    </div>
+    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
+      <div class="light-box" *ngSwitchCase="'window'">
+        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'window'"></app-light-toggle>
+      </div>
+    </div>
+    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
+      <div class="light-box" *ngSwitchCase="'door'">
+        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'door'"></app-light-toggle>
       </div>
     </div>
   </div>

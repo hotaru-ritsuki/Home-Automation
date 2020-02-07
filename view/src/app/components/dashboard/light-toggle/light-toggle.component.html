@@ -1,17 +1,59 @@
-<p><span *ngIf="isTurnedOn === 'off'"><img src="https://img.icons8.com/wired/64/000000/light-on.png" class="light-icon"></span>
-  <span *ngIf="isTurnedOn === 'on'"><img src="https://img.icons8.com/dusk/64/000000/light-on.png"
-                                         class="light-icon"></span>
-  Lights in {{location.name}}
-  <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
-                                                    *ngIf="isTurnedOn === 'off'">
+<div *ngIf="type === 'light'">
+  <p><span *ngIf="isTurnedOn === 'off'"><img src="https://img.icons8.com/wired/64/000000/light-on.png"
+                                             class="light-icon"></span>
+    <span *ngIf="isTurnedOn === 'on'"><img src="https://img.icons8.com/dusk/64/000000/light-on.png"
+                                           class="light-icon"></span>
+    Lights in {{location.name}}
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'off'">
     <span class="slider round" *ngIf="isTurnedOn === 'off'"></span>
   </label>
   </span>
-  <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()" *ngIf="isTurnedOn === 'on'"
-                                                    checked>
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'on'"
+                                                      checked>
     <span class="slider round" *ngIf="isTurnedOn === 'on'"></span>
   </label>
   </span>
-</p>
+  </p>
+</div>
 
+<div *ngIf="type === 'window'">
+  <p><span *ngIf="isTurnedOn === 'off'"><img src="https://img.icons8.com/wired/64/000000/light-on.png"
+                                             class="light-icon"></span>
+    <span *ngIf="isTurnedOn === 'on'"><img src="https://img.icons8.com/dusk/64/000000/light-on.png"
+                                           class="light-icon"></span>
+    Lights in {{location.name}}
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'off'">
+    <span class="slider round" *ngIf="isTurnedOn === 'off'"></span>
+  </label>
+  </span>
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'on'"
+                                                      checked>
+    <span class="slider round" *ngIf="isTurnedOn === 'on'"></span>
+  </label>
+  </span>
+  </p>
+</div>
 
+<div *ngIf="type === 'door'">
+  <p><span *ngIf="isTurnedOn === 'off'"><img src="https://img.icons8.com/wired/64/000000/light-on.png"
+                                             class="light-icon"></span>
+    <span *ngIf="isTurnedOn === 'on'"><img src="https://img.icons8.com/dusk/64/000000/light-on.png"
+                                           class="light-icon"></span>
+    Lights in {{location.name}}
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'off'">
+    <span class="slider round" *ngIf="isTurnedOn === 'off'"></span>
+  </label>
+  </span>
+    <span class="toggle"><label class="switch"><input type="checkbox" (click)="switchLight()"
+                                                      *ngIf="isTurnedOn === 'on'"
+                                                      checked>
+    <span class="slider round" *ngIf="isTurnedOn === 'on'"></span>
+  </label>
+  </span>
+  </p>
+</div>

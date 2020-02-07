@@ -14,8 +14,8 @@ import {LightResp} from '../../../models/LightResp';
 export class LightToggleComponent implements OnInit {
   @Input() uuid: string;
   @Input() location: Locations;
+  @Input() type: string;
   isTurnedOn: string;
-  type = 'light';
 
   constructor(private dashboardService: DashboardService) {
   }
