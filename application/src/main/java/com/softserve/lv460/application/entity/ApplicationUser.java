@@ -50,6 +50,10 @@ public class ApplicationUser {
 
   @Column(columnDefinition = "boolean default false")
   private Boolean enabled;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "tg_username", referencedColumnName = "username")
+  private TelegramUser telegramUser;
 }
 
 

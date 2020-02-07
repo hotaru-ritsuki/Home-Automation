@@ -1,8 +1,5 @@
 package com.softserve.lv460.application.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
@@ -18,6 +15,7 @@ import com.softserve.lv460.application.security.annotation.CurrentUser;
 import com.softserve.lv460.application.security.dto.*;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.TelegramUserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -30,7 +28,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -46,6 +43,7 @@ public class UserApplicationController {
   private final ApplicationEventPublisher eventPublisher;
   private final JWTUserRequestMapper modelMapper;
   private final LinkConfigProperties linkConfigProperties;
+  private final TelegramUserService telegramUserService;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -109,7 +107,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @GetMapping("/confirmRegistration")
-  public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestBody String token) {
+  public ResponseEntity confirmRegistration(@RequestBody String token) {
     applicationUserService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
@@ -120,9 +118,15 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @GetMapping(value = "/resendRegistrationToken")
-  public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
+  public ResponseEntity resendRegistrationToken(@RequestBody String email) {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
+    return ResponseEntity.ok().build();
+  }
+
+  @PostMapping(value = "/addTelegram")
+  public ResponseEntity addTelegramUsername(@RequestBody JWTTelegramUsername telegramRequest, @CurrentUser UserPrincipal userPrincipal) {
+    applicationUserService.addTelegram(userPrincipal, telegramRequest.getTelegramUsername());
     return ResponseEntity.ok().build();
   }
 

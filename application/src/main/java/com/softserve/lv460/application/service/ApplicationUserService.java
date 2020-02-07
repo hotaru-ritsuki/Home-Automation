@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.exception.exceptions.*;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
@@ -10,6 +11,7 @@ import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
 import com.softserve.lv460.application.security.dto.UserRegistrationRequest;
+import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,7 @@ public class ApplicationUserService {
   private final JwtTokenProvider jwtTokenProvider;
   private final PasswordEncoder passwordEncoder;
   private final VerificationTokenRepository verificationTokenRepository;
+  private final TelegramUserService telegramUserService;
 
   public ApplicationUser save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
@@ -44,6 +47,14 @@ public class ApplicationUserService {
     applicationUserRepository.save(applicationUser);
     return applicationUser;
 
+  }
+
+  public ApplicationUser addTelegram(UserPrincipal principal, String telegram) {
+    ApplicationUser applicationUser = findById(principal.getId());
+    TelegramUser telegramUser = telegramUserService.findByUsername(telegram);
+    applicationUser.setTelegramUser(telegramUser);
+    applicationUserRepository.save(applicationUser);
+    return applicationUser;
   }
 
   @Transactional
