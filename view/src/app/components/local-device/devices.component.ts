@@ -4,7 +4,7 @@ import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
 import {LocationService} from "../../home/service/location.service";
 import {HomeService} from "../../home/service/home.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalComponent} from "../modal/modal.component";
 
 @Component({
@@ -20,6 +20,8 @@ export class DevicesComponent implements OnInit{
   allLocationsByHome: any;
   locationId : number;
   homeId: number;
+  matDialog: MatDialogRef<ModalComponent> ;
+
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog) {
   }
@@ -36,6 +38,7 @@ export class DevicesComponent implements OnInit{
     this.deviceService.findAll()
       .subscribe((response) => {
         this.allDevice = response;
+        this.locationId = 0;
       });
     this.deviceService.findLocationByHome(1)
       .subscribe((response) => {
@@ -45,6 +48,7 @@ export class DevicesComponent implements OnInit{
 
   chooseHome(id:number) {
     this.homeId = id;
+    this.locationId = 0;
     this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
       this.allDevice = response;
     });
@@ -58,6 +62,17 @@ export class DevicesComponent implements OnInit{
   }
 
   openModal(uuid: string) {
-    this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}});
+    let dialogRef = this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(this.locationId == 0) {
+        this.deviceService.findAll()
+          .subscribe((response) => {
+            this.allDevice = response;
+          });
+      } else {
+       this.chooseLocation(this.locationId);
+      }
+    });
   }
 }
