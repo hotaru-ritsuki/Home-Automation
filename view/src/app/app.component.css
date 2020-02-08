@@ -36,3 +36,16 @@
   right: 2.5%;
 }
 
+.bordering{
+ box-shadow: none;
+ outline: none;
+ border: none;
+}
+
+.rightPlaceInSettings {
+  position: absolute;
+  right: 0.7%;
+  top:3%;
+  box-shadow: none;
+}
+

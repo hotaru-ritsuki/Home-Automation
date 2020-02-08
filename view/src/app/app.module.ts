@@ -27,7 +27,7 @@ import {SliderModule} from 'angular-image-slider';
 import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
 import {UserComponent} from './components/user/user.component';
-import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
+import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
@@ -42,7 +42,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LogInComponent},
       { path: 'register', component: SignUpComponent},
-      { path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService] },
+      { path: 'confirmRegistration', component: ConfirmRegistrationComponent},
       { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
       {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent}
     ]
