@@ -1,13 +1,10 @@
 <div class="activation">
 
-  <form #registerForm="ngForm" (ngSubmit)="activate(activationEmail)">
+  <form #registerForm="ngForm" (ngSubmit)="resend(activationEmail)">
 
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
       <div *ngIf="emailControl.errors.required">
         Email is required field
-      </div>
-      <div *ngIf="emailControl.errors.minlength">
-        Email must be at least 6 characters long
       </div>
       <div *ngIf="emailControl.errors.email">
         Please input your email correctly

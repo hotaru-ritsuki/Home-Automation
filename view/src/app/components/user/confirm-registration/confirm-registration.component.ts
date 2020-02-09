@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserConfirmRegistrationService } from '../../../services/user-confirm-registration.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivationEmail } from '../../../models/ActivationEmail';
 
 @Component({
   selector: 'app-confirm-registration',
@@ -10,9 +9,9 @@ import { ActivationEmail } from '../../../models/ActivationEmail';
   styleUrls: ['./confirm-registration.component.css']
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  activationEmail: ActivationEmail;
   emailErrorMessageBackEnd: string;
   loadingAnim = false;
+  @Output() isActivated: EventEmitter<boolean> = new EventEmitter();
   constructor(
     private router: Router,
     private userConfirmRegistrationService: UserConfirmRegistrationService
@@ -25,7 +24,13 @@ export class ConfirmRegistrationComponent implements OnInit {
   }
 private activate(token: string) {
 this.loadingAnim = true;
-this.userConfirmRegistrationService.activate(token).subscribe((errors: HttpErrorResponse) => {
+this.userConfirmRegistrationService.activate(token).subscribe(
+  (data: string) => {
+    this.router.navigateByUrl('');
+    this.loadingAnim = false;
+    this.isActivated.emit(true);
+  },
+  (errors: HttpErrorResponse) => {
   errors.error.forEach(error => {
       this.emailErrorMessageBackEnd = error.message;
     }
@@ -34,5 +39,5 @@ this.userConfirmRegistrationService.activate(token).subscribe((errors: HttpError
 });
 this.loadingAnim = false;
 }
- 
+
 }

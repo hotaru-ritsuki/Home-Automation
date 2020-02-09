@@ -28,6 +28,7 @@ import { ChangePasswordComponent } from './components/user/change-password/chang
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
 import {UserComponent} from './components/user/user.component';
 import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component';
+import {UserInformationComponent, FormatTimePipe} from './components/user/user-information/user-information.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
@@ -44,7 +45,8 @@ const routes: Routes = [
       { path: 'register', component: SignUpComponent},
       { path: 'confirmRegistration', component: ConfirmRegistrationComponent},
       { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
-      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent}
+      { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
+      { path: 'userInfo', component: UserInformationComponent}
     ]
   },
   {path: '', component: MainComponent, canActivate: [HomePageGuardService]}
@@ -69,7 +71,9 @@ const routes: Routes = [
     ChangePasswordComponent,
     ConfirmRegistrationComponent,
     ResendRegistrationTokenComponent,
-    UserComponent
+    UserComponent,
+    UserInformationComponent,
+    FormatTimePipe
   ],
   imports: [
     BrowserModule,
