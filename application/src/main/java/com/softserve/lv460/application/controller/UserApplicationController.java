@@ -1,8 +1,5 @@
 package com.softserve.lv460.application.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
@@ -11,6 +8,7 @@ import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.events.ResendTokenEvent;
+import com.softserve.lv460.application.events.RestoreEvent;
 import com.softserve.lv460.application.exception.exceptions.BadEmailOrPasswordException;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
@@ -30,7 +28,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -124,6 +121,18 @@ public class UserApplicationController {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
+  }
+
+  @ApiOperation("Restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/restorePassword/{email}")
+  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+    ApplicationUser user = applicationUserService.findByEmail(email);
+    eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
+    return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 
   public String getAppUrl() {

@@ -1,5 +1,5 @@
-INSERT INTO `users`(`id`,`email`,`first_name`,`last_name`,`password`,`secret`) VALUES (1,'lol@gmail.com','Lol','OMG','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA'),
-                                                        (2,'kek@gmail.com','Kek','SDL','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA');
+INSERT INTO `users`(`id`,`enabled`,`email`,`first_name`,`last_name`,`password`,`secret`) VALUES (1,1,'lol@gmail.com','Lol','OMG','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA'),
+                                                        (2,1,'kek@gmail.com','Kek','SDL','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA');
 
 INSERT INTO `home` (`id`,`addressa`, `city`, `country`) VALUES (1,'Rynok sqr 5', 'Lviv', 'Ukraine'), (2,'Valova str 11', 'Lviv', 'Ukraine');
 
@@ -26,10 +26,10 @@ INSERT INTO `device_template` (`id`, `brand`, `model`, `power_supply`, `release_
            (10, 'Arton', 'TPT-2', 'regulated', 2014, 'Temperature Meter'),
            (11, 'SATEL', 'ATD-100', 'regulated', 2013, 'Temperature Meter');
 
-INSERT INTO `local_device` (`uuid`, `location_id`, `supported_device_id`)
-    VALUES ('ab6296cb-631a-48ae-b429-5c3c3aca', 1, 1),
-           ('ab6296cb-632a-48ae-b429-5c3c3aca', 2, 2),
-           ('ab6296cb-623a-48ae-b429-5c3c3aca', 3, 1);
+INSERT INTO `local_device` (`uuid`, `description`,`location_id`, `supported_device_id`)
+    VALUES ('ab6296cb-631a-48ae-b429-5c3c3aca', 'Xiaomi motion detector', 1, 1),
+           ('ab6296cb-632a-48ae-b429-5c3c3aca', 'Xiaomi temperature detector', 2, 2),
+           ('ab6296cb-623a-48ae-b429-5c3c3aca', 'Xiaomi motion detector', 3, 1);
 
 INSERT INTO `features` (`id`, `description`, `name`)
   VALUES (1, 'Temperature', 'getTemperature'),

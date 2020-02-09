@@ -29,6 +29,10 @@ import {ConfirmRegistrationComponent} from './components/user/confirm-registrati
 import {UserComponent} from './components/user/user.component';
 import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { RestorePasswordComponent } from './components/user/restore-password/restore-password/restore-password.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {ModalComponent} from './components/modal/modal.component';
+import { RestorePasswordPart2Component } from './components/restore-password-part2/restore-password-part2.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -37,14 +41,17 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'users/restorePassword/:token', component: RestorePasswordPart2Component,  canActivate: [AuthGuardService]},
+  {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {path: 'users',
     component: UserComponent,
     children: [
-      { path: 'login', component: LogInComponent},
-      { path: 'register', component: SignUpComponent},
-      { path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService] },
-      { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
-      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent}
+      {path: 'login', component: LogInComponent},
+      {path: 'register', component: SignUpComponent},
+      {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService] },
+      {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
+      {path: 'restore', component: RestorePasswordComponent}
     ]
   },
   {path: '', component: MainComponent, canActivate: [HomePageGuardService]}
@@ -69,7 +76,10 @@ const routes: Routes = [
     ChangePasswordComponent,
     ConfirmRegistrationComponent,
     ResendRegistrationTokenComponent,
-    UserComponent
+    UserComponent,
+    RestorePasswordComponent,
+    ModalComponent,
+    RestorePasswordPart2Component
   ],
   imports: [
     BrowserModule,
@@ -85,7 +95,8 @@ const routes: Routes = [
     WavesModule,
     SliderModule,
     ButtonsModule,
-    NgbModule
+    NgbModule,
+    MatDialogModule
   ],
   providers:
     [{
