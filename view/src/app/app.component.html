@@ -3,14 +3,11 @@
     <li *ngIf="isSignedIn()" routerLink="device" class="nav-link waves-light">Device</li>
     <li *ngIf="isSignedIn()" routerLink="device-template" class="nav-link waves-light">Devices</li>
     <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
-<<<<<<< HEAD
     <li *ngIf="isSignedIn()" routerLink="rules" class="nav-link waves-light">Rules</li>
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
-=======
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/register">Register</li>
->>>>>>> 3de39eece88e53a5c0c59f5a206eeee7c9711593
     <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
       <li>
