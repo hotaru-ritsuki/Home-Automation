@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Rule} from "../models/Rule";
 import {DeviceData} from "../models/DeviceData";
 import {LocalDevice} from "../models/LocalDevice";
@@ -12,6 +12,7 @@ import {FeatureDTO} from "../models/FeatureDTO";
 })
 export class MainService {
   private apiUrl = 'http://localhost:8080';
+  private currentRule = new Subject();
 
   constructor(private http: HttpClient) {
   }
@@ -27,6 +28,18 @@ export class MainService {
 
   getAllLocalDevice(): Observable<LocalDevice[]> {
     return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices')
+  }
+
+  saveRule(rule: Rule) {
+    return this.http.post(this.apiUrl + '/rules', {rule})
+  }
+
+  deleteRule(ruleId){
+    return this.http.delete(this.apiUrl + '/rules/'+ruleId);
+  }
+
+  changeStatus(rule: Rule) {
+    return this.http.put(this.apiUrl + '/rules',{rule})
   }
 
   getSpecification(id): Observable<FeatureDTO[]> {

@@ -23,7 +23,7 @@ import {LightToggleComponent} from './components/dashboard/light-toggle/light-to
 import {SliderModule} from 'angular-image-slider';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
-  DialogOverviewExampleDialog,
+  DialogAction, DialogCondition,
   RuleConfigurationComponent
 } from './components/rules/rule-configuration/rule-configuration.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -57,9 +57,10 @@ const routes: Routes = [
     DashboardLocationsComponent,
     RuleComponent,
     RuleConfigurationComponent,
-    DialogOverviewExampleDialog,
+    DialogAction,
+    DialogCondition
   ],
-  entryComponents: [DialogOverviewExampleDialog],
+  entryComponents: [DialogCondition,DialogAction],
   imports: [
     BrowserModule,
     HttpClientModule,

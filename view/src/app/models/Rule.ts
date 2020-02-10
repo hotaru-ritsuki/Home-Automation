@@ -3,8 +3,8 @@ export class Rule {
     public id: number,
     public name: string,
     public description: string,
-    public active: string,
-    public condition: string,
+    public active: boolean,
+    public conditions: string,
     public actionRule: string
   ) {
   }

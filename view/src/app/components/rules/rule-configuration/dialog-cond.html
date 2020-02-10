@@ -4,7 +4,7 @@
 <div mat-dialog-actions>
   <mat-form-field style="width:100%" floatLabel="never">
     <mat-label>Sensor type</mat-label>
-    <mat-select (valueChange)="changeType(uuid,$event,btn)">
+    <mat-select  (valueChange)="changeType(uuid,$event,btn)">
       <mat-option [value]="condition" *ngFor="let condition of data.conditions">{{condition}}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -38,8 +38,6 @@
     <input style="width: 30%; margin-right: 3%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="state"
            type="text" class="form-control typeahead-basic"
            [(ngModel)]="fromData.state"/>
-
-
   </div>
 </div>
 <div style="margin-top: 20px; display: flex; justify-content: flex-end" mat-dialog-actions>

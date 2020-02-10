@@ -1,0 +1,67 @@
+<div mat-dialog-content>
+  <h4 style="font-size: 25px; font-family: sans-serif;" class="modal-title" id="modal-basic-title">Than...</h4>
+</div>
+<mat-form-field style="width:100%" floatLabel="never">
+  <mat-label>Action Type</mat-label>
+  <mat-select (valueChange)="changeType($event,telegramContainer,emailContainer,deviceContainer,btn)">
+    <mat-option [value]="type" *ngFor="let type of actionTypes">{{type.toLowerCase()}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<div #telegramContainer style="display: none">
+  <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
+  <div style="display: flex; flex-direction: column" class="config">
+    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
+           type="text" class="form-control typeahead-basic"
+           [(ngModel)]="telegramData.description"/>
+    <div style="display: flex; flex-direction: row">
+      <input style="width: 40%; margin-right: 5%; margin-top: 8px; border-bottom: 1px solid #8e8e8e"
+             placeholder="username"
+             type="text" class="form-control typeahead-basic"
+             [(ngModel)]="telegramData.username"/>
+      <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="text"
+             type="text" class="form-control typeahead-basic"
+             [(ngModel)]="telegramData.text"/>
+    </div>
+  </div>
+</div>
+<div #emailContainer style="display: none">
+  <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
+  <div style="display: flex; flex-direction: column" class="config">
+    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
+           type="text" class="form-control typeahead-basic"
+           [(ngModel)]="emailData.description"/>
+    <div style="display: flex; flex-direction: row">
+      <input style="width: 40%; margin-right: 5%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="email"
+             type="text" class="form-control typeahead-basic"
+             [(ngModel)]="emailData.email"/>
+      <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="text"
+             type="text" class="form-control typeahead-basic"
+             [(ngModel)]="emailData.text"/>
+    </div>
+  </div>
+</div>
+<div #deviceContainer style="display: none">
+  <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
+  <div style="display: flex; flex-direction: column" class="config">
+    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
+           type="text" class="form-control typeahead-basic"
+           [(ngModel)]="deviceData.description"/>
+    <div style="display: flex; flex-direction: row">
+      <mat-form-field style="width: 40%; margin-right: 5%;" floatLabel="never">
+        <mat-label>uuid</mat-label>
+        <mat-select (valueChange)="deviceData.uuid = $event">
+          <mat-option [value]="uuid" *ngFor="let uuid of localDeviceUuids">{{uuid}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="data"
+             type="text" class="form-control typeahead-basic"
+             [(ngModel)]="deviceData.data"/>
+    </div>
+  </div>
+</div>
+<div style="margin-top: 20px; display: flex; justify-content: flex-end" mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">CANCEL</button>
+  <button #btn [disabled]="true" mat-button
+          [mat-dialog-close]="currentType==='telegram'?telegramData:currentType==='mail'?emailData:deviceData">OK
+  </button>
+</div>
