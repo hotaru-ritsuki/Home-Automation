@@ -41,7 +41,7 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
-  {path: 'users/restorePassword/:token', component: RestorePasswordPart2Component,  canActivate: [AuthGuardService]},
+  {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {path: 'users',
     component: UserComponent,
@@ -79,7 +79,7 @@ const routes: Routes = [
     UserComponent,
     RestorePasswordComponent,
     ModalComponent,
-    RestorePasswordPart2Component
+    RestorePasswordPart2Component,
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ import com.softserve.lv460.application.security.annotation.CurrentUser;
 import com.softserve.lv460.application.security.dto.*;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.VerificationTokenService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -43,6 +44,7 @@ public class UserApplicationController {
   private final ApplicationEventPublisher eventPublisher;
   private final JWTUserRequestMapper modelMapper;
   private final LinkConfigProperties linkConfigProperties;
+  private final VerificationTokenService tokenService;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -123,7 +125,7 @@ public class UserApplicationController {
     return ResponseEntity.ok().build();
   }
 
-  @ApiOperation("Restore password")
+  @ApiOperation("Send restore password")
   @ApiResponses(value = {
           @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
@@ -133,6 +135,18 @@ public class UserApplicationController {
     ApplicationUser user = applicationUserService.findByEmail(email);
     eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
+  }
+
+  @ApiOperation("Get restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/restorePassword/{id}/{token}")
+  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("id") long id, @PathVariable("token") String token) {
+    VerificationToken verificationToken = tokenService.findByUserIdAndToken(id, token);
+
+    return ResponseEntity.ok().body(verificationToken);
   }
 
   public String getAppUrl() {

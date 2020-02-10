@@ -31,7 +31,7 @@ public class RestoreListener implements ApplicationListener<RestoreEvent>  {
     }
 
     private SimpleMailMessage constructEmailMessage(RestoreEvent event, ApplicationUser user, String token) {
-        String confirmationUrl = event.getAppUrl() + "restorePassword/confirm?token=" + token;
+        String confirmationUrl = event.getAppUrl() + "restorePassword?id=" + user.getId() + "token=" + token;
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(user.getEmail());
         email.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
