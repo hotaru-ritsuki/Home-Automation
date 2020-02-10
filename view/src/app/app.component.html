@@ -3,13 +3,30 @@
     <li *ngIf="isSignedIn()" routerLink="device" class="nav-link waves-light">Device</li>
     <li *ngIf="isSignedIn()" routerLink="device-template" class="nav-link waves-light">Devices</li>
     <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
+<<<<<<< HEAD
     <li *ngIf="isSignedIn()" routerLink="rules" class="nav-link waves-light">Rules</li>
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
+=======
+    <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/login">Login</li>
+    <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/register">Register</li>
+>>>>>>> 3de39eece88e53a5c0c59f5a206eeee7c9711593
     <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
-    <li class="rightPlaceIn nav-link waves-light" *ngIf="isSignedIn()" (click)="logout()">Logout</li>
+      <li>
+        <div class="col" *ngIf="isSignedIn()">
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary indigo" id="dropdownBasic1" ngbDropdownToggle>Settings</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem routerLink="users/changePersonalInfo">Personal Information</button>
+              <button ngbDropdownItem routerLink="users/changePassword">Change Password</button>
+              <button ngbDropdownItem (click)="logout()">Logout</button>
+            </div>
+          </div>
+        </div>
+      </li>
   </ul>
+
 </mdb-navbar>
   <router-outlet></router-outlet>
 <div class=" indigo footer" *ngIf="isSignedIn()">

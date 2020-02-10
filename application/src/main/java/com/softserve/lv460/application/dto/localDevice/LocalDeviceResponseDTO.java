@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class LocalDeviceResponseDTO {
     private String uuid;
+    private String description;
     private Location location;
     private DeviceTemplateResponseDTO deviceTemplate;
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LocalDeviceRequestDTO {
     private String uuid;
+    private String description;
     private Long locationId;
     private Long deviceTemplateId;
 }

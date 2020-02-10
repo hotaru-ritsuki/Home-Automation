@@ -11,21 +11,21 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService) {
-
   }
 
   ngOnInit(): void {
-
   }
-  isSignedIn(): boolean{
-    if(this.localStorageService.getFirstName()){
+
+  isSignedIn(): boolean {
+    if (this.localStorageService.getFirstName()) {
       return true;
     }
     return false;
   }
-  logout(){
+
+  logout() {
     this.localStorageService.clear()
     this.router.navigateByUrl("login");
-  }
 
+  }
 }

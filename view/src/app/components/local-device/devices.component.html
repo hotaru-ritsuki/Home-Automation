@@ -1,37 +1,42 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 
-<form #form='ngForm'>
-  <div class="add-local-device">
-    <div>
-      <fieldset>
-        <legend class="labelForm">Room:</legend>
-        <select [(ngModel)]="respLocation" name="rer" class="form-control dropdown" required>
-          <option selected="selected" *ngFor="let location of locationResponse"
-                  [ngValue]="location">{{location.name}}</option>
-        </select>
-      </fieldset>
+<div class="nav-bar">
+  <span routerLink="../main" class="register">Administration</span> >
+  <span routerLink="../home" class="register">Homes</span> >
+  <a href=""></a>
+</div>
+
+<div class="all">
+  <div class="locations-list">
+    <div class="list-local">
+      <ul class="list-group">
+        <li class="list-group-item" aria-disabled="true"> <button type="button" (click)="chooseHome(1)" class="btn btn-light" style="width: 100%">All</button></li>
+        <li class="list-group-item"
+            *ngFor="let location of allLocationsByHome">
+          <button type="button" class="btn btn-light" (click)="chooseLocation(location.id)" style="width: 100%">{{location.name}}</button>
+        </li>
+      </ul>
     </div>
-
-    <div>
-      <fieldset>
-        <legend class="labelForm">Device:</legend>
-        <select [(ngModel)]="respSupportDevice" name="er" class="form-control dropdown" required>
-          <option *ngFor="let supportDevice of supportDeviceResponse"
-                  [ngValue]="supportDevice">{{supportDevice.model}}</option>
-        </select>
-      </fieldset>
+    <div class="btn-add-device">
+      <a href="#" class="btn btn-outline-primary">Add location</a>
     </div>
-
-    <br>
-    <div class="button_cont" align="center">
-      <label *ngIf="form.invalid" class="save-label">Please fill out the form</label>
-      <button [disabled]="form.invalid" *ngIf="form.invalid" class="example_c" target="_blank" (click)="save()">Save
-      </button>
-      <button [disabled]="form.invalid" *ngIf="form.valid" class="example_c example_c_fill" target="_blank"
-              (click)="save()">Save
-      </button>
+    <div class="btn-add-device">
+      <a href="#" class="btn btn-outline-primary">Configure rule</a>
     </div>
   </div>
-</form>
+
+  <div class="device">
+    <div class="card device-info" *ngFor="let device of allDevice">
+      <div class="card-header">
+        {{device.description}}
+        <button class="btn btn-light left" type="button" (click)="openModal(device.uuid)">X</button>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{device.uuid}}</h5>
+        <p class="card-text">here should be information from the device</p>
+      </div>
+    </div>
+    <div class="btn-add-device">
+      <a routerLink="../device-template" class="btn btn-outline-primary">Add new device</a>
+    </div>
+  </div>
+</div>

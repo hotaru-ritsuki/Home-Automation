@@ -12,10 +12,9 @@ import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {SignUpComponent} from './components/user/secure/sign-up/sign-up.component';
-import {LogInComponent} from './components/user/secure/log-in/log-in.component';
-import {ActivationEmailComponent} from './components/user/secure/activation-email/activation-email.component';
 import {AuthGuardService} from "./services/auth-guard.service";
+import {SignUpComponent} from './components/user/sign-up/sign-up.component';
+import {LogInComponent} from './components/user/log-in/log-in.component';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
@@ -23,22 +22,41 @@ import {LightToggleComponent} from './components/dashboard/light-toggle/light-to
 import {SliderModule} from 'angular-image-slider';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
-  DialogAction, DialogCondition,
+  DialogAction,
+  DialogCondition,
   RuleConfigurationComponent
 } from './components/rules/rule-configuration/rule-configuration.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from "@angular/material";
+import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
+import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
+import {UserComponent} from './components/user/user.component';
+import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
+import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
+import {ModalComponent} from './components/modal/modal.component';
+import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: 'rules', component: RuleComponent},
-  {path: 'rules/configure', component: RuleConfigurationComponent},
-  {path: '', component: DashboardComponent},
+  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
   {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
-  {path: 'login', component: LogInComponent},
-  {path: 'register', component: SignUpComponent},
-  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]}
+  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
+  {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {
+    path: 'users',
+    component: UserComponent,
+    children: [
+      {path: 'login', component: LogInComponent},
+      {path: 'register', component: SignUpComponent},
+      {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService]},
+      {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
+      {path: 'restore', component: RestorePasswordComponent}
+    ]
+  },
 ];
 
 @NgModule({
@@ -51,16 +69,22 @@ const routes: Routes = [
     DeviceTemplateComponent,
     LogInComponent,
     SignUpComponent,
-    ActivationEmailComponent,
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
     RuleComponent,
     RuleConfigurationComponent,
     DialogAction,
-    DialogCondition
+    DialogCondition,
+    ChangePasswordComponent,
+    ConfirmRegistrationComponent,
+    ResendRegistrationTokenComponent,
+    UserComponent,
+    RestorePasswordComponent,
+    ModalComponent,
+    RestorePasswordPart2Component,
   ],
-  entryComponents: [DialogCondition,DialogAction],
+  entryComponents: [DialogCondition, DialogAction],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -69,7 +93,7 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {enableTracing: true}),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,
@@ -79,7 +103,9 @@ const routes: Routes = [
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    NgbModule,
+    MatDialogModule
   ],
 
 
