@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             securityConfigProperties.getLocationUrl(),
             securityConfigProperties.getRulesUrl(),
             securityConfigProperties.getTelegramUrl()
-            );
+    );
   }
 
   @Override
@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
             .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
             .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
+            .antMatchers(securityConfigProperties.getRestorePasswordUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

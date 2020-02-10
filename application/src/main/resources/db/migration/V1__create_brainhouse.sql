@@ -43,6 +43,7 @@ primary key (id)) engine=InnoDB;
 
 create table local_device (
 uuid varchar(255) not null,
+description varchar(255) not null,
 location_id bigint not null,
 supported_device_id bigint not null,
 primary key (uuid)) engine=InnoDB;
@@ -93,7 +94,7 @@ id bigint not null auto_increment,
 alter table telegram_user add constraint UK_8fjrx8y7kifvm13xif72sy5bf unique (chat_id);
 alter table telegram_user add constraint UK_c7f0a9nq5qaaquhoyswh9pn5 unique (username);
 
-alter table actions_rule add constraint FKdrnem74m95bpp2s23adqb7u0a foreign key (rule_id) references rules (id);
+alter table actions_rule add constraint FKdrnem74m95bpp2s23adqb7u0a foreign key (rule_id) references rules (id) on delete cascade;
 alter table actions_rule add constraint FKkbdxmu5bsutxkvor7stne0wbb foreign key (action_id) references actions (id);
 
 alter table device_features add constraint FK7uivhprva3mke1uvk59m42r0a foreign key (device_id) references device_template (id);
@@ -104,7 +105,7 @@ alter table local_device add constraint FKlnc4rmqppjpxf8lhqglwi9gjm foreign key 
 
 alter table location add constraint FKqvj3evkkjc33etbi5ksb6u748 foreign key (home_id) references home (id);
 
-alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_device_uuid) references local_device (uuid);
+alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_device_uuid) references local_device (uuid) on delete cascade;
 
 alter table users add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
 

@@ -47,17 +47,24 @@ export class InterceptorService implements HttpInterceptor {
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
+    if (!this.localStorageService.getRefreshToken()){
+      this.router.navigate(['login'])
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED) {
+          console.log(error.status);
           return this.handle401Error(req, next);
         }
         if (error.status === FORBIDDEN) {
+          console.log(error.status);
           return this.handle403Error(req);
         }
         if (error.status === NOT_FOUND) {
+          console.log(error.status);
           return this.handle404Error(req);
         }
+        console.log(error.status);
         return throwError(error);
       })
     );
@@ -98,7 +105,7 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/login']).then(r => r);
+      this.router.navigate(['users/login']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -128,7 +135,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`You don't have authorities to access ${req.url}`);
-    this.router.navigate(['/login']).then(r => r);
+    this.router.navigate(['users/login']).then(r => r);
     return of<HttpEvent<any>>();
   }
 

@@ -1,8 +1,5 @@
 package com.softserve.lv460.application.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
@@ -11,6 +8,7 @@ import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.events.ResendTokenEvent;
+import com.softserve.lv460.application.events.RestoreEvent;
 import com.softserve.lv460.application.exception.exceptions.BadEmailOrPasswordException;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
@@ -18,6 +16,7 @@ import com.softserve.lv460.application.security.annotation.CurrentUser;
 import com.softserve.lv460.application.security.dto.*;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.VerificationTokenService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -45,6 +44,7 @@ public class ApplicationUserController {
   private final ApplicationEventPublisher eventPublisher;
   private final JWTUserRequestMapper modelMapper;
   private final LinkConfigProperties linkConfigProperties;
+  private final VerificationTokenService tokenService;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -136,6 +136,29 @@ public class ApplicationUserController {
     return ResponseEntity.ok().build();
   }
 
+  @ApiOperation("Send restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/restorePassword/{email}")
+  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+    ApplicationUser user = applicationUserService.findByEmail(email);
+    eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
+    return ResponseEntity.ok().body(modelMapper.toDto(user));
+  }
+
+  @ApiOperation("Get restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/restorePassword/{id}/{token}")
+  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("id") long id, @PathVariable("token") String token) {
+    VerificationToken verificationToken = tokenService.findByUserIdAndToken(id, token);
+
+    return ResponseEntity.ok().body(verificationToken);
+  }
 
   public String getAppUrl() {
     return linkConfigProperties.getViewUrl() + "users/";

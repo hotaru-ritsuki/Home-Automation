@@ -7,6 +7,15 @@
   width: 30%;
 }
 
+.bg-img{
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image:
+    url("https://images.unsplash.com/photo-1519558260268-cde7e03a0152?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+}
+
 .login input {
   width: 100%;
   margin: 10px;
@@ -14,13 +23,14 @@
 
 .error, .validation-error {
   margin-left: 10px;
-  color: red;
+  color: white;
 }
 .btn{
   width: 100%;
   margin-left: 10px;
 }
 .register{
+  color: white;
   margin-top: 10px;
   cursor: pointer;
   margin-left: 10px;
@@ -31,4 +41,9 @@
   display: block;
   right: 0.1rem;
   bottom: 2.8rem;
+}
+.err{
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: 600;
 }

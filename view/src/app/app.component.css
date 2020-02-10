@@ -1,11 +1,14 @@
+
 .nav-link {
   outline: none;
   cursor: pointer;
 }
 
 .footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
+  left: 0;
+  height: 60px;
   width: 100%;
 }
 
@@ -49,3 +52,7 @@
   box-shadow: none;
 }
 
+.main-content{
+  height: 100%;
+  width: 100%;
+}
