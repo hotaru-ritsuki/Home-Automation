@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ConstantsService} from "./constant/constants.service";
 import {Observable} from "rxjs";
-import {Locations} from "../home/model/Locations";
 import {LocalDevice} from "../models/LocalDevice";
+import {Locations} from "../models/Locations";
 
 @Injectable({
   providedIn: 'root'

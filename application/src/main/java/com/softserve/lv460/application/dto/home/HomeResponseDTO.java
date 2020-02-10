@@ -11,5 +11,6 @@ public class HomeResponseDTO {
   private String country;
   private String city;
   private String addressa;
+  private String name;
   private List<LocationResponseDTO> locations;
 }

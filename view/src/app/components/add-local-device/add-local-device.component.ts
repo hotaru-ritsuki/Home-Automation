@@ -11,16 +11,14 @@ export class AddLocalDeviceComponent implements OnInit {
   deviceId;
   brand;
   model;
-
-  @Input('test') test: number;
-  @Input('test2') test2: number;
   allLocations;
   homeId: 1;
   locationId: number;
   descriptionText: string;
 
   localDeviceRequest = {
-    "deviceTemplateId": 1,
+    "deviceTemplateId": this.deviceId,
+    "description": this.descriptionText,
     "locationId": this.locationId,
     "uuid": "string"
   };
@@ -30,7 +28,7 @@ export class AddLocalDeviceComponent implements OnInit {
     this.brand = deviceTemplateService.savedBrand;
     this.model = deviceTemplateService.savedModel;
     this.locationId = 0;
-    this.descriptionText = '';
+    // this.descriptionText = '';
     this.addLocalDeviceService.getLocationsByHome(1).subscribe((res) => {
       this.allLocations = res;
     });
@@ -38,6 +36,8 @@ export class AddLocalDeviceComponent implements OnInit {
 
   save() {
     this.localDeviceRequest.locationId = this.locationId;
+    this.localDeviceRequest.description = this.descriptionText;
+    this.localDeviceRequest.deviceTemplateId = this.deviceId;
     console.log(this.localDeviceRequest);
     this.addLocalDeviceService.saveDeviceInLocation(this.localDeviceRequest).subscribe();
   }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HomeService} from '../../../home/service/home.service';
-import {Home} from '../../../home/model/Home';
-import {Locations} from '../../../home/model/Locations';
+import {HomeService} from '../../../services/home.service';
+import {Home} from '../../../models/Home';
+import {Locations} from '../../../models/Locations';
 import {Router} from '@angular/router';
 import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
 import {LocalStorageService} from '../../../services/local-storage.service';

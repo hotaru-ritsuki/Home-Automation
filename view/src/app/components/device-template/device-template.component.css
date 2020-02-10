@@ -47,11 +47,10 @@ img {
 .pag {
   grid-area: 6/3/6/6;
   padding-bottom: 90px;
-
 }
 
 select {
-  width: 70%;
+  width: 55%;
 }
 
 .test-class {
@@ -89,3 +88,6 @@ select {
 .device-description {
   margin-top: 20px;
 }
+
+
+

@@ -15,6 +15,9 @@ public class LocalDevice {
     @Id
     private String uuid;
 
+    @NotNull
+    private String description;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
     @NotNull

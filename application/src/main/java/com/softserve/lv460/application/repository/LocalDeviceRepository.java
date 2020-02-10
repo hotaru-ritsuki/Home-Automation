@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface LocalDeviceRepository extends JpaRepository<LocalDevice,Long> {
     Optional<LocalDevice> findByUuid(String uuid);
     List<LocalDevice> findAllByLocation(Location location);
+    List<LocalDevice> findAllByLocationIn(List<Location> location);
 }

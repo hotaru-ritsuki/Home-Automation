@@ -37,7 +37,7 @@ class LocalDeviceServiceTest {
 
     private Location location = new Location();
     private DeviceTemplate deviceTemplate = new DeviceTemplate();
-    private LocalDevice localDevice = new LocalDevice("1", location, deviceTemplate);
+    private LocalDevice localDevice = new LocalDevice("1", "device", location, deviceTemplate);
     private String badUuid = "1";
 
     @Test

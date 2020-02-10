@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class RuleService {
   private RuleRepository ruleRepository;
-  private LocalDeviceService localDeviceService;
+  private LocationService locationService;
 
   public Rule create(Rule action) {
     return ruleRepository.save(action);
@@ -32,18 +32,24 @@ public class RuleService {
     Rule rule = findAction(entity.getId());
     rule.setName(entity.getName());
     rule.setConditions(entity.getConditions());
+    rule.setActive(entity.getActive());
+    rule.setDescription(entity.getDescription());
     return ruleRepository.save(rule);
   }
 
   public void delete(Long id) {
-    if (!ruleRepository.findById(id).isPresent()) {
+    if (ruleRepository.findById(id).isEmpty()) {
       throw new NotDeletedException(String.format(ErrorMessage.RULE_NOT_DELETED_BY_ID, id));
     }
     ruleRepository.deleteById(id);
   }
 
   public List<Rule> findAllByLocalDevice(String uuid) {
-    return ruleRepository.findAllByLocalDevice(localDeviceService.findByUuid(uuid));
+    return ruleRepository.findAllByConditionsIsContaining(uuid);
+  }
+
+  public List<Rule> findByHome(Long homeId) {
+    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId);
   }
 
 }

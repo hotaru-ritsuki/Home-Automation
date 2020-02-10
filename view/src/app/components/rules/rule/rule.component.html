@@ -1,0 +1,32 @@
+<div class="rule-container">
+  <div *ngFor="let rule of rules" class="rule">
+    <div class="rule-info">
+      <div class="circle">{{rule.name.slice(0, 1).toLowerCase()}}</div>
+      <div class="info">
+        <div>
+          {{rule.name}}
+        </div>
+        <div style="font-size: 12px">
+          {{rule.description}}
+        </div>
+      </div>
+    </div>
+    <div class="rule-buttons">
+      <div class="rule-img">
+        <img (click)="edit(rule)" src="https://image.flaticon.com/icons/svg/61/61456.svg">
+      </div>
+      <div class="rule-img">
+        <img (click)="changeRuleStatus(rule)"
+          [src]="rule.active?'https://image.flaticon.com/icons/svg/633/633816.svg':'https://image.flaticon.com/icons/svg/92/92381.svg'">
+      </div>
+      <div class="rule-img">
+        <img (click)="deleteRule(rule)" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
+      </div>
+    </div>
+  </div>
+  <div class="add-rule">
+    <div routerLink="configure" class="plus">
+      +
+    </div>
+  </div>
+</div>

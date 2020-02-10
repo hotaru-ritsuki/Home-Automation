@@ -1,15 +1,18 @@
-import { BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED } from '../http-response-status';
-import { Injectable } from '@angular/core';
+import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED} from '../http-response-status';
+import {Injectable} from '@angular/core';
 import {
-  HttpClient, HttpErrorResponse, HttpEvent,
+  HttpClient,
+  HttpErrorResponse,
+  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
-import { LocalStorageService } from './local-storage.service';
-import { Router } from '@angular/router';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import {LocalStorageService} from './local-storage.service';
+import {Router} from '@angular/router';
+import {ConstantsService} from './constant/constants.service';
 
 interface NewTokenPair {
   accessToken: string;
@@ -22,11 +25,15 @@ interface NewTokenPair {
 export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
-  private updateAccessTokenLink: string;
+  private readonly updateAccessTokenUrl: string;
+  private readonly applicationUrl: string;
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService,
-              private router: Router) {
+              private router: Router,
+              private constant: ConstantsService) {
+    this.applicationUrl = this.constant.baseApplicationUrl;
+    this.updateAccessTokenUrl = this.constant.baseApplicationUrl + '/users/refreshTokens';
   }
 
   /**
@@ -34,23 +41,30 @@ export class InterceptorService implements HttpInterceptor {
    * intercepts 401, 403, and 404 error responses.
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('login') || req.url.includes('register')) {
+    if (req.url.includes('login') || req.url.includes('register') || req.url.includes('Registration')) {
       return next.handle(req);
     }
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
+    if (!this.localStorageService.getRefreshToken()){
+      this.router.navigate(['login'])
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED) {
+          console.log(error.status);
           return this.handle401Error(req, next);
         }
         if (error.status === FORBIDDEN) {
+          console.log(error.status);
           return this.handle403Error(req);
         }
         if (error.status === NOT_FOUND) {
+          console.log(error.status);
           return this.handle404Error(req);
         }
+        console.log(error.status);
         return throwError(error);
       })
     );
@@ -91,7 +105,7 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/login']).then(r => r);
+      this.router.navigate(['users/login']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -102,8 +116,7 @@ export class InterceptorService implements HttpInterceptor {
    * Send refresh token in order to get new access/refresh token pair.
    */
   private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
-    this.updateAccessTokenLink = 'localhost:4200/refreshTokens';
-    return this.http.get<NewTokenPair>(`${this.updateAccessTokenLink}`);
+    return this.http.get<NewTokenPair>(`${this.updateAccessTokenUrl}`);
   }
 
   /**
@@ -122,7 +135,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`You don't have authorities to access ${req.url}`);
-    this.router.navigate(['/login']).then(r => r);
+    this.router.navigate(['users/login']).then(r => r);
     return of<HttpEvent<any>>();
   }
 
@@ -131,7 +144,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`Page does not exist ${req.url}`);
-    this.router.navigate(['/error.component.html']).then(r => r);
+    this.router.navigateByUrl('error').then(r => r);
     return of<HttpEvent<any>>();
   }
 }

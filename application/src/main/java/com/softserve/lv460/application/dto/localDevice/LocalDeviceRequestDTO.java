@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocalDeviceRequestDTO {
-    private String uuid;
-    private Long locationId;
-    private Long deviceTemplateId;
+  private String uuid;
+  private String description;
+  private Long locationId;
+  private Long deviceTemplateId;
 }
