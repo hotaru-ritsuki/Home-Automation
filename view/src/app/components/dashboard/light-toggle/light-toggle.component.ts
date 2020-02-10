@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Locations} from '../../../home/model/Locations';
+import {Locations} from '../../../models/Locations';
 
 @Component({
   selector: 'app-light-toggle',
