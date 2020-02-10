@@ -1,11 +1,11 @@
 package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.entity.ApplicationUser;
-import com.softserve.lv460.application.entity.VerificationToken;
-import com.softserve.lv460.application.exception.exceptions.*;
+import com.softserve.lv460.application.exception.exceptions.BadEmailException;
+import com.softserve.lv460.application.exception.exceptions.BadRefreshTokenException;
+import com.softserve.lv460.application.exception.exceptions.UserAlreadyRegisteredException;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
-import com.softserve.lv460.application.repository.VerificationTokenRepository;
 import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
@@ -20,9 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import static com.softserve.lv460.application.constant.ErrorMessage.*;
 
 @Slf4j
@@ -33,7 +30,6 @@ public class ApplicationUserService {
   private final UserRegistrationRequestMapper userRegistrationRequestMapper;
   private final JwtTokenProvider jwtTokenProvider;
   private final PasswordEncoder passwordEncoder;
-  private final VerificationTokenRepository verificationTokenRepository;
 
   public ApplicationUser save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
@@ -97,38 +93,7 @@ public class ApplicationUserService {
             .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
   }
 
-  public VerificationToken createVerificationTokenForUser(ApplicationUser user, String token) {
-    VerificationToken myToken = new VerificationToken(token, user);
-    verificationTokenRepository.save(myToken);
-    return myToken;
-  }
-
-  public void validateVerificationToken(String token) {
-    VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() -> new TokenNotValidException(VERIFICATION_TOKEN_IS_NOT_VALID));
-    if (verificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
-      verificationTokenRepository.delete(verificationToken);
-      throw new TokenNotValidException(VERIFICATION_TOKEN_IS_EXPIRED);
-    }
-    ApplicationUser applicationUser = verificationToken.getUser();
-    applicationUser.setEnabled(true);
-    applicationUserRepository.save(applicationUser);
-    verificationTokenRepository.delete(verificationToken);
-  }
-
   public ApplicationUser findById(Long id) {
     return applicationUserRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_ID, id)));
-  }
-
-  public VerificationToken generateNewVerificationToken(String email) throws UserAlreadyActivated {
-    ApplicationUser applicationUser = applicationUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
-    if (applicationUser.getEnabled()) {
-      throw new UserAlreadyActivated(USER_ALREADY_ACTIVATED);
-    }
-    if (verificationTokenRepository.findByUserId(applicationUser.getId()).isPresent()) {
-      verificationTokenRepository.delete(verificationTokenRepository.findByUserId(applicationUser.getId()).get());
-    }
-    VerificationToken verificationToken = createVerificationTokenForUser(applicationUser, UUID.randomUUID().toString());
-    verificationTokenRepository.save(verificationToken);
-    return verificationToken;
   }
 }

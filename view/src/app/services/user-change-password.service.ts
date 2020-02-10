@@ -16,7 +16,15 @@ export class UserChangePasswordService {
     this.constant = this._constant.baseApplicationUrl;
   }
 
-  public changePassword(password: string, id: number) {
+  public changePassword(model: UserChangePassword) {
+    const body = {
+      currentPassword: model.currentPassword,
+      password: model.updPassword
+    };
+    return this.http.post(this.constant + '/users/changePassword', body);
+  }
+
+  public restorePassword(password: string, id: number) {
     let params = new HttpParams();
     params = params.append('password', password);
     params = params.append('id', id.toString());
@@ -27,7 +35,7 @@ export class UserChangePasswordService {
     });
   }
 
-  public restorePassword(id: number, password: string) {
+  public restorePassword1(id: number, password: string) {
     const body = {
       password: password,
       id: id

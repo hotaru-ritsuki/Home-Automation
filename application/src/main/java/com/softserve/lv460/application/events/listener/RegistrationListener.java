@@ -5,6 +5,7 @@ import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.VerificationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Component
 @AllArgsConstructor
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
-  private final ApplicationUserService service;
+  private final VerificationTokenService service;
   private final EmailServiceImpl mailSender;
 
   @Override
