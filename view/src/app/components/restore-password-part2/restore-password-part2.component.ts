@@ -38,7 +38,7 @@ export class RestorePasswordPart2Component implements OnInit {
   private changePassword(password:string, id: number) {
     this.setNullAllMessage();
     this.loadingAnim = true;
-      this.userChangePasswordService.changePassword(password, this.route.snapshot.params['id']).subscribe(
+      this.userChangePasswordService.restorePassword(password, this.route.snapshot.params['id']).subscribe(
         () => {
           this.router.navigateByUrl('').then(r => r);
         },
