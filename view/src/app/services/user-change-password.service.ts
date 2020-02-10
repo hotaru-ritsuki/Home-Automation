@@ -16,7 +16,15 @@ export class UserChangePasswordService {
     this.constant = this._constant.baseApplicationUrl;
   }
 
-  public changePassword(password: string, id: number) {
+  public changePassword(model: UserChangePassword) {
+    const body = {
+      currentPassword: model.currentPassword,
+      password: model.updPassword
+    };
+    return this.http.post(this.constant + '/users/changePassword', body);
+  }
+
+  public restorePassword(password: string, id: number) {
     let params = new HttpParams();
     params = params.append('password', password);
     params = params.append('id', id.toString());
@@ -26,16 +34,6 @@ export class UserChangePasswordService {
       id,
     });
   }
-
-  public restorePassword(id: number, password: string) {
-    const body = {
-      password: password,
-      id: id
-    };
-    console.log(this.constant + '/users/restorePasswordTo', body);
-    return this.http.post(this.constant + '/users/restorePasswordTo', body);
-  }
-
   public findUserByEmail(email: string): Observable<any>{
     return this.http.get<any>(this.constant + '/users/restorePassword/' + email);
   }
