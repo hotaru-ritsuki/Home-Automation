@@ -10,6 +10,9 @@ import {ConstantsService} from "./constant/constants.service";
   providedIn: 'root'
 })
 export class DevicesTeamplateService {
+  savedId:number;
+  savedBrand: string;
+  savedModel: string;
   URL: string;
   URL2: string;
 

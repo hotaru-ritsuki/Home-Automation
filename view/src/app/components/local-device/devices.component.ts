@@ -16,6 +16,8 @@ export class DevicesComponent {
   respLocation: any;
   respSupportDevice: any;
 
+  locationId=1;
+
   constructor(private http: HttpClient, private deviceService: LocalDeviceService) {
     this.deviceService.getLocation()
       .subscribe((response) => {
@@ -33,5 +35,9 @@ export class DevicesComponent {
 
   save() {
     this.deviceService.save(this.respLocation, this.respSupportDevice).subscribe();
+  }
+
+  findLocation() {
+    console.log('works');
   }
 }

@@ -1,10 +1,8 @@
 package com.softserve.lv460.application.dto.deviceTemplate;
 
-import com.softserve.lv460.application.entity.Feature;
-import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.dto.feature.FeatureDTO;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,5 +14,5 @@ public class DeviceTemplateResponseDTO {
   private Integer releaseYear;
   private String powerSupply;
   private String image;
-  private List<Feature> features;
+  private List<FeatureDTO> features;
 }

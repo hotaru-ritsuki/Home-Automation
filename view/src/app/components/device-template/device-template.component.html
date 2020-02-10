@@ -13,28 +13,28 @@
     <h3>Filtration: </h3>
     <div class="test-class">
       <span>Choose brand:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectBrand($event)">
+      <select id="device-brand" class="select-fields form-control dropdown" (change)="selectBrand($event)">
         <option value="">All brands</option>
         <option *ngFor="let brand of allBrands" value="{{brand}}">{{brand}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose model:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectModels($event)">
+      <select id="device-model" class="select-fields form-control dropdown" (change)="selectModels($event)">
         <option value="">All models</option>
         <option *ngFor="let model of allModels" value="{{model}}">{{model}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose type:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectType($event)">
+      <select id="device-type" class="select-fields form-control dropdown" (change)="selectType($event)">
         <option value="">All types</option>
         <option *ngFor="let type of allTypes" value="{{type}}">{{type}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose release year:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectYear($event)">
+      <select id="device-year" class="select-fields form-control dropdown" (change)="selectYear($event)">
         <option value="">All years</option>
         <option *ngFor="let year of allYears" value="{{year}}">{{year}} year</option>
       </select>
@@ -49,8 +49,14 @@
       </div>
     </div>
 
-    <button style="margin-top: 10px" type="button" class="btn btn-outline-primary buttoned" (click)="getAllDevices()">
+    <button style="margin-top: 10px; margin-right: 10px" type="button" class="btn btn-outline-primary buttoned"
+            (click)="getAllDevices()">
       Filtering
+    </button>
+
+    <button style="margin-top: 10px" class="btn btn-outline-primary
+    buttoned" (click)="clearButton()">
+      Clear Filtration
     </button>
 
   </div>
@@ -69,14 +75,19 @@
           </div>
           <div class="content">
             <h5 class="mb-1">{{device.brand}} {{device.model}}</h5>
-            <p>Type: <span>{{device.type}}</span></p>
-            <p>Power Supply: <span>{{device.powerSupply}}</span></p>
-            <p *ngIf="device.features.length > 0">
-              Features: <span class="show-features" *ngFor="let feature of device.features">{{feature.description}} </span></p>
+            <div class="device-description">
+              <p>Type: <span>{{device.type}}</span></p>
+              <p>Release year: <span>{{device.releaseYear}}</span></p>
+              <p>Power Supply: <span>{{device.powerSupply}}</span></p>
+              <p *ngIf="device.features.length > 0">
+                Features: <span class="show-features"
+                                *ngFor="let feature of device.features">{{feature.description}} </span></p>
+            </div>
+
           </div>
           <div class="btn-container">
-            <button type="button" class="btn-select btn btn-outline-primary buttoned" (click)="getAllDevices()">
-              Select
+            <button class="btn btn-light" routerLink="../add-local-device"
+                    (click)="selectButton(device.id, device.brand, device.model)">Select
             </button>
           </div>
         </div>
@@ -93,4 +104,5 @@
     </ul>
   </div>
 </div>
+
 </html>

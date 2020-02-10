@@ -85,3 +85,7 @@ select {
   color: white;
   border-color: white;
 }
+
+.device-description {
+  margin-top: 20px;
+}
