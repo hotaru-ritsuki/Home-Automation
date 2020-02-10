@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AddLocalDeviceService} from "../../services/add-local-device.service";
 import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
 
@@ -24,14 +24,6 @@ export class AddLocalDeviceComponent implements OnInit {
   };
 
   constructor(private addLocalDeviceService: AddLocalDeviceService, private deviceTemplateService: DevicesTeamplateService) {
-    this.deviceId= deviceTemplateService.savedId;
-    this.brand = deviceTemplateService.savedBrand;
-    this.model = deviceTemplateService.savedModel;
-    this.locationId = 0;
-    // this.descriptionText = '';
-    this.addLocalDeviceService.getLocationsByHome(1).subscribe((res) => {
-      this.allLocations = res;
-    });
   }
 
   save() {
@@ -43,8 +35,14 @@ export class AddLocalDeviceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.deviceId = this.deviceTemplateService.savedId;
+    this.brand = this.deviceTemplateService.savedBrand;
+    this.model = this.deviceTemplateService.savedModel;
+    this.locationId = 0;
+    this.addLocalDeviceService.getLocationsByHome(1).subscribe((res) => {
+      this.allLocations = res;
+    });
   }
-
 
 
 }
