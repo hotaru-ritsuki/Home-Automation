@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {ConstantsService} from "./constant/constants.service";
 import {UserChangePassword} from "../models/UserChangePassword";
 import {Observable} from "rxjs";
-import {UserLogIn} from "../models/UserLogIn";
+import {Data} from "../models/Data";
+import {Device} from "../models/Device";
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,24 @@ export class UserChangePasswordService {
     this.constant = this._constant.baseApplicationUrl;
   }
 
-  public changePassword(model: UserChangePassword) {
+  public changePassword(password: string, id: number) {
+    let params = new HttpParams();
+    params = params.append('password', password);
+    params = params.append('id', id.toString());
+    console.log(this.constant + '/users/changePasswordTo', {params});
+    return this.http.post(this.constant + '/users/restorePasswordTo',  {
+      password,
+      id,
+    });
+  }
+
+  public restorePassword(id: number, password: string) {
     const body = {
-      currentPassword: model.currentPassword,
-      password: model.updPassword
+      password: password,
+      id: id
     };
-    return this.http.post(this.constant + '/users/changePassword', body);
+    console.log(this.constant + '/users/restorePasswordTo', body);
+    return this.http.post(this.constant + '/users/restorePasswordTo', body);
   }
 
   public findUserByEmail(email: string): Observable<any>{
