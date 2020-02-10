@@ -12,7 +12,7 @@ import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {AuthGuardService} from "./services/auth-guard.service";
+import {AuthGuardService} from './services/auth-guard.service';
 import {SignUpComponent} from './components/user/sign-up/sign-up.component';
 import {LogInComponent} from './components/user/log-in/log-in.component';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
@@ -26,27 +26,26 @@ import {
   DialogCondition,
   RuleConfigurationComponent
 } from './components/rules/rule-configuration/rule-configuration.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from "@angular/material";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
 import {UserComponent} from './components/user/user.component';
 import {UserInformationComponent, FormatTimePipe} from './components/user/user-information/user-information.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
+import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component';
 import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 
 const routes: Routes = [
-  {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
-  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
-  {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
-  {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
-  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'statistic', component: GraphicsDashbordComponent},
+  {path: 'rules', component: RuleComponent},
+  {path: 'rules/configure', component: RuleConfigurationComponent},
+  {path: 'device', component: DevicesComponent},
+  {path: 'locations', component: DashboardLocationsComponent},
+  {path: 'device-template', component: DeviceTemplateComponent},
   {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
-  {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'device-modal', component: ModalComponent},
   {
     path: 'users',
     component: UserComponent,
@@ -54,10 +53,10 @@ const routes: Routes = [
       { path: 'login', component: LogInComponent},
       { path: 'register', component: SignUpComponent},
       { path: 'confirmRegistration', component: ConfirmRegistrationComponent},
-      { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      { path: 'changePassword', component: ChangePasswordComponent},
       { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
       { path: 'userInfo', component: UserInformationComponent},
-     {path: 'restore', component: RestorePasswordComponent}
+      { path: 'restore', component: RestorePasswordComponent}
     ]
   },
 ];
@@ -84,7 +83,7 @@ const routes: Routes = [
     ResendRegistrationTokenComponent,
     UserComponent,
     UserInformationComponent,
-    FormatTimePipe
+    FormatTimePipe,
     RestorePasswordComponent,
     ModalComponent,
     RestorePasswordPart2Component,
@@ -98,7 +97,7 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, {enableTracing: true}),
+    RouterModule.forRoot(routes),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,
