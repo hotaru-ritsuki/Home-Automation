@@ -30,7 +30,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -39,7 +38,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/users")
-public class UserApplicationController {
+public class ApplicationUserController {
   private final ApplicationUserService applicationUserService;
   private final AuthenticationManager authenticationManager;
   private final EmailServiceImpl mailSender;
@@ -109,7 +108,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @GetMapping("/confirmRegistration")
-  public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestBody String token) {
+  public ResponseEntity confirmRegistration(@RequestBody String token) {
     applicationUserService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
@@ -120,11 +119,23 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @GetMapping(value = "/resendRegistrationToken")
-  public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
+  public ResponseEntity resendRegistrationToken(@RequestBody String email) {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
+
+  @ApiOperation("Link User to Telegram")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  })
+  @PostMapping(value="/addTelegram")
+  public ResponseEntity addTelegram(@RequestBody String telegram){
+
+    return ResponseEntity.ok().build();
+  }
+
 
   public String getAppUrl() {
     return linkConfigProperties.getViewUrl() + "users/";

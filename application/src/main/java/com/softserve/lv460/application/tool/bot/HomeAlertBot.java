@@ -52,7 +52,9 @@ public class HomeAlertBot extends TelegramLongPollingBot {
     UpdateCheck stop = new StopCommand();
     UpdateCheck unknown = new NotCommand();
     UpdateCheck help = new HelpCommand();
+    UpdateCheck join= new JoinCommand();
     start.setNext(stop);
+    join.setNext(join);
     stop.setNext(help);
     help.setNext(unknown);
     return start;
