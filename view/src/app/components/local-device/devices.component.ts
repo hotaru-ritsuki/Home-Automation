@@ -24,10 +24,8 @@ export class DevicesComponent implements OnInit {
   matDialog: MatDialogRef<ModalComponent>;
   locationExist = false;
 
-
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
               private route:ActivatedRoute, private router: Router) {
-  }
 
   ngOnInit() {
     this.deviceService.getLocation()
@@ -97,5 +95,9 @@ export class DevicesComponent implements OnInit {
         this.chooseLocation(this.locationId);
       }
     });
+  }
+
+  findLocation() {
+    console.log('works');
   }
 }
