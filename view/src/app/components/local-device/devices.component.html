@@ -17,10 +17,10 @@
       </ul>
     </div>
     <div class="btn-add-device">
-      <a href="#" class="btn btn-outline-primary">Add location</a>
+      <a href="#" class="btn btn-outline-primary loc">Add location</a>
     </div>
     <div class="btn-add-device">
-      <a href="#" class="btn btn-outline-primary">Configure rule</a>
+      <a href="#" class="btn btn-outline-primary loc">Configure rule</a>
     </div>
   </div>
 
@@ -36,7 +36,10 @@
       </div>
     </div>
     <div class="btn-add-device">
-      <a routerLink="../device-template" class="btn btn-outline-primary">Add new device</a>
+      <a routerLink="/device-template" *ngIf="locationExist && allDevice != 0" class="btn btn-outline-primary">Add new device</a>
+    </div>
+    <div *ngIf="allDevice == 0">
+      <div>You don't have any devices. <a routerLink="/device-template">Add new device</a></div>
     </div>
   </div>
 </div>

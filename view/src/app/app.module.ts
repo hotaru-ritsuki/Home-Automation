@@ -41,7 +41,7 @@ const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
   {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
   {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
-  {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
+  {path: 'device/home/:home/location/:location', component: DevicesComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
