@@ -12,7 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,16 +27,23 @@ public class TelegramActivationService {
   private TelegramActivationRepository telegramActivationRepository;
   private TelegramUserRepository telegramUserRepository;
 
-  public void save(TelegramActivation telegramActivation) {
+  public String save(TelegramActivation telegramActivation) {
     telegramActivationRepository.save(telegramActivation);
+    return telegramActivation.getToken();
+  }
+
+  public String save(TelegramUser telegramUser) {
+    TelegramActivation activation = new TelegramActivation();
+    activation.setTelegramUser(telegramUser);
+    return save(activation);
   }
 
   public boolean existsById(Long id) {
     return telegramActivationRepository.existsById(id);
   }
 
-  public boolean existsByTelegramId(Long telegramId) {
-    return telegramActivationRepository.existsByTelegramUserId(telegramId);
+  public boolean existsByTelegramUserId(Long telegramUserId) {
+    return telegramActivationRepository.existsByTelegramUserId(telegramUserId);
   }
 
   public boolean existsByTelegramUsername(String username){
@@ -46,6 +55,7 @@ public class TelegramActivationService {
     return telegramActivationRepository.findAll();
   }
 
+  @Transactional
   public void deleteById(Long id) {
     if (!telegramActivationRepository.findById(id).isPresent()) {
       throw new NotDeletedException(String.format(ErrorMessage.TELEGRAM_CODE_NOT_DELETED_BY_ID, id));
@@ -53,6 +63,7 @@ public class TelegramActivationService {
     telegramActivationRepository.deleteById(id);
   }
 
+@Transactional
   public void deleteByTelegramUserId(Long telegramUserId) {
     if (!telegramActivationRepository.findByTelegramUserId(telegramUserId).isPresent()) {
       throw new NotDeletedException(String.format(ErrorMessage.TELEGRAM_CODE_NOT_DELETED_BY_ID, telegramUserId));
@@ -62,13 +73,13 @@ public class TelegramActivationService {
 
   public TelegramActivation findByUsername(String username) {
     TelegramUser telegramUser = telegramUserRepository.findByUsername(username).orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.TELEGRAM_NOT_DELETED_BY_USERNAME, username)));
-    return telegramActivationRepository.findById(telegramUser.getId())
+    return telegramActivationRepository.findByTelegramUserId(telegramUser.getId())
             .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.TELEGRAM_CODE_NOT_FOUND_BY_USERNAME, username)));
   }
 
   public boolean validate(String telegramUsername, String token) {
     TelegramActivation telegramActivation = findByUsername(telegramUsername);
-    if (telegramActivation.getExpiryDate().isAfter(LocalDateTime.now())) {
+    if (telegramActivation.getExpiryDate().isBefore(LocalDateTime.now())) {
       telegramActivationRepository.delete(telegramActivation);
       return false;
     }

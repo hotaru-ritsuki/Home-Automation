@@ -52,6 +52,7 @@ public class ApplicationUserController {
   private final TelegramActivationService activationService;
   private final HomeAlertBotService homeAlertBotService;
 
+
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK, response = JWTUserResponse.class),
@@ -69,17 +70,19 @@ public class ApplicationUserController {
     return ResponseEntity.ok(applicationUserService.login(loginRequest, authentication));
   }
 
+
   @ApiOperation("Registration")
   @ApiResponses(value = {
           @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @PostMapping("/register")
-  public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest, final HttpServletRequest request) {
+  public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest) {
     ApplicationUser applicationUser = applicationUserService.save(userRequest);
-    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getAppUrl()));
+    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(applicationUser));
   }
+
 
   @ApiOperation("Updating access token by refresh token")
   @ApiResponses(value = {
@@ -90,6 +93,7 @@ public class ApplicationUserController {
   public ResponseEntity<JWTUserResponse> updateAccessToken(@RequestParam @NotBlank String refreshToken) {
     return ResponseEntity.ok().body(applicationUserService.updateAccessTokens(refreshToken));
   }
+
 
   @ApiOperation("Changing Password")
   @ApiResponses(value = {
@@ -108,6 +112,7 @@ public class ApplicationUserController {
     }
   }
 
+
   @ApiOperation("Confirming registration")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
@@ -119,6 +124,7 @@ public class ApplicationUserController {
     return ResponseEntity.ok().build();
   }
 
+
   @ApiOperation("Request to resend confirmation token")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
@@ -127,9 +133,10 @@ public class ApplicationUserController {
   @GetMapping(value = "/resendRegistrationToken")
   public ResponseEntity resendRegistrationToken(@RequestBody String email) {
     VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
-    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
+    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
+
 
   @ApiOperation("Link User to Telegram")
   @ApiResponses(value = {
@@ -138,18 +145,17 @@ public class ApplicationUserController {
   })
   @PostMapping(value="/addTelegram")
   public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO){
-    TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
     ApplicationUser applicationUser = applicationUserService.findById(userPrincipal.getId());
-    if(activationService.existsByTelegramId(telegramUser.getId())){
+    TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
+    applicationUser.setTelegramUser(telegramUser);
+    if(activationService.existsByTelegramUserId(telegramUser.getId())){
       activationService.deleteByTelegramUserId(telegramUser.getId());
     }
-    TelegramActivation activation = new TelegramActivation();
-    activation.setTelegramUser(telegramUser);
-    applicationUser.setTelegramUser(telegramUser);
-    activationService.save(activation);
+    String token=activationService.save(telegramUser);
     applicationUserService.save(applicationUser);
-    homeAlertBotService.execute(telegramUser.getChatId(), BotPhrases.CONFIRM);
-    return ResponseEntity.ok().body(activation.getToken());
+    homeAlertBotService.execute(telegramUser.getChatId(), String.format(BotPhrases.CONFIRM, userPrincipal.getUsername()));
+    homeAlertBotService.execute(telegramUser.getChatId(),BotPhrases.MESSAGE_EXAMPLE);
+    return ResponseEntity.ok().body(token);
   }
 
   @ApiOperation("Send restore password")
@@ -158,11 +164,12 @@ public class ApplicationUserController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @GetMapping("/restorePassword/{email}")
-  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+  public ResponseEntity<JWTUserRequest> restorePassword(@PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
-    eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
+    eventPublisher.publishEvent(new RestoreEvent(user, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
+
 
   @ApiOperation("Get restore password")
   @ApiResponses(value = {
@@ -176,7 +183,8 @@ public class ApplicationUserController {
     return ResponseEntity.ok().body(verificationToken);
   }
 
-  public String getAppUrl() {
+
+  public String getViewUrl() {
     return linkConfigProperties.getViewUrl() + "users/";
   }
 }

@@ -19,9 +19,13 @@ public class JoinCommand implements UpdateCheck {
   @Override
   public void process(Update request, TelegramUserService telegramUserService, TelegramActivationService telegramActivationService, SendMessage message) {
     if (request.getMessage().getText().startsWith("/join") && telegramActivationService.existsByTelegramUsername(request.getMessage().getChat().getUserName())) {
-      telegramActivationService.validate(request.getMessage().getChat().getUserName(),
-                                         request.getMessage().getText().split("[ ]")[1]);
-      message.setText(BotPhrases.SUCCESSFUL_AUTHENTICATION);
+      if(telegramActivationService.validate(request.getMessage().getChat().getUserName(),
+                                         request.getMessage().getText().split("[ ]")[1])){
+        message.setText(BotPhrases.SUCCESSFUL_AUTHENTICATION);
+      }
+      else{
+        message.setText(BotPhrases.NOT_VALID);
+      }
     } else {
       nextInChain.process(request, telegramUserService, telegramActivationService, message);
     }
