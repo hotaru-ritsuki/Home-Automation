@@ -4,9 +4,10 @@ import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalComponent} from "../modal/modal.component";
-import {RestorePasswordService} from "../../services/restore-password.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {UserChangePasswordService} from "../../services/user-change-password.service";
+import {stringify} from "querystring";
+import {daLocale} from "ngx-bootstrap";
+import {LocationModalComponent} from "../location-modal/location-modal.component";
 
 @Component({
   selector: 'app-devices',
@@ -17,17 +18,27 @@ export class DevicesComponent implements OnInit {
   locationResponse: any;
   supportDeviceResponse: Device[];
   allDevice: any;
+  getInfo = {
+    id: '',
+    uuId: '',
+    timestamp: '',
+    data: []
+  };
 
   allLocationsByHome: any;
   locationId: number;
   homeId: number;
   matDialog: MatDialogRef<ModalComponent>;
+  matDialogLocation: MatDialogRef<LocationModalComponent>;
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route:ActivatedRoute, private router: Router) {
+              private route: ActivatedRoute, private router: Router) {
+
+  }
 
   ngOnInit() {
+    this.homeId = this.route.snapshot.params['home'];
     this.deviceService.getLocation()
       .subscribe((response) => {
         this.locationResponse = response;
@@ -37,7 +48,7 @@ export class DevicesComponent implements OnInit {
         this.supportDeviceResponse = response;
       });
     this.findAllDevice(this.route.snapshot.params['location']);
-    this.deviceService.findLocationByHome(this.route.snapshot.params['home'])
+    this.deviceService.findLocationByHome(this.homeId)
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
@@ -50,11 +61,11 @@ export class DevicesComponent implements OnInit {
       this.allDevice = response;
     });
     this.locationExist = false;
-    this.router.navigateByUrl('device/home/1/location/' + 0);
+    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + 0);
   }
 
   findAllDevice(location: number) {
-    if (location != 0){
+    if (location != 0) {
       this.chooseLocation(location);
       this.locationExist = true;
     } else {
@@ -64,7 +75,7 @@ export class DevicesComponent implements OnInit {
           this.locationId = 0;
           this.locationExist = false;
         });
-      this.router.navigateByUrl('device/home/1/location/' + 0);
+      this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + 0);
     }
   }
 
@@ -74,7 +85,7 @@ export class DevicesComponent implements OnInit {
       this.allDevice = response;
     });
     this.locationExist = true;
-    this.router.navigateByUrl('device/home/1/location/' + id);
+    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + id);
   }
 
   openModal(uuid: string) {
@@ -97,7 +108,39 @@ export class DevicesComponent implements OnInit {
     });
   }
 
-  findLocation() {
-    console.log('works');
+  openModalLocation() {
+    let dialogRef = this.dialog.open(LocationModalComponent, {
+      data: {
+        name: 'Are you sure, you want to delete this device?',
+        homeId: this.homeId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.locationId == 0) {
+        this.deviceService.findAll()
+          .subscribe((response) => {
+            this.allDevice = response;
+          });
+      } else {
+        this.chooseLocation(this.locationId);
+      }
+
+
+      this.deviceService.findLocationByHome(this.homeId)
+        .subscribe((response) => {
+          this.allLocationsByHome = response;
+        });
+    });
+  }
+
+  addNewDevice() {
+    this.router.navigateByUrl('device-template/home/' + this.homeId + '/location/' + this.locationId);
+  }
+
+  getInfoFromDevice(UUID: string) {
+    this.deviceService.getInfoFromDevice(UUID) .subscribe((response) => {
+      this.getInfo = response;
+    });
   }
 }
