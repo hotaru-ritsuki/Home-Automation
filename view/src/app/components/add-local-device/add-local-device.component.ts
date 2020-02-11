@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AddLocalDeviceService} from "../../services/add-local-device.service";
-import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-local-device',
@@ -8,12 +8,13 @@ import {DevicesTeamplateService} from "../../services/devices-teamplate.service"
   styleUrls: ['./add-local-device.component.css']
 })
 export class AddLocalDeviceComponent implements OnInit {
-  deviceId;
-  brand;
-  model;
-  allLocations;
-  homeId: 1;
+  homeId: number;
   locationId: number;
+  locationIdForCheck: number;
+  deviceId: number;
+  deviceBrand: string;
+  deviceModel: string;
+  allLocations;
   descriptionText: string;
 
   localDeviceRequest = {
@@ -23,25 +24,35 @@ export class AddLocalDeviceComponent implements OnInit {
     "uuid": "string"
   };
 
-  constructor(private addLocalDeviceService: AddLocalDeviceService, private deviceTemplateService: DevicesTeamplateService) {
+  constructor(private addLocalDeviceService: AddLocalDeviceService,
+              private route: ActivatedRoute,
+              private router: Router) {
+
   }
 
+  ngOnInit() {
+    this.descriptionText = '';
+    this.homeId = this.route.snapshot.params['home'];
+    this.locationId = this.route.snapshot.params['location'];
+    console.log(this.locationId);
+    this.deviceId = this.route.snapshot.params['device'];
+    this.deviceBrand = this.route.snapshot.params['brand'];
+    this.deviceModel = this.route.snapshot.params['model'];
+    this.addLocalDeviceService.getLocationsByHome(this.homeId).subscribe((res) => {
+      this.allLocations = res;
+    });
+  }
   save() {
     this.localDeviceRequest.locationId = this.locationId;
     this.localDeviceRequest.description = this.descriptionText;
     this.localDeviceRequest.deviceTemplateId = this.deviceId;
     console.log(this.localDeviceRequest);
     this.addLocalDeviceService.saveDeviceInLocation(this.localDeviceRequest).subscribe();
+    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + this.locationId);
   }
 
-  ngOnInit() {
-    this.deviceId = this.deviceTemplateService.savedId;
-    this.brand = this.deviceTemplateService.savedBrand;
-    this.model = this.deviceTemplateService.savedModel;
-    this.locationId = 0;
-    this.addLocalDeviceService.getLocationsByHome(1).subscribe((res) => {
-      this.allLocations = res;
-    });
+  back() {
+    this.router.navigateByUrl('device-template/home/' + this.homeId + '/location/' + this.locationId);
   }
 
 

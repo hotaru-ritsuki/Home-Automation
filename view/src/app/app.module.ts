@@ -36,6 +36,7 @@ import {ResendRegistrationTokenComponent} from './components/user/resend-registr
 import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
+import { LocationModalComponent } from './components/location-modal/location-modal.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -45,10 +46,11 @@ const routes: Routes = [
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LogInComponent},
   {path: 'register', component: SignUpComponent},
-  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
-  {path: 'add-local-device', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
+  {path: 'device-template/home/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'add-local-device/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'location-modal', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {
     path: 'users',
     component: UserComponent,
@@ -88,6 +90,7 @@ const routes: Routes = [
     RestorePasswordComponent,
     ModalComponent,
     RestorePasswordPart2Component,
+    LocationModalComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [

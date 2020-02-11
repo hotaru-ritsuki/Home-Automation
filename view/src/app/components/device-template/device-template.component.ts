@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Device} from "../../models/Device";
 import {Feature} from "../../models/Feature";
 import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-device-template',
@@ -32,7 +33,9 @@ export class DeviceTemplateComponent implements OnInit {
   allTypes: Array<string>;
   allModels: Array<string>;
 
-  constructor(private deviceService: DevicesTeamplateService) {
+  constructor(private deviceService: DevicesTeamplateService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -103,9 +106,10 @@ export class DeviceTemplateComponent implements OnInit {
   }
 
   selectButton(deviceId, deviceBrand, deviceModel) {
-    this.deviceService.savedId = deviceId;
-    this.deviceService.savedBrand = deviceBrand;
-    this.deviceService.savedModel = deviceModel;
+    let homeId = this.route.snapshot.params['home'];
+    let locationId = this.route.snapshot.params['location'];
+    console.log(this.router.navigateByUrl('add-local-device/' + homeId + '/' + locationId + '/' + deviceId +
+      '/' + deviceBrand + '/' + deviceModel));
   }
 
   clearButton() {
