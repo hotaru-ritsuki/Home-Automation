@@ -10,18 +10,18 @@ INSERT INTO `location` (`id`,`name`, `home_id`) VALUES (1,'hall', 1),
                                                        (6,'bedroom', 2);
 INSERT INTO `user_home` (`user_id`, `home_id`) VALUES (1, 1),
                                                       (2, 1);
-INSERT INTO `device_template` (`id`, `brand`, `model`, `power_supply`, `release_year`, `type`)
-    VALUES (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter'),
-           (2, 'Xiaomi', 'Mijia 2 Digital Hygrometer', 'unregulated', 2019, 'Temperature Meter'),
-           (3, 'Aqara', 'WSDCGQ11LM', 'unregulated', 2017, 'Temperature Meter'),
-           (4, 'Life', 'TP-3', 'regulated', 2013, 'Temperature Meter'),
-           (5, 'ORVIBO', 'ZigBee (ST20-O)', 'regulated', 2018, 'Humidity Meter'),
-           (6, 'Aqara', 'AS008CNW01', 'regulated', 2017, 'Temperature Meter'),
-           (7, 'Ajax', '000005637', 'unregulated', 2016, 'Temperature Meter'),
-           (8, 'Ajax', '000005636', 'regulated', 2016, 'Humidity Meter'),
-           (9, 'Fibaro', 'FGMS-001', 'regulated', 2015, 'Temperature Meter'),
-           (10, 'Arton', 'TPT-2', 'regulated', 2014, 'Temperature Meter'),
-           (11, 'SATEL', 'ATD-100', 'regulated', 2013, 'Temperature Meter');
+INSERT INTO device_template (id, brand, model, power_supply, release_year, type, image)
+    VALUES (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Humidity Meter', 'https://hotline.ua/img/tx/218/2189018225.jpg'),
+           (2, 'Xiaomi', 'Mijia 2 Digital Hygrometer', 'unregulated', 2019, 'Temperature Meter', 'https://hotline.ua/img/tx/216/2166920015.jpg'),
+           (3, 'Aqara', 'WSDCGQ11LM', 'unregulated', 2017, 'Temperature Meter', 'https://hotline.ua/img/tx/157/1576827185.jpg'),
+           (4, 'Life', 'TP-3', 'regulated', 2013, 'Temperature Meter', 'http://stecker.com.ua/files/goods_images/577bd487c0fa8.jpeg'),
+           (5, 'ORVIBO', 'ZigBee (ST20-O)', 'regulated', 2018, 'Humidity Meter', 'https://hotline.ua/img/tx/185/1850757045.jpg'),
+           (6, 'Aqara', 'AS008CNW01', 'regulated', 2017, 'Temperature Meter', 'https://shonada.com/upload/resize_cache/iblock/946/573_573_1/946ba1295694f87f2b1ff6dc88b09ea5.jpg'),
+           (7, 'Ajax', '000005637', 'unregulated', 2016, 'Temperature Meter', 'https://hotline.ua/img/tx/154/1545674635.jpg'),
+           (8, 'Ajax', '000005636', 'regulated', 2016, 'Humidity Meter', 'https://hotline.ua/img/tx/154/1545674705.jpg'),
+           (9, 'Fibaro', 'FGMS-001', 'regulated', 2015, 'Temperature Meter', 'https://hotline.ua/img/tx/158/1587240975.jpg'),
+           (10, 'Arton', 'TPT-2', 'regulated', 2014, 'Temperature Meter', 'https://hotline.ua/img/tx/210/2107941665.jpg '),
+           (11, 'SATEL', 'ATD-100', 'regulated', 2013, 'Temperature Meter', 'https://hotline.ua/img/tx/103/10324845.jpg');
 INSERT INTO `local_device` (`uuid`, `description`,`location_id`, `supported_device_id`)
     VALUES ('ab6296cb-631a-48ae-b429-5c3c3aca', 'Xiaomi motion detector', 1, 1),
            ('ab6296cb-632a-48ae-b429-5c3c3aca', 'Xiaomi temperature detector', 2, 2),

@@ -20,6 +20,7 @@ import {DashboardLocationsComponent} from './components/dashboard/dashboard-loca
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
 import {SliderModule} from 'angular-image-slider';
+import {AddLocalDeviceComponent} from './components/add-local-device/add-local-device.component';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
   DialogAction,
@@ -42,7 +43,10 @@ const routes: Routes = [
   {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
   {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
+  {path: 'login', component: LogInComponent},
+  {path: 'register', component: SignUpComponent},
   {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'add-local-device', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {
@@ -72,6 +76,7 @@ const routes: Routes = [
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
+    AddLocalDeviceComponent,
     RuleComponent,
     RuleConfigurationComponent,
     DialogAction,

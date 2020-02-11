@@ -20,7 +20,6 @@ export class DevicesComponent implements OnInit {
   homeId: number;
   matDialog: MatDialogRef<ModalComponent>;
 
-
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog) {
   }
 
@@ -77,5 +76,9 @@ export class DevicesComponent implements OnInit {
         this.chooseLocation(this.locationId);
       }
     });
+  }
+
+  findLocation() {
+    console.log('works');
   }
 }
