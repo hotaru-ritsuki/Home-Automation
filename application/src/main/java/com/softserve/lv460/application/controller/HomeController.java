@@ -5,6 +5,8 @@ import com.softserve.lv460.application.dto.home.HomeRequestDTO;
 import com.softserve.lv460.application.dto.home.HomeResponseDTO;
 import com.softserve.lv460.application.mapper.home.HomeRequestMapper;
 import com.softserve.lv460.application.mapper.home.HomeResponseMapper;
+import com.softserve.lv460.application.security.annotation.CurrentUser;
+import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.HomeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -32,19 +34,9 @@ public class HomeController {
         @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = HomeResponseDTO.class)
   })
   @PostMapping
-  public ResponseEntity<HomeResponseDTO> create(@RequestBody HomeRequestDTO request) {
+  public ResponseEntity<HomeResponseDTO> create(@RequestBody HomeRequestDTO request, @CurrentUser UserPrincipal user) {
     return ResponseEntity.status(HttpStatus.CREATED).body(responseMapper
-          .toDto(homeService.create(requestMapper.toEntity(request))));
-  }
-
-  @ApiOperation(value = "Return list of home")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
-  })
-  @GetMapping
-  public ResponseEntity<List<HomeResponseDTO>> findAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAll().stream().map(responseMapper::toDto)
-          .collect(Collectors.toList()));
+          .toDto(homeService.create(requestMapper.toEntity(request), user.getId())));
   }
 
   @ApiOperation(value = "Update home")
@@ -79,11 +71,11 @@ public class HomeController {
 
   @ApiOperation(value = "Return list of home by user")
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
+        @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
   })
-  @GetMapping("/user/{user_id}")
-  public ResponseEntity<List<HomeResponseDTO>> findAllByUserId(@PathVariable("user_id") Long userId) {
-    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllByUser(userId).stream().map(responseMapper::toDto)
-      .collect(Collectors.toList()));
+  @GetMapping
+  public ResponseEntity<List<HomeResponseDTO>> findAllByUser(@CurrentUser UserPrincipal user) {
+    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllByUser(user.getId()).stream().map(responseMapper::toDto)
+          .collect(Collectors.toList()));
   }
 }

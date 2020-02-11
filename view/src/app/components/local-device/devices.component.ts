@@ -1,29 +1,32 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
-import {LocationService} from "../../home/service/location.service";
-import {HomeService} from "../../home/service/home.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalComponent} from "../modal/modal.component";
+import {RestorePasswordService} from "../../services/restore-password.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserChangePasswordService} from "../../services/user-change-password.service";
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.css']
 })
-export class DevicesComponent implements OnInit{
+export class DevicesComponent implements OnInit {
   locationResponse: any;
   supportDeviceResponse: Device[];
   allDevice: any;
 
   allLocationsByHome: any;
-  locationId : number;
+  locationId: number;
   homeId: number;
-  matDialog: MatDialogRef<ModalComponent> ;
+  matDialog: MatDialogRef<ModalComponent>;
+  locationExist = false;
 
 
-  constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog) {
+  constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
+              private route:ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -35,43 +38,63 @@ export class DevicesComponent implements OnInit{
       .subscribe((response) => {
         this.supportDeviceResponse = response;
       });
-    this.deviceService.findAll()
-      .subscribe((response) => {
-        this.allDevice = response;
-        this.locationId = 0;
-      });
-    this.deviceService.findLocationByHome(1)
+    this.findAllDevice(this.route.snapshot.params['location']);
+    this.deviceService.findLocationByHome(this.route.snapshot.params['home'])
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
   }
 
-  chooseHome(id:number) {
+  chooseHome(id: number) {
     this.homeId = id;
     this.locationId = 0;
     this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
       this.allDevice = response;
     });
+    this.locationExist = false;
+    this.router.navigateByUrl('device/home/1/location/' + 0);
   }
 
-  chooseLocation(id:number) {
+  findAllDevice(location: number) {
+    if (location != 0){
+      this.chooseLocation(location);
+      this.locationExist = true;
+    } else {
+      this.deviceService.findAll()
+        .subscribe((response) => {
+          this.allDevice = response;
+          this.locationId = 0;
+          this.locationExist = false;
+        });
+      this.router.navigateByUrl('device/home/1/location/' + 0);
+    }
+  }
+
+  chooseLocation(id: number) {
     this.locationId = id;
     this.deviceService.findAllByLocation(this.locationId).subscribe((response) => {
       this.allDevice = response;
     });
+    this.locationExist = true;
+    this.router.navigateByUrl('device/home/1/location/' + id);
   }
 
   openModal(uuid: string) {
-    let dialogRef = this.dialog.open(ModalComponent, {data: {name: 'Are you sure, you want to delete this device?', uuid: uuid}});
+    let dialogRef = this.dialog.open(ModalComponent, {
+      data: {
+        name: 'Are you sure, you want to delete this device?',
+        uuid: uuid
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(this.locationId == 0) {
+      if (this.locationId == 0) {
         this.deviceService.findAll()
           .subscribe((response) => {
             this.allDevice = response;
           });
       } else {
-       this.chooseLocation(this.locationId);
+        this.chooseLocation(this.locationId);
       }
     });
   }

@@ -8,4 +8,5 @@ public class HomeRequestDTO {
   private String country;
   private String city;
   private String addressa;
+  private String name;
 }

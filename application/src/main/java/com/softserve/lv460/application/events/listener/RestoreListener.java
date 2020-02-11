@@ -4,7 +4,6 @@ import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.events.RestoreEvent;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
-import com.softserve.lv460.application.service.ApplicationUserService;
 import com.softserve.lv460.application.service.VerificationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;

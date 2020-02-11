@@ -3,6 +3,10 @@
   grid-template-columns: 1% 24% 10% 50% 15%;
 }
 
+.loc {
+  width: 130px;
+}
+
 .nav-bar {
   margin: 10px 10px 10px 25px;
 }

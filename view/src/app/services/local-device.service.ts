@@ -3,8 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Device} from '../models/Device';
 import {ConstantsService} from './constant/constants.service';
-import {LocalDevice} from "../models/LocalDevice";
-import {Home} from "../home/model/Home";
+import {Home} from "../models/Home";
 
 @Injectable({
   providedIn: 'root'

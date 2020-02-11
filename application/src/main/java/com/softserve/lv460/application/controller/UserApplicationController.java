@@ -103,14 +103,15 @@ public class UserApplicationController {
     }
   }
 
-  @ApiOperation("Changing Password")
+  @ApiOperation("Restore password")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @PostMapping("/restorePasswordTo")
-  public ResponseEntity<Void> restorePasswordTo(@RequestBody UserChangePasswordDto password) {
-    ApplicationUser user = applicationUserService.findById(password.getUserId());
+  @PostMapping("/restorePassword")
+  public ResponseEntity<Void> restorePassword(@RequestBody UserChangePasswordDto password) {
+    System.out.println(password);
+    ApplicationUser user = applicationUserService.findById(password.getId());
 
     applicationUserService.changeUserPassword(user.getId(), password.getPassword());
     return ResponseEntity.status(HttpStatus.OK).build();
@@ -145,7 +146,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @GetMapping("/restorePassword/{email}")
-  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+  public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
     eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
@@ -159,7 +160,6 @@ public class UserApplicationController {
   @GetMapping("/restorePassword/{user_id}/{token}")
   public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("user_id") long id, @PathVariable("token") String token) {
     VerificationToken verificationToken = tokenService.findByUserIdAndToken(id, token);
-
     tokenService.delete(verificationToken.getId());
 
     return ResponseEntity.ok().body(verificationToken);
