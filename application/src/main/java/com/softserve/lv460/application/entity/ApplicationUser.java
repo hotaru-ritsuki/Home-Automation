@@ -1,7 +1,10 @@
 package com.softserve.lv460.application.entity;
 
 import com.softserve.lv460.application.entity.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class ApplicationUser {
@@ -49,7 +54,12 @@ public class ApplicationUser {
   private String secret;
 
   @Column(columnDefinition = "boolean default false")
-  private Boolean enabled;
+  private boolean enabled;
+
+  @NonNull
+  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.LAZY)
+  @JoinColumn(referencedColumnName = "id")
+  private TelegramUser telegramUser;
 }
 
 

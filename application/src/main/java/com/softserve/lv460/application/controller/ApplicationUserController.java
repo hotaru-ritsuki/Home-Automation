@@ -1,10 +1,10 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.constant.ErrorMessage;
-import com.softserve.lv460.application.constant.HttpStatuses;
-import com.softserve.lv460.application.constant.LinkConfigProperties;
-import com.softserve.lv460.application.constant.MailMessages;
+import com.softserve.lv460.application.constant.*;
+import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
 import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.entity.TelegramActivation;
+import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.events.ResendTokenEvent;
@@ -16,7 +16,10 @@ import com.softserve.lv460.application.security.annotation.CurrentUser;
 import com.softserve.lv460.application.security.dto.*;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.TelegramActivationService;
+import com.softserve.lv460.application.service.TelegramUserService;
 import com.softserve.lv460.application.service.VerificationTokenService;
+import com.softserve.lv460.application.tool.bot.HomeAlertBotService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -45,6 +48,9 @@ public class ApplicationUserController {
   private final JWTUserRequestMapper modelMapper;
   private final LinkConfigProperties linkConfigProperties;
   private final VerificationTokenService tokenService;
+  private final TelegramUserService telegramUserService;
+  private final TelegramActivationService activationService;
+  private final HomeAlertBotService homeAlertBotService;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -131,9 +137,19 @@ public class ApplicationUserController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping(value="/addTelegram")
-  public ResponseEntity addTelegram(@RequestBody String telegram){
-
-    return ResponseEntity.ok().build();
+  public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO){
+    TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
+    ApplicationUser applicationUser = applicationUserService.findById(userPrincipal.getId());
+    if(activationService.existsByTelegramId(telegramUser.getId())){
+      activationService.deleteByTelegramUserId(telegramUser.getId());
+    }
+    TelegramActivation activation = new TelegramActivation();
+    activation.setTelegramUser(telegramUser);
+    applicationUser.setTelegramUser(telegramUser);
+    activationService.save(activation);
+    applicationUserService.save(applicationUser);
+    homeAlertBotService.execute(telegramUser.getChatId(), BotPhrases.CONFIRM);
+    return ResponseEntity.ok().body(activation.getToken());
   }
 
   @ApiOperation("Send restore password")

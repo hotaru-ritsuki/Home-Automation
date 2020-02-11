@@ -37,13 +37,15 @@ public class ApplicationUserService {
 
   public ApplicationUser save(UserRegistrationRequest userRequest) {
     if (applicationUserRepository.existsByEmail(userRequest.getEmail())) {
-      log.error("User with email: " + userRequest.getEmail() + " already exist.");
       throw new UserAlreadyRegisteredException(String.format(USER_ALREADY_EXISTS, userRequest.getEmail()));
     }
     ApplicationUser applicationUser = userRegistrationRequestMapper.toEntity(userRequest);
     applicationUserRepository.save(applicationUser);
-
     return applicationUser;
+  }
+
+  public void save(ApplicationUser applicationUser) {
+    applicationUserRepository.save(applicationUser);
   }
 
   @Transactional
@@ -51,20 +53,14 @@ public class ApplicationUserService {
     String email;
     try {
       email = jwtTokenProvider.getEmailFromJWT(refreshToken);
-      log.info("Email from refreshToken: " + refreshToken + " is " + email);
     } catch (ExpiredJwtException e) {
-      log.error("Bad Refresh Token: " + refreshToken);
       throw new BadRefreshTokenException(REFRESH_TOKEN_NOT_VALID);
     }
     ApplicationUser user = applicationUserRepository
             .findByEmail(email)
             .orElseThrow(() -> new BadEmailException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
-    log.info("User have found : " + user.toString());
     String newRefreshTokenKey = jwtTokenProvider.generateRefreshToken(email);
-    log.info("New RefreshTokenKey : " + newRefreshTokenKey + " for email: " + email);
     applicationUserRepository.updateSecret(newRefreshTokenKey, user.getId());
-    log.info("Updated secret : " + newRefreshTokenKey + " for id:" + user.getId());
-
     if (jwtTokenProvider.isTokenValid(refreshToken, user.getSecret())) {
       return new JWTUserResponse(
               jwtTokenProvider.generateAccessToken(email),
@@ -121,7 +117,7 @@ public class ApplicationUserService {
 
   public VerificationToken generateNewVerificationToken(String email) throws UserAlreadyActivated {
     ApplicationUser applicationUser = applicationUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
-    if (applicationUser.getEnabled()) {
+    if (applicationUser.isEnabled()) {
       throw new UserAlreadyActivated(USER_ALREADY_ACTIVATED);
     }
     if (verificationTokenRepository.findByUserId(applicationUser.getId()).isPresent()) {

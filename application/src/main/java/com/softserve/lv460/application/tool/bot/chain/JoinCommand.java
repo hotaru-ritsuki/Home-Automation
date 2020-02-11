@@ -1,10 +1,13 @@
 package com.softserve.lv460.application.tool.bot.chain;
 
-import com.softserve.lv460.application.entity.TelegramUser;
+import com.softserve.lv460.application.constant.BotPhrases;
+import com.softserve.lv460.application.service.TelegramActivationService;
 import com.softserve.lv460.application.service.TelegramUserService;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@RequiredArgsConstructor
 public class JoinCommand implements UpdateCheck {
   private UpdateCheck nextInChain;
 
@@ -14,12 +17,13 @@ public class JoinCommand implements UpdateCheck {
   }
 
   @Override
-  public void process(Update request, TelegramUserService telegramUserService, SendMessage message) {
-    if (request.getMessage().getText().equals("/join")) {
-      TelegramUser telegramUser = new TelegramUser();
-      telegramUser.setUsername(request.getMessage().getChat().getUserName());
-      telegramUser.setChatId(String.valueOf(request.getMessage().getChatId()));
-      nextInChain.process(request, telegramUserService, message);
+  public void process(Update request, TelegramUserService telegramUserService, TelegramActivationService telegramActivationService, SendMessage message) {
+    if (request.getMessage().getText().startsWith("/join") && telegramActivationService.existsByTelegramUsername(request.getMessage().getChat().getUserName())) {
+      telegramActivationService.validate(request.getMessage().getChat().getUserName(),
+                                         request.getMessage().getText().split("[ ]")[1]);
+      message.setText(BotPhrases.SUCCESSFUL_AUTHENTICATION);
+    } else {
+      nextInChain.process(request, telegramUserService, telegramActivationService, message);
     }
   }
 }

@@ -19,7 +19,6 @@ import {DashboardComponent} from './components/dashboard/dashboard/dashboard.com
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
-import {SliderModule} from 'angular-image-slider';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
   DialogAction,
@@ -62,7 +61,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-
   declarations: [
     AppComponent,
     DevicesComponent,
@@ -102,7 +100,6 @@ const routes: Routes = [
     MDBBootstrapModule.forRoot(),
     NgbModule,
     WavesModule,
-    SliderModule,
     ButtonsModule,
     MatSelectModule,
     MatDialogModule,
@@ -111,8 +108,6 @@ const routes: Routes = [
     NgbModule,
     MatDialogModule
   ],
-
-
   providers:
     [{
       provide: HTTP_INTERCEPTORS,
