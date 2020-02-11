@@ -31,8 +31,12 @@ export class RuleComponent implements OnInit {
   }
 
   changeRuleStatus(rule: Rule) {
+    if (rule.active === true) {
+      rule.active = false;
+    } else if (rule.active === false) {
+      rule.active = true;
+    }
     this.service.changeStatus(rule).subscribe((res) => {
-      console.log(res);
     })
   }
 

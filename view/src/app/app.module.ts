@@ -37,22 +37,22 @@ import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 
 const routes: Routes = [
-  {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
-  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
-  {path: 'device', component: DevicesComponent, canActivate: [AuthGuardService]},
-  {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
-  {path: 'device-template', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
+  {path: 'statistic', component: GraphicsDashbordComponent},
+  {path: 'rules', component: RuleComponent},
+  {path: 'rules/configure', component: RuleConfigurationComponent},
+  {path: 'device', component: DevicesComponent},
+  {path: 'locations', component: DashboardLocationsComponent},
+  {path: 'device-template', component: DeviceTemplateComponent},
   {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
-  {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'device-modal', component: ModalComponent},
   {
     path: 'users',
     component: UserComponent,
     children: [
       {path: 'login', component: LogInComponent},
       {path: 'register', component: SignUpComponent},
-      {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService]},
-      {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      {path: 'confirmRegistration', component: ConfirmRegistrationComponent},
+      {path: 'changePassword', component: ChangePasswordComponent},
       {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
       {path: 'restore', component: RestorePasswordComponent}
     ]
@@ -93,7 +93,7 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, {enableTracing: true}),
+    RouterModule.forRoot(routes),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,

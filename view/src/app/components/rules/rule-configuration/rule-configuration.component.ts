@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MainService} from "../../../services/main.service";
 import {LocalDevice} from "../../../models/LocalDevice";
@@ -24,34 +24,27 @@ export class RuleConfigurationComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private service: MainService, private router: ActivatedRoute) {
   }
-  // state: '',
-  // uuid: '',
-  // currentFeature: '',
-  // currentOperator: '',
-  // type: ''
-  //
-  // [{"field_name": "temperature", "value": "18", "operator": ">="},{"field_name": "humidity",
-  // "value": "25", "operator": ">"}]
 
 
-ngOnInit() {
+  ngOnInit() {
     this.router.queryParams.subscribe((res) => {
-
+      console.log(res);
       if (Object.keys(res).length !== 0) {
         this.ruleName = res.name;
         this.ruleDescription = res.description;
         let cond = JSON.parse(res.conditions);
         for (let i = 0; i < cond.length; i++) {
-          let fromDataObj = {state:cond[i].value,currentOperator: cond[i].operator,
-          currentFeature: cond[i].field_name,type: 'lox' };
+          let fromDataObj = {
+            state: cond[i].value, currentOperator: cond[i].operator,
+            currentFeature: cond[i].field_name,
+          };
           this.fromData.push(fromDataObj)
         }
       }
+      this.service.getDevicesTypes().subscribe((res) => {
+        this.conditions = res;
+      })
     });
-
-    this.service.getDevicesTypes().subscribe((res) => {
-      this.conditions = res;
-    })
   }
 
   addCond() {
@@ -77,8 +70,9 @@ ngOnInit() {
   }
 
   saveRule() {
-    console.log(this.fromData);
-    // let rule = new Rule('',this.ruleName,this.ruleDescription,false,this.fromData)
+    this.service.saveRule(this.fromData, this.actionData, this.ruleName, this.ruleDescription).subscribe((res) => {
+      console.log(res);
+    })
   }
 
 
@@ -89,6 +83,12 @@ ngOnInit() {
   deleteAction(item: any) {
     this.actionData.splice(this.actionData.indexOf(item), 1)
   }
+
+  getDataToShow(obj) {
+    let name = Object.keys(obj)[0];
+    let value = Object.keys(obj)[1];
+    return obj[name] + ':' + obj[value];
+  }
 }
 
 @Component({
@@ -96,7 +96,7 @@ ngOnInit() {
   templateUrl: 'dialog-cond.html',
   styleUrls: ['./rule-configuration.component.css']
 })
-export class DialogCondition {
+export class DialogCondition implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogCondition>,
@@ -109,9 +109,11 @@ export class DialogCondition {
   fromData = {
     state: '',
     uuid: '',
+    home_id:1,
     currentFeature: '',
     currentOperator: '',
-    type: ''
+    type: '',
+    device: ''
   };
 
   onNoClick(): void {
@@ -134,11 +136,15 @@ export class DialogCondition {
   }
 
   getSpecification(state: HTMLDivElement, event: LocalDevice) {
+    this.fromData.device = event.description;
     this.fromData.uuid = event.uuid;
     this.service.getSpecification(event.deviceTemplate.id).subscribe((res: FeatureDTO[]) => {
       this.features = res;
     });
     state.style.display = 'block'
+  }
+
+  ngOnInit(): void {
   }
 }
 
@@ -154,12 +160,12 @@ export class DialogAction implements OnInit {
     private service: MainService) {
   }
 
-  actionTypes = ['DEVICE', 'TELEGRAM', 'MAIL', 'LOGGER'];
-  telegramData = {username: '', text: '', type: '', description: ''};
-  emailData = {email: '', text: '', type: '', description: ''};
-  deviceData = {uuid: '', data: '', type: '', description: ''};
+  actions = [];
+  telegramData = {username: '', text: '', type: ''};
+  emailData = {email: '', text: '', type: ''};
+  deviceData = {name: '', data: '', type: ''};
   currentType = '';
-  localDeviceUuids = [];
+  localDevices = [];
 
 
   onNoClick(): void {
@@ -167,21 +173,21 @@ export class DialogAction implements OnInit {
   }
 
   changeType(event: any, telegramContainer: HTMLDivElement, emailContainer: HTMLDivElement, deviceContainer: HTMLDivElement, btn: HTMLButtonElement) {
-    if (event === 'TELEGRAM') {
+    if (event.type === 'TELEGRAM') {
       this.currentType = 'telegram';
       this.telegramData.type = event;
       deviceContainer.style.display = 'none';
       emailContainer.style.display = 'none';
       telegramContainer.style.display = 'block';
     }
-    if (event === 'MAIL') {
+    if (event.type === 'MAIL') {
       this.currentType = 'mail';
       this.emailData.type = event;
       deviceContainer.style.display = 'none';
       telegramContainer.style.display = 'none';
       emailContainer.style.display = 'block';
     }
-    if (event === 'DEVICE' || event === 'LOGGER') {
+    if (event.type === 'DEVICE' || event.type === 'LOGGER') {
       this.currentType = 'device';
       this.deviceData.type = event;
       telegramContainer.style.display = 'none';
@@ -193,9 +199,16 @@ export class DialogAction implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getActions().subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        this.actions.push(res[i])
+      }
+    });
+
+
     this.service.getAllLocalDevice().subscribe((res) => {
       for (const device of res) {
-        this.localDeviceUuids.push(device.uuid);
+        this.localDevices.push(device.description);
       }
     })
   }

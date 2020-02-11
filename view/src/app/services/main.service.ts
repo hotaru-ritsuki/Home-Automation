@@ -5,6 +5,7 @@ import {Rule} from "../models/Rule";
 import {DeviceData} from "../models/DeviceData";
 import {LocalDevice} from "../models/LocalDevice";
 import {FeatureDTO} from "../models/FeatureDTO";
+import {Action} from "../models/Action";
 
 
 @Injectable({
@@ -15,6 +16,10 @@ export class MainService {
   private currentRule = new Subject();
 
   constructor(private http: HttpClient) {
+  }
+
+  getActions(): Observable<Action[]> {
+    return this.http.get<Action[]>(this.apiUrl + '/actions')
   }
 
 
@@ -29,17 +34,44 @@ export class MainService {
   getAllLocalDevice(): Observable<LocalDevice[]> {
     return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices')
   }
+//   [{"field_name": "temperature", "value": "18", "operator": ">=",
+//     "device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","home_id":"1"}},
+// {"field_name": "humidity", "value": "25", "operator": ">",
+//   "device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","home_id":"1"}}]
 
-  saveRule(rule: Rule) {
-    return this.http.post(this.apiUrl + '/rules', {rule})
+
+  // state: "12"
+  // uuid: "1ec3cf2a-2a3b-11ea-asdd-asdx-as2"
+  // currentFeature: "Door"
+  // currentOperator: "="
+  // type: "Door Sensor"
+  // device: "device to check door status"
+
+saveRule(fromData,ActionData,Name,Description) {
+    let conditions = '';
+  for (let i = 0; i < fromData.length; i++) {
+    let condition = {
+      field_name:fromData[i].currentFeature.toLowerCase(),
+      value:fromData[i].state,
+      operator:fromData[i].currentOperator,
+      device:{
+        uuid:fromData[i].uuid,
+        home_id:fromData[i].home_id,
+      },
+    };
+    conditions += (condition + ',');
   }
 
-  deleteRule(ruleId){
-    return this.http.delete(this.apiUrl + '/rules/'+ruleId);
+    let obj = {name:Name,description:Description,active:false,conditions:'[' + conditions + ']'};
+    return this.http.post(this.apiUrl + '/rules',obj)
+  }
+
+  deleteRule(ruleId) {
+    return this.http.delete(this.apiUrl + '/rules/' + ruleId);
   }
 
   changeStatus(rule: Rule) {
-    return this.http.put(this.apiUrl + '/rules',{rule})
+    return this.http.put(this.apiUrl + '/rules', rule)
   }
 
   getSpecification(id): Observable<FeatureDTO[]> {
