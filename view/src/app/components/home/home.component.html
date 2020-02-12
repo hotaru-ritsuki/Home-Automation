@@ -17,7 +17,7 @@
       <tr *ngFor="let house of homes">
         <th scope="row">{{house.name}}</th>
         <td>{{house.city}} {{house.addressa}}</td>
-        <td><a routerLink="../../device/home/{{house.id}}/location/0">Configure</a></td>
+        <td><a routerLink="../../device/{{house.name}}/{{house.id}}/location/0">Configure</a></td>
       </tr>
       </tbody>
     </table>
