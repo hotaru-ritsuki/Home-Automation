@@ -1,18 +1,19 @@
-
 <div class="nav-bar">
   <span routerLink="../main" class="register">Administration</span> >
-  <span routerLink="../home" class="register">Homes</span> >
-  <a href=""></a>
+  <span routerLink="/administration/homes" class="register">Homes</span> >
+  <span>{{home.name}}</span>
 </div>
-
 <div class="all">
   <div class="locations-list">
     <div class="list-local">
       <ul class="list-group">
-        <li class="list-group-item" aria-disabled="true"> <button type="button" (click)="chooseHome(1)" class="btn btn-light" style="width: 100%">All</button></li>
+        <li class="list-group-item" aria-disabled="true">
+          <button type="button" (click)="chooseHome()" class="btn btn-light" style="width: 100%">All</button>
+        </li>
         <li class="list-group-item"
             *ngFor="let location of allLocationsByHome">
-          <button type="button" class="btn btn-light" (click)="chooseLocation(location.id)" style="width: 100%">{{location.name}}</button>
+          <button type="button" class="btn btn-light" (click)="chooseLocation(location.id)"
+                  style="width: 100%">{{location.name}}</button>
         </li>
       </ul>
     </div>
@@ -36,12 +37,14 @@
       </div>
     </div>
     <div class="btn-add-device">
-      <button  *ngIf="locationExist && allDevice != 0" class="btn btn-outline-primary" (click)="addNewDevice()" >Add new
-        device</button>
+      <button *ngIf="locationExist && allDevice != 0" class="btn btn-outline-primary" (click)="addNewDevice()">Add new
+        device
+      </button>
     </div>
     <div *ngIf="allDevice == 0">
       <div class="no-device-in-location">You don't have any devices.
-        <a routerLink="/device-template/home/{{homeId}}/location/{{locationId}}">Add new device</a></div>
+        <a routerLink="/device-template/home/{{homeId}}/location/{{locationId}}">Add new device</a>
+      </div>
     </div>
   </div>
 </div>
