@@ -117,6 +117,8 @@ export class DevicesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.locationId = this.route.snapshot.params['location'];
+      console.log(this.locationId);
       if (this.locationId == 0) {
         this.deviceService.findAll()
           .subscribe((response) => {
