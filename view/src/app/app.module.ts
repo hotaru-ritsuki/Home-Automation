@@ -37,6 +37,9 @@ import {RestorePasswordComponent} from './components/user/restore-password/resto
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 import { LocationModalComponent } from './components/location-modal/location-modal.component';
+import { HomeComponent } from './components/home/home.component';
+import { NewHomeComponent } from './components/new-home/new-home.component';
+import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -51,6 +54,10 @@ const routes: Routes = [
   {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal', component: LocationModalComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/create/error', component: NewHomeWarningComponent, canActivate: [AuthGuardService]},
+
   {
     path: 'users',
     component: UserComponent,
@@ -91,6 +98,9 @@ const routes: Routes = [
     ModalComponent,
     RestorePasswordPart2Component,
     LocationModalComponent,
+    HomeComponent,
+    NewHomeComponent,
+    NewHomeWarningComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [
