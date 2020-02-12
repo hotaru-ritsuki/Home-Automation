@@ -96,3 +96,25 @@ img {
   outline: none;
   cursor: pointer;
 }
+.no-data{
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.title-no-data {
+  font-family: sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.massage-no-data {
+  margin-top: 20px;
+  font-family: sans-serif;
+  font-size: 18px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+

@@ -10,23 +10,25 @@
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/register">Register</li>
     <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
-      <li>
-        <div class="col" *ngIf="isSignedIn()">
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary indigo" id="dropdownBasic1" ngbDropdownToggle>Settings</button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem routerLink="users/changePersonalInfo">Personal Information</button>
-              <button ngbDropdownItem routerLink="users/changePassword">Change Password</button>
-              <button ngbDropdownItem (click)="logout()">Logout</button>
-            </div>
+    <li>
+      <div class="col" *ngIf="isSignedIn()">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary indigo" id="dropdownBasic1" ngbDropdownToggle>Settings</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem routerLink="users/changePersonalInfo">Personal Information</button>
+            <button ngbDropdownItem routerLink="users/changePassword">Change Password</button>
+            <button ngbDropdownItem (click)="logout()">Logout</button>
           </div>
         </div>
-      </li>
+      </div>
+    </li>
   </ul>
 
 </mdb-navbar>
+<div class="wrapper">
   <router-outlet></router-outlet>
-<div class=" indigo footer" *ngIf="isSignedIn()">
+</div>
+<div class="footer" *ngIf="isSignedIn()">
   <div class="footer-copyright text-center py-3">© 2020 Copyright:
     <a href="https://www.softserveinc.com/"> SoftServe IT Academy</a>
   </div>

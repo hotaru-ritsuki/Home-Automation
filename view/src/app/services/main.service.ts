@@ -34,36 +34,24 @@ export class MainService {
   getAllLocalDevice(): Observable<LocalDevice[]> {
     return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices')
   }
-//   [{"field_name": "temperature", "value": "18", "operator": ">=",
-//     "device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","home_id":"1"}},
-// {"field_name": "humidity", "value": "25", "operator": ">",
-//   "device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","home_id":"1"}}]
 
+  saveRule(fromData, Name, Description) {
+    let conditions = [];
+    for (let i = 0; i < fromData.length; i++) {
+      let condition = {
+        field_name: fromData[i].currentFeature.toLowerCase(),
+        value: fromData[i].state,
+        operator: fromData[i].currentOperator,
+        device: {
+          uuid: fromData[i].uuid,
+          home_id: fromData[i].home_id,
+        },
+      };
+      conditions.push(condition)
+    }
 
-  // state: "12"
-  // uuid: "1ec3cf2a-2a3b-11ea-asdd-asdx-as2"
-  // currentFeature: "Door"
-  // currentOperator: "="
-  // type: "Door Sensor"
-  // device: "device to check door status"
-
-saveRule(fromData,ActionData,Name,Description) {
-    let conditions = '';
-  for (let i = 0; i < fromData.length; i++) {
-    let condition = {
-      field_name:fromData[i].currentFeature.toLowerCase(),
-      value:fromData[i].state,
-      operator:fromData[i].currentOperator,
-      device:{
-        uuid:fromData[i].uuid,
-        home_id:fromData[i].home_id,
-      },
-    };
-    conditions += (condition + ',');
-  }
-
-    let obj = {name:Name,description:Description,active:false,conditions:'[' + conditions + ']'};
-    return this.http.post(this.apiUrl + '/rules',obj)
+    let obj = {name: Name, description: Description, active: false, conditions: JSON.stringify(conditions)};
+    return this.http.post(this.apiUrl + '/rules', obj)
   }
 
   deleteRule(ruleId) {
@@ -81,5 +69,22 @@ saveRule(fromData,ActionData,Name,Description) {
   getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
     return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
       {type: type1, from: from1, to: to1, locationId: locationId1});
+  }
+
+  getDeviceByUuid(uuid):Observable<LocalDevice>{
+    return this.http.get<LocalDevice>(this.apiUrl + '/location-devices/' + uuid);
+  }
+
+  saveRuleAction(id: number, actionData) {
+    let specification = {};
+    for (let i = 0; i < Object.keys(actionData).length; i++) {
+      if (Object.keys(actionData)[i] != 'type') {
+        specification[Object.keys(actionData)[i]] = actionData[Object.keys(actionData)[i]]
+      }
+    }
+    return this.http.post(this.apiUrl + '/actionsRules', {
+      ruleId: id,
+      actionId: actionData.type.id, actionSpecification: JSON.stringify(specification)
+    })
   }
 }

@@ -10,13 +10,20 @@ import {Router} from "@angular/router";
   styleUrls: ['./rule.component.css']
 })
 export class RuleComponent implements OnInit {
-  rules: Rule[];
+  rules: Rule[] = [];
+  isEmpty  = false;
 
   constructor(private service: MainService, private router: Router) {
   }
 
   ngOnInit() {
     this.service.getRules().subscribe((res) => {
+      if (res.length > 0){
+        this.isEmpty = false
+      }
+      else {
+        this.isEmpty = true;
+      }
       this.rules = res;
     })
   }
@@ -41,15 +48,21 @@ export class RuleComponent implements OnInit {
   }
 
   edit(rule: Rule) {
-    console.log(rule.actionRule);
+    let actions = [];
+    for (let i = 0; i < arguments.length; i++) {
+      let data = JSON.parse(rule.actionRule[i].actionSpecification);
+      data['type'] = rule.actionRule[i].action;
+      actions.push(data)
+    }
+    console.log(actions);
     this.router.navigate(['rules/configure'], {
+
       queryParams: {
         id: rule.id,
         name: rule.name,
         conditions: rule.conditions,
         description: rule.description,
-        actionRule: rule.actionRule,
-        actions: rule.actionRule
+        actions: JSON.stringify(actions)
       }
     });
   }

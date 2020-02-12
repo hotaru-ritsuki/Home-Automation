@@ -10,14 +10,14 @@
       <div class="items">
         <div *ngFor="let item of fromData" class="item">
           <img (click)="deleteItem(item)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
-          <div class="title">{{item.device}}</div>
+          <div class="title">{{item.name}}</div>
           <div class="data">{{item.currentFeature + ' ' + item.currentOperator + ' ' + item.state}}</div>
         </div>
       </div>
     </div>
     <div class="row-cond">
       <div class="cond">
-        <div class="text">Than...</div>
+        <div class="text">Then...</div>
         <div class="circle" (click)="addAction()">+</div>
       </div>
       <div class="items">
@@ -29,5 +29,9 @@
       </div>
     </div>
   </div>
+  <div class="button-save">
+    <button [disabled]="fromData.length == 0  || actionData.length == 0" (click)="saveRule()" style="width: 30%"
+            mat-raised-button color="primary">{{typeOfSave}}
+    </button>
+  </div>
 </div>
-<button (click)="saveRule()">save</button>

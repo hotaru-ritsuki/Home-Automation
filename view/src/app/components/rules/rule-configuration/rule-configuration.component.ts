@@ -4,6 +4,7 @@ import {MainService} from "../../../services/main.service";
 import {LocalDevice} from "../../../models/LocalDevice";
 import {FeatureDTO} from "../../../models/FeatureDTO";
 import {ActivatedRoute} from "@angular/router";
+import {Rule} from "../../../models/Rule";
 
 export interface DialogData {
   conditions: string[]
@@ -15,6 +16,7 @@ export interface DialogData {
   styleUrls: ['./rule-configuration.component.css']
 })
 export class RuleConfigurationComponent implements OnInit {
+  typeOfSave = 'Save';
   ruleName;
   ruleDescription;
   conditions: string[];
@@ -28,22 +30,26 @@ export class RuleConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.router.queryParams.subscribe((res) => {
-      console.log(res);
       if (Object.keys(res).length !== 0) {
+        this.typeOfSave = 'Update';
         this.ruleName = res.name;
         this.ruleDescription = res.description;
         let cond = JSON.parse(res.conditions);
         for (let i = 0; i < cond.length; i++) {
-          let fromDataObj = {
-            state: cond[i].value, currentOperator: cond[i].operator,
-            currentFeature: cond[i].field_name,
-          };
-          this.fromData.push(fromDataObj)
+          this.service.getDeviceByUuid(cond[i].device.uuid).subscribe((res) => {
+            let fromDataObj = {
+              name: res.description,
+              state: cond[i].value, currentOperator: cond[i].operator,
+              currentFeature: cond[i].field_name,
+            };
+            this.fromData.push(fromDataObj)
+          });
         }
       }
       this.service.getDevicesTypes().subscribe((res) => {
         this.conditions = res;
-      })
+      });
+      this.actionData = JSON.parse(res.actions);
     });
   }
 
@@ -66,13 +72,21 @@ export class RuleConfigurationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined)
         this.actionData.push(result);
+      console.log(this.actionData);
     });
   }
-
   saveRule() {
-    this.service.saveRule(this.fromData, this.actionData, this.ruleName, this.ruleDescription).subscribe((res) => {
-      console.log(res);
-    })
+    if (this.typeOfSave === 'Save') {
+      this.service.saveRule(this.fromData, this.ruleName, this.ruleDescription).subscribe((res: Rule) => {
+        for (let i = 0; i < this.actionData.length; i++) {
+          this.service.saveRuleAction(res.id, this.actionData[i]).subscribe((res) => {
+          })
+        }
+      })
+    }
+    else if (this.typeOfSave === 'Update'){
+      
+    }
   }
 
 
@@ -109,7 +123,7 @@ export class DialogCondition implements OnInit {
   fromData = {
     state: '',
     uuid: '',
-    home_id:1,
+    home_id: 1,
     currentFeature: '',
     currentOperator: '',
     type: '',
@@ -121,8 +135,7 @@ export class DialogCondition implements OnInit {
   }
 
 
-  changeType(container: HTMLDivElement, event, btn: HTMLButtonElement) {
-    btn.disabled = false;
+  changeType(container: HTMLDivElement, event) {
     this.devices = [];
     this.fromData.type = event;
     this.service.getAllLocalDevice().subscribe((res) => {
@@ -135,7 +148,8 @@ export class DialogCondition implements OnInit {
     })
   }
 
-  getSpecification(state: HTMLDivElement, event: LocalDevice) {
+  getSpecification(state: HTMLDivElement, event: LocalDevice,btn) {
+    btn.disabled = false;
     this.fromData.device = event.description;
     this.fromData.uuid = event.uuid;
     this.service.getSpecification(event.deviceTemplate.id).subscribe((res: FeatureDTO[]) => {
