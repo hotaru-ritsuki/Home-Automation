@@ -48,13 +48,13 @@ const routes: Routes = [
   {path: 'register', component: SignUpComponent},
   {path: 'device-template/home/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
   {path: 'add-local-device/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
-  {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {
     path: 'users',
     component: UserComponent,
     children: [
+      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component},
       {path: 'login', component: LogInComponent},
       {path: 'register', component: SignUpComponent},
       {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService]},
