@@ -5,8 +5,6 @@ import {Device} from '../../models/Device';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalComponent} from "../modal/modal.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {stringify} from "querystring";
-import {daLocale} from "ngx-bootstrap";
 import {LocationModalComponent} from "../location-modal/location-modal.component";
 import {HomeService} from "../../services/home.service";
 import {Home} from "../../models/Home";
@@ -31,16 +29,18 @@ export class DevicesComponent implements OnInit {
   allLocationsByHome: any;
   locationId: number;
   homeId: number;
+  homeName: string;
   matDialog: MatDialogRef<ModalComponent>;
   matDialogLocation: MatDialogRef<LocationModalComponent>;
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router, private homeService: HomeService) {
+              private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
     this.homeId = this.route.snapshot.params['home'];
+    this.homeName = this.route.snapshot.params['home_name'];
     this.deviceService.getLocation()
       .subscribe((response) => {
         this.locationResponse = response;
@@ -54,10 +54,6 @@ export class DevicesComponent implements OnInit {
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
-    this.homeService.getHome(this.route.snapshot.params['home']).subscribe((response) => {
-      this.home = response;
-      console.log(response);
-    });
   }
 
   chooseHome() {
@@ -66,16 +62,7 @@ export class DevicesComponent implements OnInit {
       this.allDevice = response;
     });
     this.locationExist = false;
-    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + 0);
-  }
-
-  findHomeById() {
-    this.homeService.getHome(this.homeId) .subscribe((response) => {
-      this.home = response;
-      console.log(response);
-    });
-
-    console.log('def' + this.home);
+    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
   }
 
   findAllDevice(home: number, location: number) {
@@ -89,7 +76,7 @@ export class DevicesComponent implements OnInit {
           this.locationId = 0;
           this.locationExist = false;
         });
-      this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + 0);
+      this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
     }
   }
 
@@ -99,7 +86,7 @@ export class DevicesComponent implements OnInit {
       this.allDevice = response;
     });
     this.locationExist = true;
-    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + id);
+    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + id);
   }
 
   openModal(uuid: string) {
@@ -150,12 +137,16 @@ export class DevicesComponent implements OnInit {
     });
   }
 
+  homeIsNull() {
+    return this.home === undefined;
+  }
+
   addNewDevice() {
-    this.router.navigateByUrl('device-template/home/' + this.homeId + '/location/' + this.locationId);
+    this.router.navigateByUrl('device-template/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
   }
 
   getInfoFromDevice(UUID: string) {
-    this.deviceService.getInfoFromDevice(UUID) .subscribe((response) => {
+    this.deviceService.getInfoFromDevice(UUID).subscribe((response) => {
       this.getInfo = response;
     });
   }

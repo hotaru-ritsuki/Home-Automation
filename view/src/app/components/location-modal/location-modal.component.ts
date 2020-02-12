@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {LocalDeviceService} from "../../services/local-device.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-location-modal',
@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 export class LocationModalComponent implements OnInit {
   newLocationId: number;
   getHomeId: number;
+  homeName: string;
   locationName: string;
   locationDTO = {
     homeId: this.getHomeId,
@@ -21,12 +22,13 @@ export class LocationModalComponent implements OnInit {
   constructor(private dialog: MatDialogRef<LocationModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private deviceService: LocalDeviceService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
     this.locationDTO.homeId = this.data.homeId;
   }
 
   ngOnInit() {
-
+  this.homeName = this.route.snapshot.params['home_name'];
   }
 
   save() {
@@ -35,7 +37,7 @@ export class LocationModalComponent implements OnInit {
       this.newLocationId = response.id;
       console.log(response);
       console.log(response.id);
-      this.router.navigateByUrl('device/home/' + this.locationDTO.homeId + '/location/' + response.id);
+      this.router.navigateByUrl('device/' + this.homeName + '/' + this.locationDTO.homeId + '/location/' + response.id);
 
     });
     this.dialog.close();

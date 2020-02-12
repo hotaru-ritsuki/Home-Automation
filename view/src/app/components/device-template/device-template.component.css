@@ -35,6 +35,10 @@ img {
   align-items: center;
 }
 
+.nav-bar {
+  margin: 10px 10px 10px 25px;
+}
+
 .show-all-devices:first-child {
 }
 

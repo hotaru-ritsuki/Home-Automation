@@ -3,6 +3,8 @@ import {Device} from "../../models/Device";
 import {Feature} from "../../models/Feature";
 import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {HomeService} from "../../services/home.service";
+import {Home} from "../../models/Home";
 
 @Component({
   selector: 'app-device-template',
@@ -32,13 +34,22 @@ export class DeviceTemplateComponent implements OnInit {
   allFeatures: Array<Feature>;
   allTypes: Array<string>;
   allModels: Array<string>;
+  home: Home;
+  homeId: number;
+  homeName: string;
+  locationId: number;
+
 
   constructor(private deviceService: DevicesTeamplateService,
               private route: ActivatedRoute,
               private router: Router) {
+
   }
 
   ngOnInit() {
+    this.homeId = this.route.snapshot.params['home'];
+    this.homeName = this.route.snapshot.params['home_name'];
+    this.locationId = this.route.snapshot.params['location'];
     this.pageForUrl = 0;
     this.deviceService.getAllFeatures().subscribe((res) => {
       this.allFeatures = res;
@@ -108,7 +119,7 @@ export class DeviceTemplateComponent implements OnInit {
   selectButton(deviceId, deviceBrand, deviceModel) {
     let homeId = this.route.snapshot.params['home'];
     let locationId = this.route.snapshot.params['location'];
-    console.log(this.router.navigateByUrl('add-local-device/' + homeId + '/' + locationId + '/' + deviceId +
+    console.log(this.router.navigateByUrl('add-local-device/' + this.homeName + '/' + homeId + '/' + locationId + '/' + deviceId +
       '/' + deviceBrand + '/' + deviceModel));
   }
 

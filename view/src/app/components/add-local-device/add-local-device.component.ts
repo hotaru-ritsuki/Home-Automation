@@ -16,6 +16,7 @@ export class AddLocalDeviceComponent implements OnInit {
   deviceModel: string;
   allLocations;
   descriptionText: string;
+  homeName: string;
 
   localDeviceRequest = {
     "deviceTemplateId": this.deviceId,
@@ -31,6 +32,7 @@ export class AddLocalDeviceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.homeName = this.route.snapshot.params['home_name'];
     this.descriptionText = '';
     this.homeId = this.route.snapshot.params['home'];
     this.locationId = this.route.snapshot.params['location'];
@@ -48,11 +50,11 @@ export class AddLocalDeviceComponent implements OnInit {
     this.localDeviceRequest.deviceTemplateId = this.deviceId;
     console.log(this.localDeviceRequest);
     this.addLocalDeviceService.saveDeviceInLocation(this.localDeviceRequest).subscribe();
-    this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + this.locationId);
+    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
   }
 
   back() {
-    this.router.navigateByUrl('device-template/home/' + this.homeId + '/location/' + this.locationId);
+    this.router.navigateByUrl('device-template/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
   }
 
 
