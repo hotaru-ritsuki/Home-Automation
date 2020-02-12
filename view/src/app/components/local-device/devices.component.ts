@@ -8,6 +8,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {stringify} from "querystring";
 import {daLocale} from "ngx-bootstrap";
 import {LocationModalComponent} from "../location-modal/location-modal.component";
+import {HomeService} from "../../services/home.service";
+import {Home} from "../../models/Home";
 
 @Component({
   selector: 'app-devices',
@@ -18,6 +20,7 @@ export class DevicesComponent implements OnInit {
   locationResponse: any;
   supportDeviceResponse: Device[];
   allDevice: any;
+  home: Home;
   getInfo = {
     id: '',
     uuId: '',
@@ -33,8 +36,7 @@ export class DevicesComponent implements OnInit {
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router) {
-
+              private route: ActivatedRoute, private router: Router, private homeService: HomeService) {
   }
 
   ngOnInit() {
@@ -47,15 +49,18 @@ export class DevicesComponent implements OnInit {
       .subscribe((response) => {
         this.supportDeviceResponse = response;
       });
-    this.findAllDevice(this.route.snapshot.params['location']);
+    this.findAllDevice(this.route.snapshot.params['home'], this.route.snapshot.params['location']);
     this.deviceService.findLocationByHome(this.homeId)
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
+    this.homeService.getHome(this.route.snapshot.params['home']).subscribe((response) => {
+      this.home = response;
+      console.log(response);
+    });
   }
 
-  chooseHome(id: number) {
-    this.homeId = id;
+  chooseHome() {
     this.locationId = 0;
     this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
       this.allDevice = response;
@@ -64,12 +69,21 @@ export class DevicesComponent implements OnInit {
     this.router.navigateByUrl('device/home/' + this.homeId + '/location/' + 0);
   }
 
-  findAllDevice(location: number) {
+  findHomeById() {
+    this.homeService.getHome(this.homeId) .subscribe((response) => {
+      this.home = response;
+      console.log(response);
+    });
+
+    console.log('def' + this.home);
+  }
+
+  findAllDevice(home: number, location: number) {
     if (location != 0) {
       this.chooseLocation(location);
       this.locationExist = true;
     } else {
-      this.deviceService.findAll()
+      this.deviceService.findAllByHome(home)
         .subscribe((response) => {
           this.allDevice = response;
           this.locationId = 0;

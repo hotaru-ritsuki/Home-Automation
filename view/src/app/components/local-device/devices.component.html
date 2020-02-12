@@ -1,14 +1,14 @@
+<div class="nav-bar">
+  <span routerLink="../main" class="register">Administration</span> >
+  <span routerLink="/administration/homes" class="register">Homes</span> >
+  <span>{{home.name}}</span>
+</div>
 <div class="all">
-  <div class="nav-bar">
-    <span routerLink="../main" class="register">Administration</span> >
-    <span routerLink="../home" class="register">Homes</span> >
-    <a href=""></a>
-  </div>
   <div class="locations-list">
     <div class="list-local">
       <ul class="list-group">
         <li class="list-group-item" aria-disabled="true">
-          <button type="button" (click)="chooseHome(1)" class="btn btn-light" style="width: 100%">All</button>
+          <button type="button" (click)="chooseHome()" class="btn btn-light" style="width: 100%">All</button>
         </li>
         <li class="list-group-item"
             *ngFor="let location of allLocationsByHome">
