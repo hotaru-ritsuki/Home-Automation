@@ -1,11 +1,11 @@
 <div>
   <label for="location-name">Location name</label>
-  <input [(ngModel)]="locationName" id="location-name" class="form-control" type="text">
+  <input [(ngModel)]="locationName" id="location-name" class="form-control" type="text" style="width: 300px">
 </div>
-<button type="button"
-        class="btn btn-outline-primary buttoned"
-        (click)="save()">Save
+<button  class="btn btn-secondary buttoned"
+         (click)="close()" style="margin-left:155px">Close
 </button>
-<button  class="btn btn-outline-primary buttoned"
-        (click)="close()">Close
+<button type="button"
+        class="btn btn-primary buttoned"
+        (click)="save()">Save
 </button>
