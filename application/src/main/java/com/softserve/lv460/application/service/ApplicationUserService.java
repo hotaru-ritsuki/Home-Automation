@@ -5,6 +5,7 @@ import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.exception.exceptions.*;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
+import com.softserve.lv460.application.repository.HomeRepository;
 import com.softserve.lv460.application.repository.VerificationTokenRepository;
 import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
@@ -14,6 +15,7 @@ import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,5 +128,11 @@ public class ApplicationUserService {
     VerificationToken verificationToken = createVerificationTokenForUser(applicationUser, UUID.randomUUID().toString());
     verificationTokenRepository.save(verificationToken);
     return verificationToken;
+  }
+
+  @Scheduled(fixedRate = 86400000)
+  public void deleteExpired() {
+    int rows = applicationUserRepository.deleteAllByEnabled(false);
+    log.info(rows + "deactivared users were deleted.");
   }
 }

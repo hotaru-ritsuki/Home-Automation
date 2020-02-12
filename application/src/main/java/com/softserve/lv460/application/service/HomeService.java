@@ -5,6 +5,7 @@ import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.exception.exceptions.HomeAlreadyRegisterException;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
+import com.softserve.lv460.application.exception.exceptions.NotFoundException;
 import com.softserve.lv460.application.repository.HomeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -38,7 +40,7 @@ public class HomeService {
 
   public Home findOne(Long id) {
     return homeRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, id)));
+            .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, id)));
   }
 
   public Home update(Home request) {
@@ -63,4 +65,8 @@ public class HomeService {
     return homeRepository.findAllByApplicationUsers(userService.findById(userId));
   }
 
+  public List<ApplicationUser> findAllUsersByHomeIdWithTelegram(Long homeId) {
+    Home home = homeRepository.findById(homeId).orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, homeId)));
+    return home.getApplicationUsers().stream().filter(user -> user.getTelegramUser() != null && user.getTelegramUser().isEnabled()).collect(Collectors.toList());
+  }
 }

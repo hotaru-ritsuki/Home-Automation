@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.lv460.application.entity.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,10 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +40,8 @@ public class ApplicationUser {
   @Column(name = "last_name")
   private String lastName;
 
-  @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-  @JoinTable(
-          name = "user_home",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "home_id")
-  )
+  @ManyToMany(mappedBy = "applicationUsers",
+          cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<Home> homes = new ArrayList<>();
 
   @Transient
@@ -57,7 +55,7 @@ public class ApplicationUser {
   private boolean enabled;
 
   @NonNull
-  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.LAZY)
+  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.EAGER)
   @JoinColumn(referencedColumnName = "id")
   private TelegramUser telegramUser;
 }
