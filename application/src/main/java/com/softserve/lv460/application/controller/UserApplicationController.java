@@ -4,6 +4,7 @@ import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
 import com.softserve.lv460.application.constant.MailMessages;
+import com.softserve.lv460.application.dto.user.UserChangePasswordDto;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
@@ -102,6 +103,20 @@ public class UserApplicationController {
     }
   }
 
+  @ApiOperation("Restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  })
+  @PostMapping("/restorePassword")
+  public ResponseEntity<Void> restorePassword(@RequestBody UserChangePasswordDto password) {
+    System.out.println(password);
+    ApplicationUser user = applicationUserService.findById(password.getId());
+
+    applicationUserService.changeUserPassword(user.getId(), password.getPassword());
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
   @ApiOperation("Confirming registration")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
@@ -109,7 +124,7 @@ public class UserApplicationController {
   })
   @GetMapping("/confirmRegistration")
   public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestBody String token) {
-    applicationUserService.validateVerificationToken(token);
+    tokenService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
 
@@ -120,7 +135,7 @@ public class UserApplicationController {
   })
   @GetMapping(value = "/resendRegistrationToken")
   public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
-    VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
+    VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
@@ -131,7 +146,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @GetMapping("/restorePassword/{email}")
-  public ResponseEntity<JWTUserRequest> restorePassword(@Valid @PathVariable("email") String email) {
+  public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
     eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
@@ -142,9 +157,10 @@ public class UserApplicationController {
           @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
-  @GetMapping("/restorePassword/{id}/{token}")
-  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("id") long id, @PathVariable("token") String token) {
+  @GetMapping("/restorePassword/{user_id}/{token}")
+  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("user_id") long id, @PathVariable("token") String token) {
     VerificationToken verificationToken = tokenService.findByUserIdAndToken(id, token);
+    tokenService.delete(verificationToken.getId());
 
     return ResponseEntity.ok().body(verificationToken);
   }

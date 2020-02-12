@@ -24,5 +24,4 @@ public class DeviceData {
   private String uuId;
   private LocalDateTime timestamp;
   private Map<String, String> data;
-
 }

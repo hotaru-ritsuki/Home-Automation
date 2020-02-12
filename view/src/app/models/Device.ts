@@ -8,6 +8,7 @@ export class Device {
     public type: string,
     public releaseYear: number,
     public powerSupply: string,
+    public image: string,
     public features: Feature[] = [],
   ) {
   }

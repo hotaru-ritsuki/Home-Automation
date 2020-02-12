@@ -1,0 +1,33 @@
+<div class="device-template-name">
+  <p>{{deviceBrand}} {{deviceModel}}</p>
+</div>
+
+
+<div class="central-block">
+  <div style="margin-bottom: 20px;">
+    <label for="description">Description</label>
+    <input [(ngModel)]="descriptionText" id="description" class="form-control" type="text">
+  </div>
+
+
+  <label for="location">Location</label>
+  <select [(ngModel)]="locationId" class="select-fields form-control dropdown" id="location">
+    <option *ngFor="let location of allLocations"
+            [selected]="locationId == location.id" [value]="location.id">{{location.name}}</option>
+  </select>
+  <br>
+  <button style="width:40%" [disabled]="locationId==0 || descriptionText.length <= 0" type="button"
+          class="btn btn-outline-primary buttoned"
+          routerLink="../device"
+          (click)="save()">Finish
+  </button>
+  <button style="width:40%; margin-left: 20%;"
+     class="btn btn-outline-primary buttoned"
+     (click)="back()">Back
+  </button>
+</div>
+
+
+
+
+

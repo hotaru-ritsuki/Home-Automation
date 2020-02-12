@@ -40,7 +40,7 @@ export class RestorePasswordPart2Component implements OnInit {
     this.loadingAnim = true;
       this.userChangePasswordService.restorePassword(password, this.route.snapshot.params['id']).subscribe(
         () => {
-          this.router.navigateByUrl('').then(r => r);
+          this.router.navigateByUrl('users/login').then(r => r);
         },
         (errors: HttpErrorResponse) => {
           this.passwordErrorMessageBackEnd = 'Incorrect Data';

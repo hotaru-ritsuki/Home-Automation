@@ -85,7 +85,7 @@ export class RuleConfigurationComponent implements OnInit {
       })
     }
     else if (this.typeOfSave === 'Update'){
-      
+
     }
   }
 

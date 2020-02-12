@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Device} from "../../models/Device";
 import {Feature} from "../../models/Feature";
 import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-device-template',
@@ -16,12 +17,14 @@ export class DeviceTemplateComponent implements OnInit {
     totalPages: number,
     totalElements: number
   };
+
   filterRequest = {
     brand: '',
     featuresId: [],
     model: '',
     releaseYear: '',
-    type: ''
+    type: '',
+    image: ''
   };
   featuresId: Array<number> = [];
   allBrands: Array<string>;
@@ -30,7 +33,9 @@ export class DeviceTemplateComponent implements OnInit {
   allTypes: Array<string>;
   allModels: Array<string>;
 
-  constructor(private deviceService: DevicesTeamplateService) {
+  constructor(private deviceService: DevicesTeamplateService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -52,6 +57,7 @@ export class DeviceTemplateComponent implements OnInit {
     });
     this.getAllDevices();
   }
+
   getAllDevices() {
     this.checkFeaturesCheckBox();
     const pages = [];
@@ -85,15 +91,48 @@ export class DeviceTemplateComponent implements OnInit {
   selectYear(event: any) {
     this.filterRequest.releaseYear = event.target.value;
   }
+
   selectType(event: any) {
     this.filterRequest.type = event.target.value;
   }
+
   selectModels(event: any) {
     this.filterRequest.model = event.target.value;
   }
+
   getPage(page: number) {
     this.pageForUrl = page;
     this.getAllDevices();
+  }
+
+  selectButton(deviceId, deviceBrand, deviceModel) {
+    let homeId = this.route.snapshot.params['home'];
+    let locationId = this.route.snapshot.params['location'];
+    console.log(this.router.navigateByUrl('add-local-device/' + homeId + '/' + locationId + '/' + deviceId +
+      '/' + deviceBrand + '/' + deviceModel));
+  }
+
+  clearButton() {
+    let input;
+    // @ts-ignore
+    document.getElementById("device-brand").value = '';
+    // @ts-ignore
+    document.getElementById("device-model").value = '';
+    // @ts-ignore
+    document.getElementById("device-type").value = '';
+    // @ts-ignore
+    document.getElementById("device-year").value = '';
+    this.filterRequest.brand = '';
+    this.filterRequest.model = '';
+    this.filterRequest.releaseYear = '';
+    this.filterRequest.type = '';
+    const inputElements = document.getElementsByClassName('featuresCheckbox');
+    for (let i = 0; inputElements[i]; ++i) {
+      input = inputElements[i];
+      input.checked = false;
+    }
+    this.getAllDevices();
+
   }
 
 }
