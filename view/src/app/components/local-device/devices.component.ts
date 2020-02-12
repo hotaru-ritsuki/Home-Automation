@@ -99,7 +99,7 @@ export class DevicesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (this.locationId == 0) {
-        this.deviceService.findAll()
+        this.deviceService.findAllByHome(this.homeId)
           .subscribe((response) => {
             this.allDevice = response;
           });
