@@ -11,16 +11,19 @@
       <div class="list-local">
         <ul class="list-group">
           <li class="list-group-item" aria-disabled="true">
-            <button type="button" *ngIf="locationId == 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%;color: #007BFF">All</button>
-            <button type="button" *ngIf="locationId != 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%">All</button>
+            <button type="button" *ngIf="locationId == 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%;color: #007BFF"><span class="location-name">All</span></button>
+            <button type="button" *ngIf="locationId != 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%"><span class="location-name">All</span></button>
           </li>
-          <li class="list-group-item"
-              *ngFor="let location of allLocationsByHome">
+          <li class="list-group-item" *ngFor="let location of allLocationsByHome">
             <button *ngIf="locationId == location.id" type="button" class="btn btn-light" (click)="chooseLocation(location.id)"
-                    style="width: 100%;
-                    color: #007BFF">{{location.name}}</button>
+                    style="width: 100%;color: #007BFF">
+              <span class="location-name">{{location.name}}</span>
+              <button class="btn delete-location"  (click)="deleteLocation(location.id, $event)" style="height: 10px; margin-top:1px"><i class="fas fa-times" style="font-size: 20px"></i></button>
+              <button class="btn delete-location" (click)="openLocationModal(location.name)"><i class="fas fa-pen"></i></button>
+            </button>
             <button *ngIf="locationId != location.id" type="button" class="btn btn-light" (click)="chooseLocation(location.id)"
-                    style="width: 100%">{{location.name}}</button>
+                    style="width: 100%"><span class="location-name">{{location.name}}</span>
+            </button>
           </li>
         </ul>
       </div>
