@@ -1,7 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router,ActivatedRoute} from '@angular/router';
 import {UserConfirmRegistrationService} from '../../../services/user-confirm-registration.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-confirm-registration',
@@ -9,30 +10,32 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./confirm-registration.component.css']
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  loadingAnim = false;
-  @Output() isActivated: EventEmitter<boolean> = new EventEmitter();
+  isActivated : boolean;
+  token: string;
 
   constructor(
     private router: Router,
-    private userConfirmRegistrationService: UserConfirmRegistrationService
+    private route: ActivatedRoute,
+    private userConfirmRegistrationService: UserConfirmRegistrationService,
+    private alertService: AlertService
   ) {
   }
 
   ngOnInit() {
-    this.loadingAnim = false;
-
+    this.token=this.route.snapshot.params['token'];
+    this.activate(this.token);
+    this.alertService.setActivated(true);
+    this.router.navigateByUrl('users/login');
   }
 
   private activate(token: string) {
-    this.loadingAnim = true;
-    this.userConfirmRegistrationService.activate(token).subscribe(
-      (data: string) => {
-        this.loadingAnim = false;
-        this.isActivated.emit(true);
-        this.router.navigateByUrl('users/login');
-      }
-        );
-        this.loadingAnim = false;
+    console.log(token);
+    // this.userConfirmRegistrationService.activate(token).subscribe(
+    //   () => {
+    //     this.isActivated.emit(true);
+    //     this.router.navigateByUrl('users/login');
+    //   }
+    //     );
   }
 
 }

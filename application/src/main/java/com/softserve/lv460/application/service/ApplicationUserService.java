@@ -61,8 +61,7 @@ public class ApplicationUserService {
     ApplicationUser user = applicationUserRepository
             .findByEmail(email)
             .orElseThrow(() -> new BadEmailException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
-    String newRefreshTokenKey = jwtTokenProvider.generateRefreshToken(email);
-    applicationUserRepository.updateSecret(newRefreshTokenKey, user.getId());
+    applicationUserRepository.updateSecret(UUID.randomUUID().toString(), user.getId());
     if (jwtTokenProvider.isTokenValid(refreshToken, user.getSecret())) {
       return new JWTUserResponse(
               jwtTokenProvider.generateAccessToken(email),

@@ -1,4 +1,5 @@
-<div class="activation">
+<div class="bg-img">
+<div class="resending">
 
   <form #registerForm="ngForm" (ngSubmit)="resend(activationEmail)">
 
@@ -15,11 +16,13 @@
     </div>
     <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="activationEmail.email"
            placeholder="Email"
+           style="position: center;"
            #emailControl="ngModel" required
            minlength="1" email="true">
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Log In!
+        Resend
     </button>
   </form>
   </div>
+</div>

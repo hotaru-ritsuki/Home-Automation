@@ -51,7 +51,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LogInComponent},
       { path: 'register', component: SignUpComponent},
-      { path: 'confirmRegistration', component: ConfirmRegistrationComponent},
+      { path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
       { path: 'changePassword', component: ChangePasswordComponent},
       { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
       { path: 'userInfo', component: UserInformationComponent},
