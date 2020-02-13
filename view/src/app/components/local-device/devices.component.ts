@@ -34,7 +34,7 @@ export class DevicesComponent implements OnInit {
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router) {
+              private route: ActivatedRoute, private router: Router, private homeService: HomeService) {
   }
 
   ngOnInit() {
@@ -53,6 +53,9 @@ export class DevicesComponent implements OnInit {
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
+    this.homeService.getHome(this.homeId).subscribe((res) => {
+      this.home = res;
+    });
   }
 
   chooseHome() {
