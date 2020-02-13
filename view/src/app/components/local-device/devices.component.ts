@@ -7,6 +7,8 @@ import {ModalComponent} from "../modal/modal.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LocationModalComponent} from "../location-modal/location-modal.component";
 import {Home} from "../../models/Home";
+import {LocationService} from "../../services/location.service";
+import {UpdateLocationComponent} from "../update-location/update-location.component";
 import {HomeService} from "../../services/home.service";
 
 @Component({
@@ -35,10 +37,7 @@ export class DevicesComponent implements OnInit {
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router, private homeService: HomeService) {
-  }
-
-  ngOnInit() {
+              private route: ActivatedRoute, private router: Router, private locationService: LocationService, private homeService: HomeService) {
     this.homeId = this.route.snapshot.params['home'];
     this.homeName = this.route.snapshot.params['home_name'];
     this.deviceService.getLocation()
@@ -59,13 +58,32 @@ export class DevicesComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
   chooseHome() {
     this.locationId = 0;
+
     this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
       this.allDevice = response;
     });
     this.locationExist = false;
     this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
+  }
+
+  deleteLocation(id: number, $event: MouseEvent) {
+    $event.stopPropagation();
+    this.locationService.deleteLocation(id).subscribe();
+
+    this.locationId = 0;
+
+    setTimeout(() =>{
+      this.deviceService.findLocationByHome(this.homeId)
+        .subscribe((response) => {
+          this.allLocationsByHome = response;
+        });
+      this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
+    }, 50);
   }
 
   findAllDevice(home: number, location: number) {
@@ -107,6 +125,31 @@ export class DevicesComponent implements OnInit {
             this.allDevice = response;
           });
       } else {
+        this.chooseLocation(this.locationId);
+      }
+    });
+  }
+
+  openLocationModal(locationName: string) {
+    let dialogRef = this.dialog.open(UpdateLocationComponent, {
+      data: {
+        name: locationName,
+        id: this.locationId,
+        homeId: this.homeId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.locationId == 0) {
+        this.deviceService.findAllByHome(this.homeId)
+          .subscribe((response) => {
+            this.allDevice = response;
+          });
+      } else {
+        this.deviceService.findLocationByHome(this.homeId)
+          .subscribe((response) => {
+            this.allLocationsByHome = response;
+          });
         this.chooseLocation(this.locationId);
       }
     });

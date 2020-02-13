@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {DevicesGraphicsComponent} from './components/devices-graphics/devices-graphics.component';
@@ -24,7 +23,6 @@ import {
   DialogCondition,
   RuleConfigurationComponent
 } from './components/rules/rule-configuration/rule-configuration.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from "@angular/material";
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
@@ -40,7 +38,10 @@ import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
+import { UpdateLocationComponent } from './components/update-location/update-location.component';
 import { UpdateHomeComponent } from './components/update-home/update-home.component';
+import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -51,6 +52,7 @@ const routes: Routes = [
   {path: 'device-template/:home_name/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
   {path: 'add-local-device/:home_name/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'update-location/:id', component: UpdateLocationComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal/home_name', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
@@ -100,6 +102,7 @@ const routes: Routes = [
     HomeComponent,
     NewHomeComponent,
     NewHomeWarningComponent,
+    UpdateLocationComponent,
     UpdateHomeComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],

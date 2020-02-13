@@ -39,6 +39,7 @@ id bigint not null auto_increment,
 addressa varchar(255),
 city varchar(255),
 country varchar(255),
+name varchar(255),
 primary key (id)) engine=InnoDB;
 
 
@@ -100,7 +101,7 @@ alter table actions_rule add constraint FKkbdxmu5bsutxkvor7stne0wbb foreign key 
 alter table device_features add constraint FK7uivhprva3mke1uvk59m42r0a foreign key (device_id) references device_template (id);
 alter table device_features add constraint FKcjsjodj6lwm8tldpiaflvjkns foreign key (features_id) references features (id);
 
-alter table local_device add constraint FK7rpxlg1mxbilymldv41omxywi foreign key (location_id) references location (id);
+alter table local_device add constraint FK7rpxlg1mxbilymldv41omxywi foreign key (location_id) references location (id) on delete cascade;
 alter table local_device add constraint FKlnc4rmqppjpxf8lhqglwi9gjm foreign key (supported_device_id) references device_template (id);
 
 alter table location add constraint FKqvj3evkkjc33etbi5ksb6u748 foreign key (home_id) references home (id);

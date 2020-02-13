@@ -7,6 +7,19 @@
   width: 130px;
 }
 
+.location-name {
+  font-size: 20px;
+  float: left;
+  margin-top: 5px;
+}
+
+.delete-location {
+  float: right;
+  height: 10px;
+  margin-top: 0px;
+  margin-right: -10px;
+}
+
 .nav-bar {
   margin: 10px 10px 10px 25px;
 }

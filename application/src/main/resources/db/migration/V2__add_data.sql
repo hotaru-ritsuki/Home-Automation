@@ -1,7 +1,7 @@
 INSERT INTO `users`(`id`,`enabled`,`email`,`first_name`,`last_name`,`password`,`secret`) VALUES (1,1,'lol@gmail.com','Lol','OMG','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA'),
                                                         (2,1,'kek@gmail.com','Kek','SDL','$2a$10$SNvAyaJ76EdR.xxgRVTUMe8y.3jsNvymdwizUaIYbn2vbg5G6bgam','LV460JAVA');
 
-INSERT INTO `home` (`id`,`addressa`, `city`, `country`) VALUES (1,'Rynok sqr 5', 'Lviv', 'Ukraine'), (2,'Valova str 11', 'Lviv', 'Ukraine');
+INSERT INTO `home` (`id`,`addressa`, `city`, `country`, `name`) VALUES (1,'Rynok sqr 5', 'Lviv', 'Ukraine', 'Home1'), (2,'Valova str 11', 'Lviv', 'Ukraine', 'home2');
 INSERT INTO `location` (`id`,`name`, `home_id`) VALUES (1,'hall', 1),
                                                        (2,'living room',1),
                                                        (3,'bedroom', 1),
