@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Locations} from '../../../home/model/Locations';
+
 import {LocalDevice} from '../../../models/LocalDevice';
 import {Observable} from 'rxjs';
 import {Device} from '../../../models/Device';
 import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DeviceData} from '../../../models/DeviceData';
+import {Locations} from "../../../models/Locations";
 
 @Injectable({
   providedIn: 'root'
