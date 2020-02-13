@@ -11,6 +11,8 @@ import { ActivationEmail } from '../../../models/ActivationEmail';
 })
 export class ResendRegistrationTokenComponent implements OnInit {
   emailErrorMessageBackEnd: string;
+  loadingAnim: boolean;
+  activationEmail: ActivationEmail;
   constructor(
     private router: ActivatedRoute,
     private userResendRegistrationTokenService: UserResendRegistrationTokenService
@@ -18,14 +20,17 @@ export class ResendRegistrationTokenComponent implements OnInit {
 
   ngOnInit() {
     this.emailErrorMessageBackEnd = null;
+    this.loadingAnim = false;
 
   }
 private resend(email: ActivationEmail) {
-this.userResendRegistrationTokenService.activate(email).subscribe((errors: HttpErrorResponse) => {
+  this.loadingAnim = true;
+  this.userResendRegistrationTokenService.activate(email).subscribe((errors: HttpErrorResponse) => {
   errors.error.forEach(error => {
       this.emailErrorMessageBackEnd = error.message;
     }
   );
+  this.loadingAnim = false;
 });
 }
 

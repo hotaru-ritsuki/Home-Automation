@@ -1,5 +1,7 @@
 package com.softserve.lv460.application;
 
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -12,11 +14,15 @@ public class Application {
 
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
-
   }
+
   @Bean
-  BCryptPasswordEncoder bCryptPasswordEncoder(){
+  BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
+  @Bean
+  public CloseableHttpClient httpClient() {
+    return HttpClientBuilder.create().build();
+  }
 }

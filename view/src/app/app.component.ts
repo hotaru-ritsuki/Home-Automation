@@ -10,7 +10,7 @@ import {LocalStorageService} from './services/local-storage.service';
 export class AppComponent implements OnInit {
 
   constructor(private router: Router,
-              private localStorageService: LocalStorageService) {
+              public localStorageService: LocalStorageService) {
   }
 
   ngOnInit(): void {
@@ -24,8 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.localStorageService.clear()
-    this.router.navigateByUrl("login");
-
+    this.localStorageService.clear();
+    this.router.navigateByUrl('users/login');
   }
 }
