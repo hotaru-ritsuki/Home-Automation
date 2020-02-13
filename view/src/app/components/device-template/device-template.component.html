@@ -1,31 +1,36 @@
+<div class="nav-bar">
+  <span routerLink="/administration/homes" class="register">Administration</span> >
+  <span routerLink="/administration/homes" class="register">Homes</span> >
+  <span routerLink="/device/{{homeName}}/{{homeId}}/location/{{locationId}}" class="register">{{homeName}}</span>
+  <span> > Add new device</span>
+</div>
 <div class="all-page">
   <div class="left-bar">
-
     <h3>Filtration: </h3>
     <div class="test-class">
       <span>Choose brand:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectBrand($event)">
+      <select id="device-brand" class="select-fields form-control dropdown" (change)="selectBrand($event)">
         <option value="">All brands</option>
         <option *ngFor="let brand of allBrands" value="{{brand}}">{{brand}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose model:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectModels($event)">
+      <select id="device-model" class="select-fields form-control dropdown" (change)="selectModels($event)">
         <option value="">All models</option>
         <option *ngFor="let model of allModels" value="{{model}}">{{model}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose type:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectType($event)">
+      <select id="device-type" class="select-fields form-control dropdown" (change)="selectType($event)">
         <option value="">All types</option>
         <option *ngFor="let type of allTypes" value="{{type}}">{{type}}</option>
       </select>
     </div>
     <div class="test-class">
       <span>Choose release year:<br></span>
-      <select class="select-fields form-control dropdown" (change)="selectYear($event)">
+      <select id="device-year" class="select-fields form-control dropdown" (change)="selectYear($event)">
         <option value="">All years</option>
         <option *ngFor="let year of allYears" value="{{year}}">{{year}} year</option>
       </select>
@@ -34,14 +39,20 @@
     <div *ngIf="allFeatures != null">
       <h4>Features: </h4>
       <div class="custom-control custom-checkbox" *ngFor="let feature of allFeatures">
-        <input class="featuresCheckbox custom-control-input" type="checkbox" id="{{feature.name}}"
+        <input class="featuresCheckbox custom-control-input" type="checkbox" id="{{feature.description}}"
                value="{{feature.id}}">
-        <label class="custom-control-label" for="{{feature.name}}">{{feature.name}}</label>
+        <label class="custom-control-label" for="{{feature.description}}">{{feature.description}}</label>
       </div>
     </div>
 
-    <button style="margin-top: 10px" type="button" class="btn btn-outline-primary buttoned" (click)="getAllDevices()">
+    <button style="margin-top: 10px; margin-right: 10px" type="button" class="btn btn-outline-primary buttoned"
+            (click)="getAllDevices()">
       Filtering
+    </button>
+
+    <button style="margin-top: 10px" class="btn btn-outline-primary
+    buttoned" (click)="clearButton()">
+      Clear Filtration
     </button>
 
   </div>
@@ -52,17 +63,27 @@
     </div>
     <div *ngFor="let device of devicesWithFilter.content">
       <div class="list-group">
-        <div style="margin: 10px 0"
-             class="show-all-devices list-group-item list-group-item-action flex-column align-items-start active">
-          <div style="margin-bottom: 10px" class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{device.brand}} {{device.model}}</h5>
-            <small>{{device.releaseYear}}</small>
+        <div
+          class="show-all-devices list-group-item list-group-item-action flex-column align-items-start active">
+          <div class="img-container">
+            <img
+              src="{{device.image}}">
           </div>
-          <p>Type: <span>{{device.type}}</span></p>
-          <p>Power Supply: <span>{{device.powerSupply}}</span></p>
-          <div>
-            <p *ngIf="device.features.length > 0">
-              Features: <span class="show-features" *ngFor="let feature of device.features">{{feature.name}} </span></p>
+          <div class="content">
+            <h5 class="mb-1">{{device.brand}} {{device.model}}</h5>
+            <div class="device-description">
+              <p>Type: <span>{{device.type}}</span></p>
+              <p>Release year: <span>{{device.releaseYear}}</span></p>
+              <p>Power Supply: <span>{{device.powerSupply}}</span></p>
+              <p *ngIf="device.features.length > 0">
+                Features: <span class="show-features"
+                                *ngFor="let feature of device.features">{{feature.description}} </span></p>
+            </div>
+
+          </div>
+          <div class="btn-container">
+            <button class="btn btn-light" (click)="selectButton(device.id, device.brand, device.model)">Select
+            </button>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ import {DashboardComponent} from './components/dashboard/dashboard/dashboard.com
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
+import {AddLocalDeviceComponent} from './components/add-local-device/add-local-device.component';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
   DialogAction,
@@ -30,35 +31,55 @@ import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from 
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
 import {UserComponent} from './components/user/user.component';
-import {UserInformationComponent, FormatTimePipe} from './components/user/user-information/user-information.component';
+import {FormatTimePipe, UserInformationComponent} from './components/user/user-information/user-information.component';
 import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component';
 import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 import {SignedGuardService} from "./services/signed-guard.service";
+import {LocationModalComponent} from './components/location-modal/location-modal.component';
+import {HomeComponent} from './components/home/home.component';
+import {NewHomeComponent} from './components/new-home/new-home.component';
+import {NewHomeWarningComponent} from './components/new-home-warning/new-home-warning.component';
+import {UpdateHomeComponent} from './components/update-home/update-home.component';
 
 const routes: Routes = [
-  {path: 'statistic', component: GraphicsDashbordComponent},
-  {path: 'rules', component: RuleComponent},
-  {path: 'rules/configure', component: RuleConfigurationComponent},
-  {path: 'device', component: DevicesComponent},
-  {path: 'locations', component: DashboardLocationsComponent},
-  {path: 'device-template', component: DeviceTemplateComponent},
-  {path: 'users/restorePassword/:id/:token', component: RestorePasswordPart2Component},
-  {path: 'device-modal', component: ModalComponent},
+  {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
+  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
+  {path: 'device/:home_name/:home/location/:location', component: DevicesComponent},
+  {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
+  {
+    path: 'device-template/:home_name/:home/location/:location',
+    component: DeviceTemplateComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'add-local-device/:home_name/:home/:location/:device/:brand/:model',
+    component: AddLocalDeviceComponent,
+    canActivate: [AuthGuardService]
+  },
+  {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'location-modal/home_name', component: LocationModalComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/create/error', component: NewHomeWarningComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/:home/update', component: UpdateHomeComponent, canActivate: [AuthGuardService]},
   {
     path: 'users',
     component: UserComponent,
     children: [
-      { path: 'login', component: LogInComponent, canActivate:[SignedGuardService]},
-      { path: 'register', component: SignUpComponent, canActivate:[SignedGuardService]},
-      { path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
-      { path: 'changePassword', component: ChangePasswordComponent},
-      { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent,canActivate:[SignedGuardService]},
-      { path: 'userInfo', component: UserInformationComponent},
-      { path: 'restore', component: RestorePasswordComponent}
+      {path: 'login', component: LogInComponent, canActivate: [SignedGuardService]},
+      {path: 'register', component: SignUpComponent, canActivate: [SignedGuardService]},
+      {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
+      {path: 'changePassword', component: ChangePasswordComponent},
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent, canActivate: [SignedGuardService]},
+      {path: 'userInfo', component: UserInformationComponent},
+      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component},
+      {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+      {path: 'restore', component: RestorePasswordComponent}
     ]
-  },
+  }
 ];
 
 @NgModule({
@@ -73,6 +94,7 @@ const routes: Routes = [
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
+    AddLocalDeviceComponent,
     RuleComponent,
     RuleConfigurationComponent,
     DialogAction,
@@ -86,6 +108,11 @@ const routes: Routes = [
     RestorePasswordComponent,
     ModalComponent,
     RestorePasswordPart2Component,
+    LocationModalComponent,
+    HomeComponent,
+    NewHomeComponent,
+    NewHomeWarningComponent,
+    UpdateHomeComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [

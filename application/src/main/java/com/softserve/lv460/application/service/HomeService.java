@@ -48,6 +48,7 @@ public class HomeService {
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
     home.setAddressa(request.getAddressa());
+    home.setName(request.getName());
     return homeRepository.save(home);
 
   }

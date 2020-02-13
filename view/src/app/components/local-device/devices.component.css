@@ -3,19 +3,21 @@
   grid-template-columns: 1% 24% 10% 50% 15%;
 }
 
+.loc {
+  width: 130px;
+}
+
 .nav-bar {
   margin: 10px 10px 10px 25px;
 }
 
 .locations-list {
-  display:inline-block;
   margin: 10px 50px 10px 9px;
   grid-area: 1/2/4/3;
 }
 
 .device {
   margin-top: 10px;
-  display:inline-block;
   grid-area: 1/3/6/5;
   height: 200px;
 }
@@ -34,4 +36,13 @@
 
 .btn-add-device {
   margin: 10px 10px 10px 0px;
+}
+
+.no-device-in-location {
+  font-size: 30px;
+  text-align: center;
+}
+
+.inp{
+  border: 1px solid #ced4da!important;
 }

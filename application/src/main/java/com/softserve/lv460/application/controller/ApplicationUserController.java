@@ -2,8 +2,8 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.*;
 import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
+import com.softserve.lv460.application.dto.user.UserChangePasswordDto;
 import com.softserve.lv460.application.entity.ApplicationUser;
-import com.softserve.lv460.application.entity.TelegramActivation;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
@@ -33,7 +33,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -112,6 +111,19 @@ public class ApplicationUserController {
     }
   }
 
+  @ApiOperation("Restore password")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  })
+  @PostMapping("/restorePassword")
+  public ResponseEntity<Void> restorePassword(@RequestBody UserChangePasswordDto password) {
+    System.out.println(password);
+    ApplicationUser user = applicationUserService.findById(password.getId());
+
+    applicationUserService.changeUserPassword(user.getId(), password.getPassword());
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
 
   @ApiOperation("Confirming registration")
   @ApiResponses(value = {
@@ -120,7 +132,7 @@ public class ApplicationUserController {
   })
   @GetMapping("/confirmRegistration")
   public ResponseEntity confirmRegistration(@RequestBody String token) {
-    applicationUserService.validateVerificationToken(token);
+    tokenService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
 
@@ -132,7 +144,7 @@ public class ApplicationUserController {
   })
   @GetMapping(value = "/resendRegistrationToken")
   public ResponseEntity resendRegistrationToken(@RequestBody String email) {
-    VerificationToken verificationToken = applicationUserService.generateNewVerificationToken(email);
+    VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
@@ -143,18 +155,18 @@ public class ApplicationUserController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @PostMapping(value="/addTelegram")
-  public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO){
+  @PostMapping(value = "/addTelegram")
+  public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO) {
     ApplicationUser applicationUser = applicationUserService.findById(userPrincipal.getId());
     TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
     applicationUser.setTelegramUser(telegramUser);
-    if(activationService.existsByTelegramUserId(telegramUser.getId())){
+    if (activationService.existsByTelegramUserId(telegramUser.getId())) {
       activationService.deleteByTelegramUserId(telegramUser.getId());
     }
-    String token=activationService.save(telegramUser);
+    String token = activationService.save(telegramUser);
     applicationUserService.save(applicationUser);
     homeAlertBotService.execute(telegramUser.getChatId(), String.format(BotPhrases.CONFIRM, userPrincipal.getUsername()));
-    homeAlertBotService.execute(telegramUser.getChatId(),BotPhrases.MESSAGE_EXAMPLE);
+    homeAlertBotService.execute(telegramUser.getChatId(), BotPhrases.MESSAGE_EXAMPLE);
     return ResponseEntity.ok().body(token);
   }
 
@@ -164,7 +176,7 @@ public class ApplicationUserController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @GetMapping("/restorePassword/{email}")
-  public ResponseEntity<JWTUserRequest> restorePassword(@PathVariable("email") String email) {
+  public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
     eventPublisher.publishEvent(new RestoreEvent(user, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
@@ -176,9 +188,10 @@ public class ApplicationUserController {
           @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
-  @GetMapping("/restorePassword/{id}/{token}")
-  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("id") long id, @PathVariable("token") String token) {
+  @GetMapping("/restorePassword/{user_id}/{token}")
+  public ResponseEntity<VerificationToken> checkValidRestoreToken(@PathVariable("user_id") long id, @PathVariable("token") String token) {
     VerificationToken verificationToken = tokenService.findByUserIdAndToken(id, token);
+    tokenService.delete(verificationToken.getId());
 
     return ResponseEntity.ok().body(verificationToken);
   }

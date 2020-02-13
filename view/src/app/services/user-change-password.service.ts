@@ -28,12 +28,14 @@ export class UserChangePasswordService {
     let params = new HttpParams();
     params = params.append('password', password);
     params = params.append('id', id.toString());
-    console.log(this.constant + '/users/changePasswordTo', {params});
-    return this.http.post(this.constant + '/users/restorePasswordTo',  {
+    console.log('mixha' + params.toString());
+    console.log(this.constant + '/users/changePassword', {params});
+    return this.http.post(this.constant + '/users/restorePassword',  {
       password,
       id,
     });
   }
+
   public findUserByEmail(email: string): Observable<any>{
     return this.http.get<any>(this.constant + '/users/restorePassword/' + email);
   }

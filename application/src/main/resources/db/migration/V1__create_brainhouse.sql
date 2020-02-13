@@ -24,6 +24,7 @@ model varchar(255) not null,
 power_supply varchar(255),
 release_year integer,
 type varchar(255) not null,
+image varchar(255) not null,
 primary key (id)) engine=InnoDB;
 
 

@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
             .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
             .antMatchers(securityConfigProperties.getRestorePasswordUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getRestoreUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -81,10 +82,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-    return source;
-  }
 }
