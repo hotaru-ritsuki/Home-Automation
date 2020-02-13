@@ -10,6 +10,9 @@ import {ConstantsService} from "./constant/constants.service";
   providedIn: 'root'
 })
 export class DevicesTeamplateService {
+  savedId:number;
+  savedBrand: string;
+  savedModel: string;
   URL: string;
   URL2: string;
 
@@ -24,6 +27,7 @@ export class DevicesTeamplateService {
       params = params.append('type', filterRequest.type);
       params = params.append('brand', filterRequest.brand);
       params = params.append('releaseYear', filterRequest.releaseYear);
+      params = params.append('image', filterRequest.image);
       params = params.append('featuresId', filterRequest.featuresId);
     return this.http.get<Data<Device>>(this.URL + '/filter/page=' + page, {params});
   }

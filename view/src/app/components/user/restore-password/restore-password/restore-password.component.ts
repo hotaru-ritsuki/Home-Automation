@@ -3,6 +3,7 @@ import {UserLogIn} from "../../../../models/UserLogIn";
 import {UserLogInService} from "../../../../services/user-log-in.service";
 import {Router} from "@angular/router";
 import {UserChangePasswordService} from "../../../../services/user-change-password.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-restore-password',
@@ -14,6 +15,7 @@ export class RestorePasswordComponent implements OnInit {
   user: any;
   email:string;
   error: string;
+  text = 'Enter email for restore.';
 
   constructor(private userChange: UserChangePasswordService) {
   }
@@ -25,10 +27,11 @@ export class RestorePasswordComponent implements OnInit {
   restorePassword(email: string) {
     this.userChange.findUserByEmail(email).subscribe((response) => {
       this.user = response;
-    }, error => {
-        this.error = error;
-        console.log(this.error);
+    }, (errors: HttpErrorResponse) => {
+      this.text = 'You already have message.';
     });
+
+    this.text = 'We sent message on your email.';
   }
 
 }

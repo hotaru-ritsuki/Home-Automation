@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Locations} from '../model/Locations';
-import {ConstantsService} from "../../services/constant/constants.service";
+
+import {Locations} from "../models/Locations";
+import {ConstantsService} from "./constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  constant:string;
+  constant: string;
 
   constructor(private http: HttpClient, private _constant: ConstantsService) {
     this.constant = this._constant.baseApplicationUrl;

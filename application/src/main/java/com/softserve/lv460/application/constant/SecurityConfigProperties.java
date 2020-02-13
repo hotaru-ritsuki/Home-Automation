@@ -17,6 +17,7 @@ public class SecurityConfigProperties {
   private String signInUrl;
   private String refreshTokensUrl;
   private String locationUrl;
+  private String restoreUrl;
   private String rulesUrl;
   private String telegramUrl;
   private String verifyEmail;

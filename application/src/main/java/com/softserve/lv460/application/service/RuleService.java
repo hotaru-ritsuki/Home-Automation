@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 public class RuleService {
   private RuleRepository ruleRepository;
-  private LocalDeviceService localDeviceService;
   private LocationService locationService;
 
   public Rule create(Rule action) {
@@ -46,11 +45,11 @@ public class RuleService {
   }
 
   public List<Rule> findAllByLocalDevice(String uuid) {
-    return ruleRepository.findAllByLocalDevice(localDeviceService.findByUuid(uuid));
+    return ruleRepository.findAllByConditionsIsContaining(uuid);
   }
 
   public List<Rule> findByHome(Long homeId) {
-    return ruleRepository.findByHome(locationService.findByHome(homeId));
+    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId);
   }
 
 }

@@ -4,8 +4,10 @@
 }
 
 .footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
+  left: 0;
+  height: 60px;
   width: 100%;
 }
 
@@ -36,3 +38,7 @@
   right: 2.5%;
 }
 
+.main-content{
+  height: 100%;
+  width: 100%;
+}

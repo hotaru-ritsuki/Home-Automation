@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {Home} from '../model/Home';
-import {ConstantsService} from "../../services/constant/constants.service";
+import {Home} from '../models/Home';
+import {ConstantsService} from "./constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {ConstantsService} from "../../services/constant/constants.service";
 export class HomeService {
   constant:string;
   URL:string;
-  URLFind:string
+  URLFind:string;
 
   constructor(private http: HttpClient, private _constant: ConstantsService) {
     this.constant = this._constant.baseApplicationUrl;

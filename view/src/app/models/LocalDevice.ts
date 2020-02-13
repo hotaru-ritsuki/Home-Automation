@@ -1,4 +1,4 @@
-import {Locations} from '../home/model/Locations';
+import {Locations} from './Locations';
 import {Device} from './Device';
 
 export interface LocalDevice {
