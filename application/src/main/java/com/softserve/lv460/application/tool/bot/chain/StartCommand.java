@@ -4,7 +4,6 @@ import com.softserve.lv460.application.constant.BotPhrases;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.exception.exceptions.TelegramUserAlreadyRegisterException;
-import com.softserve.lv460.application.service.TelegramActivationService;
 import com.softserve.lv460.application.service.TelegramUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,7 +19,7 @@ public class StartCommand implements UpdateCheck {
   }
 
   @Override
-  public void process(Update request, TelegramUserService telegramUserService, TelegramActivationService telegramActivationService, SendMessage message) {
+  public void process(Update request, TelegramUserService telegramUserService, SendMessage message) {
     if (request.getMessage().getText().equals("/start")) {
       TelegramUser telegramUser = new TelegramUser();
       telegramUser.setUsername(request.getMessage().getChat().getUserName());
@@ -33,7 +32,7 @@ public class StartCommand implements UpdateCheck {
         message.setText(BotPhrases.ALREADY_REGISTER);
       }
     } else {
-      nextInChain.process(request, telegramUserService, telegramActivationService, message);
+      nextInChain.process(request, telegramUserService, message);
     }
   }
 }

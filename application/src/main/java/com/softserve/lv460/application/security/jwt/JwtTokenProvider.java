@@ -49,7 +49,7 @@ public class JwtTokenProvider {
     ApplicationUser appUser = applicationUserRepository.findByEmail(email)
             .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
     Date expiryDate = new Date(new Date().getTime() + securityProperties.getRefreshExpirationTime());
-    log.info("Refresh Token for " + email + " with secret: " + appUser.getSecret() + " created.");
+    log.info("Access Token for " + email + " with secret: " + appUser.getSecret() + " created.");
     return Jwts.builder()
             .setSubject(email)
             .setIssuedAt(new Date())

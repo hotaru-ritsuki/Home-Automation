@@ -12,8 +12,4 @@ public class BotPhrases {
         + "\n/stop - stop using bot";
   public static final String ALREADY_REGISTER = "Hello again. But why?";
   public static final String ALREADY_DELETE = "Have good luck.";
-  public static final String CONFIRM = "Please confirm your account %s by sending activation code with command /join";
-  public static final String MESSAGE_EXAMPLE = "In this format ' /join 123456 '";
-  public static final String SUCCESSFUL_AUTHENTICATION="You are successfully registered";
-  public static final String NOT_VALID = "Your token is not valid. Request a new token.";
 }

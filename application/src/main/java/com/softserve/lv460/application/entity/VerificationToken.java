@@ -20,7 +20,7 @@ public class VerificationToken {
 
   @NonNull
   @OneToOne(targetEntity = ApplicationUser.class, fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(nullable = false, name = "user_id", unique = true)
   private ApplicationUser user;
 
   private LocalDateTime expiryDate = LocalDateTime.now().plusDays(1);

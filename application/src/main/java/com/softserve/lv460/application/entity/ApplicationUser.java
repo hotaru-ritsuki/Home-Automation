@@ -1,11 +1,7 @@
 package com.softserve.lv460.application.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.lv460.application.entity.enums.Role;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,9 +13,6 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +21,7 @@ public class ApplicationUser {
   @NotNull
   @Column(unique = true, nullable = false)
   private String email;
+
   @NotNull
   private String password;
 
@@ -39,8 +33,12 @@ public class ApplicationUser {
   @Column(name = "last_name")
   private String lastName;
 
-  @ManyToMany(mappedBy = "applicationUsers",
-          cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+  @JoinTable(
+          name = "user_home",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "home_id")
+  )
   private List<Home> homes = new ArrayList<>();
 
   @Transient
@@ -51,12 +49,7 @@ public class ApplicationUser {
   private String secret;
 
   @Column(columnDefinition = "boolean default false")
-  private boolean enabled;
-
-  @NonNull
-  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.EAGER)
-  @JoinColumn(referencedColumnName = "id")
-  private TelegramUser telegramUser;
+  private Boolean enabled;
 }
 
 

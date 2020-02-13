@@ -30,8 +30,6 @@ public class ErrorMessage {
   public static final String TELEGRAM_NOT_DELETED_BY_USERNAME = "The user's telegram wasn't deleted by username: %s";
   public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "User's telegram with username %s does not exist";
   public static final String TELEGRAM_ALREADY_REGISTER = "User's telegram with username %s is already registered";
-  public static final String TELEGRAM_CODE_NOT_DELETED_BY_ID = "Telegram's activation code wasn't deleted by id: %d";
-  public static final String TELEGRAM_CODE_NOT_FOUND_BY_USERNAME = "Telegram's code for username %s does not exist";
   public static final String SOMETHING_WENT_WRONG_WITH_BOT = "Error with bot";
   public static final String USER_ALREADY_ACTIVATED = "User already activated";
   public static final String USER_ALREADY_EXISTS = "User with specified email %s already exists";

@@ -36,7 +36,7 @@ public class UserPrincipal implements UserDetails {
             user.getId(),
             user.getEmail(),
             user.getPassword(),
-            user.isEnabled(),
+            user.getEnabled(),
             authorities
     );
   }

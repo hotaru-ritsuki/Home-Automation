@@ -18,6 +18,4 @@ public class TelegramUser {
   private String username;
   @Column(unique = true)
   private String chatId;
-  @Column
-  private boolean enabled;
 }
