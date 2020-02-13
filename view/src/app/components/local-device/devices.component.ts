@@ -83,7 +83,7 @@ export class DevicesComponent implements OnInit {
           this.allLocationsByHome = response;
         });
       this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
-    }, 25);
+    }, 50);
   }
 
   findAllDevice(home: number, location: number) {
