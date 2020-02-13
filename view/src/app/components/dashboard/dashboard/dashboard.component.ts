@@ -31,4 +31,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  redirect() {
+    setTimeout(() => {
+      this.router.navigateByUrl('device/' + this.home.name + '/' + this.home.id + '/location/' + 0);
+    }, 100);
+  }
 }

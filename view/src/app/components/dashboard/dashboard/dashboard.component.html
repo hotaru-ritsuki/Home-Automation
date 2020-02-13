@@ -1,6 +1,6 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <div *ngIf="homes.length == 0" class="no-house">
-  <h3>Looks like you don`t have any houses yet <a routerLink="../home">Click here to add one</a></h3>
+  <h3>Looks like you don`t have any houses yet <a routerLink="../administration/homes">Click here to add one</a></h3>
 </div>
 
 <div class="page">
@@ -15,6 +15,6 @@
 
   <div *ngIf="home" class="location-choose">
     <app-dashboard-locations *ngFor="let loc of home.locations" [location]="loc"></app-dashboard-locations>
-    <h5><a class="add-widget btn btn-primary" role="button" routerLink="../device-template">Add widget</a></h5>
+    <h5><a class="add-widget btn btn-primary" role="button" (click)="redirect()">Add widget</a></h5>
   </div>
 </div>
