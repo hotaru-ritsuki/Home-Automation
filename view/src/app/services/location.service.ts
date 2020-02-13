@@ -34,4 +34,9 @@ export class LocationService {
   putLocation(answer: { id: number, name: string, homeId: number }) {
     return this.http.put(this.constant + '/locations', answer);
   }
+
+  update(location: Locations) {
+    return this.http.put(this.constant + '/locations', location);
+    console.log(this.constant + '/locations', location);
+  }
 }
