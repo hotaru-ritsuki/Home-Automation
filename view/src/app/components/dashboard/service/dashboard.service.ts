@@ -6,13 +6,16 @@ import {Observable} from 'rxjs';
 import {Device} from '../../../models/Device';
 import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DeviceData} from '../../../models/DeviceData';
-import {LightResp} from '../../../models/LightResp';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
   private URL = 'http://localhost:8080/location-devices/location';
+  type: string;
+  from: string;
+  to: string;
+  locationId: number;
 
   constructor(private http: HttpClient) {
   }
@@ -25,7 +28,20 @@ export class DashboardService {
     return this.http.get<FeatureDTO[]>('http://localhost:8080/deviceFeatures/' + device.id);
   }
 
-  getCurrentServiceIndicators(uuid: string){
+  getCurrentServiceIndicators(uuid: string) {
     return this.http.get<DeviceData>('http://localhost:8081/device-data/' + uuid);
+  }
+
+  saveCurrentDeviceData(uuid: string, timestamp: string, data) {
+    const currentDate = this.dateParser(new Date(timestamp));
+    console.log(uuid, currentDate, data);
+    return this.http.post('http://localhost:8081/device-data/', {uuid, timestamp: currentDate, data});
+  }
+
+  dateParser(toParse: Date) {
+    return toParse.getFullYear() + '-' + (('0' + (toParse.getMonth() + 1).toString()).slice(-2)) + '-' + (('0' +
+      toParse.getDate().toString()).slice(-2)) + 'T' +
+      (('0' + toParse.getHours().toString()).slice(-2)) + ':' + (('0' + toParse.getMinutes().toString()).slice(-2))
+      + ':' + (('0' + toParse.getSeconds().toString()).slice(-2)) + '+01:00';
   }
 }

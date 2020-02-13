@@ -15,8 +15,6 @@ export class DevicesGraphicsComponent implements OnInit {
   @Input() locationId: number;
 
   constructor(private service: MainService, private dateService: DataService) {
-    this.from = '01/01/2019 00:00 AM';
-    this.to = '01/01/2021 00:00 AM';
   }
 
   ChartOptions = {
@@ -48,14 +46,15 @@ export class DevicesGraphicsComponent implements OnInit {
 
 
   ngOnInit() {
-    const fromDate = this.from;
-    const toDate = this.to;
-    this.getData(fromDate, toDate);
+    if (this.to === '' && this.from === '') {
+      this.from = '2019-09-12T00:00:00+01:00';
+      this.to = '2021-09-12T00:00:00+01:00';
+    }
+    this.getData(this.from, this.to);
     this.dateService.DateTime.subscribe((dateTime: string) => {
       const arr = dateTime.split('&');
       this.getData(arr[0], arr[1]);
     });
-
   }
 
   getData(dateFrom, dateTo) {
@@ -69,5 +68,12 @@ export class DevicesGraphicsComponent implements OnInit {
         }
         this.ChartData = [{data: temperatures, label: this.type, fill: true, backgroundColor: 'rgba(0, 0, 0, 0)'}];
       });
+  }
+
+  dateParser(toParse: Date) {
+    return toParse.getFullYear() + '-' + (('0' + (toParse.getMonth() + 1).toString()).slice(-2)) + '-' + (('0' +
+      toParse.getDate().toString()).slice(-2)) + 'T' +
+      (('0' + toParse.getHours().toString()).slice(-2)) + ':' + (('0' + toParse.getMinutes().toString()).slice(-2))
+      + ':' + (('0' + toParse.getSeconds().toString()).slice(-2)) + '+01:00';
   }
 }

@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Locations} from '../../../home/model/Locations';
 import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
 import {LocalDevice} from '../../../models/LocalDevice';
 import {LocalDeviceService} from '../../../services/local-device.service';
-import {Device} from '../../../models/Device';
 import {DashboardService} from '../service/dashboard.service';
 import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DataService} from '../../../services/data.service';
 import {DeviceFeature} from '../../../models/DeviceFeature';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {GraphicDialogComponent} from '../graphic-dialog/graphic-dialog.component';
 
 @Component({
   selector: 'app-dashboard-locations',
@@ -16,28 +17,31 @@ import {DeviceFeature} from '../../../models/DeviceFeature';
   styleUrls: ['./dashboard-locations.component.css']
 })
 export class DashboardLocationsComponent implements OnInit {
-  private location: Locations;
+  @Input() private location: Locations;
   private localDevices: LocalDevice[] = [];
   private features: FeatureDTO[] = [];
   private featuresGraphics: FeatureDTO[] = [];
   public minDate: Date = new Date('01/01/2019 00:00 AM');
   public maxDate: Date = new Date('01/01/2021 12:00 AM');
-  public dateValue: '';
+  public dateValueTo: string;
+  public dateValueFrom: string;
   private devicesFeatures: DeviceFeature[] = [];
   private devicesFeaturesGraphics: DeviceFeature[] = [];
+  graphicDialog: MatDialogRef<GraphicDialogComponent>;
 
   constructor(private router: Router, private dashboardLocationsService: DashboardLocationsService,
               private localDeviceService: LocalDeviceService, private dashboardService: DashboardService,
-              private dataService: DataService) {
-    this.router.navigate(['locations']);
-    this.location = this.dashboardLocationsService.getLocation();
+              private dataService: DataService, private dialog: MatDialog) {
+
+  }
+
+  ngOnInit() {
     this.dashboardService.getLocalDevicesByLocation(this.location).subscribe(res => {
       this.localDevices = Object.assign([], res);
       for (const dev of this.localDevices) {
         this.getFeatureByDevice(dev);
       }
     });
-    console.log(this.devicesFeatures, this.devicesFeaturesGraphics);
   }
 
   getFeatureByDevice(localDevice: LocalDevice) {
@@ -67,7 +71,19 @@ export class DashboardLocationsComponent implements OnInit {
       + ':' + (('0' + toParse.getSeconds().toString()).slice(-2)) + '+01:00';
   }
 
-  ngOnInit() {
+  openInDialog(type: string, from: Date, to: Date, locationId: number) {
+    this.dashboardService.type = type;
+    if (from != null && to != null) {
+      this.dashboardService.from = this.dateParser(from);
+      this.dashboardService.to = this.dateParser(to);
+    } else {
+      this.dashboardService.from = '2019-09-12T00:00:00+01:00';
+      this.dashboardService.to = '2021-09-12T00:00:00+01:00';
+    }
+    this.dashboardService.locationId = locationId;
+    this.graphicDialog = this.dialog.open(GraphicDialogComponent, {
+      width: '60%',
+      height: '70%'
+    });
   }
-
 }

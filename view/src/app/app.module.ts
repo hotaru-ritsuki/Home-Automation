@@ -25,6 +25,8 @@ import {DashboardLocationsComponent} from './components/dashboard/dashboard-loca
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
 import {SliderModule} from 'angular-image-slider';
+import {MatDialogModule} from "@angular/material/dialog";
+import {GraphicDialogComponent} from './components/dashboard/graphic-dialog/graphic-dialog.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -55,6 +57,7 @@ const routes: Routes = [
     DashboardComponent,
     LightToggleComponent,
     DashboardLocationsComponent,
+    GraphicDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,9 @@ const routes: Routes = [
     WavesModule,
     SliderModule,
     ButtonsModule,
+    MatDialogModule,
   ],
+  entryComponents: [GraphicDialogComponent],
   providers:
     [{
       provide: HTTP_INTERCEPTORS,

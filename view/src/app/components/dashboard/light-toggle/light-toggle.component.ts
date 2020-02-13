@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Locations} from '../../../home/model/Locations';
 import {DashboardService} from '../service/dashboard.service';
-import {LocalDevice} from '../../../models/LocalDevice';
-import {Device} from '../../../models/Device';
 import {DeviceData} from '../../../models/DeviceData';
-import {LightResp} from '../../../models/LightResp';
 
 @Component({
   selector: 'app-light-toggle',
@@ -23,16 +20,40 @@ export class LightToggleComponent implements OnInit {
   ngOnInit() {
     this.dashboardService.getCurrentServiceIndicators(this.uuid).subscribe(res => {
       const dev: DeviceData = res;
-      this.isTurnedOn = new Map(Object.entries(dev.data)).get(this.type);
+      const ind = new Map(Object.entries(dev.data)).get(this.type);
+      this.isTurnedOn = ind.toString();
     });
   }
 
   switchLight() {
-    if (this.isTurnedOn === 'on') {
-      this.isTurnedOn = 'off';
-    } else {
-      this.isTurnedOn = 'on';
+    switch (this.type) {
+      case 'light':
+        if (this.isTurnedOn === 'on') {
+          this.isTurnedOn = 'off';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {light: 'off'});
+        } else {
+          this.isTurnedOn = 'on';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {light: 'on'});
+        }
+        break;
+      case 'window':
+        if (this.isTurnedOn === 'open') {
+          this.isTurnedOn = 'close';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {window: 'close'});
+        } else {
+          this.isTurnedOn = 'open';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {window: 'open'});
+        }
+        break;
+      case 'door':
+        if (this.isTurnedOn === 'open') {
+          this.isTurnedOn = 'close';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {door: 'close'});
+        } else {
+          this.isTurnedOn = 'open';
+          this.dashboardService.saveCurrentDeviceData(this.uuid, new Date().toDateString(), {door: 'close'});
+        }
+        break;
     }
   }
-
 }

@@ -1,19 +1,20 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<div *ngIf="homes.length == 0" class="no-house">
+  <h3>Looks like you don`t have any houses yet <a routerLink="../home">Click here to add one</a></h3>
+</div>
+
 <div class="page">
-  <div *ngIf="homes" class="home-choose scrollbar scrollbar-primary">
+  <div *ngIf="homes.length > 0" class="home-choose scrollbar scrollbar-primary">
     <ul class="list-group home-list">
       <li class="list-group-item home-choose-item bottom-border" *ngFor="let home of homes"
-          (click)="searchLocationsByHomeAddress(home.addressa)">
+          (click)="setCurrentHome(home)">
         <span><img src="https://i.ya-webdesign.com/images/home-png.png"></span>{{home.addressa}}
         <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
     </ul>
   </div>
-  <div *ngIf="homes" class="location-choose">
-    <ul class="list-group">
-      <li class="list-group-item location-choose-item bottom-border" *ngFor="let loc of locations"
-          routerLink="/locations" (click)="setLocation(loc)">
-        <span><img src="https://static.thenounproject.com/png/17576-200.png"></span>{{loc.name}}
-        <span class="arrow-icon-span"><img src="https://vectorified.com/images/go-icon-24.png"></span></li>
-    </ul>
+
+  <div *ngIf="home" class="location-choose">
+    <app-dashboard-locations *ngFor="let loc of home.locations" [location]="loc"></app-dashboard-locations>
+    <h5><a class="add-widget btn btn-primary" role="button" routerLink="../device-template">Add widget</a></h5>
   </div>
 </div>

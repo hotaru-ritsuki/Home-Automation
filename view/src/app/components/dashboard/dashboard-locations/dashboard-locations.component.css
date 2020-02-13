@@ -4,17 +4,17 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .feature {
-  width: 40%;
+  width: 50%;
 }
 
 
 .graphic {
   margin-top: 2%;
-  margin-left: 10%;
-  width: 80%;
+  width: 100%;
   padding-bottom: 90px;
 }
 
@@ -60,5 +60,14 @@
   font-size: 16px;
   margin-right: 10px;
   margin-left: 10px;
+}
 
+h3 {
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.devices {
+  margin-top: 5%;
 }

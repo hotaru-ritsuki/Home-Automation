@@ -3,7 +3,6 @@ import {HomeService} from '../../../home/service/home.service';
 import {Home} from '../../../home/model/Home';
 import {Locations} from '../../../home/model/Locations';
 import {Router} from '@angular/router';
-import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
@@ -15,27 +14,21 @@ export class DashboardComponent implements OnInit {
 
   locations: Locations[] = [];
   homes: Home[] = [];
+  home: Home;
 
-  constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService,
+  constructor(private homeService: HomeService, private router: Router,
               private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
     this.homeService.getHomesByUser(this.localStorageService.getUserId()).subscribe(res => {
       this.homes = res;
     });
+    console.log(this.localStorageService.getAccessToken());
   }
 
-  searchLocationsByHomeAddress(homeAddress: string) {
-    for (const home of this.homes) {
-      if (home.addressa === homeAddress) {
-        this.locations = home.locations;
-      }
-    }
+  setCurrentHome(home: Home) {
+    this.home = home;
   }
 
   ngOnInit(): void {
-  }
-
-  setLocation(location: Locations) {
-    this.dashboardLocationsService.setLocation(location);
   }
 }
