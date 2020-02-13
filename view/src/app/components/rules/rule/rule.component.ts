@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MainService} from "../../../services/main.service";
 import {Rule} from "../../../models/Rule";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-rule',
@@ -11,20 +11,23 @@ import {Router} from "@angular/router";
 })
 export class RuleComponent implements OnInit {
   rules: Rule[] = [];
-  isEmpty  = false;
+  isEmpty = false;
+  home_id;
 
-  constructor(private service: MainService, private router: Router) {
+  constructor(private service: MainService, private router: Router, private activRouter: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.service.getRules().subscribe((res) => {
-      if (res.length > 0){
-        this.isEmpty = false
-      }
-      else {
-        this.isEmpty = true;
-      }
-      this.rules = res;
+    this.activRouter.params.subscribe((res) => {
+      this.home_id = res.home_id;
+      this.service.getRules(res.home_id).subscribe((res) => {
+        if (res.length > 0) {
+          this.isEmpty = false
+        } else {
+          this.isEmpty = true;
+        }
+        this.rules = res;
+      })
     })
   }
 
@@ -56,13 +59,13 @@ export class RuleComponent implements OnInit {
       data['type'] = rule.actionRule[i].action;
       actions.push(data)
     }
-    this.router.navigate(['rules/configure'], {
+    this.router.navigate(['/rules/' + this.home_id + '/configure'], {
       queryParams: {
         id: rule.id,
         name: rule.name,
         conditions: rule.conditions,
         description: rule.description,
-        actions: JSON.stringify(actions)
+        actions: JSON.stringify(actions),
       }
     });
   }

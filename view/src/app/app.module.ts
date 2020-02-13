@@ -44,8 +44,8 @@ import { UpdateHomeComponent } from './components/update-home/update-home.compon
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
-  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/:home_id', component: RuleComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/:home_id/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
   {path: 'device/:home_name/:home/location/:location', component: DevicesComponent},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'device-template/:home_name/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},

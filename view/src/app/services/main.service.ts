@@ -23,16 +23,17 @@ export class MainService {
   }
 
 
-  getRules(): Observable<Rule[]> {
-    return this.http.get<Rule[]>(this.apiUrl + '/rules')
+  getRules(home_id: any): Observable<Rule[]> {
+    console.log(home_id);
+    return this.http.get<Rule[]>(this.apiUrl + '/rules/home/' + home_id)
   }
 
   getDevicesTypes() {
     return this.http.get<string[]>(this.apiUrl + '/devices/types')
   }
 
-  getAllLocalDevice(): Observable<LocalDevice[]> {
-    return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices')
+  getAllLocalDevice(home_id): Observable<LocalDevice[]> {
+    return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices/home/'+home_id)
   }
 
 

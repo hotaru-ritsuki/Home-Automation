@@ -7,6 +7,7 @@ import {ModalComponent} from "../modal/modal.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LocationModalComponent} from "../location-modal/location-modal.component";
 import {Home} from "../../models/Home";
+import {HomeService} from "../../services/home.service";
 
 @Component({
   selector: 'app-devices',

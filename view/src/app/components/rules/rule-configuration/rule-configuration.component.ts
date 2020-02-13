@@ -8,6 +8,7 @@ import {Rule} from "../../../models/Rule";
 
 export interface DialogData {
   conditions: string[]
+  home_id:number
 }
 
 @Component({
@@ -24,7 +25,7 @@ export class RuleConfigurationComponent implements OnInit {
   fromData = [];
   actionData = [];
   actionsToDelete = [];
-
+  homeId;
 
   constructor(public dialog: MatDialog, private service: MainService, private rout: Router, private router: ActivatedRoute) {
   }
@@ -51,6 +52,7 @@ export class RuleConfigurationComponent implements OnInit {
         }
         this.actionData = JSON.parse(res.actions);
       }
+      this.homeId = this.rout.url.split("/")[2];
       this.service.getDevicesTypes().subscribe((res) => {
         this.conditions = res;
       });
@@ -58,21 +60,22 @@ export class RuleConfigurationComponent implements OnInit {
   }
 
   addCond() {
+    console.log(this.homeId);
     const dialogRef = this.dialog.open(DialogCondition, {
       width: '400px',
-      data: {conditions: this.conditions}
+      data: {conditions: this.conditions,home_id:this.homeId}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined)
         this.fromData.push(result);
-      console.log(this.fromData);
     });
   }
 
   addAction() {
     const dialogRef = this.dialog.open(DialogAction, {
       width: '400px',
+      data: {conditions: this.conditions,home_id:this.homeId}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined)
@@ -100,7 +103,7 @@ export class RuleConfigurationComponent implements OnInit {
         }
       })
     }
-    this.rout.navigate(['/rules'])
+    this.rout.navigate(['/rules/'+this.homeId])
   }
 
 
@@ -153,7 +156,8 @@ export class DialogCondition implements OnInit {
   changeType(container: HTMLDivElement, event) {
     this.devices = [];
     this.fromData.type = event;
-    this.service.getAllLocalDevice().subscribe((res) => {
+    console.log(this.data);
+    this.service.getAllLocalDevice(this.data.home_id).subscribe((res) => {
       for (const device of res) {
         if (device.deviceTemplate.type === event) {
           this.devices.push(device);
@@ -185,6 +189,7 @@ export class DialogCondition implements OnInit {
 export class DialogAction implements OnInit {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public dialogRef: MatDialogRef<DialogAction>,
     private service: MainService) {
   }
@@ -235,7 +240,7 @@ export class DialogAction implements OnInit {
     });
 
 
-    this.service.getAllLocalDevice().subscribe((res) => {
+    this.service.getAllLocalDevice(this.data.home_id).subscribe((res) => {
       for (const device of res) {
         this.localDevices.push({uuid: device.uuid, desc: device.description});
       }

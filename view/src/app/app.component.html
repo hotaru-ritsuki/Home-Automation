@@ -1,7 +1,6 @@
 <mdb-navbar *ngIf="isSignedIn()" SideClass="navbar navbar-expand-lg navbar-dark indigo" [containerInside]="false">
   <ul class="navbar-nav mr-auto">
     <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
-    <li *ngIf="isSignedIn()" routerLink="rules" class="nav-link waves-light">Rules</li>
     <li *ngIf="isSignedIn()" routerLink="administration/homes" class="nav-link waves-light">Administration</li>
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
