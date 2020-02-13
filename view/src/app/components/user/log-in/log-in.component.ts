@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserLogInService } from '../../../services/user-log-in.service';
 import { UserLogIn } from '../../../models/UserLogIn';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SuccessLogIn } from '../../../models/SuccessLogin';
+
 import { Router } from '@angular/router';
-import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-log-in',
@@ -17,14 +17,12 @@ export class LogInComponent implements OnInit {
   emailErrorMessageBackEnd: string;
   passwordErrorMessageBackEnd: string;
   backEndError: string;
-  isActivated: boolean;
-  @ViewChild('alert', { static: true }) alert: ElementRef;
 
   constructor(
     private userLogInService: UserLogInService,
-    private alertService: AlertService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.userLogIn = new UserLogIn();
@@ -32,7 +30,6 @@ export class LogInComponent implements OnInit {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
-    this.isActivated=this.alertService.isActivated();
   }
 
   private logIn(userLogIn: UserLogIn) {
@@ -60,9 +57,5 @@ export class LogInComponent implements OnInit {
         this.loadingAnim = false;
       }
     );
-  }
-
-  closeAlert() {
-    this.alert.nativeElement.classList.remove('show');
   }
 }

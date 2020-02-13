@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Router,ActivatedRoute} from '@angular/router';
-import {UserConfirmRegistrationService} from '../../../services/user-confirm-registration.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {AlertService} from "../../../services/alert.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserConfirmRegistrationService } from '../../../services/user-confirm-registration.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivationEmail } from '../../../models/ActivationEmail';
 
 @Component({
   selector: 'app-confirm-registration',
@@ -10,32 +10,29 @@ import {AlertService} from "../../../services/alert.service";
   styleUrls: ['./confirm-registration.component.css']
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  isActivated : boolean;
-  token: string;
-
+  activationEmail: ActivationEmail;
+  emailErrorMessageBackEnd: string;
+  loadingAnim = false;
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private userConfirmRegistrationService: UserConfirmRegistrationService,
-    private alertService: AlertService
-  ) {
-  }
+    private userConfirmRegistrationService: UserConfirmRegistrationService
+  ) {}
 
   ngOnInit() {
-    this.token=this.route.snapshot.params['token'];
-    this.activate(this.token);
-    this.alertService.setActivated(true);
-    this.router.navigateByUrl('users/login');
-  }
+    this.loadingAnim = false;
+    this.emailErrorMessageBackEnd = null;
 
-  private activate(token: string) {
-    console.log(token);
-    // this.userConfirmRegistrationService.activate(token).subscribe(
-    //   () => {
-    //     this.isActivated.emit(true);
-    //     this.router.navigateByUrl('users/login');
-    //   }
-    //     );
   }
-
+private activate(token: string) {
+this.loadingAnim = true;
+this.userConfirmRegistrationService.activate(token).subscribe((errors: HttpErrorResponse) => {
+  errors.error.forEach(error => {
+      this.emailErrorMessageBackEnd = error.message;
+    }
+  );
+  this.loadingAnim = false;
+});
+this.loadingAnim = false;
+}
+ 
 }
