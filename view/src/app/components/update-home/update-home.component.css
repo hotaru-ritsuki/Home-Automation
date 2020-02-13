@@ -1,0 +1,19 @@
+.nav-bar {
+  margin: 10px 10px 10px 25px;
+}
+
+.new-home {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+}
+
+.name_input_label {
+  width: 25%;
+}
+
+.button-containers {
+  padding: 0 15px;
+}

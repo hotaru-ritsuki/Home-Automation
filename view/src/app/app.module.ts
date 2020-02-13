@@ -40,6 +40,7 @@ import { LocationModalComponent } from './components/location-modal/location-mod
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
+import { UpdateHomeComponent } from './components/update-home/update-home.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -54,6 +55,7 @@ const routes: Routes = [
   {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/create/error', component: NewHomeWarningComponent, canActivate: [AuthGuardService]},
+  {path: 'administration/homes/:home/update', component: UpdateHomeComponent, canActivate: [AuthGuardService]},
   {
     path: 'users',
     component: UserComponent,
@@ -98,6 +100,7 @@ const routes: Routes = [
     HomeComponent,
     NewHomeComponent,
     NewHomeWarningComponent,
+    UpdateHomeComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [
