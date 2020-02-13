@@ -38,7 +38,7 @@ public class ActionRuleController {
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionRuleResponseDTO.class)
   })
-  @PostMapping("/update")
+  @PutMapping
   public ResponseEntity<ActionRuleResponseDTO> update(@RequestBody ActionRuleRequestDTO dto) {
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(actionRuleService
           .update(requestMapper.toEntity(dto))));
@@ -49,7 +49,7 @@ public class ActionRuleController {
         @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @PostMapping("/delete")
+  @DeleteMapping
   public ResponseEntity<Void> delete(@RequestBody ActionRuleId id) {
     actionRuleService.delete(id);
     return ResponseEntity.status(HttpStatus.OK).build();

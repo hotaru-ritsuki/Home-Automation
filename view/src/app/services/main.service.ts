@@ -121,16 +121,22 @@ export class MainService {
         specification[Object.keys(actionData)[i]] = actionData[Object.keys(actionData)[i]]
       }
     }
-    return this.http.post(this.apiUrl + '/actionsRules/update', {
+    return this.http.put(this.apiUrl + '/actionsRules', {
       ruleId: id,
       actionId: actionData.type.id, actionSpecification: JSON.stringify(specification)
     })
   }
 
   deleteActionRule(any: any, ruleId: any) {
-    return this.http.post(this.apiUrl + '/actionsRules/delete', {
-      ruleId: ruleId,
-      actionId: any.type.id
-    })
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        ruleId: ruleId,
+        actionId: any.type.id
+      },
+    };
+    return this.http.delete(this.apiUrl + '/actionsRules',options )
   }
 }

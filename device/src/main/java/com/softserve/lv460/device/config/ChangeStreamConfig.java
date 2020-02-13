@@ -82,7 +82,7 @@ public class ChangeStreamConfig {
 
   private Map<String, String> parseToMap(String toParse) {
     try {
-      return new ObjectMapper().readValue(toParse, new TypeReference<Map<String, String>>() {
+      return new ObjectMapper().readValue(toParse, new TypeReference<>() {
       });
     } catch (JsonProcessingException e) {
       log.error(e.getLocalizedMessage());

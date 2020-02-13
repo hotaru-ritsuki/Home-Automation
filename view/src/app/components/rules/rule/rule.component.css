@@ -118,3 +118,14 @@ img {
   cursor: pointer;
 }
 
+span{
+  outline: none;
+}
+
+.nav-bar {
+  cursor: pointer;
+  margin: 10px 10px 10px 25px;
+}
+.nav-bar span:last-child{
+  cursor: default!important;
+}

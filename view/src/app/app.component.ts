@@ -11,7 +11,7 @@ import {MainService} from "./services/main.service";
 export class AppComponent implements OnInit {
 
   constructor(private router: Router,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,private service:MainService) {
   }
 
   ngOnInit(): void {

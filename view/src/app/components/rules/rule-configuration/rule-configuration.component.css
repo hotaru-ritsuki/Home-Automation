@@ -138,3 +138,14 @@
   display: flex;
   justify-content: center;
 }
+.nav-bar {
+  outline: none;
+  cursor: pointer;
+  margin: 10px 10px 10px 25px;
+}
+.nav-bar span:last-child{
+  cursor: default!important;
+}
+span{
+  outline: none;
+}
