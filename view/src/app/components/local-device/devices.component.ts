@@ -6,8 +6,9 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalComponent} from "../modal/modal.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LocationModalComponent} from "../location-modal/location-modal.component";
-import {HomeService} from "../../services/home.service";
 import {Home} from "../../models/Home";
+import {LocationService} from "../../services/location.service";
+import {UpdateLocationComponent} from "../update-location/update-location.component";
 
 @Component({
   selector: 'app-devices',
@@ -35,7 +36,7 @@ export class DevicesComponent implements OnInit {
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router) {
+              private route: ActivatedRoute, private router: Router, private locationService: LocationService) {
   }
 
   ngOnInit() {
@@ -58,11 +59,30 @@ export class DevicesComponent implements OnInit {
 
   chooseHome() {
     this.locationId = 0;
+
     this.deviceService.findAllByHome(this.homeId).subscribe((response) => {
       this.allDevice = response;
     });
     this.locationExist = false;
     this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
+  }
+
+  deleteLocation(id: number, $event: MouseEvent) {
+    $event.stopPropagation();
+    this.locationService.deleteLocation(id).subscribe();
+
+    this.locationId = 0;
+
+    this.deviceService.findLocationByHome(this.homeId)
+      .subscribe((response) => {
+        this.allLocationsByHome = response;
+      });
+
+    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
+    
+
+    console.log(this.allLocationsByHome);
+
   }
 
   findAllDevice(home: number, location: number) {
@@ -104,6 +124,31 @@ export class DevicesComponent implements OnInit {
             this.allDevice = response;
           });
       } else {
+        this.chooseLocation(this.locationId);
+      }
+    });
+  }
+
+  openLocationModal() {
+    let dialogRef = this.dialog.open(UpdateLocationComponent, {
+      data: {
+        name: 'Are you sure, you want to delete this device?',
+        id: this.locationId,
+        homeId: this.homeId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.locationId == 0) {
+        this.deviceService.findAllByHome(this.homeId)
+          .subscribe((response) => {
+            this.allDevice = response;
+          });
+      } else {
+        this.deviceService.findLocationByHome(this.homeId)
+          .subscribe((response) => {
+            this.allLocationsByHome = response;
+          });
         this.chooseLocation(this.locationId);
       }
     });

@@ -40,6 +40,7 @@ import { LocationModalComponent } from './components/location-modal/location-mod
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
+import { UpdateLocationComponent } from './components/update-location/update-location.component';
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -50,6 +51,7 @@ const routes: Routes = [
   {path: 'device-template/:home_name/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
   {path: 'add-local-device/:home_name/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'update-location/:id', component: UpdateLocationComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal/home_name', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
@@ -98,6 +100,7 @@ const routes: Routes = [
     HomeComponent,
     NewHomeComponent,
     NewHomeWarningComponent,
+    UpdateLocationComponent,
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [
