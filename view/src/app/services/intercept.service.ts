@@ -52,20 +52,18 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log(req);
+        console.log(error);
         if (error.status === UNAUTHORIZED) {
-          console.log(error.status);
           return this.handle401Error(req, next);
         }
-        if (error.status === FORBIDDEN) {
-          console.log(error.status);
-          return this.handle403Error(req);
-        }
+
         if (error.status === NOT_FOUND) {
-          console.log(error.status);
           return this.handle404Error(req);
         }
-        console.log(error.status);
-        return throwError(error);
+
+        return this.handle403Error(req);
+
       })
     );
   }

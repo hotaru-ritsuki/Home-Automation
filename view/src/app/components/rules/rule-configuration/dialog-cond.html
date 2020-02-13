@@ -4,15 +4,15 @@
 <div mat-dialog-actions>
   <mat-form-field style="width:100%" floatLabel="never">
     <mat-label>Sensor type</mat-label>
-    <mat-select  (valueChange)="changeType(uuid,$event,btn)">
+    <mat-select  (valueChange)="changeType(uuid,$event)">
       <mat-option [value]="condition" *ngFor="let condition of data.conditions">{{condition}}</mat-option>
     </mat-select>
   </mat-form-field>
   <div style="display:none; width: 100%" #uuid>
     <mat-form-field style="width:100%" floatLabel="never">
-      <mat-label>uuid</mat-label>
-      <mat-select (valueChange)="getSpecification(container,$event)">
-        <mat-option [value]="device" *ngFor="let device of devices">{{device.uuid}}</mat-option>
+      <mat-label>device name</mat-label>
+      <mat-select (valueChange)="getSpecification(container,$event,btn)">
+        <mat-option [value]="device" *ngFor="let device of devices">{{device.description}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

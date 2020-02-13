@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {LocalDeviceService} from '../../services/local-device.service';
 import {Device} from '../../models/Device';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -194,6 +194,13 @@ export class DevicesComponent implements OnInit {
   getInfoFromDevice(UUID: string) {
     this.deviceService.getInfoFromDevice(UUID).subscribe((response) => {
       this.getInfo = response;
+    }, (errors: HttpErrorResponse) => {
+      this.getInfo = {
+        id: '',
+        uuId: '',
+        timestamp: '',
+        data: []
+      };
     });
   }
 }

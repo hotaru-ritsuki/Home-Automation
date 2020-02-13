@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalStorageService} from './services/local-storage.service';
+import {MainService} from "./services/main.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {LocalStorageService} from './services/local-storage.service';
 export class AppComponent implements OnInit {
 
   constructor(private router: Router,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,private service:MainService) {
   }
 
   ngOnInit(): void {
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.localStorageService.clear()
-    this.router.navigateByUrl("login");
+    this.router.navigateByUrl("users/login");
 
   }
 }
