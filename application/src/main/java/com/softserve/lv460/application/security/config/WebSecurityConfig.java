@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
             .antMatchers(securityConfigProperties.getRestorePasswordUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRestoreUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getConfirmRegistrationUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

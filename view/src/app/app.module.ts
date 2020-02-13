@@ -35,8 +35,6 @@ import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 import {AddLocalDeviceComponent} from "./components/add-local-device/add-local-device.component";
 import {LocationModalComponent} from "./components/location-modal/location-modal.component";
-import {LogInComponent} from "./components/user/log-in/log-in.component";
-import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
@@ -44,6 +42,7 @@ import { UpdateLocationComponent } from './components/update-location/update-loc
 import { UpdateHomeComponent } from './components/update-home/update-home.component';
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UserInformationComponent,FormatTimePipe} from "./components/user/user-information/user-information.component";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -67,10 +66,11 @@ const routes: Routes = [
       {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component},
       {path: 'login', component: LogInComponent},
       {path: 'register', component: SignUpComponent},
-      {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService]},
+      {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
       {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
       {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
-      {path: 'restore', component: RestorePasswordComponent}
+      {path: 'restore', component: RestorePasswordComponent},
+      {path: 'userInfo', component: UserInformationComponent},
     ]
   },
   {path: 'dashboard', component: DashboardComponent},
@@ -107,6 +107,8 @@ const routes: Routes = [
     NewHomeWarningComponent,
     UpdateLocationComponent,
     UpdateHomeComponent,
+    UserInformationComponent,
+    FormatTimePipe
   ],
   entryComponents: [DialogCondition, DialogAction],
   imports: [

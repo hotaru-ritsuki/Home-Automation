@@ -49,7 +49,7 @@ public class ApplicationUser {
   private String secret;
 
   @Column(columnDefinition = "boolean default false")
-  private Boolean enabled;
+  private boolean enabled;
 }
 
 

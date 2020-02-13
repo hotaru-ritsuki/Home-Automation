@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserConfirmRegistrationService } from '../../../services/user-confirm-registration.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ActivationEmail } from '../../../models/ActivationEmail';
+import {Component, OnInit } from '@angular/core';
+import {Router,ActivatedRoute} from '@angular/router';
+import {UserConfirmRegistrationService} from '../../../services/user-confirm-registration.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-confirm-registration',
@@ -10,29 +10,31 @@ import { ActivationEmail } from '../../../models/ActivationEmail';
   styleUrls: ['./confirm-registration.component.css']
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  activationEmail: ActivationEmail;
-  emailErrorMessageBackEnd: string;
-  loadingAnim = false;
+  isActivated : boolean;
+  token: string;
+
   constructor(
     private router: Router,
-    private userConfirmRegistrationService: UserConfirmRegistrationService
-  ) {}
+    private route: ActivatedRoute,
+    private userConfirmRegistrationService: UserConfirmRegistrationService,
+    private alertService: AlertService
+  ) {
+  }
 
   ngOnInit() {
-    this.loadingAnim = false;
-    this.emailErrorMessageBackEnd = null;
-
+    this.token=this.route.snapshot.params['token'];
+    this.activate();
+    this.alertService.setActivated(true);
+    this.router.navigateByUrl('users/login');
   }
-private activate(token: string) {
-this.loadingAnim = true;
-this.userConfirmRegistrationService.activate(token).subscribe((errors: HttpErrorResponse) => {
-  errors.error.forEach(error => {
-      this.emailErrorMessageBackEnd = error.message;
-    }
-  );
-  this.loadingAnim = false;
-});
-this.loadingAnim = false;
-}
- 
+
+  private activate() {
+    console.log(this.token);
+     this.userConfirmRegistrationService.activate(this.token).subscribe(
+       () => {
+         this.router.navigateByUrl('users/login');
+       }
+     );
+  }
+
 }

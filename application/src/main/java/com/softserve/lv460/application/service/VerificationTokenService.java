@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -45,7 +46,7 @@ public class VerificationTokenService {
 
     public void validateVerificationToken(String token) {
         VerificationToken verificationToken = tokenRepository.findByToken(token).orElseThrow(() -> new TokenNotValidException(VERIFICATION_TOKEN_IS_NOT_VALID));
-        if (verificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+      if (verificationToken.getExpiryDate().toLocalDate().isBefore(LocalDate.now()) || verificationToken.getExpiryDate().toLocalDate().isEqual(LocalDate.now()) ) {
             tokenRepository.delete(verificationToken);
             throw new TokenNotValidException(VERIFICATION_TOKEN_IS_EXPIRED);
         }
@@ -57,7 +58,7 @@ public class VerificationTokenService {
 
     public VerificationToken generateNewVerificationToken(String email) throws UserAlreadyActivated {
         ApplicationUser applicationUser = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_BY_EMAIL, email)));
-        if (applicationUser.getEnabled()) {
+        if (applicationUser.isEnabled()) {
             throw new UserAlreadyActivated(USER_ALREADY_ACTIVATED);
         }
         if (tokenRepository.findByUserId(applicationUser.getId()).isPresent()) {

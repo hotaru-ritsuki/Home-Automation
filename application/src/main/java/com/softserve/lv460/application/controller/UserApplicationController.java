@@ -37,6 +37,7 @@ import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserApplicationController {
   private final ApplicationUserService applicationUserService;
@@ -122,8 +123,8 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @GetMapping("/confirmRegistration")
-  public ResponseEntity confirmRegistration(final HttpServletRequest request, @RequestBody String token) {
+  @GetMapping("/confirmRegistration/{token}")
+  public ResponseEntity confirmRegistration(@PathVariable("token") String token) {
     tokenService.validateVerificationToken(token);
     return ResponseEntity.ok().build();
   }
