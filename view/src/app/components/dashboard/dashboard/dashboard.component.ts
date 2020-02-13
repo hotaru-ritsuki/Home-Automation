@@ -3,7 +3,6 @@ import {HomeService} from '../../../services/home.service';
 import {Home} from '../../../models/Home';
 import {Locations} from '../../../models/Locations';
 import {Router} from '@angular/router';
-import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
@@ -15,27 +14,27 @@ export class DashboardComponent implements OnInit {
 
   locations: Locations[] = [];
   homes: Home[] = [];
+  home: Home;
 
-  constructor(private homeService: HomeService, private router: Router, private dashboardLocationsService: DashboardLocationsService,
+  constructor(private homeService: HomeService, private router: Router,
               private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
     this.homeService.getHomes().subscribe(res => {
       this.homes = res;
     });
+    console.log(this.localStorageService.getAccessToken());
   }
 
-  searchLocationsByHomeAddress(homeAddress: string) {
-    for (const home of this.homes) {
-      if (home.addressa === homeAddress) {
-        this.locations = home.locations;
-      }
-    }
+  setCurrentHome(home: Home) {
+    this.home = home;
   }
 
   ngOnInit(): void {
   }
 
-  setLocation(location: Locations) {
-    this.dashboardLocationsService.setLocation(location);
+  redirect() {
+    setTimeout(() => {
+      this.router.navigateByUrl('device/' + this.home.name + '/' + this.home.id + '/location/' + 0);
+    }, 100);
   }
 }
