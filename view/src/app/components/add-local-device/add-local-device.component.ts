@@ -44,13 +44,18 @@ export class AddLocalDeviceComponent implements OnInit {
       this.allLocations = res;
     });
   }
+
   save() {
     this.localDeviceRequest.locationId = this.locationId;
     this.localDeviceRequest.description = this.descriptionText;
     this.localDeviceRequest.deviceTemplateId = this.deviceId;
     console.log(this.localDeviceRequest);
     this.addLocalDeviceService.saveDeviceInLocation(this.localDeviceRequest).subscribe();
-    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
+
+
+    setTimeout(() => {
+      this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
+    }, 100)
   }
 
   back() {

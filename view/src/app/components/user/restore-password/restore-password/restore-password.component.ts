@@ -27,11 +27,14 @@ export class RestorePasswordComponent implements OnInit {
   restorePassword(email: string) {
     this.userChange.findUserByEmail(email).subscribe((response) => {
       this.user = response;
+
+      if (this.user == null) {
+        this.text = 'Not found user';
+      }
+      this.text = 'We sent message on your email.';
     }, (errors: HttpErrorResponse) => {
+      console.log('error');
       this.text = 'You already have message.';
     });
-
-    this.text = 'We sent message on your email.';
   }
-
 }
