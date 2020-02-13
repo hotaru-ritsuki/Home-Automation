@@ -1,0 +1,28 @@
+<div class="activation">
+
+  <form #registerForm="ngForm" (ngSubmit)="activate(activationEmail)">
+
+    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+      <div *ngIf="emailControl.errors.required">
+        Email is required field
+      </div>
+      <div *ngIf="emailControl.errors.minlength">
+        Email must be at least 6 characters long
+      </div>
+      <div *ngIf="emailControl.errors.email">
+        Please input your email correctly
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+      {{emailErrorMessageBackEnd}}
+    </div>
+    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="activationEmail.email"
+           placeholder="Email"
+           #emailControl="ngModel" required
+           minlength="1" email="true">
+    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Log In!
+    </button>
+  </form>
+  </div>

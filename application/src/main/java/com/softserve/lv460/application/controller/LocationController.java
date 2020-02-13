@@ -47,6 +47,16 @@ public class LocationController {
           .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
+  @ApiOperation(value = "Return list of location in home")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+  })
+  @GetMapping("/home/{id}")
+  public ResponseEntity<List<LocationResponseDTO>> findAllByHome(@PathVariable("id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(locationService.findByHome(id).stream()
+            .map(responseMapper::toDto).collect(Collectors.toList()));
+  }
+
   @ApiOperation(value = "Update location")
   @ApiResponses(value = {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)

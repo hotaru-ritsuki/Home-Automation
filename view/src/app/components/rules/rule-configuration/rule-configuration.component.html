@@ -1,0 +1,33 @@
+<div class="rule-container">
+  <input placeholder="Name" type="text" class="form-control typeahead-basic" [(ngModel)]="ruleName"/>
+  <input placeholder="Description" type="text" class="form-control typeahead-basic" [(ngModel)]="ruleDescription"/>
+  <div class="conditions">
+    <div class="row-cond">
+      <div class="cond">
+        <div class="text">When...</div>
+        <div class="circle" (click)="addCond()">+</div>
+      </div>
+      <div class="items">
+        <div *ngFor="let item of fromData" class="item">
+          <img (click)="deleteItem(item)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
+          <div class="title">{{item.type}}</div>
+          <div class="data">{{item.currentFeature + ' ' + item.currentOperator + ' ' + item.state}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row-cond">
+      <div class="cond">
+        <div class="text">Than...</div>
+        <div class="circle" (click)="addAction()">+</div>
+      </div>
+      <div class="items">
+        <div *ngFor="let action of actionData" class="item">
+          <img (click)="deleteAction(action)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
+          <div class="title">{{action.type.toString().toLowerCase() + ' action'}}</div>
+          <div class="data">{{action.description}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="saveRule()">save</button>

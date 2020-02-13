@@ -4,11 +4,9 @@ import com.softserve.lv460.application.constant.SecurityConfigProperties;
 import com.softserve.lv460.application.security.filters.JwtAuthenticationFilter;
 import com.softserve.lv460.application.security.jwt.JwtAuthenticationEntryPoint;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,12 +29,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
         jsr250Enabled = true,
         prePostEnabled = true
 )
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  private final UserDetailsServiceImpl userDetailsService;
-  private final SecurityConfigProperties securityConfigProperties;
-  private final JwtAuthenticationEntryPoint unauthorizedHandler;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private UserDetailsServiceImpl userDetailsService;
+  private SecurityConfigProperties securityConfigProperties;
+  private JwtAuthenticationEntryPoint unauthorizedHandler;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Override
   public void configure(WebSecurity web) throws Exception {
@@ -45,18 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**");
-  }
-
-  @Bean
-  public JwtAuthenticationFilter jwtAuthenticationFilter() {
-    return new JwtAuthenticationFilter();
-  }
-
-  @Bean(BeanIds.AUTHENTICATION_MANAGER)
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+            "/webjars/**",
+            securityConfigProperties.getLocationUrl(),
+            securityConfigProperties.getRulesUrl(),
+            securityConfigProperties.getTelegramUrl()
+    );
   }
 
   @Override
@@ -67,13 +59,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getSignUpUrl()).permitAll()
             .antMatchers(securityConfigProperties.getSignInUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getLocationUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getRulesUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getTelegramUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
+            .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
+            .antMatchers(securityConfigProperties.getRestorePasswordUrl()).permitAll()
+            .antMatchers(securityConfigProperties.getRestoreUrl()).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
@@ -81,10 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
   }
 
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-    return source;
+  @Bean(BeanIds.AUTHENTICATION_MANAGER)
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
+
 }

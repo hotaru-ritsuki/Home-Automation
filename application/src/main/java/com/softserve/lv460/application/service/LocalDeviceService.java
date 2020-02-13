@@ -2,6 +2,7 @@ package com.softserve.lv460.application.service;
 
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.DeviceTemplate;
+import com.softserve.lv460.application.entity.Home;
 import com.softserve.lv460.application.entity.LocalDevice;
 import com.softserve.lv460.application.entity.Location;
 import com.softserve.lv460.application.exception.exceptions.NotFoundIdException;
@@ -34,10 +35,15 @@ public class LocalDeviceService {
         return localDeviceRepository.findAllByLocation(location);
     }
 
+    public List<LocalDevice> findAllByHome(Home home) {
+        return localDeviceRepository.findAllByLocationIn(locationService.findByHome(home.getId()));
+    }
+
     public LocalDevice update(LocalDevice localDevice) {
         LocalDevice localDeviceByUuid = findByUuid(localDevice.getUuid());
 
         localDeviceByUuid.setLocation(locationService.findOne(localDevice.getLocation().getId()));
+        localDeviceByUuid.setDescription(localDevice.getDescription());
 
         return localDeviceRepository.save(localDeviceByUuid);
     }
@@ -51,8 +57,9 @@ public class LocalDeviceService {
                         localDevice.getDeviceTemplate().getId())));
         device.setDeviceTemplate(deviceTemplate);
         device.setUuid(UUID.randomUUID().toString().substring(0, 32));
+        device.setDescription(localDevice.getDescription());
 
-        return localDeviceRepository.save(localDevice);
+        return localDeviceRepository.save(device);
     }
 
     public String delete(String uuid) {

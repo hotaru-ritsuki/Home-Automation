@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Locations} from '../../../home/model/Locations';
+import {Locations} from '../../../models/Locations';
 import {DashboardLocationsService} from '../../../services/dashboard-locations.service';
 import {LocalDevice} from '../../../models/LocalDevice';
 import {LocalDeviceService} from '../../../services/local-device.service';

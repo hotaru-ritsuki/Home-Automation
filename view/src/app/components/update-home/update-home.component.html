@@ -1,0 +1,51 @@
+<div class="nav-bar">
+  <span class="register">Administration</span> >
+  <span routerLink="/administration/homes" class="register">Homes</span> >
+  <span routerLink="/device/{{home.name}}/{{home.id}}/location/0" class="register">{{home.name}}</span> >
+  <span routerLink="/administration/homes/{{homeId}}/update" class="register">Edit</span>
+</div>
+<div class="new-home">
+  <form>
+    <div class="form-group row">
+      <label for="inputName" class="col-sm-3 col-form-label">Name*</label>
+      <div class="col-sm-9">
+        <input required type="text" class="form-control" id="inputName" #inputName [value]="home.name">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="selects" class="col-sm-3 col-form-label">Country</label>
+      <div class="col-sm-9">
+        <select class="form-control" id="selects" #inputCountry [value]="home.country">
+          <option>Ukraine</option>
+          <option>Poland</option>
+          <option>German</option>
+          <option>USA</option>
+          <option>Norway</option>
+          <option>France</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputCity" class="col-sm-3 col-form-label">City</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputCity" #inputCity [value]="home.city">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputAddress" class="col-sm-3 col-form-label">Address</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputAddress" #inputAddress [value]="home.addressa">
+      </div>
+    </div>
+
+  </form>
+  <div class="row button-containers">
+    <button class="btn btn-outline-primary col-sm-5"
+    (click)="update(inputCountry.value,inputCity.value,inputAddress.value,inputName.value)">Update
+    </button>
+    <button routerLink="/device/{{home.name}}/{{home.id}}/location/0" class="btn btn-outline-danger col-sm-5 offset-sm-2">Cancel</button>
+  </div>
+</div>

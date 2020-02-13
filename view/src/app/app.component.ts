@@ -11,12 +11,9 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService) {
-    // this.router.navigate(['']);
-
   }
 
   ngOnInit(): void {
-
   }
 
   isSignedIn(): boolean {
@@ -27,8 +24,8 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.localStorageService.clear();
-    this.router.navigateByUrl('');
-  }
+    this.localStorageService.clear()
+    this.router.navigateByUrl("login");
 
+  }
 }

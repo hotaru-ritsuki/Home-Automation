@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HomeService} from '../../../home/service/home.service';
-import {Home} from '../../../home/model/Home';
-import {Locations} from '../../../home/model/Locations';
+import {HomeService} from '../../../services/home.service';
+import {Home} from '../../../models/Home';
+import {Locations} from '../../../models/Locations';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../services/local-storage.service';
 
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(private homeService: HomeService, private router: Router,
               private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
-    this.homeService.getHomesByUser(this.localStorageService.getUserId()).subscribe(res => {
+    this.homeService.getHomes().subscribe(res => {
       this.homes = res;
     });
     console.log(this.localStorageService.getAccessToken());
