@@ -35,6 +35,7 @@ import {ResendRegistrationTokenComponent} from './components/user/resend-registr
 import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
+import {SignedGuardService} from "./services/signed-guard.service";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent},
@@ -49,11 +50,11 @@ const routes: Routes = [
     path: 'users',
     component: UserComponent,
     children: [
-      { path: 'login', component: LogInComponent},
-      { path: 'register', component: SignUpComponent},
+      { path: 'login', component: LogInComponent, canActivate:[SignedGuardService]},
+      { path: 'register', component: SignUpComponent, canActivate:[SignedGuardService]},
       { path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
       { path: 'changePassword', component: ChangePasswordComponent},
-      { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
+      { path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent,canActivate:[SignedGuardService]},
       { path: 'userInfo', component: UserInformationComponent},
       { path: 'restore', component: RestorePasswordComponent}
     ]
