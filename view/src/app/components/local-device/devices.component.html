@@ -3,6 +3,8 @@
     <span routerLink="/administration/homes" class="register">Administration</span> >
     <span routerLink="/administration/homes" class="register">Homes</span> >
     <span>{{homeName}}</span>
+    <input readonly value="{{home.city}}, {{home.addressa}}" class="form-control col-sm-4 inp" style="margin-left: 15px; display: inline-block; background: white; box-shadow: none">
+    <button routerLink="/administration/homes/{{homeId}}/update" class="btn" style="display: inline-block; color: #007BFF">Edit</button>
   </div>
   <div class="all">
     <div class="locations-list">
