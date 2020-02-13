@@ -53,7 +53,7 @@ public class RuleController {
   @PutMapping
   public ResponseEntity<RuleResponseDTO> update(@RequestBody RuleRequestDTO dto) {
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(ruleService
-          .update(requestMapper.toEntity(dto))));
+            .update(requestMapper.toEntity(dto))));
   }
 
   @ApiOperation(value = "Delete rule")

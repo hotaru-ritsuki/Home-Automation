@@ -49,14 +49,14 @@ export class RuleComponent implements OnInit {
 
   edit(rule: Rule) {
     let actions = [];
-    for (let i = 0; i < arguments.length; i++) {
+    console.log(rule);
+    // @ts-ignore
+    for (let i = 0; i < rule.actionRule.length; i++) {
       let data = JSON.parse(rule.actionRule[i].actionSpecification);
       data['type'] = rule.actionRule[i].action;
       actions.push(data)
     }
-    console.log(actions);
     this.router.navigate(['rules/configure'], {
-
       queryParams: {
         id: rule.id,
         name: rule.name,

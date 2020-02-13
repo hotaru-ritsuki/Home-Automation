@@ -10,7 +10,7 @@
       <div class="items">
         <div *ngFor="let item of fromData" class="item">
           <img (click)="deleteItem(item)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
-          <div class="title">{{item.name}}</div>
+          <div class="title">{{item.deviceName}}</div>
           <div class="data">{{item.currentFeature + ' ' + item.currentOperator + ' ' + item.state}}</div>
         </div>
       </div>

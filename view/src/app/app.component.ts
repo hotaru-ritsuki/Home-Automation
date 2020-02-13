@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalStorageService} from './services/local-storage.service';
+import {MainService} from "./services/main.service";
 
 @Component({
   selector: 'app-root',
