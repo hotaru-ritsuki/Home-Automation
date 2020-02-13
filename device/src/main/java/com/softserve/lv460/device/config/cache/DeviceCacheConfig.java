@@ -33,9 +33,9 @@ public class DeviceCacheConfig {
     this.propertiesConfig = propertiesConfig;
     this.loadingCache = CacheBuilder
             .newBuilder()
-            .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+            .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
             .build(
-                    new CacheLoader<String, LocalDeviceDto>() {
+                    new CacheLoader<>() {
                       @Override
                       public LocalDeviceDto load(String uuId) throws IOException {
                         return getRegisteredDevice(uuId);

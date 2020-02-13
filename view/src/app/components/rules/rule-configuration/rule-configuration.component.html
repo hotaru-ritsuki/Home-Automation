@@ -1,3 +1,9 @@
+<div class="nav-bar">
+  <span routerLink="/administration/homes" >Administration</span> >
+  <span routerLink="/administration/homes" >Homes</span> >
+  <span routerLink="/rules/{{homeId}}">Rules</span> >
+  <span>Configure</span>
+</div>
 <div class="rule-container">
   <input placeholder="Name" type="text" class="form-control typeahead-basic" [(ngModel)]="ruleName"/>
   <input placeholder="Description" type="text" class="form-control typeahead-basic" [(ngModel)]="ruleDescription"/>
@@ -10,24 +16,28 @@
       <div class="items">
         <div *ngFor="let item of fromData" class="item">
           <img (click)="deleteItem(item)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
-          <div class="title">{{item.type}}</div>
+          <div class="title">{{item.deviceName}}</div>
           <div class="data">{{item.currentFeature + ' ' + item.currentOperator + ' ' + item.state}}</div>
         </div>
       </div>
     </div>
     <div class="row-cond">
       <div class="cond">
-        <div class="text">Than...</div>
+        <div class="text">Then...</div>
         <div class="circle" (click)="addAction()">+</div>
       </div>
       <div class="items">
         <div *ngFor="let action of actionData" class="item">
           <img (click)="deleteAction(action)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
-          <div class="title">{{action.type.toString().toLowerCase() + ' action'}}</div>
-          <div class="data">{{action.description}}</div>
+          <div class="title">{{action.type.description.toString().toLowerCase()}}</div>
+          <div class="data">{{getDataToShow(action)}}</div>
         </div>
       </div>
     </div>
   </div>
+  <div class="button-save">
+    <button [disabled]="fromData.length == 0  || actionData.length == 0" (click)="saveRule()" style="width: 30%"
+            mat-raised-button color="primary">{{typeOfSave}}
+    </button>
+  </div>
 </div>
-<button (click)="saveRule()">save</button>

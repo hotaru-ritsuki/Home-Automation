@@ -49,7 +49,7 @@ public class RuleService {
   }
 
   public List<Rule> findByHome(Long homeId) {
-    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId);
+    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":" + homeId);
   }
 
 }
