@@ -16,5 +16,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
             .allowedOrigins("http://localhost:8080", "http://localhost:4200")
             .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
             .maxAge(MAX_AGE_SECS);
+
   }
 }

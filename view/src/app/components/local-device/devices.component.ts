@@ -9,6 +9,7 @@ import {LocationModalComponent} from "../location-modal/location-modal.component
 import {Home} from "../../models/Home";
 import {LocationService} from "../../services/location.service";
 import {UpdateLocationComponent} from "../update-location/update-location.component";
+import {HomeService} from "../../services/home.service";
 
 @Component({
   selector: 'app-devices',
@@ -36,10 +37,7 @@ export class DevicesComponent implements OnInit {
   locationExist = false;
 
   constructor(private http: HttpClient, private deviceService: LocalDeviceService, public dialog: MatDialog,
-              private route: ActivatedRoute, private router: Router, private locationService: LocationService) {
-  }
-
-  ngOnInit() {
+              private route: ActivatedRoute, private router: Router, private locationService: LocationService, private homeService: HomeService) {
     this.homeId = this.route.snapshot.params['home'];
     this.homeName = this.route.snapshot.params['home_name'];
     this.deviceService.getLocation()
@@ -55,6 +53,12 @@ export class DevicesComponent implements OnInit {
       .subscribe((response) => {
         this.allLocationsByHome = response;
       });
+    this.homeService.getHome(this.homeId).subscribe((res) => {
+      this.home = res;
+    });
+  }
+
+  ngOnInit() {
   }
 
   chooseHome() {
@@ -73,16 +77,13 @@ export class DevicesComponent implements OnInit {
 
     this.locationId = 0;
 
-    this.deviceService.findLocationByHome(this.homeId)
-      .subscribe((response) => {
-        this.allLocationsByHome = response;
-      });
-
-    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
-    
-
-    console.log(this.allLocationsByHome);
-
+    setTimeout(() =>{
+      this.deviceService.findLocationByHome(this.homeId)
+        .subscribe((response) => {
+          this.allLocationsByHome = response;
+        });
+      this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + 0);
+    }, 25);
   }
 
   findAllDevice(home: number, location: number) {
@@ -129,10 +130,10 @@ export class DevicesComponent implements OnInit {
     });
   }
 
-  openLocationModal() {
+  openLocationModal(locationName: string) {
     let dialogRef = this.dialog.open(UpdateLocationComponent, {
       data: {
-        name: 'Are you sure, you want to delete this device?',
+        name: locationName,
         id: this.locationId,
         homeId: this.homeId
       }
