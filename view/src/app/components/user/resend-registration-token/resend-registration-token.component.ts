@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { UserResendRegistrationTokenService } from '../../../services/user-resend-registration-token.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ActivationEmail } from '../../../models/ActivationEmail';
+import {UserResendRegistrationTokenService} from '../../../services/user-resend-registration-token.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ActivationEmail} from '../../../models/ActivationEmail';
 import {AlertService} from "../../../services/alert.service";
 
 @Component({
@@ -19,9 +19,8 @@ export class ResendRegistrationTokenComponent implements OnInit {
     private router: ActivatedRoute,
     private route: Router,
     private userResendRegistrationTokenService: UserResendRegistrationTokenService,
-    private alertService: AlertService)
-{
-    this.activationEmail=new ActivationEmail();
+    private alertService: AlertService) {
+    this.activationEmail = new ActivationEmail();
   }
 
   ngOnInit() {
@@ -29,17 +28,18 @@ export class ResendRegistrationTokenComponent implements OnInit {
     this.loadingAnim = false;
 
   }
-private resend(email: ActivationEmail) {
-  this.loadingAnim = true;
-  this.userResendRegistrationTokenService.activate(email).subscribe(()=>{
-    this.alertService.setMessage("Check your email to complete registration\n Don't forget to activate your account again")
-    this.route.navigateByUrl("users/login")},(errors: HttpErrorResponse) => {
-  errors.error.forEach(error => {
-      this.emailErrorMessageBackEnd = error.message;
-    }
-  );
-  this.loadingAnim = false;
-});
-}
+
+  private resend(email: ActivationEmail) {
+    this.loadingAnim = true;
+    this.userResendRegistrationTokenService.activate(email).subscribe(() => {
+        this.alertService.setMessage("Check your email to complete registration\n Don't forget to activate your account again")
+        this.route.navigateByUrl("users/login").then(r => r);
+      },
+      (errors: HttpErrorResponse) => {
+        this.emailErrorMessageBackEnd = errors.error.message
+      }
+    );
+
+  }
 
 }

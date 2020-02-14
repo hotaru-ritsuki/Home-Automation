@@ -40,7 +40,7 @@ export class LogInComponent implements OnInit {
     this.userLogInService.logIn(userLogIn).subscribe(
       (data: SuccessLogIn) => {
         this.userLogInService.saveUserToLocalStorage(data);
-        this.router.navigateByUrl('')
+        this.router.navigateByUrl('/dashboard')
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
         this.loadingAnim = false;

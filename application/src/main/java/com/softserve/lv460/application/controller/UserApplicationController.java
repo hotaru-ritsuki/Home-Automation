@@ -160,8 +160,8 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @PostMapping(value = "/resendRegistrationToken")
-  public ResponseEntity resendRegistrationToken(@RequestBody String email) {
+  @GetMapping(value = "/resendRegistrationToken/{email}")
+  public ResponseEntity resendRegistrationToken(@PathVariable("email") String email) {
     VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
