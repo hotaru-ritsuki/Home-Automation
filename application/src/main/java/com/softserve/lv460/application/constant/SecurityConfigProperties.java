@@ -23,4 +23,5 @@ public class SecurityConfigProperties {
   private String verifyEmail;
   private String restorePasswordUrl;
   private String resendRegistrationToken;
+  private String confirmRegistrationUrl;
 }

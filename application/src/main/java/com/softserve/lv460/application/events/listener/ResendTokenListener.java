@@ -20,7 +20,7 @@ public class ResendTokenListener implements ApplicationListener<ResendTokenEvent
   }
 
   private SimpleMailMessage resendToken(ResendTokenEvent event, ApplicationUser user, String token) {
-    String confirmationUrl = event.getAppUrl() + "registrationConfirm?token=" + token;
+    String confirmationUrl = event.getAppUrl() + "confirmRegistration/" + token;
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(user.getEmail());
     email.setSubject(MailMessages.RESENDING_ACTIVATION_TOKEN_SUBJECT);

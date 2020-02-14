@@ -3,9 +3,12 @@ package com.softserve.lv460.application.controller;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.dto.home.HomeRequestDTO;
 import com.softserve.lv460.application.dto.home.HomeResponseDTO;
+import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.mapper.home.HomeRequestMapper;
 import com.softserve.lv460.application.mapper.home.HomeResponseMapper;
+import com.softserve.lv460.application.mapper.user.TelegramResponseMapper;
 import com.softserve.lv460.application.security.annotation.CurrentUser;
+import com.softserve.lv460.application.security.dto.TelegramUserResponse;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.HomeService;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +31,7 @@ public class HomeController {
   private HomeService homeService;
   private HomeRequestMapper requestMapper;
   private HomeResponseMapper responseMapper;
+  private TelegramResponseMapper telegramResponseMapper;
 
   @ApiOperation(value = "Create new home")
   @ApiResponses(value = {
@@ -78,4 +82,14 @@ public class HomeController {
     return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllByUser(user.getId()).stream().map(responseMapper::toDto)
           .collect(Collectors.toList()));
   }
+
+  @ApiOperation(value = "Return list of users by home with telegrams")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserResponse.class)
+  })
+  @PostMapping(value = "/users/{home_id}")
+  public ResponseEntity<List<TelegramUserResponse>> findAllUsersByHomeWithTelegram(@PathVariable("home_id") Long homeId) {
+    return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllUsersByHomeIdWithTelegram(homeId).stream().map(telegramResponseMapper::toDto).collect(Collectors.toList()));
+  }
+
 }

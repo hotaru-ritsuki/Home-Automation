@@ -45,3 +45,11 @@
   height: 100%;
   width: 100%;
 }
+
+.rightPlaceInSettings {
+  position: absolute;
+  right: 0.7%;
+  top:2%;
+  box-shadow: none;
+  text-transform:none;
+}

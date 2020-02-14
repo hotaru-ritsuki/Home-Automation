@@ -3,6 +3,7 @@ import { UserSignUp } from '../../../models/UserSignUp';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {UserSignUpService} from '../../../services/user-sign-up.service';
+import {AlertService} from "../../../services/alert.service";
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -18,6 +19,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private userSecurityService: UserSignUpService,
+    private alertService: AlertService,
     private router: Router
   ) {
   }
@@ -32,7 +34,8 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = true;
     this.userSecurityService.signUp(userSignUp).subscribe(
       () => {
-        this.router.navigateByUrl('login').then(r => r);
+        this.alertService.setMessage("Please check your email to complete registration");
+        this.router.navigateByUrl('users/login').then(r => r);
       },
       (errors: HttpErrorResponse) => {
           this.passwordErrorMessageBackEnd = 'Incorrect Data';
