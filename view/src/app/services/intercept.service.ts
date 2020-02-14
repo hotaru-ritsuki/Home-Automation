@@ -57,13 +57,12 @@ export class InterceptorService implements HttpInterceptor {
         if (error.status === UNAUTHORIZED) {
           return this.handle401Error(req, next);
         }
-
         if (error.status === NOT_FOUND) {
           return this.handle404Error(req);
         }
-
-        return this.handle403Error(req);
-
+        if (error.status === FORBIDDEN) {
+          return this.handle403Error(req);
+        }
       })
     );
   }

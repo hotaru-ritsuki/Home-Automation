@@ -6,8 +6,8 @@
     </ngb-tabset>
   </div>
     <div [hidden]="selectedTabId == 'telegram'">
-      <div class="sign-up">
-        <form #registerForm="ngForm" (ngSubmit)="changeInfo(userSignUp)">
+      <div class="changeUserInfo">
+        <form #registerForm="ngForm" (ngSubmit)="changeInfo(userChangeInfo)">
           <div class="validation-error" *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
 
             <div style="margin-left: 10px" *ngIf="firstNameControl.errors.required">
@@ -21,7 +21,7 @@
           </div>
           <input id="first-name" type="text" class="form-control first-name" name="fistName"
             placeholder="First Name"
-            [(ngModel)]="userSignUp.firstName"
+            [(ngModel)]="userChangeInfo.firstName"
             #firstNameControl="ngModel" required
             minlength="1" maxlength="20">
 
@@ -38,7 +38,7 @@
           </div>
           <input id="last-name" type="text" class="form-control last-name" name="lastName"
             placeholder="Last Name"
-            [(ngModel)]="userSignUp.lastName"
+            [(ngModel)]="userChangeInfo.lastName"
             #lastNameControl="ngModel"
             required
             minlength="1" maxlength="20">
@@ -77,30 +77,34 @@
           </div>
         </div>
         <div class="bs-stepper-content">
-          <form (ngSubmit)="onSubmit()">
+
             <div id="test-l-1" class="content">
               <div class="form-group">
-                <label for="exampleInputEmail1">Get Started</label>
-
+                <div class="tgme_page_action">
+                  <a class="tgme_action_button_new" (click)="openTelegram()">Get Started!</a>
+                </div>
               </div>
-              <button (click)="next()" class="btn btn-primary">Next</button>
             </div>
+
             <div id="test-l-2" class="content">
               <div class="form-group">
+                <div class="error" *ngIf="backEndError!=null">
+                  {{backEndError}}
+                </div>
                 <label for="exampleInputUsername1">Input username</label>
-                <input class="form-control" id="exampleInputUsername1" placeholder="Username" />
+                <input class="form-control" id="exampleInputUsername1" placeholder="Telegram Username" [(ngModel)]="username.username"/>
               </div>
-              <button (click)="next()" class="btn btn-primary">Next</button>
+              <button (click)="sendActivation()" class="btn btn-primary">Accept</button>
             </div>
+
             <div id="test-l-3" class="content text-center">
-              <a>Your validation code: <strong>52967</strong></a>
+              <a>Your validation code: <strong>{{activationCode}}</strong></a>
               <p></p>
               <div>
                 <h2>{{countDown | async | formatTime}}</h2>
               </div>
-              <button type="submit" class="btn btn-primary mt-5">Refresh</button>
+              <button (click)="sendActivation()" class="btn btn-primary mt-5">Refresh</button>
             </div>
-          </form>
         </div>
       </div>
     </div>
