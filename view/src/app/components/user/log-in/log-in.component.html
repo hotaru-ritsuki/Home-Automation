@@ -61,11 +61,11 @@
     </div>
   </div>
 
-  <div #alert class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isActivated">
+  <div #alert class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="alertMessage.length>0">
     <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <strong>Your account successfully activated.</strong> Login to discover more features
+    <strong>{{alertMessage}}</strong>
   </div>
 </div>
 

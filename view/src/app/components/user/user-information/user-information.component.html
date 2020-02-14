@@ -21,7 +21,7 @@
 
       </div>
       <input id="first-name" type="text" class="form-control first-name" name="fistName"
-             placeholder="First Name"
+             (placeholder)="userChangeInfo.firstName"
              [(ngModel)]="userChangeInfo.firstName"
              #firstNameControl="ngModel" required
              minlength="1" maxlength="20">
@@ -38,7 +38,7 @@
 
       </div>
       <input id="last-name" type="text" class="form-control last-name" name="lastName"
-             placeholder="Last Name"
+             (placeholder)="userChangeInfo.lastName"
              [(ngModel)]="userChangeInfo.lastName"
              #lastNameControl="ngModel"
              required
@@ -76,6 +76,13 @@
             <span class="bs-stepper-label">Activate</span>
           </button>
         </div>
+        <div class="line"></div>
+        <div class="step" data-target="#test-l-4">
+          <button class="step-trigger">
+            <span class="bs-stepper-circle">4</span>
+            <span class="bs-stepper-label">Done!</span>
+          </button>
+        </div>
       </div>
       <div class="bs-stepper-content">
 
@@ -105,6 +112,14 @@
             <h2>{{countDown | async | formatTime}}</h2>
           </div>
           <button (click)="refreshActivation()" class="btn btn-primary mt-5">Refresh</button>
+          <button (click)="getStatus()" class="btn btn-primary mt-5">OK!</button>
+        </div>
+
+        <div id="test-l-4" class="content text-center">
+          <div class="form-group" style="text-align: center">
+            <a>You have succesfully linked your Telegram Account <strong>{{userTelegram.username}}</strong></a>
+          </div>
+          <button (click)="refresh()" style="margin: 0 auto" class="btn btn-primary">Add!</button>
         </div>
       </div>
   </div>

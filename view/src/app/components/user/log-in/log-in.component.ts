@@ -17,7 +17,7 @@ export class LogInComponent implements OnInit {
   emailErrorMessageBackEnd: string;
   passwordErrorMessageBackEnd: string;
   backEndError: string;
-  isActivated: boolean;
+  public alertMessage:string
   @ViewChild('alert', { static: true }) alert: ElementRef;
 
   constructor(
@@ -32,7 +32,7 @@ export class LogInComponent implements OnInit {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
-    this.isActivated=this.alertService.isActivated();
+    this.alertMessage=this.alertService.getMessage();
   }
 
   private logIn(userLogIn: UserLogIn) {

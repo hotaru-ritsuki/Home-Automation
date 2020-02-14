@@ -13,10 +13,12 @@ import {SuccessLogIn} from "../../../models/SuccessLogin";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserTelegramService} from "../../../services/user-telegram.service";
 import {UserTelegram} from "../../../models/UserTelegram";
+import {UserTelegramDTO} from "../../../models/UserTelegramDTO";
+import {UserChangeInfoService} from "../../../services/user-change-info.service";
 
 @Injectable()
 export class TimerService {
-  counter = 300;
+  public counter = 300;
   tick = 1000;
 
   getCounter() {
@@ -56,17 +58,23 @@ export class UserInformationComponent implements OnInit {
   userChangeInfo: UserChangeInfo;
   activationCode: string;
   backEndError: string;
+  firstName:string;
+  lastName:string;
   username:UserTelegram;
   selectedTabId = 'info';
   countDown;
   counter = 10;
+  userTelegram:UserTelegramDTO;
 
   constructor(
     private router: Router,
     private timerService: TimerService,
-    private userTelegramService: UserTelegramService
+    private userTelegramService: UserTelegramService,
+    private userChangeInfoService: UserChangeInfoService
   ) {
     this.username=new UserTelegram();
+    this.userChangeInfo=new UserChangeInfo();
+    this.userTelegram=new UserTelegramDTO();
   }
 
 ngOnInit() {
@@ -74,14 +82,10 @@ ngOnInit() {
       linear: true,
       animation: true
     });
-    this.userChangeInfo = new UserChangeInfo();
-
-    //or
-    // this.countDown = this.myService.getCounter();
+    this.getInfo();
+    this.getStatus();
   }
-  private changeInfo(userChangeInfo: UserChangeInfo) {
 
-  }
   public openTelegram(){
     window.open("https://t.me/HomemadeAlertBot", "_blank");
     this.stepper.next();
@@ -104,11 +108,50 @@ ngOnInit() {
      this.userTelegramService.sendActivation(this.username).subscribe(
      (data: string) => {
         this.activationCode=data;
-        this.countDown = this.timerService.getCounter().do(() => --this.counter);
+       this.timerService.counter=300;
       },
      (errors: HttpErrorResponse) => {
           this.backEndError = errors.error.message;
       }
      );
   }
+  public getStatus(){
+    this.userTelegramService.getStatus().subscribe(
+      (data: UserTelegramDTO) => {
+        this.userTelegram=data;
+        this.stepper.to(4);
+      },
+      (errors: HttpErrorResponse) => {
+        this.backEndError = errors.error.message;
+      }
+    );
+  }
+
+  public refresh(){
+    this.stepper.to(1);
+  }
+
+  public getInfo(){
+    this.userChangeInfoService.getInfo().subscribe(
+      (data:UserChangeInfo)=>{
+        this.userChangeInfo.firstName=data.firstName;
+        this.userChangeInfo.lastName=data.lastName;
+      },
+      (errors: HttpErrorResponse) => {
+        this.backEndError = errors.error.message;
+      }
+    )
+  }
+  private changeInfo(userChangeInfo: UserChangeInfo){
+  this.userChangeInfoService.changeInfo(userChangeInfo).subscribe(
+    (data: UserChangeInfo) => {
+      this.userChangeInfo.firstName=data.firstName;
+      this.userChangeInfo.lastName=data.lastName;
+    },
+    (errors: HttpErrorResponse) => {
+      this.backEndError = errors.error.message;
+    }
+  );
+}
+
 }

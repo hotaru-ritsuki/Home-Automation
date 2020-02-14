@@ -1,7 +1,6 @@
 import {Component, OnInit } from '@angular/core';
 import {Router,ActivatedRoute} from '@angular/router';
 import {UserConfirmRegistrationService} from '../../../services/user-confirm-registration.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {AlertService} from "../../../services/alert.service";
 
 @Component({
@@ -24,7 +23,7 @@ export class ConfirmRegistrationComponent implements OnInit {
   ngOnInit() {
     this.token=this.route.snapshot.params['token'];
     this.activate();
-    this.alertService.setActivated(true);
+    this.alertService.setMessage("Your account was successfully activated.\n Login to discover new features");
     this.router.navigateByUrl('users/login');
   }
 

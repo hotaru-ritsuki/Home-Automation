@@ -3,6 +3,7 @@ package com.softserve.lv460.application.controller;
 import com.softserve.lv460.application.constant.*;
 import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
 import com.softserve.lv460.application.dto.user.UserChangePasswordDto;
+import com.softserve.lv460.application.dto.user.UserInfo;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
@@ -159,8 +160,8 @@ public class UserApplicationController {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
-  @GetMapping(value = "/resendRegistrationToken")
-  public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
+  @PostMapping(value = "/resendRegistrationToken")
+  public ResponseEntity resendRegistrationToken(@RequestBody String email) {
     VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
     eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
@@ -189,6 +190,45 @@ public class UserApplicationController {
     tokenService.delete(verificationToken.getId());
 
     return ResponseEntity.ok().body(verificationToken);
+  }
+
+  @ApiOperation("Get telegram")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/getTelegramUser")
+  public ResponseEntity<TelegramUser> getTelegramUser(@CurrentUser UserPrincipal userPrincipal) {
+    TelegramUser telegramUser=applicationUserService.findById(userPrincipal.getId()).getTelegramUser();
+    if(telegramUser==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.ok().body(applicationUserService.findById(userPrincipal.getId()).getTelegramUser());
+  }
+
+  @ApiOperation("Get User Credentials")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @GetMapping("/getInfo")
+  public ResponseEntity<UserInfo> getInfo(@CurrentUser UserPrincipal userPrincipal) {
+    ApplicationUser user=applicationUserService.findById(userPrincipal.getId());
+    return ResponseEntity.ok().body(new UserInfo(user.getFirstName(),user.getLastName()));
+  }
+
+  @ApiOperation("Set User Informations")
+  @ApiResponses(value = {
+          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = JWTUserRequest.class),
+          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+  })
+  @PostMapping("/setInfo")
+  public ResponseEntity<UserInfo> setInfo(@CurrentUser UserPrincipal userPrincipal,@RequestBody UserInfo userInfo) {
+    ApplicationUser user=applicationUserService.findById(userPrincipal.getId());
+    user.setFirstName(userInfo.getFirstName());
+    user.setLastName(userInfo.getLastName());
+    applicationUserService.save(user);
+    return ResponseEntity.ok().body(userInfo);
   }
 
   public String getViewUrl() {

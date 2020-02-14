@@ -5,14 +5,14 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class AlertService {
-  activated:boolean;
+  message:string;
   constructor() {
   }
-  public isActivated():boolean{
-    return this.activated;
+  public getMessage():string{
+    return this.message;
   }
-  public setActivated(active:boolean){
-    this.activated=active;
+  public setMessage(active:string){
+    this.message=active;
   }
 
 }
