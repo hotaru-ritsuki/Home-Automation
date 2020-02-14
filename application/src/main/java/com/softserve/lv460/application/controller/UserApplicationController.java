@@ -77,7 +77,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @PostMapping("/register")
-  public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest, final HttpServletRequest request) {
+  public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest) {
     ApplicationUser applicationUser = applicationUserService.save(userRequest);
     eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(applicationUser));
@@ -199,8 +199,8 @@ public class UserApplicationController {
   })
   @GetMapping("/getTelegramUser")
   public ResponseEntity<TelegramUser> getTelegramUser(@CurrentUser UserPrincipal userPrincipal) {
-    TelegramUser telegramUser=applicationUserService.findById(userPrincipal.getId()).getTelegramUser();
-    if(telegramUser==null){
+    TelegramUser telegramUser = applicationUserService.findById(userPrincipal.getId()).getTelegramUser();
+    if (telegramUser == null) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     return ResponseEntity.ok().body(applicationUserService.findById(userPrincipal.getId()).getTelegramUser());
@@ -213,8 +213,8 @@ public class UserApplicationController {
   })
   @GetMapping("/getInfo")
   public ResponseEntity<UserInfo> getInfo(@CurrentUser UserPrincipal userPrincipal) {
-    ApplicationUser user=applicationUserService.findById(userPrincipal.getId());
-    return ResponseEntity.ok().body(new UserInfo(user.getFirstName(),user.getLastName()));
+    ApplicationUser user = applicationUserService.findById(userPrincipal.getId());
+    return ResponseEntity.ok().body(new UserInfo(user.getFirstName(), user.getLastName()));
   }
 
   @ApiOperation("Set User Informations")
@@ -223,8 +223,8 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
   })
   @PostMapping("/setInfo")
-  public ResponseEntity<UserInfo> setInfo(@CurrentUser UserPrincipal userPrincipal,@RequestBody UserInfo userInfo) {
-    ApplicationUser user=applicationUserService.findById(userPrincipal.getId());
+  public ResponseEntity<UserInfo> setInfo(@CurrentUser UserPrincipal userPrincipal, @RequestBody UserInfo userInfo) {
+    ApplicationUser user = applicationUserService.findById(userPrincipal.getId());
     user.setFirstName(userInfo.getFirstName());
     user.setLastName(userInfo.getLastName());
     applicationUserService.save(user);

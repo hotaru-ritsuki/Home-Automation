@@ -6,8 +6,6 @@ import com.softserve.lv460.application.exception.exceptions.BadRefreshTokenExcep
 import com.softserve.lv460.application.exception.exceptions.UserAlreadyRegisteredException;
 import com.softserve.lv460.application.mapper.user.UserRegistrationRequestMapper;
 import com.softserve.lv460.application.repository.ApplicationUserRepository;
-import com.softserve.lv460.application.repository.HomeRepository;
-import com.softserve.lv460.application.repository.VerificationTokenRepository;
 import com.softserve.lv460.application.security.dto.JWTSuccessLogIn;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
@@ -100,6 +98,6 @@ public class ApplicationUserService {
   @Scheduled(fixedRate = 604_800_000)
   public void deleteExpired() {
     int rows = applicationUserRepository.deleteAllByEnabled(false);
-    log.info(rows + "deactivared users were deleted.");
+    log.info(rows + " deactivared users were deleted.");
   }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class HomeService {
 
   public List<ApplicationUser> findAllUsersByHomeIdWithTelegram(Long homeId) {
     Home home = homeRepository.findById(homeId).orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, homeId)));
-    return home.getApplicationUsers().stream().filter(user -> user.getTelegramUser() != null && user.getTelegramUser().isEnabled()).collect(Collectors.toList());
+    return home.getApplicationUsers().stream().filter(user -> Objects.nonNull(user.getTelegramUser())).filter(user->user.getTelegramUser().isEnabled()).collect(Collectors.toList());
   }
 
 }

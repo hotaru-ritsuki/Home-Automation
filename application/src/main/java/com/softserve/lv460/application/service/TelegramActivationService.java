@@ -5,7 +5,6 @@ import com.softserve.lv460.application.entity.TelegramActivation;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.exception.exceptions.NotFoundException;
-import com.softserve.lv460.application.exception.exceptions.TokenNotValidException;
 import com.softserve.lv460.application.repository.TelegramActivationRepository;
 import com.softserve.lv460.application.repository.TelegramUserRepository;
 import lombok.AllArgsConstructor;
@@ -14,11 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static com.softserve.lv460.application.constant.ErrorMessage.VERIFICATION_TOKEN_IS_EXPIRED;
 
 @Slf4j
 @Service
@@ -46,8 +42,8 @@ public class TelegramActivationService {
     return telegramActivationRepository.existsByTelegramUserId(telegramUserId);
   }
 
-  public boolean existsByTelegramUsername(String username){
-    TelegramUser telegramUser=telegramUserRepository.findByUsername(username).orElseThrow(()->new NotFoundException("Not found"));
+  public boolean existsByTelegramUsername(String username) {
+    TelegramUser telegramUser = telegramUserRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Not found"));
     return telegramActivationRepository.existsByTelegramUserId(telegramUser.getId());
   }
 
@@ -63,7 +59,7 @@ public class TelegramActivationService {
     telegramActivationRepository.deleteById(id);
   }
 
-@Transactional
+  @Transactional
   public void deleteByTelegramUserId(Long telegramUserId) {
     if (!telegramActivationRepository.findByTelegramUserId(telegramUserId).isPresent()) {
       throw new NotDeletedException(String.format(ErrorMessage.TELEGRAM_CODE_NOT_DELETED_BY_ID, telegramUserId));

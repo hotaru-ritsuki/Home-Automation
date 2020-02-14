@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserInfo {
-  String firstName;
-  String lastName;
+  private String firstName;
+  private String lastName;
 }

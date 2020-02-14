@@ -34,12 +34,12 @@ public class HomeAlertBotService {
 
   public void execute(String chatId, String text) {
     try {
-      String telegramURL = "https://api.telegram.org/bot1063385637:AAF2u88hfmblJwCVvr-5Zto8Uc86IjAA3VI/sendMessage?chat_id=%s&text=%s";
+      String telegramURL = "";
       URL url = new URL(String.format(telegramURL, chatId, text));
       URLConnection conn = url.openConnection();
       conn.getInputStream();
     } catch (IOException e) {
-      log.info(e.toString());
+      log.debug(ErrorMessage.SOMETHING_WENT_WRONG_WITH_BOT,e);
     }
   }
 
