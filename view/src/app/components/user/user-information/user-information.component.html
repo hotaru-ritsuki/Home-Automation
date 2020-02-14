@@ -1,112 +1,113 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
-  <div class="col-2">
-    <ngb-tabset type="pills" orientation="vertical" (tabChange)="selectedTabId = $event.nextId">
-      <ngb-tab id="info" title="User Info">User Info</ngb-tab>
-      <ngb-tab id="telegram" title="Telegram">Telegram</ngb-tab>
-    </ngb-tabset>
+<div class="col-2">
+  <ngb-tabset type="pills" orientation="vertical" (tabChange)="selectedTabId = $event.nextId">
+    <ngb-tab id="info" title="User Info">User Info</ngb-tab>
+    <ngb-tab id="telegram" title="Telegram">Telegram</ngb-tab>
+  </ngb-tabset>
+</div>
+<div [hidden]="selectedTabId == 'telegram'">
+  <div class="changeUserInfo">
+    <form #registerForm="ngForm" (ngSubmit)="changeInfo(userChangeInfo)">
+      <div class="validation-error"
+           *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+
+        <div style="margin-left: 10px" *ngIf="firstNameControl.errors.required">
+          First Name is required field
+        </div>
+
+        <div *ngIf="firstNameControl.errors.minlength">
+          First Name must be at least 1 character long
+        </div>
+
+      </div>
+      <input id="first-name" type="text" class="form-control first-name" name="fistName"
+             placeholder="First Name"
+             [(ngModel)]="userChangeInfo.firstName"
+             #firstNameControl="ngModel" required
+             minlength="1" maxlength="20">
+
+      <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
+
+        <div *ngIf="lastNameControl.errors.required">
+          Last Name is required field
+        </div>
+
+        <div *ngIf="lastNameControl.errors.minlength">
+          Last Name must be at least 1 character long
+        </div>
+
+      </div>
+      <input id="last-name" type="text" class="form-control last-name" name="lastName"
+             placeholder="Last Name"
+             [(ngModel)]="userChangeInfo.lastName"
+             #lastNameControl="ngModel"
+             required
+             minlength="1" maxlength="20">
+      <p></p>
+
+      <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Confirm
+      </button>
+    </form>
   </div>
-    <div [hidden]="selectedTabId == 'telegram'">
-      <div class="changeUserInfo">
-        <form #registerForm="ngForm" (ngSubmit)="changeInfo(userChangeInfo)">
-          <div class="validation-error" *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+</div>
 
-            <div style="margin-left: 10px" *ngIf="firstNameControl.errors.required">
-              First Name is required field
-            </div>
-
-            <div *ngIf="firstNameControl.errors.minlength">
-              First Name must be at least 1 character long
-            </div>
-
-          </div>
-          <input id="first-name" type="text" class="form-control first-name" name="fistName"
-            placeholder="First Name"
-            [(ngModel)]="userChangeInfo.firstName"
-            #firstNameControl="ngModel" required
-            minlength="1" maxlength="20">
-
-          <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
-
-            <div *ngIf="lastNameControl.errors.required">
-              Last Name is required field
-            </div>
-
-            <div *ngIf="lastNameControl.errors.minlength">
-              Last Name must be at least 1 character long
-            </div>
-
-          </div>
-          <input id="last-name" type="text" class="form-control last-name" name="lastName"
-            placeholder="Last Name"
-            [(ngModel)]="userChangeInfo.lastName"
-            #lastNameControl="ngModel"
-            required
-            minlength="1" maxlength="20">
-          <p></p>
-
-          <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
-            <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Confirm
+<div [hidden]="selectedTabId == 'info'">
+    <div id="stepper1" class="bs-stepper">
+      <div class="bs-stepper-header">
+        <div class="step" data-target="#test-l-1">
+          <button class="step-trigger">
+            <span class="bs-stepper-circle">1</span>
+            <span class="bs-stepper-label">Start with Bot</span>
           </button>
-        </form>
-      </div>
-    </div>
-
-    <div [hidden]="selectedTabId == 'info'">
-      <div id="stepper1" class="bs-stepper">
-        <div class="bs-stepper-header">
-          <div class="step" data-target="#test-l-1">
-            <button class="step-trigger">
-              <span class="bs-stepper-circle">1</span>
-              <span class="bs-stepper-label">Start with Bot</span>
-            </button>
-          </div>
-          <div class="line"></div>
-          <div class="step" data-target="#test-l-2">
-            <button class="step-trigger">
-              <span class="bs-stepper-circle">2</span>
-              <span class="bs-stepper-label">Input Username</span>
-            </button>
-          </div>
-          <div class="line"></div>
-          <div class="step" data-target="#test-l-3">
-            <button class="step-trigger">
-              <span class="bs-stepper-circle">3</span>
-              <span class="bs-stepper-label">Acticate</span>
-            </button>
-          </div>
         </div>
-        <div class="bs-stepper-content">
-
-            <div id="test-l-1" class="content">
-              <div class="form-group">
-                <div class="tgme_page_action">
-                  <a class="tgme_action_button_new" (click)="openTelegram()">Get Started!</a>
-                </div>
-              </div>
-            </div>
-
-            <div id="test-l-2" class="content">
-              <div class="form-group">
-                <div class="error" *ngIf="backEndError!=null">
-                  {{backEndError}}
-                </div>
-                <label for="exampleInputUsername1">Input username</label>
-                <input class="form-control" id="exampleInputUsername1" placeholder="Telegram Username" [(ngModel)]="username.username"/>
-              </div>
-              <button (click)="sendActivation()" class="btn btn-primary">Accept</button>
-            </div>
-
-            <div id="test-l-3" class="content text-center">
-              <a>Your validation code: <strong>{{activationCode}}</strong></a>
-              <p></p>
-              <div>
-                <h2>{{countDown | async | formatTime}}</h2>
-              </div>
-              <button (click)="sendActivation()" class="btn btn-primary mt-5">Refresh</button>
-            </div>
+        <div class="line"></div>
+        <div class="step" data-target="#test-l-2">
+          <button class="step-trigger">
+            <span class="bs-stepper-circle">2</span>
+            <span class="bs-stepper-label">Input Username</span>
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="step" data-target="#test-l-3">
+          <button class="step-trigger">
+            <span class="bs-stepper-circle">3</span>
+            <span class="bs-stepper-label">Activate</span>
+          </button>
         </div>
       </div>
-    </div>
+      <div class="bs-stepper-content">
+
+        <div id="test-l-1" class="content">
+          <div class="form-group">
+            <div class="tgme_page_action">
+              <a class="tgme_action_button_new" (click)="openTelegram()">Get Started!</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="test-l-2" class="content text-center">
+          <div class="form-group">
+            <div class="error" *ngIf="backEndError!=null">
+              {{backEndError}}
+            </div>
+            <input class="form-control" style="width: 30%; text-align: center; margin: 0 auto;" id="exampleInputUsername1" placeholder="Telegram Username"
+                   [(ngModel)]="username.username"/>
+          </div>
+          <button (click)="sendActivation()" class="btn btn-primary">Accept</button>
+        </div>
+
+        <div id="test-l-3" class="content text-center">
+          <a>Your validation code: <strong>{{activationCode}}</strong></a>
+          <p></p>
+          <div>
+            <h2>{{countDown | async | formatTime}}</h2>
+          </div>
+          <button (click)="refreshActivation()" class="btn btn-primary mt-5">Refresh</button>
+        </div>
+      </div>
+  </div>
+</div>
 
 

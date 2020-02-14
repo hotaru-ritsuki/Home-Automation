@@ -71,7 +71,7 @@ export class UserInformationComponent implements OnInit {
 
 ngOnInit() {
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
-      linear: false,
+      linear: true,
       animation: true
     });
     this.userChangeInfo = new UserChangeInfo();
@@ -88,8 +88,17 @@ ngOnInit() {
   }
 
   public sendActivation() {
-   this.refreshActivation();
-   this.stepper.next();
+    this.userTelegramService.sendActivation(this.username).subscribe(
+      (data: string) => {
+        this.activationCode=data;
+        this.countDown = this.timerService.getCounter().do(() => --this.counter);
+        this.stepper.next();
+      },
+      (errors: HttpErrorResponse) => {
+        this.backEndError = errors.error.message;
+      }
+    );
+
   }
   public refreshActivation(){
      this.userTelegramService.sendActivation(this.username).subscribe(

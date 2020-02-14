@@ -1,11 +1,10 @@
 package com.softserve.lv460.application.controller;
 
-import com.softserve.lv460.application.constant.ErrorMessage;
-import com.softserve.lv460.application.constant.HttpStatuses;
-import com.softserve.lv460.application.constant.LinkConfigProperties;
-import com.softserve.lv460.application.constant.MailMessages;
+import com.softserve.lv460.application.constant.*;
+import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
 import com.softserve.lv460.application.dto.user.UserChangePasswordDto;
 import com.softserve.lv460.application.entity.ApplicationUser;
+import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
 import com.softserve.lv460.application.events.ResendTokenEvent;
@@ -17,7 +16,10 @@ import com.softserve.lv460.application.security.annotation.CurrentUser;
 import com.softserve.lv460.application.security.dto.*;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
+import com.softserve.lv460.application.service.TelegramActivationService;
+import com.softserve.lv460.application.service.TelegramUserService;
 import com.softserve.lv460.application.service.VerificationTokenService;
+import com.softserve.lv460.application.tool.bot.HomeAlertBotService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -47,6 +49,9 @@ public class UserApplicationController {
   private final JWTUserRequestMapper modelMapper;
   private final LinkConfigProperties linkConfigProperties;
   private final VerificationTokenService tokenService;
+  private final TelegramUserService telegramUserService;
+  private final HomeAlertBotService homeAlertBotService;
+  private final TelegramActivationService activationService;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -73,7 +78,7 @@ public class UserApplicationController {
   @PostMapping("/register")
   public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest, final HttpServletRequest request) {
     ApplicationUser applicationUser = applicationUserService.save(userRequest);
-    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getAppUrl()));
+    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(applicationUser));
   }
 
@@ -118,6 +123,26 @@ public class UserApplicationController {
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
+  @ApiOperation("Link User to Telegram")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  })
+  @PostMapping(value = "/addTelegram")
+  public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO) {
+    ApplicationUser applicationUser = applicationUserService.findById(userPrincipal.getId());
+    TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
+    applicationUser.setTelegramUser(telegramUser);
+    if (activationService.existsByTelegramUserId(telegramUser.getId())) {
+      activationService.deleteByTelegramUserId(telegramUser.getId());
+    }
+    String token = activationService.save(telegramUser);
+    applicationUserService.save(applicationUser);
+    homeAlertBotService.execute(telegramUser.getChatId(), String.format(BotPhrases.CONFIRM, userPrincipal.getUsername()));
+    homeAlertBotService.execute(telegramUser.getChatId(), BotPhrases.MESSAGE_EXAMPLE);
+    return ResponseEntity.ok().body(token);
+  }
+
   @ApiOperation("Confirming registration")
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK),
@@ -137,7 +162,7 @@ public class UserApplicationController {
   @GetMapping(value = "/resendRegistrationToken")
   public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestBody String email) {
     VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
-    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getAppUrl(), verificationToken.getToken()));
+    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
     return ResponseEntity.ok().build();
   }
 
@@ -149,7 +174,7 @@ public class UserApplicationController {
   @GetMapping("/restorePassword/{email}")
   public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
-    eventPublisher.publishEvent(new RestoreEvent(user, getAppUrl()));
+    eventPublisher.publishEvent(new RestoreEvent(user, getViewUrl()));
     return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 
@@ -166,7 +191,7 @@ public class UserApplicationController {
     return ResponseEntity.ok().body(verificationToken);
   }
 
-  public String getAppUrl() {
+  public String getViewUrl() {
     return linkConfigProperties.getViewUrl() + "users/";
   }
 }
