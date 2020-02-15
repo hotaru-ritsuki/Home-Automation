@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AlertListRepository extends MongoRepository<AlertsList, Long> {
-  List<AlertsList> findByUuid(String uuId);
-
+  List<AlertsList> findByUuId(String uuId);
 }
