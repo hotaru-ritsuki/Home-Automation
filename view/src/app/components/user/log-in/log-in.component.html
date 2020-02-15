@@ -63,7 +63,7 @@
   </div>
 
   <div #alert class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="alertMessage">
-    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert(alert)">
       <span aria-hidden="true">&times;</span>
     </button>
     <strong>{{alertMessage}}</strong>

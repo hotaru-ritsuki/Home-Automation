@@ -11,10 +11,12 @@
   <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
   <div style="display: flex; flex-direction: column" class="config">
     <div style="display: flex; flex-direction: row">
-      <input style="width: 40%; margin-right: 5%; margin-top: 8px; border-bottom: 1px solid #8e8e8e"
-             placeholder="username"
-             type="text" class="form-control typeahead-basic"
-             [(ngModel)]="telegramData.username"/>
+      <mat-form-field style="width: 40%; margin-right: 5%;" floatLabel="never">
+        <mat-label>username</mat-label>
+        <mat-select (valueChange)="telegramData.username = $event">
+          <mat-option [value]="user" *ngFor="let user of telegramUsers">{{user}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="text"
              type="text" class="form-control typeahead-basic"
              [(ngModel)]="telegramData.text"/>

@@ -48,12 +48,10 @@ export class InterceptorService implements HttpInterceptor {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     if (!this.localStorageService.getRefreshToken()){
-      this.router.navigate(['login'])
+      this.router.navigate(['users/login'])
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(req);
-        console.log(error);
         if (error.status === UNAUTHORIZED) {
           return this.handle401Error(req, next);
         }

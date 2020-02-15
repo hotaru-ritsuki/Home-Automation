@@ -8,7 +8,7 @@ import {Rule} from "../../../models/Rule";
 
 export interface DialogData {
   conditions: string[]
-  home_id:number
+  home_id: number
 }
 
 @Component({
@@ -18,8 +18,8 @@ export interface DialogData {
 })
 export class RuleConfigurationComponent implements OnInit {
   typeOfSave = 'Save';
-  ruleName;
-  ruleDescription;
+  ruleName = '';
+  ruleDescription= '';
   ruleId;
   conditions: string[];
   fromData = [];
@@ -63,7 +63,7 @@ export class RuleConfigurationComponent implements OnInit {
     console.log(this.homeId);
     const dialogRef = this.dialog.open(DialogCondition, {
       width: '400px',
-      data: {conditions: this.conditions,home_id:this.homeId}
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -75,7 +75,7 @@ export class RuleConfigurationComponent implements OnInit {
   addAction() {
     const dialogRef = this.dialog.open(DialogAction, {
       width: '400px',
-      data: {conditions: this.conditions,home_id:this.homeId}
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined)
@@ -103,7 +103,7 @@ export class RuleConfigurationComponent implements OnInit {
         }
       })
     }
-    this.rout.navigate(['/rules/'+this.homeId])
+    this.rout.navigate(['/rules/' + this.homeId])
   }
 
 
@@ -119,7 +119,7 @@ export class RuleConfigurationComponent implements OnInit {
   getDataToShow(obj) {
     let name = Object.keys(obj)[0];
     let value = Object.keys(obj)[1];
-    return obj[name] + ':' + obj[value];
+    return obj[name] + ' : ' + obj[value];
   }
 }
 
@@ -135,13 +135,13 @@ export class DialogCondition implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData, private service: MainService) {
   }
 
-  devices: LocalDevice[];
-  operators = ['>', '<', '>=', '<=', '=', 'IN'];
+  devices:LocalDevice[];
+  operators = [];
   features: FeatureDTO[];
   fromData = {
     state: '',
     uuid: '',
-    home_id: 1,
+    home_id: '',
     currentFeature: '',
     currentOperator: '',
     type: '',
@@ -179,6 +179,21 @@ export class DialogCondition implements OnInit {
 
   ngOnInit(): void {
   }
+
+  changeFeature($event: FeatureDTO) {
+    if(JSON.parse($event.specification).type === 'numeric'){
+      this.operators = ['>', '<', '>=', '<=', '=', 'IN']
+    }
+    if(JSON.parse($event.specification).type === 'enum'){
+      this.operators = ['=','IN']
+    }
+    this.fromData.currentFeature = $event.featureDTO.name;
+  }
+
+  changeOperator($event: any) {
+    if ($event == '=') 
+    this.fromData.currentOperator = $event
+  }
 }
 
 @Component({
@@ -200,7 +215,7 @@ export class DialogAction implements OnInit {
   deviceData = {uuid: '', data: '', type: ''};
   currentType = '';
   localDevices = [];
-
+  telegramUsers = [];
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -233,6 +248,12 @@ export class DialogAction implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getTelegramUsersByHomeId(this.data.home_id).subscribe((res:any[]) => {
+      for (let i = 0; i < res.length; i++) {
+        this.telegramUsers.push(res[i].telegramUser.username)
+      }
+    });
+
     this.service.getActions().subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
         this.actions.push(res[i])

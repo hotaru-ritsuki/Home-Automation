@@ -135,4 +135,8 @@ export class MainService {
     };
     return this.http.delete(this.apiUrl + '/actionsRules',options )
   }
+
+  getTelegramUsersByHomeId(home_id: number) {
+   return this.http.get(this.apiUrl + '/homes/users/'+home_id);
+  }
 }

@@ -24,14 +24,14 @@
 
     <mat-form-field style="width:30%; margin-right: 3%" floatLabel="never">
       <mat-label>feature</mat-label>
-      <mat-select (valueChange)="fromData.currentFeature = $event">
-        <mat-option [value]="feature.featureDTO.name"
+      <mat-select (valueChange)="changeFeature($event)">
+        <mat-option [value]="feature"
                     *ngFor="let feature of features">{{feature.featureDTO.name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field style="width:30%;  margin-right: 3%" floatLabel="never">
       <mat-label>operator</mat-label>
-      <mat-select (valueChange)="fromData.currentOperator = $event">
+      <mat-select (valueChange)="changeOperator($event)">
         <mat-option [value]="operator" *ngFor="let operator of operators">{{operator}}</mat-option>
       </mat-select>
     </mat-form-field>

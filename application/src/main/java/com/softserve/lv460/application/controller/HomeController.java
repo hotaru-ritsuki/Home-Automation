@@ -87,7 +87,10 @@ public class HomeController {
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserResponse.class)
   })
-  @PostMapping(value = "/users/{home_id}")
+
+
+
+  @GetMapping(value = "/users/{home_id}")
   public ResponseEntity<List<TelegramUserResponse>> findAllUsersByHomeWithTelegram(@PathVariable("home_id") Long homeId) {
     return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllUsersByHomeIdWithTelegram(homeId).stream().map(telegramResponseMapper::toDto).collect(Collectors.toList()));
   }
