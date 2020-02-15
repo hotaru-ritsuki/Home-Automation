@@ -11,6 +11,7 @@ import com.softserve.lv460.device.dto.rule.ActionRuleDto;
 import com.softserve.lv460.device.dto.rule.RuleDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +40,7 @@ public class ChangeStreamConfig {
 
     deviceData.doOnNext((event) -> {
       List<RuleDto> rules = ruleCacheConfig.getCache(event.getBody().getUuId());
-      rules.stream().filter((rule) ->
+      rules.stream().filter((rule) -> rule.getActive() &&
               checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
     }).subscribe();
   }
@@ -55,11 +56,17 @@ public class ChangeStreamConfig {
 
   private Boolean checkRuleCondition(RuleDto rule, Map<String, String> data) {
     try {
-      JSONObject conditionJson = new JSONObject(rule.getConditions());
-      String operator = conditionJson.getString("operator");
-      String dataValue = data.get(conditionJson.getString("field_name"));
-      String conditionValue = conditionJson.getString("value");
-      return predicateMap().get(operator).test(dataValue, conditionValue);
+      JSONArray conditionArray = new JSONArray(rule.getConditions());
+      for (int i = 0; i < conditionArray.length(); i++) {
+        JSONObject condition = conditionArray.getJSONObject(i);
+        String operator = condition.getString("operator");
+        String dataValue = data.get(condition.getString("field_name"));
+        String conditionValue = condition.getString("value");
+        if(predicateMap().get(operator).test(dataValue, conditionValue)){
+          return true;
+        }
+      }
+      return false;
     } catch (JSONException e) {
       log.error(e.getLocalizedMessage());
       return false;
@@ -82,7 +89,7 @@ public class ChangeStreamConfig {
 
   private Map<String, String> parseToMap(String toParse) {
     try {
-      return new ObjectMapper().readValue(toParse, new TypeReference<Map<String, String>>() {
+      return new ObjectMapper().readValue(toParse, new TypeReference<>() {
       });
     } catch (JsonProcessingException e) {
       log.error(e.getLocalizedMessage());

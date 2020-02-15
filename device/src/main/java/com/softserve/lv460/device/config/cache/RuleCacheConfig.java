@@ -30,7 +30,7 @@ public class RuleCacheConfig {
     this.httpClient = httpClient;
     this.cache = CacheBuilder
             .newBuilder()
-            .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+            .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
             .build(
                     new CacheLoader<String, List<RuleDto>>() {
                       @Override

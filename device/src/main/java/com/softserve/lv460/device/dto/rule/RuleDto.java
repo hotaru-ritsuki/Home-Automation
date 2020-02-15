@@ -11,5 +11,6 @@ public class RuleDto {
   private Long id;
   private String name;
   private String conditions;
+  private Boolean active;
   private List<ActionRuleDto> actionRule;
 }
