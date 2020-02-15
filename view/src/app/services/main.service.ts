@@ -31,7 +31,7 @@ export class MainService {
   }
 
   saveRule(rule: Rule) {
-    return this.http.post(this.apiUrl + '/rules', {rule})
+    return this.http.post(this.apiUrl + '/rules', {rule});
   }
 
   deleteRule(ruleId){

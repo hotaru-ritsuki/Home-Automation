@@ -42,6 +42,7 @@ import { UpdateLocationComponent } from './components/update-location/update-loc
 import { UpdateHomeComponent } from './components/update-home/update-home.component';
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {GraphicDialogComponent} from "./components/dashboard/graphic-dialog/graphic-dialog.component";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -105,8 +106,9 @@ const routes: Routes = [
     NewHomeWarningComponent,
     UpdateLocationComponent,
     UpdateHomeComponent,
+    GraphicDialogComponent
   ],
-  entryComponents: [DialogCondition, DialogAction],
+  entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -127,7 +129,7 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     NgbModule,
-    MatDialogModule
+    MatDialogModule,
   ],
 
 
