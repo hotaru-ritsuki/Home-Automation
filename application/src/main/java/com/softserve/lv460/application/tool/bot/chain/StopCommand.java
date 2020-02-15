@@ -3,6 +3,7 @@ package com.softserve.lv460.application.tool.bot.chain;
 import com.softserve.lv460.application.constant.BotPhrases;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.TelegramUser;
+import com.softserve.lv460.application.service.TelegramActivationService;
 import com.softserve.lv460.application.service.TelegramUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,7 +19,7 @@ public class StopCommand implements UpdateCheck {
   }
 
   @Override
-  public void process(Update request, TelegramUserService telegramUserService, SendMessage message) {
+  public void process(Update request, TelegramUserService telegramUserService, TelegramActivationService telegramActivationService, SendMessage message) {
     if (request.getMessage().getText().equals("/stop")) {
       try {
         TelegramUser byUsername = telegramUserService.findByUsername(request.getMessage().getChat().getUserName());
@@ -29,7 +30,7 @@ public class StopCommand implements UpdateCheck {
         message.setText(BotPhrases.ALREADY_DELETE);
       }
     } else {
-      nextInChain.process(request, telegramUserService, message);
+      nextInChain.process(request, telegramUserService, telegramActivationService, message);
     }
   }
 }

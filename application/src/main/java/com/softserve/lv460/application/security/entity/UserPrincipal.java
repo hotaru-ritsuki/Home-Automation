@@ -23,7 +23,7 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String password;
 
-  private Boolean enabled;
+  private boolean enabled;
 
   private Collection<? extends GrantedAuthority> authorities;
 
@@ -36,7 +36,7 @@ public class UserPrincipal implements UserDetails {
             user.getId(),
             user.getEmail(),
             user.getPassword(),
-            user.getEnabled(),
+            user.isEnabled(),
             authorities
     );
   }

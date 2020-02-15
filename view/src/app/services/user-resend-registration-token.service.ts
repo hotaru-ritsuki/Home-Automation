@@ -14,10 +14,7 @@ export class UserResendRegistrationTokenService {
   }
 
   public activate(model: ActivationEmail) {
-    const body = {
-      email: model.email
-    };
-    return this.http.post(this.constant + '/users/resendRegistrationToken', body);
+    return this.http.get(this.constant + '/users/resendRegistrationToken/'+model.email);
   }
 
 }
