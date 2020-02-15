@@ -35,10 +35,7 @@ export class MainService {
   getAllLocalDevice(home_id): Observable<LocalDevice[]> {
     return this.http.get<LocalDevice[]>(this.apiUrl + '/location-devices/home/'+home_id)
   }
-
-  saveRule(rule: Rule) {
-    return this.http.post(this.apiUrl + '/rules', {rule});
-  }
+  
 
   deleteRule(ruleId) {
     return this.http.delete(this.apiUrl + '/rules/' + ruleId);
