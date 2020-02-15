@@ -60,7 +60,6 @@ create table rules (
 id bigint not null auto_increment,
 conditions varchar(255),
 name varchar(255),
-local_device_uuid varchar(255),
 primary key (id)) engine=InnoDB;
 
 
@@ -107,7 +106,6 @@ alter table local_device add constraint FKlnc4rmqppjpxf8lhqglwi9gjm foreign key 
 
 alter table location add constraint FKqvj3evkkjc33etbi5ksb6u748 foreign key (home_id) references home (id);
 
-alter table rules add constraint FKqhftcae278k1obbgiedf5mnxp foreign key (local_device_uuid) references local_device (uuid) on delete cascade;
 
 alter table users add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
 

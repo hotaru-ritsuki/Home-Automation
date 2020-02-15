@@ -1,14 +1,15 @@
 package com.softserve.lv460.application.dto.localDevice;
 
-import com.softserve.lv460.application.dto.deviceTemplate.DeviceTemplateResponseDTO;
-import com.softserve.lv460.application.dto.location.LocationResponseDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class LocalDeviceDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class LocalDeviceReqDTO {
   private String uuid;
   private String description;
-  private LocationResponseDTO location;
-  private LocalDeviceRequestDTO homeId;
-  private DeviceTemplateResponseDTO deviceTemplate;
+  private Long locationId;
+  private Long deviceTemplateId;
 }
