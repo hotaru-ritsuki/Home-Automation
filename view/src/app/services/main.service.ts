@@ -49,11 +49,6 @@ export class MainService {
     return this.http.get<FeatureDTO[]>(this.apiUrl + '/deviceFeatures/' + id)
   }
 
-  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
-      {type: type1, from: from1, to: to1, locationId: locationId1});
-  }
-
   getDeviceByUuid(uuid): Observable<LocalDevice> {
     return this.http.get<LocalDevice>(this.apiUrl + '/location-devices/' + uuid);
   }
