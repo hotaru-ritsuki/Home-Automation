@@ -1,11 +1,18 @@
+<div *ngIf="name.dirty && (locationName == null ||locationName.length < 1 || locationName.length > 10)"
+     class="alert alert-danger"
+     role="alert" style="margin-left: -6px;">
+  Name must be less than 10 characters!
+</div>
+
 <div>
   <label for="location-name">Location name</label>
-  <input [(ngModel)]="locationName" value="{{locationName}}" id="location-name" class="form-control" type="text" style="width: 300px">
+  <input [(ngModel)]="locationName"  #name="ngModel" value="{{locationName}}" id="location-name" class="form-control" type="text" style="width: 300px">
 </div>
 <button  class="btn btn-secondary buttoned"
          (click)="close()" style="margin-left:155px">Close
 </button>
 <button type="button"
         class="btn btn-primary buttoned"
-        (click)="save(locationName)">Update
+        (click)="save(locationName)"
+        [disabled]="locationName == null ||locationName.length < 1 || locationName.length > 10">Update
 </button>

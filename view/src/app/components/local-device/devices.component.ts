@@ -10,6 +10,8 @@ import {Home} from "../../models/Home";
 import {LocationService} from "../../services/location.service";
 import {UpdateLocationComponent} from "../update-location/update-location.component";
 import {HomeService} from "../../services/home.service";
+import {LocalStorageService} from "../../services/local-storage.service";
+import {DeleteLocationComponent} from "../delete-location/delete-location.component";
 
 @Component({
   selector: 'app-devices',
@@ -20,7 +22,7 @@ export class DevicesComponent implements OnInit {
   locationResponse: any;
   supportDeviceResponse: Device[];
   allDevice: any;
-  home =  new Home();
+  home = new Home;
   getInfo = {
     id: '',
     uuId: '',
@@ -28,10 +30,12 @@ export class DevicesComponent implements OnInit {
     data: []
   };
 
-  allLocationsByHome: any;
+  allLocationsByHome: any = null;
   locationId: number;
   homeId: number;
   homeName: string;
+  try: any;
+  info: string;
   matDialog: MatDialogRef<ModalComponent>;
   matDialogLocation: MatDialogRef<LocationModalComponent>;
   locationExist = false;
@@ -56,6 +60,7 @@ export class DevicesComponent implements OnInit {
     this.homeService.getHome(this.homeId).subscribe((res) => {
       this.home = res;
     });
+    console.log(this.allLocationsByHome);
   }
 
   ngOnInit() {
@@ -111,6 +116,7 @@ export class DevicesComponent implements OnInit {
   }
 
   openModal(uuid: string) {
+    this.getInfoFromDevice(uuid);
     let dialogRef = this.dialog.open(ModalComponent, {
       data: {
         name: 'Are you sure, you want to delete this device?',
@@ -118,16 +124,20 @@ export class DevicesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (this.locationId == 0) {
-        this.deviceService.findAllByHome(this.homeId)
-          .subscribe((response) => {
-            this.allDevice = response;
-          });
-      } else {
-        this.chooseLocation(this.locationId);
-      }
-    });
+    setTimeout(() =>{
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (this.locationId == 0) {
+          this.deviceService.findAllByHome(this.homeId)
+            .subscribe((response) => {
+              this.allDevice = response;
+            });
+        } else {
+          this.chooseLocation(this.locationId);
+        }
+      });
+    }, 350);
+
   }
 
   openLocationModal(locationName: string) {
@@ -139,20 +149,23 @@ export class DevicesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (this.locationId == 0) {
-        this.deviceService.findAllByHome(this.homeId)
-          .subscribe((response) => {
-            this.allDevice = response;
-          });
-      } else {
-        this.deviceService.findLocationByHome(this.homeId)
-          .subscribe((response) => {
-            this.allLocationsByHome = response;
-          });
-        this.chooseLocation(this.locationId);
-      }
-    });
+    setTimeout(() =>{
+      dialogRef.afterClosed().subscribe(result => {
+        if (this.locationId == 0) {
+          this.deviceService.findAllByHome(this.homeId)
+            .subscribe((response) => {
+              this.allDevice = response;
+            });
+        } else {
+          this.deviceService.findLocationByHome(this.homeId)
+            .subscribe((response) => {
+              this.allLocationsByHome = response;
+            });
+          this.chooseLocation(this.locationId);
+        }
+      });
+    }, 350);
+
   }
 
   openModalLocation() {
@@ -163,28 +176,56 @@ export class DevicesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.locationId = this.route.snapshot.params['location'];
-      console.log(this.locationId);
-      if (this.locationId == 0) {
-        this.deviceService.findAll()
+    setTimeout(() =>{
+      dialogRef.afterClosed().subscribe(result => {
+        this.locationId = this.route.snapshot.params['location'];
+        if (this.locationId == 0) {
+          this.deviceService.findAllByHome(this.homeId)
+            .subscribe((response) => {
+              this.allDevice = response;
+            });
+        } else {
+          this.chooseLocation(this.locationId);
+        }
+
+
+        this.deviceService.findLocationByHome(this.homeId)
           .subscribe((response) => {
-            this.allDevice = response;
+            this.allLocationsByHome = response;
           });
-      } else {
-        this.chooseLocation(this.locationId);
-      }
 
+      });
+    }, 350);
 
-      this.deviceService.findLocationByHome(this.homeId)
-        .subscribe((response) => {
-          this.allLocationsByHome = response;
-        });
-    });
   }
 
-  homeIsNull() {
-    return this.home === undefined;
+
+  deleteLocationModal(id: number, $event: MouseEvent) {
+    $event.stopPropagation();
+    let dialogRef = this.dialog.open(DeleteLocationComponent, {
+      data: {
+        name: 'Are you sure, you want to delete this location?',
+        id: id,
+        homeId: this.homeId,
+        homeName: this.homeName,
+        locationId: this.locationId
+      }
+    });
+
+    this.locationId = 0;
+
+    setTimeout(() =>{
+      dialogRef.afterClosed().subscribe(result => {
+        this.locationId = 0;
+        this.deviceService.findLocationByHome(this.homeId)
+          .subscribe((response) => {
+            this.allLocationsByHome = response;
+          });
+        this.findAllDevice(this.route.snapshot.params['home'], this.route.snapshot.params['location']);
+      });
+    }, 350);
+
+    this.router.navigateByUrl('device/' + this.homeName + '/' + this.homeId + '/location/' + this.locationId);
   }
 
   addNewDevice() {
@@ -194,13 +235,16 @@ export class DevicesComponent implements OnInit {
   getInfoFromDevice(UUID: string) {
     this.deviceService.getInfoFromDevice(UUID).subscribe((response) => {
       this.getInfo = response;
+      this.try = this.getInfo.data;
+      response.data.map(function(el) {
+        console.log(el);
+      });
+      this.info =  JSON.stringify(response.data);
+      //console.log(JSON.stringify(response.data));
+      //console.log(this.getInfo.data.JS);
+      //console.log('=' + response.data['additionalProp1'] + '=');
     }, (errors: HttpErrorResponse) => {
-      this.getInfo = {
-        id: '',
-        uuId: '',
-        timestamp: '',
-        data: []
-      };
+      console.log(UUID);
     });
   }
 }
