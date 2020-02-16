@@ -43,6 +43,7 @@ import { UpdateHomeComponent } from './components/update-home/update-home.compon
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserInformationComponent,FormatTimePipe} from "./components/user/user-information/user-information.component";
+import {LoggedInGuardService} from "./services/logged-in-guard.service";
 
 const routes: Routes = [
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
@@ -63,17 +64,17 @@ const routes: Routes = [
     path: 'users',
     component: UserComponent,
     children: [
-      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component},
-      {path: 'login', component: LogInComponent},
-      {path: 'register', component: SignUpComponent},
-      {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent},
+      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component,canActivate:[LoggedInGuardService]},
+      {path: 'login', component: LogInComponent,canActivate:[LoggedInGuardService]},
+      {path: 'register', component: SignUpComponent,canActivate:[LoggedInGuardService]},
+      {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent,canActivate:[LoggedInGuardService]},
       {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
-      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
-      {path: 'restore', component: RestorePasswordComponent},
-      {path: 'userInfo', component: UserInformationComponent},
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent,canActivate:[LoggedInGuardService]},
+      {path: 'restore', component: RestorePasswordComponent,canActivate:[LoggedInGuardService]},
+      {path: 'userInfo', component: UserInformationComponent,canActivate:[AuthGuardService]},
     ]
   },
-  {path: 'dashboard', component: DashboardComponent},
+  {path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuardService]},
 ];
 
 @NgModule({
