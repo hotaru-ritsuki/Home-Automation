@@ -59,11 +59,13 @@ public class ChangeStreamConfig {
       JSONArray conditionArray = new JSONArray(rule.getConditions());
       for (int i = 0; i < conditionArray.length(); i++) {
         JSONObject condition = conditionArray.getJSONObject(i);
-        String operator = condition.getString("operator");
-        String dataValue = data.get(condition.getString("field_name"));
-        String conditionValue = condition.getString("value");
-        if(predicateMap().get(operator).test(dataValue, conditionValue)){
-          return true;
+        Optional<String> dataValue = Optional.ofNullable(data.get(condition.getString("field_name")));
+        if (dataValue.isPresent()) {
+          String operator = condition.getString("operator");
+          String conditionValue = condition.getString("value");
+          if (predicateMap().get(operator).test(dataValue.get(), conditionValue)) {
+            return true;
+          }
         }
       }
       return false;
