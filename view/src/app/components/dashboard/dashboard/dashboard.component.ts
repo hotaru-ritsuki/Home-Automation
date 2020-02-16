@@ -24,11 +24,11 @@ export class DashboardComponent implements OnInit {
       this.homes = res;
       this.areHomes = this.homes.length > 0;
     });
-    console.log(this.localStorageService.getAccessToken());
   }
 
   setCurrentHome(home: Home) {
     this.home = home;
+    console.log(this.home);
   }
 
   ngOnInit(): void {
