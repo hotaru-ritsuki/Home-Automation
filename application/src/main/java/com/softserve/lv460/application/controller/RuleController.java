@@ -52,6 +52,7 @@ public class RuleController {
   })
   @PutMapping
   public ResponseEntity<RuleResponseDTO> update(@RequestBody RuleRequestDTO dto) {
+    System.out.println(dto);
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(ruleService
             .update(requestMapper.toEntity(dto))));
   }

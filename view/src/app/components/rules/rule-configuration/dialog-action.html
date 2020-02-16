@@ -42,7 +42,7 @@
     <div style="display: flex; flex-direction: row">
       <mat-form-field style="width: 40%; margin-right: 5%;" floatLabel="never">
         <mat-label>device</mat-label>
-        <mat-select (valueChange)="deviceData.uuid = $event.uuid">
+        <mat-select (valueChange)="changeDeviceData($event)">
           <mat-option [value]="desc" *ngFor="let desc of localDevices">{{desc.desc}}</mat-option>
         </mat-select>
       </mat-form-field>

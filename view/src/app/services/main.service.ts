@@ -6,6 +6,7 @@ import {DeviceData} from "../models/DeviceData";
 import {LocalDevice} from "../models/LocalDevice";
 import {FeatureDTO} from "../models/FeatureDTO";
 import {Action} from "../models/Action";
+import {log} from "util";
 
 
 @Injectable({
@@ -92,6 +93,7 @@ export class MainService {
   }
 
   saveRule(fromData, Name, Description) {
+    console.log("+");
     let conditions = [];
     for (let i = 0; i < fromData.length; i++) {
       let condition = {
@@ -103,6 +105,7 @@ export class MainService {
           home_id: fromData[i].home_id,
         },
       };
+      console.log(condition);
       conditions.push(condition)
     }
 

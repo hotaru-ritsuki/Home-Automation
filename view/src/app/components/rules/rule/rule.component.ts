@@ -18,6 +18,7 @@ export class RuleComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(()=>{
     this.activRouter.params.subscribe((res) => {
       this.home_id = res.home_id;
       this.service.getRules(res.home_id).subscribe((res) => {
@@ -29,6 +30,7 @@ export class RuleComponent implements OnInit {
         this.rules = res;
       })
     })
+    }, 300);
   }
 
   deleteRule(rule: Rule) {
@@ -52,7 +54,6 @@ export class RuleComponent implements OnInit {
 
   edit(rule: Rule) {
     let actions = [];
-    console.log(rule);
     // @ts-ignore
     for (let i = 0; i < rule.actionRule.length; i++) {
       let data = JSON.parse(rule.actionRule[i].actionSpecification);
