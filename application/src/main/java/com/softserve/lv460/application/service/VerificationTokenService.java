@@ -35,7 +35,7 @@ public class VerificationTokenService {
     message.setTo(applicationUser.getEmail());
     message.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
     message.setText(String.format(MailMessages.CONGRATS, applicationUser.getFirstName())
-            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token)
+            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token,appUrl+"resendRegistrationToken")
             + MailMessages.SIGN);
     mailSender.sendMessage(message);
   }
@@ -45,7 +45,7 @@ public class VerificationTokenService {
     message.setTo(user.getEmail());
     message.setSubject(MailMessages.RESENDING_ACTIVATION_TOKEN_SUBJECT);
     message.setText(String.format(MailMessages.CONGRATS, user.getFirstName())
-            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token)
+            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token, appUrl+"resendRegistrationToken")
             + MailMessages.SIGN);
     mailSender.sendMessage(message);
   }

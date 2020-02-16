@@ -19,5 +19,5 @@ public class MailMessages {
   public static final String RESTORE_EMAIL_BODY = "\nPlease verify your email address to change your password." +
           "\n To verify your account just follow the link: %s\n" +
           "This link will expire in 24 hours. " +
-          "\nIf it has expired, try to request a new verification email.\n";
+          "\nIf it has expired, try to request a new verification email by the link:\n %s";
 }
