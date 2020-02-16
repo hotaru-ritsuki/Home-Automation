@@ -46,6 +46,7 @@ import {UserInformationComponent,FormatTimePipe} from "./components/user/user-in
 import {LoggedInGuardService} from "./services/logged-in-guard.service";
 import {LogInComponent} from "./components/user/log-in/log-in.component";
 import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
+import { DeleteLocationComponent } from './components/delete-location/delete-location.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
@@ -57,6 +58,7 @@ const routes: Routes = [
   {path: 'device-template/:home_name/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
   {path: 'add-local-device/:home_name/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'delete-location', component: DeleteLocationComponent, canActivate: [AuthGuardService]},
   {path: 'update-location/:id', component: UpdateLocationComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal/home_name', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -112,7 +114,8 @@ const routes: Routes = [
     UpdateLocationComponent,
     UpdateHomeComponent,
     UserInformationComponent,
-    FormatTimePipe
+    FormatTimePipe,
+    DeleteLocationComponent,
   ],
   entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [

@@ -3,6 +3,10 @@
   grid-template-columns: 1% 24% 10% 50% 15%;
 }
 
+.btn-link {
+  font-weight: 300;
+}
+
 .loc {
   width: 130px;
 }
@@ -32,7 +36,6 @@
 .device {
   margin-top: 10px;
   grid-area: 1/3/6/5;
-  height: 200px;
 }
 
 .device-info {

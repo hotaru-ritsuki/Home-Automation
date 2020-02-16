@@ -1,62 +1,77 @@
-<div>
-  <div class="nav-bar">
-    <span routerLink="/administration/homes" class="register">Administration</span> >
-    <span routerLink="/administration/homes" class="register">Homes</span> >
-    <span>{{homeName}}</span>
-    <input readonly value="{{home.city}}, {{home.addressa}}" class="form-control col-sm-4 inp" style="margin-left: 15px; display: inline-block; background: white; box-shadow: none">
-    <button routerLink="/administration/homes/{{homeId}}/update" class="btn" style="display: inline-block; color: #007BFF">Edit</button>
+<div class="nav-bar">
+  <span routerLink="/administration/homes" class="register">Administration</span> >
+  <span routerLink="/administration/homes" class="register">Homes</span> >
+  <span>{{homeName}}</span>
+  <input readonly value="{{home.city}}, {{home.addressa}}" class="form-control col-sm-4 inp"
+         style="margin-left: 15px; display: inline-block; background: white; box-shadow: none">
+  <button routerLink="/administration/homes/{{homeId}}/update" class="btn"
+          style="display: inline-block; color: #007BFF">Edit
+  </button>
+</div>
+<div class="all">
+  <div class="locations-list">
+    <div class="list-local">
+      <ul class="list-group">
+        <li class="list-group-item" aria-disabled="true">
+          <button type="button" *ngIf="locationId == 0" (click)="chooseHome()" class="btn btn-light"
+                  style="width: 100%;color: #007BFF"><span class="location-name">All</span></button>
+          <button type="button" *ngIf="locationId != 0" (click)="chooseHome()" class="btn btn-light"
+                  style="width: 100%"><span class="location-name">All</span></button>
+        </li>
+        <li class="list-group-item" *ngFor="let location of allLocationsByHome">
+          <button *ngIf="locationId == location.id" type="button" class="btn btn-light"
+                  (click)="chooseLocation(location.id)"
+                  style="width: 100%;color: #007BFF">
+            <span class="location-name">{{location.name}}</span>
+            <button class="btn delete-location" (click)="deleteLocationModal(location.id, $event)"
+                    style="height: 10px; margin-top:1px"><i class="fas fa-times" style="font-size: 20px"></i></button>
+            <button class="btn delete-location" (click)="openLocationModal(location.name)"><i class="fas fa-pen"></i>
+            </button>
+          </button>
+          <button *ngIf="locationId != location.id" type="button" class="btn btn-light"
+                  (click)="chooseLocation(location.id)"
+                  style="width: 100%"><span class="location-name">{{location.name}}</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-add-device">
+      <button (click)="openModalLocation()" class="btn btn-outline-primary loc">Add location</button>
+    </div>
+    <div class="btn-add-device">
+      <a routerLink="/rules/{{homeId}}" class="btn btn-outline-primary loc">Configure rule</a>
+    </div>
   </div>
-  <div class="all">
-    <div class="locations-list">
-      <div class="list-local">
-        <ul class="list-group">
-          <li class="list-group-item" aria-disabled="true">
-            <button type="button" *ngIf="locationId == 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%;color: #007BFF"><span class="location-name">All</span></button>
-            <button type="button" *ngIf="locationId != 0" (click)="chooseHome()" class="btn btn-light" style="width: 100%"><span class="location-name">All</span></button>
-          </li>
-          <li class="list-group-item" *ngFor="let location of allLocationsByHome">
-            <button *ngIf="locationId == location.id" type="button" class="btn btn-light" (click)="chooseLocation(location.id)"
-                    style="width: 100%;color: #007BFF">
-              <span class="location-name">{{location.name}}</span>
-              <button class="btn delete-location"  (click)="deleteLocation(location.id, $event)" style="height: 10px; margin-top:1px"><i class="fas fa-times" style="font-size: 20px"></i></button>
-              <button class="btn delete-location" (click)="openLocationModal(location.name)"><i class="fas fa-pen"></i></button>
-            </button>
-            <button *ngIf="locationId != location.id" type="button" class="btn btn-light" (click)="chooseLocation(location.id)"
-                    style="width: 100%"><span class="location-name">{{location.name}}</span>
-            </button>
-          </li>
-        </ul>
+
+
+
+  <div class="device">
+    <div class="card device-info" *ngFor="let device of allDevice">
+      <div class="card-header">
+        {{device.deviceTemplate.brand}} {{device.deviceTemplate.model}} <span class="device-uuid">
+          [{{device.uuid}}]</span>
+        <button class="btn btn-light left" type="button" (click)="openModal(device.uuid)">X</button>
       </div>
-      <div class="btn-add-device">
-        <button (click)="openModalLocation()" class="btn btn-outline-primary loc">Add location</button>
-      </div>
-      <div class="btn-add-device">
-        <a routerLink="/rules/{{homeId}}" class="btn btn-outline-primary loc">Configure rule</a>
+      <div class="card-body">
+        <h5 class="card-title">{{device.description}}</h5>
+        <p class="card-text"></p>
       </div>
     </div>
+    <div class="btn-add-device">
+      <button *ngIf="locationExist && allDevice != 0" class="btn btn-outline-primary" (click)="addNewDevice()">Add new
+        device
+      </button>
+    </div>
+    <div *ngIf="allDevice == 0">
+      <div class="no-device-in-location">
+        <span *ngIf="allLocationsByHome.length != 0">You don't have any devices.</span>
+        <span *ngIf="allLocationsByHome.length == 0 && locationId == 0">You don't have any location.</span>
+        <button *ngIf="allLocationsByHome.length == 0 && locationId == 0" class="btn btn-link" style="font-size: 30px; margin-top: -3px;" (click)="openModalLocation()" >Add new location</button>
 
-    <div class="device">
-      <div class="card device-info" *ngFor="let device of allDevice">
-        <div class="card-header">
-          {{device.description}}
-          <button class="btn btn-light left" type="button" (click)="openModal(device.uuid)">X</button>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{device.uuid}}</h5>
-          <p class="card-text"></p>
-        </div>
-      </div>
-      <div class="btn-add-device">
-        <button *ngIf="locationExist && allDevice != 0" class="btn btn-outline-primary" (click)="addNewDevice()">Add new
-          device
-        </button>
-      </div>
-      <div *ngIf="allDevice == 0">
-        <div class="no-device-in-location">You don't have any devices.
-          <a *ngIf="locationId != 0" routerLink="/device-template/{{homeName}}/{{homeId}}/location/{{locationId}}">Add
-            new device</a>
-        </div>
+        <a *ngIf="locationId != 0 && allLocationsByHome != 0" routerLink="/device-template/{{homeName}}/{{homeId}}/location/{{locationId}}">Add
+          new device</a>
       </div>
     </div>
   </div>
 </div>
+

@@ -13,12 +13,13 @@ export class LocationModalComponent implements OnInit {
   newLocationId: number;
   getHomeId: number;
   homeName: string;
-  locationName: string;
+  locationName: string = null;
   locationDTO = {
     homeId: this.getHomeId,
     id: '',
     name: ''
-  }
+  };
+  alert = 1;
 
   constructor(private dialog: MatDialogRef<LocationModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,19 +31,25 @@ export class LocationModalComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.homeName = this.route.snapshot.params['home_name'];
+    this.homeName = this.route.snapshot.params['home_name'];
   }
 
   save() {
-    this.locationDTO.name = this.locationName;
+    if(this.locationName != null && this.locationName != '') {
+      if (this.locationName.length > 0 || this.locationName.length < 10) {
+        this.locationDTO.name = this.locationName;
 
-    this.deviceService.saveLocation(this.locationDTO).subscribe((response) => {
-      this.newLocationId = response.id;
-      console.log(response);
-      console.log(response.id);
-      this.router.navigateByUrl('device/' + this.homeName + '/' + this.locationDTO.homeId + '/location/' + response.id);
+        this.deviceService.saveLocation(this.locationDTO).subscribe((response) => {
+          this.newLocationId = response.id;
 
-    });
+          this.router.navigateByUrl('device/' + this.homeName + '/' + this.locationDTO.homeId + '/location/' + response.id);
+        });
+      } else {
+        this.alert = 2;
+      }
+    } else {
+      this.alert = 2;
+    }
     this.dialog.close();
   }
 
