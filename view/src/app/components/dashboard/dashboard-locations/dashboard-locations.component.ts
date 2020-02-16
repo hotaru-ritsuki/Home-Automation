@@ -19,8 +19,6 @@ import {GraphicDialogComponent} from '../graphic-dialog/graphic-dialog.component
 export class DashboardLocationsComponent implements OnInit {
   @Input() private location: Locations;
   private localDevices: LocalDevice[] = [];
-  private features: FeatureDTO[] = [];
-  private featuresGraphics: FeatureDTO[] = [];
   public minDate: Date = new Date('01/01/2019 00:00 AM');
   public maxDate: Date = new Date('01/01/2021 12:00 AM');
   public dateValueTo: string;
@@ -42,12 +40,14 @@ export class DashboardLocationsComponent implements OnInit {
         this.getFeatureByDevice(dev);
       }
     });
+    console.log(this.devicesFeatures);
+    console.log(this.devicesFeaturesGraphics);
   }
 
   getFeatureByDevice(localDevice: LocalDevice) {
     this.dashboardService.getDeviceFeatureByDevice(localDevice.deviceTemplate).subscribe(res => {
       for (const feat of res) {
-        if (feat.featureDTO.name === 'getLight') {
+        if (feat.featureDTO.name === 'getLight' || feat.featureDTO.name === 'getDoor' || feat.featureDTO.name === 'getWindow') {
           const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO);
           this.devicesFeatures.push(dev);
         } else {
