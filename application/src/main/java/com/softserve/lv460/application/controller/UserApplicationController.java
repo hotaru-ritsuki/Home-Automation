@@ -7,9 +7,6 @@ import com.softserve.lv460.application.dto.user.UserInfo;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
-import com.softserve.lv460.application.events.OnRegistrationCompleteEvent;
-import com.softserve.lv460.application.events.ResendTokenEvent;
-import com.softserve.lv460.application.events.RestoreEvent;
 import com.softserve.lv460.application.exception.exceptions.BadEmailOrPasswordException;
 import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
@@ -34,7 +31,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -79,7 +75,7 @@ public class UserApplicationController {
   @PostMapping("/register")
   public ResponseEntity<JWTUserRequest> signUp(@RequestBody UserRegistrationRequest userRequest) {
     ApplicationUser applicationUser = applicationUserService.save(userRequest);
-    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, getViewUrl()));
+    tokenService.confirmRegistration(applicationUser, getViewUrl());
     return ResponseEntity.ok().body(modelMapper.toDto(applicationUser));
   }
 
@@ -119,7 +115,6 @@ public class UserApplicationController {
   public ResponseEntity<Void> restorePassword(@RequestBody UserChangePasswordDto password) {
     System.out.println(password);
     ApplicationUser user = applicationUserService.findById(password.getId());
-
     applicationUserService.changeUserPassword(user.getId(), password.getPassword());
     return ResponseEntity.status(HttpStatus.OK).build();
   }
@@ -163,7 +158,8 @@ public class UserApplicationController {
   @GetMapping(value = "/resendRegistrationToken/{email}")
   public ResponseEntity resendRegistrationToken(@PathVariable("email") String email) {
     VerificationToken verificationToken = tokenService.generateNewVerificationToken(email);
-    eventPublisher.publishEvent(new ResendTokenEvent(verificationToken.getUser(), getViewUrl(), verificationToken.getToken()));
+    ApplicationUser applicationUser = applicationUserService.findByEmail(email);
+    tokenService.resendToken(applicationUser, verificationToken.getToken(), getViewUrl());
     return ResponseEntity.ok().build();
   }
 
@@ -175,7 +171,7 @@ public class UserApplicationController {
   @GetMapping("/restorePassword/{email}")
   public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
-    eventPublisher.publishEvent(new RestoreEvent(user, getViewUrl()));
+    tokenService.restorePassword(user, getViewUrl());
     return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 

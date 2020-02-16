@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class HomePageGuardService implements CanActivate {
+export class LoggedInGuardService implements CanActivate {
 
   private isLoggedIn = false;
   private userId: number;
@@ -26,7 +26,6 @@ export class HomePageGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(this.isLoggedIn);
-    return this.isLoggedIn;
+    return !this.isLoggedIn;
   }
 }
