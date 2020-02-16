@@ -136,6 +136,12 @@
             <artifactId>okhttp</artifactId>
             <version>4.2.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.skobow</groupId>
+            <artifactId>apikey-authentication-spring-boot-starter</artifactId>
+            <version>0.6.0</version>
+        </dependency>
     </dependencies>
 
 

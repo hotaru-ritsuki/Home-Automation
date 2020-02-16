@@ -4,7 +4,7 @@
 </div>
 
 <div class="page">
-  <div *ngIf="homes.length > 0" class="home-choose scrollbar scrollbar-primary">
+  <div *ngIf="areHomes" class="home-choose scrollbar scrollbar-primary">
     <ul class="list-group home-list">
       <li class="list-group-item home-choose-item bottom-border" *ngFor="let home of homes"
           (click)="setCurrentHome(home)">
@@ -13,7 +13,7 @@
     </ul>
   </div>
 
-  <div *ngIf="home" class="location-choose">
+  <div *ngIf="!areHomes" class="location-choose">
     <app-dashboard-locations *ngFor="let loc of home.locations" [location]="loc"></app-dashboard-locations>
     <h5><a class="add-widget btn btn-outline-primary" role="button" (click)="redirect()">Add widget</a></h5>
   </div>

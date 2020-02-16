@@ -36,14 +36,14 @@ export class DashboardService {
   saveCurrentDeviceData(uuid: string, timestamp: string, data) {
     const currentDate = this.dateParser(new Date(timestamp));
     console.log(uuid, currentDate, data);
-    return this.http.post('http://localhost:8081/device-data/', {uuid, timestamp: currentDate, data});
+    return this.http.post('http://localhost:8081/device-data/', {uuId: uuid, timestamp: currentDate, data});
   }
 
   dateParser(toParse: Date) {
     return toParse.getFullYear() + '-' + (('0' + (toParse.getMonth() + 1).toString()).slice(-2)) + '-' + (('0' +
       toParse.getDate().toString()).slice(-2)) + 'T' +
       (('0' + toParse.getHours().toString()).slice(-2)) + ':' + (('0' + toParse.getMinutes().toString()).slice(-2))
-      + ':' + (('0' + toParse.getSeconds().toString()).slice(-2)) + '+01:00';
+      + ':' + (('0' + toParse.getSeconds().toString()).slice(-2));
   }
 
   getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
