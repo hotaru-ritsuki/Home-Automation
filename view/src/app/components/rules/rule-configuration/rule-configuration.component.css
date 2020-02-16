@@ -149,3 +149,7 @@
 span{
   outline: none;
 }
+.none-border .form-control:focus{
+  border: none !important;
+  box-shadow: none !important;
+}

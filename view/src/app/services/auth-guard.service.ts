@@ -20,7 +20,7 @@ export class AuthGuardService implements CanActivate {
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
       this.localStorageService.clear();
-      return this.router.navigateByUrl('users/login').then(r => r);
+      return this.router.navigateByUrl('/users/login').then(r => r);
     }
     return of<boolean>(true);
   }

@@ -20,7 +20,7 @@ export class DevicesComponent implements OnInit {
   locationResponse: any;
   supportDeviceResponse: Device[];
   allDevice: any;
-  home: Home;
+  home =  new Home();
   getInfo = {
     id: '',
     uuId: '',

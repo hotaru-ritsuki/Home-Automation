@@ -1,6 +1,6 @@
 <div class="nav-bar">
-  <span routerLink="/administration/homes" >Administration</span> >
-  <span routerLink="/administration/homes" >Homes</span> >
+  <span routerLink="/administration/homes">Administration</span> >
+  <span routerLink="/administration/homes">Homes</span> >
   <span routerLink="/rules/{{homeId}}">Rules</span> >
   <span>Configure</span>
 </div>
@@ -30,13 +30,14 @@
         <div *ngFor="let action of actionData" class="item">
           <img (click)="deleteAction(action)" class="gear" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
           <div class="title">{{action.type.description.toString().toLowerCase()}}</div>
-          <div class="data">{{getDataToShow(action)}}</div>
+          <div class="data">{{getDataToShow(action,action.type.description.toString().toLowerCase())}}</div>
         </div>
       </div>
     </div>
   </div>
   <div class="button-save">
-    <button [disabled]="fromData.length == 0  || actionData.length == 0" (click)="saveRule()" style="width: 30%"
+    <button [disabled]="fromData.length == 0  || actionData.length == 0 || ruleName == ''||ruleDescription == ''"
+            (click)="saveRule()" style="width: 30%"
             mat-raised-button color="primary">{{typeOfSave}}
     </button>
   </div>

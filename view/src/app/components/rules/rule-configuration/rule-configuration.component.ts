@@ -8,7 +8,7 @@ import {Rule} from "../../../models/Rule";
 
 export interface DialogData {
   conditions: string[]
-  home_id:number
+  home_id: number
 }
 
 @Component({
@@ -18,8 +18,8 @@ export interface DialogData {
 })
 export class RuleConfigurationComponent implements OnInit {
   typeOfSave = 'Save';
-  ruleName;
-  ruleDescription;
+  ruleName = '';
+  ruleDescription = '';
   ruleId;
   conditions: string[];
   fromData = [];
@@ -60,24 +60,28 @@ export class RuleConfigurationComponent implements OnInit {
   }
 
   addCond() {
-    console.log(this.homeId);
     const dialogRef = this.dialog.open(DialogCondition, {
       width: '400px',
-      data: {conditions: this.conditions,home_id:this.homeId}
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined)
+      if (result !== undefined) {
+        if (result.currentOperator === 'IN') {
+          result.state = ("[" + result.state + "]");
+        }
         this.fromData.push(result);
+      }
     });
   }
 
   addAction() {
     const dialogRef = this.dialog.open(DialogAction, {
       width: '400px',
-      data: {conditions: this.conditions,home_id:this.homeId}
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result !== undefined)
         this.actionData.push(result);
     });
@@ -103,7 +107,7 @@ export class RuleConfigurationComponent implements OnInit {
         }
       })
     }
-    this.rout.navigate(['/rules/'+this.homeId])
+    this.rout.navigate(['/rules/' + this.homeId])
   }
 
 
@@ -119,7 +123,7 @@ export class RuleConfigurationComponent implements OnInit {
   getDataToShow(obj) {
     let name = Object.keys(obj)[0];
     let value = Object.keys(obj)[1];
-    return obj[name] + ':' + obj[value];
+    return obj[name] + ' : ' + obj[value];
   }
 }
 
@@ -136,17 +140,19 @@ export class DialogCondition implements OnInit {
   }
 
   devices: LocalDevice[];
-  operators = ['>', '<', '>=', '<=', '=', 'IN'];
+  operators = [];
   features: FeatureDTO[];
   fromData = {
     state: '',
     uuid: '',
-    home_id: 1,
+    home_id: this.data.home_id,
     currentFeature: '',
     currentOperator: '',
     type: '',
     deviceName: ''
   };
+  enumRestrictions = [];
+  numericRestriction = [0, 0];
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -156,7 +162,6 @@ export class DialogCondition implements OnInit {
   changeType(container: HTMLDivElement, event) {
     this.devices = [];
     this.fromData.type = event;
-    console.log(this.data);
     this.service.getAllLocalDevice(this.data.home_id).subscribe((res) => {
       for (const device of res) {
         if (device.deviceTemplate.type === event) {
@@ -179,6 +184,42 @@ export class DialogCondition implements OnInit {
 
   ngOnInit(): void {
   }
+
+  changeFeature($event: FeatureDTO) {
+    if (JSON.parse($event.specification).type === 'numeric') {
+      this.operators = ['>', '<', '>=', '<=', '=', 'IN']
+    }
+    if (JSON.parse($event.specification).type === 'enum') {
+      this.operators = ['=', 'IN']
+    }
+    this.fromData.currentFeature = $event.featureDTO.name;
+  }
+
+  changeOperator($event: any, feature, stateEnum: HTMLDivElement, stateNumeric: HTMLDivElement, IN: HTMLInputElement) {
+    let restriction = JSON.parse(feature.value.specification).restriction;
+    if (JSON.parse(feature.value.specification).type === 'enum') {
+      this.enumRestrictions = restriction;
+      if ($event === 'IN') {
+        IN.style.display = 'block';
+        stateEnum.style.display = 'none';
+      } else {
+        stateEnum.style.display = 'block';
+        IN.style.display = 'none';
+      }
+    }
+    if (JSON.parse(feature.value.specification).type === 'numeric') {
+      this.numericRestriction[0] = restriction.min;
+      this.numericRestriction[1] = restriction.max;
+      if ($event === 'IN') {
+        IN.style.display = 'block';
+        stateNumeric.style.display = 'none'
+      } else {
+        stateNumeric.style.display = 'block';
+        IN.style.display = 'none';
+      }
+    }
+    this.fromData.currentOperator = $event
+  }
 }
 
 @Component({
@@ -197,10 +238,10 @@ export class DialogAction implements OnInit {
   actions = [];
   telegramData = {username: '', text: '', type: ''};
   emailData = {email: '', text: '', type: ''};
-  deviceData = {uuid: '', data: '', type: ''};
+  deviceData = {uuid: '', data: '', type: '', description: ''};
   currentType = '';
   localDevices = [];
-
+  telegramUsers = [];
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -233,6 +274,12 @@ export class DialogAction implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getTelegramUsersByHomeId(this.data.home_id).subscribe((res: any[]) => {
+      for (let i = 0; i < res.length; i++) {
+        this.telegramUsers.push(res[i].telegramUser.username)
+      }
+    });
+
     this.service.getActions().subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
         this.actions.push(res[i])
@@ -244,6 +291,11 @@ export class DialogAction implements OnInit {
       for (const device of res) {
         this.localDevices.push({uuid: device.uuid, desc: device.description});
       }
-    })
+    });
+  }
+
+  changeDeviceData($event: any) {
+    this.deviceData.description = $event.desc;
+    this.deviceData.uuid = $event.uuid;
   }
 }
