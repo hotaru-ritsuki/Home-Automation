@@ -9,7 +9,6 @@ import 'rxjs/add/operator/do';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Injectable } from '@angular/core';
 import {UserChangeInfo} from "../../../models/UserChangeInfo";
-import {SuccessLogIn} from "../../../models/SuccessLogin";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserTelegramService} from "../../../services/user-telegram.service";
 import {UserTelegram} from "../../../models/UserTelegram";

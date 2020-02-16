@@ -17,7 +17,7 @@ export class LogInComponent implements OnInit {
   emailErrorMessageBackEnd: string;
   passwordErrorMessageBackEnd: string;
   backEndError: string;
-  public alertMessage:string
+  public alertMessage:string;
   @ViewChild('alert', { static: true }) alert: ElementRef;
 
   constructor(
@@ -62,7 +62,8 @@ export class LogInComponent implements OnInit {
     );
   }
 
-  closeAlert() {
-    this.alert.nativeElement.classList.remove('show');
+  closeAlert(alert: HTMLDivElement) {
+    this.alertService.setMessage("");
+    alert.style.display = 'none';
   }
 }

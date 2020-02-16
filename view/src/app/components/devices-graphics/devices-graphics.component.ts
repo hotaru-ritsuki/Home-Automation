@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DeviceData} from '../../models/DeviceData';
 import {MainService} from '../../services/main.service';
 import {DataService} from '../../services/data.service';
+import {DashboardService} from "../dashboard/service/dashboard.service";
 
 @Component({
   selector: 'app-devices-graphics',
@@ -14,7 +15,7 @@ export class DevicesGraphicsComponent implements OnInit {
   @Input() to: string;
   @Input() locationId: number;
 
-  constructor(private service: MainService, private dateService: DataService) {
+  constructor(private service: MainService, private dateService: DataService,private dashService:DashboardService) {
   }
 
   ChartOptions = {
@@ -58,7 +59,7 @@ export class DevicesGraphicsComponent implements OnInit {
   }
 
   getData(dateFrom, dateTo) {
-    this.service.getAllDeviceData(this.type, dateFrom, dateTo, this.locationId)
+    this.dashService.getAllDeviceData(this.type, dateFrom, dateTo, this.locationId)
       .subscribe((res: DeviceData[]) => {
         const temperatures = [];
         for (const one of res) {

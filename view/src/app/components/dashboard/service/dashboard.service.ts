@@ -45,4 +45,8 @@ export class DashboardService {
       (('0' + toParse.getHours().toString()).slice(-2)) + ':' + (('0' + toParse.getMinutes().toString()).slice(-2))
       + ':' + (('0' + toParse.getSeconds().toString()).slice(-2)) + '+01:00';
   }
+  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
+    return this.http.post<DeviceData[]>('http://localhost:8081' + '/device-data/statistics',
+      {type: type1, from: from1, to: to1, locationId: locationId1});
+  }
 }

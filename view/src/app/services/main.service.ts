@@ -6,6 +6,7 @@ import {DeviceData} from "../models/DeviceData";
 import {LocalDevice} from "../models/LocalDevice";
 import {FeatureDTO} from "../models/FeatureDTO";
 import {Action} from "../models/Action";
+import {log} from "util";
 
 
 @Injectable({
@@ -47,11 +48,6 @@ export class MainService {
 
   getSpecification(id): Observable<FeatureDTO[]> {
     return this.http.get<FeatureDTO[]>(this.apiUrl + '/deviceFeatures/' + id)
-  }
-
-  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-    return this.http.post<DeviceData[]>(this.apiUrl + '/device-data/statistics',
-      {type: type1, from: from1, to: to1, locationId: locationId1});
   }
 
   getDeviceByUuid(uuid): Observable<LocalDevice> {
@@ -97,6 +93,7 @@ export class MainService {
   }
 
   saveRule(fromData, Name, Description) {
+    console.log("+");
     let conditions = [];
     for (let i = 0; i < fromData.length; i++) {
       let condition = {
@@ -108,6 +105,7 @@ export class MainService {
           home_id: fromData[i].home_id,
         },
       };
+      console.log(condition);
       conditions.push(condition)
     }
 
@@ -139,5 +137,9 @@ export class MainService {
       },
     };
     return this.http.delete(this.apiUrl + '/actionsRules',options )
+  }
+
+  getTelegramUsersByHomeId(home_id: number) {
+   return this.http.get(this.apiUrl + '/homes/users/'+home_id);
   }
 }

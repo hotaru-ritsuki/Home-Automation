@@ -11,8 +11,6 @@ import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {SignUpComponent} from './components/user/sign-up/sign-up.component';
-import {LogInComponent} from './components/user/log-in/log-in.component';
 import {AuthGuardService} from "./services/auth-guard.service";
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
@@ -43,8 +41,11 @@ import { UpdateHomeComponent } from './components/update-home/update-home.compon
 import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserInformationComponent,FormatTimePipe} from "./components/user/user-information/user-information.component";
+import {LogInComponent} from "./components/user/log-in/log-in.component";
+import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 
 const routes: Routes = [
+  {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
   {path: 'rules/:home_id', component: RuleComponent, canActivate: [AuthGuardService]},
   {path: 'rules/:home_id/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},

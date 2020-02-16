@@ -4,7 +4,7 @@
 <div mat-dialog-actions>
   <mat-form-field style="width:100%" floatLabel="never">
     <mat-label>Sensor type</mat-label>
-    <mat-select  (valueChange)="changeType(uuid,$event)">
+    <mat-select (valueChange)="changeType(uuid,$event)">
       <mat-option [value]="condition" *ngFor="let condition of data.conditions">{{condition}}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -24,20 +24,36 @@
 
     <mat-form-field style="width:30%; margin-right: 3%" floatLabel="never">
       <mat-label>feature</mat-label>
-      <mat-select (valueChange)="fromData.currentFeature = $event">
-        <mat-option [value]="feature.featureDTO.name"
-                    *ngFor="let feature of features">{{feature.featureDTO.name}}</mat-option>
+      <mat-select #feature (valueChange)="changeFeature($event)">
+        <mat-option [value]="feature"
+                    *ngFor="let feature of features">{{feature.featureDTO.description}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field style="width:30%;  margin-right: 3%" floatLabel="never">
       <mat-label>operator</mat-label>
-      <mat-select (valueChange)="fromData.currentOperator = $event">
+      <mat-select (valueChange)="changeOperator($event,feature,stateEnum,stateNumeric,IN)">
         <mat-option [value]="operator" *ngFor="let operator of operators">{{operator}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <input style="width: 30%; margin-right: 3%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="state"
+    <div #stateEnum style="display: none;width:30%;  margin-right: 3%">
+      <mat-form-field style="width: 100%" floatLabel="never">
+        <mat-label>state</mat-label>
+        <mat-select (valueChange)="fromData.state = $event">
+          <mat-option [value]="rest" *ngFor="let rest of enumRestrictions">{{rest}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="none-border" #stateNumeric style="width:30%; display:none;  margin-right: 3%">
+      <mat-form-field style="width: 100%">
+        <input min="{{numericRestriction[0]}}" max="{{numericRestriction[1]}}" style="height: 19px;" type="number"
+               class="form-control" matInput name="value"  [(ngModel)]="fromData.state">
+      </mat-form-field>
+    </div>
+
+    <input #IN style=" display: none; width: 30%; margin-right: 3%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="exp: 1,2,3"
            type="text" class="form-control typeahead-basic"
            [(ngModel)]="fromData.state"/>
+
   </div>
 </div>
 <div style="margin-top: 20px; display: flex; justify-content: flex-end" mat-dialog-actions>
