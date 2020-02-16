@@ -9,20 +9,24 @@
 
 <div class="devices">
   <div *ngFor="let feature of devicesFeatures">
-    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
-      <div class="light-box" *ngSwitchCase="'light'">
-        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'">
-        </app-light-toggle>
+    <div [ngSwitch]="feature.featureDTO.name">
+      <div *ngSwitchCase="'getLight'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'">
+          </app-light-toggle>
+        </div>
       </div>
-    </div>
-    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
-      <div class="light-box" *ngSwitchCase="'window'">
-        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'window'"></app-light-toggle>
+      <div *ngSwitchCase="'getWindow'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'window'"
+          ></app-light-toggle>
+        </div>
       </div>
-    </div>
-    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
-      <div class="light-box" *ngSwitchCase="'door'">
-        <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'door'"></app-light-toggle>
+      <div *ngSwitchCase="'getDoor'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'door'"
+          ></app-light-toggle>
+        </div>
       </div>
     </div>
   </div>

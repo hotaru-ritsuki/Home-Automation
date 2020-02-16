@@ -15,18 +15,20 @@ export class DashboardComponent implements OnInit {
   locations: Locations[] = [];
   homes: Home[] = [];
   home: Home;
+  areHomes = true;
 
   constructor(private homeService: HomeService, private router: Router,
               private localStorageService: LocalStorageService) {
     this.router.navigate(['dashboard']);
     this.homeService.getHomes().subscribe(res => {
       this.homes = res;
+      this.areHomes = this.homes.length > 0;
     });
-    console.log(this.localStorageService.getAccessToken());
   }
 
   setCurrentHome(home: Home) {
     this.home = home;
+    console.log(this.home);
   }
 
   ngOnInit(): void {

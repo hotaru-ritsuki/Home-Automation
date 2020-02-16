@@ -11,7 +11,7 @@ import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {AuthGuardService} from "./services/auth-guard.service";
+import {AuthGuardService} from './services/auth-guard.service';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
@@ -33,6 +33,8 @@ import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
 import {AddLocalDeviceComponent} from "./components/add-local-device/add-local-device.component";
 import {LocationModalComponent} from "./components/location-modal/location-modal.component";
+import {LogInComponent} from "./components/user/log-in/log-in.component";
+import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
@@ -111,7 +113,7 @@ const routes: Routes = [
     UserInformationComponent,
     FormatTimePipe
   ],
-  entryComponents: [DialogCondition, DialogAction],
+  entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
