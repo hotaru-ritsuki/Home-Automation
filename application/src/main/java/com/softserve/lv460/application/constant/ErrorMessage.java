@@ -41,4 +41,5 @@ public class ErrorMessage {
   public static final String TELEGRAM_CODE_NOT_DELETED_BY_ID = "Telegram's activation code wasn't deleted by id: %d";
   public static final String TELEGRAM_CODE_NOT_FOUND_BY_USERNAME = "Telegram's code for username %s does not exist";
   public static final String INCORRECT_DATA = "Bad email or password";
+  public static final String TELEGRAM_NOT_FOUND = "Telegram User not found";
 }

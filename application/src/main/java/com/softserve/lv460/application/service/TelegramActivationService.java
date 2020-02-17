@@ -75,7 +75,7 @@ public class TelegramActivationService {
 
   public boolean validate(String telegramUsername, String token) {
     TelegramActivation telegramActivation = findByUsername(telegramUsername);
-    if (telegramActivation.getExpiryDate().isBefore(LocalDateTime.now()) && !(telegramActivation.getToken().equals(token))) {
+    if (telegramActivation.getExpiryDate().isBefore(LocalDateTime.now()) || !(telegramActivation.getToken().equals(token))) {
       telegramActivationRepository.delete(telegramActivation);
       return false;
     }
