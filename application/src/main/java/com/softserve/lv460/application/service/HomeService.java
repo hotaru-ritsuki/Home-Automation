@@ -45,6 +45,10 @@ public class HomeService {
   }
 
   public Home update(Home request) {
+    Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
+    if (isHome.isPresent()) {
+      throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddressa()));
+    }
     Home home = findOne(request.getId());
     home.setCountry(request.getCountry());
     home.setCity(request.getCity());
@@ -69,7 +73,7 @@ public class HomeService {
 
   public List<ApplicationUser> findAllUsersByHomeIdWithTelegram(Long homeId) {
     Home home = homeRepository.findById(homeId).orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.HOME_NOT_FOUND_BY_ID, homeId)));
-    return home.getApplicationUsers().stream().filter(user -> Objects.nonNull(user.getTelegramUser())).filter(user->user.getTelegramUser().isEnabled()).collect(Collectors.toList());
+    return home.getApplicationUsers().stream().filter(user -> Objects.nonNull(user.getTelegramUser())).filter(user -> user.getTelegramUser().isEnabled()).collect(Collectors.toList());
   }
 
 }

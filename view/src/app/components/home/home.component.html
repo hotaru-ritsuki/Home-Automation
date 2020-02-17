@@ -1,22 +1,24 @@
 <div style="margin-left: 10px; margin-right: 10px; margin-top: 10px">
 
   <div class="nav-bar">
-    <span routerLink="../main" class="register">Administration</span> >
-    <span routerLink="../home" class="register">Homes</span>
+    <span routerLink="/administration/homes" class="register">Administration</span> >
+    <span routerLink="/administration/homes" class="register">Homes</span>
   </div>
   <div class="home_table">
     <table class="table table-hover" style="table-layout: fixed; word-wrap: break-word;">
       <thead>
       <tr>
         <th scope="col" width="30%">Name</th>
-        <th scope="col" width="60%">Address</th>
-        <th scope="col" width="10%"></th>
+        <th scope="col" width="47%">Address</th>
+        <th scope="col" width="15%">Devices installed</th>
+        <th scope="col" width="7%"></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let house of homes">
+      <tr *ngFor="let house of listHomes;">
         <th scope="row">{{house.name}}</th>
         <td>{{house.city}} {{house.addressa}}</td>
+        <td>{{house.deviceAmount}}</td>
         <td><a routerLink="../../device/{{house.name}}/{{house.id}}/location/0">Configure</a></td>
       </tr>
       </tbody>
