@@ -3,7 +3,6 @@ import {Device} from "../../models/Device";
 import {Feature} from "../../models/Feature";
 import {DevicesTeamplateService} from "../../services/devices-teamplate.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HomeService} from "../../services/home.service";
 import {Home} from "../../models/Home";
 
 @Component({
@@ -13,6 +12,7 @@ import {Home} from "../../models/Home";
 })
 export class DeviceTemplateComponent implements OnInit {
   pageForUrl: number;
+  totalPages: number;
   countOfPages: Array<number>;
   devicesWithFilter: {
     content: Device[],
@@ -76,6 +76,7 @@ export class DeviceTemplateComponent implements OnInit {
       for (let i = 0; i < res.totalPages; i++) {
         pages.push(i);
       }
+      this.totalPages = res.totalPages;
       this.countOfPages = pages;
       this.devicesWithFilter = res;
       this.pageForUrl = 0;

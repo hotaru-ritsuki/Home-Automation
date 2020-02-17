@@ -89,7 +89,7 @@
       </div>
     </div>
   </div>
-  <div class="pag">
+  <div class="pag" *ngIf="totalPages > 1">
     <ul class="pagination">
       <li style="padding-right: 10px" *ngFor="let page of countOfPages" class="page-item">
         <button type="button" class="btn btn-outline-primary buttoned" value="{{page + 1}}"

@@ -115,6 +115,7 @@ const routes: Routes = [
     UserInformationComponent,
     FormatTimePipe,
     DeleteLocationComponent,
+    GraphicDialogComponent,
   ],
   entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [
