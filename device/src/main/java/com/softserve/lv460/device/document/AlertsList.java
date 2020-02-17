@@ -24,4 +24,6 @@ public class AlertsList {
   private String uuId;
   private String data;
   private LocalDateTime timestamp;
+  private String description;
+  private Long homeId;
 }

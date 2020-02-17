@@ -36,17 +36,16 @@ public class ChangeStreamConfig {
   @PostConstruct
   public void subscribeToChangeStream() {
     Flux<ChangeStreamEvent<DeviceData>> deviceData = reactiveTemplate.changeStream(DeviceData.class)
-        .watchCollection(propertiesConfig.getCollection()).listen();
+            .watchCollection(propertiesConfig.getCollection()).listen();
 
     deviceData.doOnNext((event) -> {
       List<RuleDto> rules = ruleCacheConfig.getCache(event.getBody().getUuId());
       rules.stream().filter((rule) -> rule.getActive() &&
-          checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
+              checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
     }).subscribe();
   }
 
   private void executeActions(RuleDto rule) {
-    System.out.println("ChangeSreamConfig executeActions");
     for (ActionRuleDto actionRuleDto : rule.getActionRule()) {
       List<Action> actions = actionRegistry.getAction(actionRuleDto.getAction().getType());
       for (Action action : actions) {
@@ -56,10 +55,6 @@ public class ChangeStreamConfig {
   }
 
   private Boolean checkRuleCondition(RuleDto rule, Map<String, String> data) {
-    System.out.println("ChangeSreamConfig checkRuleCondition");
-
-    System.out.println(rule);
-    System.out.println(data);
     try {
       JSONArray conditionArray = new JSONArray(rule.getConditions());
       for (int i = 0; i < conditionArray.length(); i++) {

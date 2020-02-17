@@ -25,8 +25,8 @@ public class ActionConfig {
   @Bean
   ActionRegistry actionRegistry() {
     return new ActionRegistry(Arrays.asList(new DeviceAction(deviceActionRepository),
-        new AlertAction(alertListRepository, deviceCacheConfig),
-        new TelegramAction(propertiesConfig, httpClient),
-        new MailAction(emailService)));
+            new AlertAction(alertListRepository, deviceCacheConfig),
+            new TelegramAction(propertiesConfig, httpClient),
+            new MailAction(emailService)));
   }
 }
