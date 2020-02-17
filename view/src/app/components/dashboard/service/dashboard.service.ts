@@ -50,8 +50,4 @@ export class DashboardService {
     return this.http.post<DeviceData[]>('http://localhost:8081' + '/device-data/statistics',
       {type: type1, from: from1, to: to1, locationId: locationId1});
   }
-  getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-    return this.http.post<DeviceData[]>('http://localhost:8081' + '/device-data/statistics',
-      {type: type1, from: from1, to: to1, locationId: locationId1});
-  }
 }
