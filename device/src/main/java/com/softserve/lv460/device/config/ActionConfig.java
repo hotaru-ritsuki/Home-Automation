@@ -1,6 +1,7 @@
 package com.softserve.lv460.device.config;
 
 import com.softserve.lv460.device.action.*;
+import com.softserve.lv460.device.config.cache.DeviceCacheConfig;
 import com.softserve.lv460.device.mail.EmailServiceImpl;
 import com.softserve.lv460.device.repositiry.AlertListRepository;
 import com.softserve.lv460.device.repositiry.DeviceActionRepository;
@@ -19,11 +20,12 @@ public class ActionConfig {
   private DeviceActionRepository deviceActionRepository;
   private AlertListRepository alertListRepository;
   private EmailServiceImpl emailService;
+  private DeviceCacheConfig deviceCacheConfig;
 
   @Bean
   ActionRegistry actionRegistry() {
     return new ActionRegistry(Arrays.asList(new DeviceAction(deviceActionRepository),
-        new AlertAction(alertListRepository),
+        new AlertAction(alertListRepository, deviceCacheConfig),
         new TelegramAction(propertiesConfig, httpClient),
         new MailAction(emailService)));
   }

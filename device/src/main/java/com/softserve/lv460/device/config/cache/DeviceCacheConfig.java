@@ -32,16 +32,16 @@ public class DeviceCacheConfig {
   public DeviceCacheConfig(PropertiesConfig propertiesConfig) {
     this.propertiesConfig = propertiesConfig;
     this.loadingCache = CacheBuilder
-            .newBuilder()
-            .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
-            .build(
-                    new CacheLoader<String, LocalDeviceDto>() {
-                      @Override
-                      public LocalDeviceDto load(String uuId) throws IOException {
-                        return getRegisteredDevice(uuId);
-                      }
-                    }
-            );
+        .newBuilder()
+        .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+        .build(
+            new CacheLoader<String, LocalDeviceDto>() {
+              @Override
+              public LocalDeviceDto load(String uuId) throws IOException {
+                return getRegisteredDevice(uuId);
+              }
+            }
+        );
   }
 
 
@@ -51,6 +51,9 @@ public class DeviceCacheConfig {
     return deviceData;
   }
 
+  public LocalDeviceDto getFromCache(String uuid) throws ExecutionException {
+    return loadingCache.get(uuid);
+  }
 
   private LocalDeviceDto getRegisteredDevice(String uuId) throws IOException {
     String localDeviceUrl = propertiesConfig.getMainApplicationHostName() + "/location-devices/";

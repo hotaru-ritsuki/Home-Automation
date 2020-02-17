@@ -44,3 +44,9 @@ INSERT INTO `device_features` (`device_id`, `features_id`, `specification`)
    (10, 1, '{"columnName": "temperature", "type": "numeric", "restriction": {"min": 15, "max": 25}}'),
    (10, 2, '{"columnName": "humidity", "type": "numeric", "restriction": {"min": 15, "max": 25}}'),
    (11, 1, '{"columnName": "temperature", "type": "numeric", "restriction": {"min": 15, "max": 25}}');
+INSERT INTO `actions` (`id`,`description`, `type`)
+  VALUES (1,'mail',2), (2,'telegram',1), (3,'alerts',3);
+INSERT INTO `rules` (`id`,`name`, `conditions`)
+  VALUES (1,'Temperature check', '{"field_name":"temperature","value":"312","operator":"=","device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as2","home_id":1}}');
+INSERT INTO `actions_rule` (`rule_id`, `action_id`, `action_specification`)
+  VALUES (1, 3,'{"uuId":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","data":"{humidity: 25,operator: >}"}');
