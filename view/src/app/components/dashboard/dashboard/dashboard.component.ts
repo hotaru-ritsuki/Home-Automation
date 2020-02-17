@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
 
   setCurrentHome(home: Home) {
     this.home = home;
-    console.log(this.home);
   }
 
   ngOnInit(): void {

@@ -7,36 +7,37 @@ import {Device} from '../../../models/Device';
 import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DeviceData} from '../../../models/DeviceData';
 import {Locations} from "../../../models/Locations";
+import {ConstantsService} from "../../../services/constant/constants.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private URL = 'http://localhost:8080/location-devices/location';
+  private baseApplicationURL = this.constants.baseApplicationUrl;
+  private baseDeviceURL = this.constants.baseDeviceUrl;
   type: string;
   from: string;
   to: string;
   locationId: number;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private  constants: ConstantsService) {
   }
 
   getLocalDevicesByLocation(location: Locations): Observable<LocalDevice[]> {
-    return this.http.get<LocalDevice[]>(this.URL + '/' + location.id);
+    return this.http.get<LocalDevice[]>(this.baseApplicationURL + '/location-devices/location/' + location.id);
   }
 
   getDeviceFeatureByDevice(device: Device) {
-    return this.http.get<FeatureDTO[]>('http://localhost:8080/deviceFeatures/' + device.id);
+    return this.http.get<FeatureDTO[]>(this.baseApplicationURL + '/deviceFeatures/' + device.id);
   }
 
   getCurrentServiceIndicators(uuid: string) {
-    return this.http.get<DeviceData>('http://localhost:8081/device-data/' + uuid);
+    return this.http.get<DeviceData>(this.baseDeviceURL + '/device-data/' + uuid);
   }
 
   saveCurrentDeviceData(uuid: string, timestamp: string, data) {
     const currentDate = this.dateParser(new Date(timestamp));
-    console.log(uuid, currentDate, data);
-    return this.http.post('http://localhost:8081/device-data/', {uuId: uuid, timestamp: currentDate, data});
+    return this.http.post(this.baseDeviceURL + '/device-data/', {uuId: uuid, timestamp: currentDate, data});
   }
 
   dateParser(toParse: Date) {
@@ -47,7 +48,7 @@ export class DashboardService {
   }
 
   getAllDeviceData(type1, from1, to1, locationId1): Observable<DeviceData[]> {
-    return this.http.post<DeviceData[]>('http://localhost:8081' + '/device-data/statistics',
+    return this.http.post<DeviceData[]>(this.baseDeviceURL + '/device-data/statistics',
       {type: type1, from: from1, to: to1, locationId: locationId1});
   }
 }

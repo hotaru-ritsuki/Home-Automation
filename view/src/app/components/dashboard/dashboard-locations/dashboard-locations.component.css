@@ -3,12 +3,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
   flex-wrap: wrap;
 }
 
 .feature {
-  width: 50%;
+  width: 40%;
 }
 
 

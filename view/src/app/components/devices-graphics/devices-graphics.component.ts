@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DeviceData} from '../../models/DeviceData';
 import {MainService} from '../../services/main.service';
 import {DataService} from '../../services/data.service';
-import {DashboardService} from "../dashboard/service/dashboard.service";
+import {DashboardService} from '../dashboard/service/dashboard.service';
 
 @Component({
   selector: 'app-devices-graphics',
@@ -14,8 +14,9 @@ export class DevicesGraphicsComponent implements OnInit {
   @Input() from: string;
   @Input() to: string;
   @Input() locationId: number;
+  visible = false;
 
-  constructor(private service: MainService, private dateService: DataService,private dashService:DashboardService) {
+  constructor(private service: MainService, private dateService: DataService, private dashService: DashboardService) {
   }
 
   ChartOptions = {

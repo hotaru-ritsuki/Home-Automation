@@ -24,7 +24,6 @@ export class GraphicDialogComponent implements OnInit {
     this.locationId = this.dashboardService.locationId;
     this.fromString = this.dateParser(this.from);
     this.toString = this.dateParser(this.to);
-    console.log(this);
   }
 
   dateParser(toParse: Date) {

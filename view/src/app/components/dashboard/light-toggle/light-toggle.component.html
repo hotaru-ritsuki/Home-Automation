@@ -1,7 +1,7 @@
 <div class="any-toggle" *ngIf="type == 'light'">
   <p *ngIf="isTurnedOn === 'on'">
     <span><img src="https://img.icons8.com/dusk/64/000000/light-on.png" class="light-icon"></span>
-    Lights in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()" checked>
@@ -11,7 +11,7 @@
   </p>
   <p *ngIf="isTurnedOn === 'off'">
     <span><img src="https://img.icons8.com/wired/64/000000/light-on.png" class="light-icon"></span>
-    Lights in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()">
@@ -24,7 +24,7 @@
 <div class="any-toggle" *ngIf="type == 'door'">
   <p *ngIf="isTurnedOn === 'open'">
     <span><img src="https://img.icons8.com/ios/50/000000/door-opened.png" class="light-icon"></span>
-    Door in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()" checked>
@@ -34,7 +34,7 @@
   </p>
   <p *ngIf="isTurnedOn === 'close'">
     <span><img src="https://img.icons8.com/ios/50/000000/door-closed.png" class="light-icon"></span>
-    Door in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()">
@@ -47,7 +47,7 @@
 <div class="any-toggle" *ngIf="type == 'window'">
   <p *ngIf="isTurnedOn === 'open'">
     <span><img src="https://img.icons8.com/ios/50/000000/open-window.png" class="light-icon"></span>
-    Window in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()" checked>
@@ -57,7 +57,7 @@
   </p>
   <p *ngIf="isTurnedOn === 'close'">
     <span><img src="https://img.icons8.com/ios/50/000000/closed-window.png" class="light-icon"></span>
-    Window in {{location.name}}
+    {{description}}
     <span>
       <div class="toggle">
   <input type="checkbox" class="check" (click)="switchLight()">

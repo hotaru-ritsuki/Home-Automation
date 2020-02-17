@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DashboardService} from '../service/dashboard.service';
 import {DeviceData} from '../../../models/DeviceData';
-import {Locations} from "../../../models/Locations";
+import {Locations} from '../../../models/Locations';
 
 @Component({
   selector: 'app-light-toggle',
@@ -12,6 +12,7 @@ export class LightToggleComponent implements OnInit {
   @Input() uuid: string;
   @Input() location: Locations;
   @Input() type: string;
+  @Input() description: string;
   isTurnedOn: string;
 
   constructor(private dashboardService: DashboardService) {
@@ -19,12 +20,10 @@ export class LightToggleComponent implements OnInit {
 
   ngOnInit() {
     this.dashboardService.getCurrentServiceIndicators(this.uuid).subscribe(res => {
-      console.log(this.type);
       const dev: DeviceData = res;
       const ind = new Map(Object.entries(dev.data)).get(this.type);
-      this.isTurnedOn = ind.toString();
+      this.isTurnedOn = ind.toString().toLowerCase();
     });
-    console.log(this.isTurnedOn);
   }
 
   switchLight() {
