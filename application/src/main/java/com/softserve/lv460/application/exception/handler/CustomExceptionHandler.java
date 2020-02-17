@@ -1,9 +1,6 @@
 package com.softserve.lv460.application.exception.handler;
 
-import com.softserve.lv460.application.exception.exceptions.BadRefreshTokenException;
-import com.softserve.lv460.application.exception.exceptions.EmailNotVerified;
-import com.softserve.lv460.application.exception.exceptions.NotCurrentUserException;
-import com.softserve.lv460.application.exception.exceptions.ValidationExceptionDto;
+import com.softserve.lv460.application.exception.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -41,6 +38,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   public final ResponseEntity<Object> authenticationException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
+  }
+
+  @ExceptionHandler(UserAlreadyRegisteredException.class)
+  public final ResponseEntity<Object> userAlredyRegisteredException(WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)

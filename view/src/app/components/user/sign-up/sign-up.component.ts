@@ -30,18 +30,18 @@ export class SignUpComponent implements OnInit {
   }
 
   private register(userSignUp: UserSignUp) {
-    this.setNullAllMessage();
     this.loadingAnim = true;
+    this.setNullAllMessage();
     this.userSecurityService.signUp(userSignUp).subscribe(
       () => {
         this.alertService.setMessage("Please check your email to complete registration");
         this.router.navigateByUrl('users/login').then(r => r);
+        this.loadingAnim = false;
       },
       (errors: HttpErrorResponse) => {
-          this.passwordErrorMessageBackEnd = 'Incorrect Data';
+          this.passwordErrorMessageBackEnd = errors.message;
           this.loadingAnim = false;
         });
-    this.loadingAnim = false;
   }
 
   private setNullAllMessage() {

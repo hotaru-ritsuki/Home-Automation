@@ -44,9 +44,8 @@ import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserInformationComponent,FormatTimePipe} from "./components/user/user-information/user-information.component";
 import {LoggedInGuardService} from "./services/logged-in-guard.service";
-import {LogInComponent} from "./components/user/log-in/log-in.component";
-import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 import { DeleteLocationComponent } from './components/delete-location/delete-location.component';
+import {GraphicDialogComponent} from "./components/dashboard/graphic-dialog/graphic-dialog.component";
 
 const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
