@@ -10,28 +10,31 @@
 <div class="devices">
   <div *ngFor="let feature of devicesFeatures">
     <div [ngSwitch]="feature.featureDTO.name">
-      <div *ngSwitchCase="'getLight'">
+      <div *ngSwitchCase="'Light'">
         <div class="light-box">
-          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'"
+                            [description]="feature.localDevice.description">
           </app-light-toggle>
         </div>
       </div>
-      <div *ngSwitchCase="'getWindow'">
+      <div *ngSwitchCase="'Window'">
         <div class="light-box">
           <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'window'"
+                            [description]="feature.localDevice.description"
           ></app-light-toggle>
         </div>
       </div>
-      <div *ngSwitchCase="'getDoor'">
+      <div *ngSwitchCase="'Door'">
         <div class="light-box">
           <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'door'"
+                            [description]="feature.localDevice.description"
           ></app-light-toggle>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="graphics" *ngIf="devicesFeatures.length>0 || devicesFeaturesGraphics.length > 0">
+<div *ngIf="devicesFeaturesGraphics.length > 0">
   <div class="date">
     <div class="text">From</div>
     <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time'
@@ -43,19 +46,21 @@
     </ejs-datetimepicker>
     <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Refresh</div>
   </div>
-  <div class="features">
-    <div class="feature" *ngFor="let feature of devicesFeaturesGraphics">
-      <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
-        <div class="graphic" *ngSwitchCase="'temperature'">
-          <app-devices-graphics type="temperature" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
-                                locationId="{{location.id}}"
-                                (click)="openInDialog('temperature', datetimeFrom.value, dateTimeTo.value
+  <div class="graphics">
+    <div class="features">
+      <div class="feature" *ngFor="let feature of devicesFeaturesGraphics">
+        <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
+          <div class="graphic" *ngSwitchCase="'temperature'">
+            <app-devices-graphics type="temperature" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
+                                  locationId="{{location.id}}"
+                                  (click)="openInDialog('temperature', datetimeFrom.value, dateTimeTo.value
                                 , location.id)"></app-devices-graphics>
-        </div>
-        <div class="graphic" *ngSwitchCase="'humidity'">
-          <app-devices-graphics type="humidity" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
-                                locationId="{{location.id}}" (click)="openInDialog('humidity',
+          </div>
+          <div class="graphic" *ngSwitchCase="'humidity'">
+            <app-devices-graphics type="humidity" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
+                                  locationId="{{location.id}}" (click)="openInDialog('humidity',
                                  datetimeFrom.value, dateTimeTo.value, location.id)"></app-devices-graphics>
+          </div>
         </div>
       </div>
     </div>

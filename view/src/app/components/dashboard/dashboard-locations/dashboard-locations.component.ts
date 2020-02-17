@@ -5,7 +5,6 @@ import {DashboardLocationsService} from '../../../services/dashboard-locations.s
 import {LocalDevice} from '../../../models/LocalDevice';
 import {LocalDeviceService} from '../../../services/local-device.service';
 import {DashboardService} from '../service/dashboard.service';
-import {FeatureDTO} from '../../../models/FeatureDTO';
 import {DataService} from '../../../services/data.service';
 import {DeviceFeature} from '../../../models/DeviceFeature';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -40,18 +39,16 @@ export class DashboardLocationsComponent implements OnInit {
         this.getFeatureByDevice(dev);
       }
     });
-    console.log(this.devicesFeatures);
-    console.log(this.devicesFeaturesGraphics);
   }
 
   getFeatureByDevice(localDevice: LocalDevice) {
     this.dashboardService.getDeviceFeatureByDevice(localDevice.deviceTemplate).subscribe(res => {
       for (const feat of res) {
-        if (feat.featureDTO.name === 'getLight' || feat.featureDTO.name === 'getDoor' || feat.featureDTO.name === 'getWindow') {
-          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO);
+        if (feat.featureDTO.name === 'Light' || feat.featureDTO.name === 'Door' || feat.featureDTO.name === 'Window') {
+          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO, localDevice);
           this.devicesFeatures.push(dev);
         } else {
-          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO);
+          const dev: DeviceFeature = new DeviceFeature(localDevice.uuid, feat.featureDTO, localDevice);
           this.devicesFeaturesGraphics.push(dev);
         }
       }

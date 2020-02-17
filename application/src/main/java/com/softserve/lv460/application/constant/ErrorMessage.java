@@ -28,7 +28,7 @@ public class ErrorMessage {
   public static final String ACTION_RULE_ALREADY_EXISTS = "Action rule with action id %d and rule id %d already exists";
   public static final String TELEGRAM_NOT_DELETED_BY_ID = "The user's telegram wasn't deleted by id: %d";
   public static final String TELEGRAM_NOT_DELETED_BY_USERNAME = "The user's telegram wasn't deleted by username: %s";
-  public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "User's telegram with username %s does not exist";
+  public static final String TELEGRAM_NOT_FOUND_BY_USERNAME = "Telegram user with username %s does not exist";
   public static final String TELEGRAM_ALREADY_REGISTER = "User's telegram with username %s is already registered";
   public static final String SOMETHING_WENT_WRONG_WITH_BOT = "Error with bot";
   public static final String USER_ALREADY_ACTIVATED = "User already activated";
@@ -40,4 +40,6 @@ public class ErrorMessage {
   public static final String VERIFICATION_TOKEN_IS_NOT_VALID = "Verification token is not valid";
   public static final String TELEGRAM_CODE_NOT_DELETED_BY_ID = "Telegram's activation code wasn't deleted by id: %d";
   public static final String TELEGRAM_CODE_NOT_FOUND_BY_USERNAME = "Telegram's code for username %s does not exist";
+  public static final String INCORRECT_DATA = "Bad email or password";
+  public static final String TELEGRAM_NOT_FOUND = "Telegram User not found";
 }

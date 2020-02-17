@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {HomeService} from '../../services/home.service';
 import {Router} from '@angular/router';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ModalComponent} from '../modal/modal.component';
 import {NewHomeWarningComponent} from '../new-home-warning/new-home-warning.component';
 
 @Component({
@@ -22,6 +21,7 @@ export class NewHomeComponent implements OnInit {
   }
 
   save(countryI: string, cityI: string, addressaI: string, nameI: string) {
+    let checker = 1;
     if (countryI !== '' && cityI !== '' && addressaI !== '' && nameI !== '') {
       const answer = {
         name: nameI,
@@ -30,17 +30,31 @@ export class NewHomeComponent implements OnInit {
         addressa: addressaI
       };
       this.homeService.postHome(answer).subscribe((res) => {
-        this.router.navigateByUrl('administration/homes');
+        checker = 0;
+        this.router.navigateByUrl('/administration/homes');
       });
     } else {
       this.openModal();
     }
+    setTimeout(() => {
+      if (checker === 1) {
+        this.openModal1();
+      }
+    }, 350);
   }
 
   openModal() {
-    let dialogRef = this.dialog.open(NewHomeWarningComponent, {
+    const dialogRef = this.dialog.open(NewHomeWarningComponent, {
       data: {
-        name: 'Are you sure, you want to delete this device?',
+        message: 'Fields: Name, Address, City must be filled out!',
+      }
+    });
+  }
+
+  openModal1() {
+    const dialogRef = this.dialog.open(NewHomeWarningComponent, {
+      data: {
+        message: 'Address is in used.',
       }
     });
   }

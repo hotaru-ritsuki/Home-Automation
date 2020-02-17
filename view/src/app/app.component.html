@@ -6,12 +6,10 @@
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/register">Register</li>
-    <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
-      back, {{localStorageService.getFirstName()}}</li>
     <li *ngIf="isSignedIn()">
       <div class="btn-group rightPlaceInSettings indigo nav-link" mdbDropdown>
         <a mdbDropdownToggle type="button" class="btn indigo waves-light dropdown-toggle">
-          Settings
+          {{localStorageService.getFirstName()}}
         </a>
         <div class="dropdown-menu dropdown-menu-right ">
           <a class="dropdown-item" routerLink="users/userInfo">Personal Information</a>

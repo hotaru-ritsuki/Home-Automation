@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalStorageService} from './services/local-storage.service';
 import {MainService} from "./services/main.service";
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.localStorageService.clear()
-    this.router.navigate(['users/login']).then(r=>r);
+    this.localStorageService.clear();
+    this.router.navigateByUrl('users/login',{skipLocationChange: true});
   }
 }

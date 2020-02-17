@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private localStorageService: LocalStorageService, private router: Router) {
     this.localStorageService
       .userIdBehaviourSubject
-      .subscribe(userId => this.isLoggedIn = userId !== null && !isNaN(userId));
+      .subscribe(userId => this.isLoggedIn = userId !== null);
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)

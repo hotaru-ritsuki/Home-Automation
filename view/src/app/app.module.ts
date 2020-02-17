@@ -69,7 +69,7 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component,canActivate:[LoggedInGuardService]},
-      {path: 'login', component: LogInComponent,canActivate:[LoggedInGuardService]},
+      {path: 'login', component: LogInComponent},
       {path: 'register', component: SignUpComponent,canActivate:[LoggedInGuardService]},
       {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent,canActivate:[LoggedInGuardService]},
       {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
