@@ -46,6 +46,7 @@ import {UserInformationComponent,FormatTimePipe} from "./components/user/user-in
 import {LoggedInGuardService} from "./services/logged-in-guard.service";
 import { DeleteLocationComponent } from './components/delete-location/delete-location.component';
 import {GraphicDialogComponent} from "./components/dashboard/graphic-dialog/graphic-dialog.component";
+import { AlertComponent } from './components/alert/alert.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
@@ -64,6 +65,7 @@ const routes: Routes = [
   {path: 'administration/homes/create', component: NewHomeComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/create/error', component: NewHomeWarningComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes/:home/update', component: UpdateHomeComponent, canActivate: [AuthGuardService]},
+  {path: 'alerts', component: AlertComponent, canActivate: [AuthGuardService]},
   {
     path: 'users',
     component: UserComponent,
@@ -116,6 +118,7 @@ const routes: Routes = [
     FormatTimePipe,
     DeleteLocationComponent,
     GraphicDialogComponent,
+    AlertComponent,
   ],
   entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [

@@ -25,6 +25,7 @@ export class RestorePasswordComponent implements OnInit {
   }
 
   restorePassword(email: string) {
+    console.log('ddd');
     this.userChange.findUserByEmail(email).subscribe((response) => {
       this.user = response;
     }, (errors: HttpErrorResponse) => {
