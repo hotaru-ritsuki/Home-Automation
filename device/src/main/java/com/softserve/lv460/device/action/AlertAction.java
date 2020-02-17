@@ -16,7 +16,6 @@ import java.util.concurrent.ExecutionException;
 @AllArgsConstructor
 public class AlertAction implements Action {
   private final AlertListRepository alertListRepository;
-
   private final DeviceCacheConfig deviceCacheConfig;
 
   @Override
@@ -35,6 +34,6 @@ public class AlertAction implements Action {
 
   @Override
   public String getType() {
-    return null;
+    return "ALERT";
   }
 }

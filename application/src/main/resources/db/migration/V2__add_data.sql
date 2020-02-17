@@ -47,6 +47,8 @@ INSERT INTO `device_features` (`device_id`, `features_id`, `specification`)
 INSERT INTO `actions` (`id`,`description`, `type`)
   VALUES (1,'mail',2), (2,'telegram',1), (3,'alerts',3);
 INSERT INTO `rules` (`id`,`name`, `conditions`)
-  VALUES (1,'Temperature check', '{"field_name":"temperature","value":"312","operator":"=","device":{"uuid":"1ec3cf2a-2a3b-11ea-asdd-asdx-as2","home_id":1}}');
+  VALUES (1,'Humidity check', '{"field_name":"humidity","value":"25","operator":">","device":{"uuid":"ab6296cb-631a-48ae-b429-5c3c3aca","home_id":1}}'),
+    (2,'Temperature check', '{"field_name":"temperature","value":"312","operator":"=","device":{"uuid":"ab6296cb-631a-48ae-b429-5c3c3aca","home_id":1}}');
 INSERT INTO `actions_rule` (`rule_id`, `action_id`, `action_specification`)
-  VALUES (1, 3,'{"uuId":"1ec3cf2a-2a3b-11ea-asdd-asdx-as1","data":"{humidity: 25,operator: >}"}');
+  VALUES (1, 3,'{"uuId":"ab6296cb-623a-48ae-b429-5c3c3aca","data":"{humidity: 25,operator: >}"}'),
+  (2, 3,'{"uuId":"ab6296cb-623a-48ae-b429-5c3c3aca","data":"{temperature: 312,operator: =}"}');

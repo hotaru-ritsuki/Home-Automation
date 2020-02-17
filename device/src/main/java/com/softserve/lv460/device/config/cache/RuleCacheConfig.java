@@ -43,6 +43,8 @@ public class RuleCacheConfig {
 
   public List<RuleDto> getCache(String uuId) {
     try {
+      System.out.println(uuId);
+      System.out.println(cache.get(uuId));
       return cache.get(uuId);
     } catch (Exception e) {
       log.error(e.getLocalizedMessage());
