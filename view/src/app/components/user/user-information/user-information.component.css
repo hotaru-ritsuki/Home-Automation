@@ -46,3 +46,16 @@ a.tgme_action_button, a.tgme_action_button_new {
   margin-left: 10px;
   color: blue;
 }
+
+.alert{
+  position: absolute;
+  display: block;
+  right: 0.1rem;
+  bottom: 2.8rem;
+}
+.err{
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+

@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @AllArgsConstructor
 @RestController
@@ -191,15 +192,15 @@ public class UserApplicationController {
   @ApiOperation("Get telegram")
   @ApiResponses(value = {
           @ApiResponse(code = 201, message = HttpStatuses.CREATED),
-          @ApiResponse(code = 400, message = ErrorMessage.USER_ALREADY_EXISTS)
+          @ApiResponse(code = 400, message = ErrorMessage.TELEGRAM_NOT_FOUND)
   })
   @GetMapping("/getTelegramUser")
   public ResponseEntity<TelegramUser> getTelegramUser(@CurrentUser UserPrincipal userPrincipal) {
     TelegramUser telegramUser = applicationUserService.findById(userPrincipal.getId()).getTelegramUser();
-    if (telegramUser == null) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    if (Objects.isNull(telegramUser)) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    return ResponseEntity.ok().body(applicationUserService.findById(userPrincipal.getId()).getTelegramUser());
+    return ResponseEntity.ok().body(telegramUser);
   }
 
   @ApiOperation("Get User Credentials")

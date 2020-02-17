@@ -96,9 +96,6 @@
 
         <div id="test-l-2" class="content text-center">
           <div class="form-group">
-            <div class="error" *ngIf="backEndError!=null">
-              {{backEndError}}
-            </div>
             <input class="form-control" style="width: 30%; text-align: center; margin: 0 auto;" id="exampleInputUsername1" placeholder="Telegram Username"
                    [(ngModel)]="username.username"/>
           </div>
@@ -123,6 +120,12 @@
         </div>
       </div>
   </div>
+</div>
+<div #alert class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="alertMessage">
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert(alert)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{alertMessage}}</strong>
 </div>
 
 
