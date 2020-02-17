@@ -24,5 +24,4 @@ public class AlertsList {
   private String uuId;
   private String data;
   private LocalDateTime timestamp;
-  private Status status;
 }

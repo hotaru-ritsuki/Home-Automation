@@ -24,7 +24,6 @@ public class AlertListServiceImpl implements AlertListService {
   @Override
   public List<AlertListDto> findByUuId(String uuId) {
     List<AlertsList> alertsList = alertListRepository.findByUuId(uuId);
-    alertsList.forEach((alert) -> alert.setStatus(Status.RECEIVED));
     return alertListRepository.saveAll(alertsList).stream().map(alert ->
         new AlertListDto(alert.getData(), alert.getTimestamp()))
         .collect(Collectors.toList());

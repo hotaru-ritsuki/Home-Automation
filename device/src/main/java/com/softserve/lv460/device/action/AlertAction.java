@@ -20,6 +20,7 @@ public class AlertAction implements Action {
 
   @Override
   public void execute(Map<String, String> actionData) {
+    System.out.println(actionData);
     String deviceUuid = actionData.get("uuid");
     try {
       System.out.println("AlertAction try");
@@ -29,8 +30,7 @@ public class AlertAction implements Action {
       e.printStackTrace();
     }
     String data = actionData.get("data");
-    alertListRepository.save(AlertsList.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now())
-        .status(Status.WAITING).build());
+    alertListRepository.save(AlertsList.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now()).build());
     System.out.println("saving data");
   }
 
