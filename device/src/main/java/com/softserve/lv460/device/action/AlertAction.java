@@ -20,8 +20,7 @@ public class AlertAction implements Action {
 
   @Override
   public void execute(Map<String, String> actionData) {
-    System.out.println("my AlertAction");
-    String deviceUuid = actionData.get("uuId");
+    String deviceUuid = actionData.get("uuid");
     try {
       System.out.println("AlertAction try");
       final LocalDeviceDto fromCache = deviceCacheConfig.getFromCache(deviceUuid);

@@ -53,7 +53,7 @@ public class DeviceCacheConfig {
   }
 
   public LocalDeviceDto getFromCache(String uuid) throws ExecutionException {
-
+    System.out.println(uuid+"+++++++++++");
     System.out.println("111 get from cache");
     return loadingCache.get(uuid);
   }
