@@ -17,12 +17,10 @@ export class DashboardComponent implements OnInit {
   home: Home;
   areHomes = true;
 
-  constructor(private homeService: HomeService, private router: Router,
-              private localStorageService: LocalStorageService) {
+  constructor(private homeService: HomeService, private router: Router) {
     this.router.navigate(['dashboard']);
-    this.homeService.getHomes().subscribe(res => {
+    this.homeService.getHomesByUser().subscribe(res => {
       this.homes = res;
-      this.areHomes = this.homes.length > 0;
     });
   }
 
@@ -31,6 +29,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.areHomes = this.homes.length > 0;
+    }, 500);
   }
 
   redirect() {
