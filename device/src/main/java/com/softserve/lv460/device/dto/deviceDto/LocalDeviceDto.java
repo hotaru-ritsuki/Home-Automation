@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LocalDeviceDto {
   private String uuid;
+  private Long homeId;
   private LocationDto location;
 }

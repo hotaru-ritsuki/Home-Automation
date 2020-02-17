@@ -2,8 +2,10 @@ package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceRequestDTO;
+import com.softserve.lv460.application.dto.localDevice.LocalDeviceRespDTO;
 import com.softserve.lv460.application.dto.localDevice.LocalDeviceResponseDTO;
 import com.softserve.lv460.application.mapper.localDevice.LocalDeviceRequestMapper;
+import com.softserve.lv460.application.mapper.localDevice.LocalDeviceRespMapper;
 import com.softserve.lv460.application.mapper.localDevice.LocalDeviceResponseMapper;
 import com.softserve.lv460.application.service.HomeService;
 import com.softserve.lv460.application.service.LocalDeviceService;
@@ -28,6 +30,7 @@ public class LocalDeviceController {
     private LocationService locationService;
     private HomeService homeService;
     private LocalDeviceResponseMapper responseMapper;
+    private LocalDeviceRespMapper respMapper;
     private LocalDeviceRequestMapper requestMapper;
 
     @ApiOperation(value = "Create new device")
@@ -74,9 +77,10 @@ public class LocalDeviceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
     })
+
     @GetMapping("/{uuid}")
-    public ResponseEntity<LocalDeviceResponseDTO> findOne(@PathVariable("uuid") String uuid) {
-        return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(localDeviceService.findByUuid(uuid)));
+    public ResponseEntity<LocalDeviceRespDTO> findOne(@PathVariable("uuid") String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(respMapper.toDto(localDeviceService.findByUuid(uuid)));
     }
 
     @ApiOperation(value = "Update device")

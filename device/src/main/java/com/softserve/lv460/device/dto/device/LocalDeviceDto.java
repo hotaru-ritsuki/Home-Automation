@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class LocalDeviceDto {
   private String uuid;
   private LocationDto location;
+  private Long homeId;
 }

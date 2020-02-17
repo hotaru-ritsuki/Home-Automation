@@ -1,5 +1,5 @@
 package com.softserve.lv460.application.entity.enums;
 
 public enum ActionType {
-  DEVICE, TELEGRAM, MAIL, LOGGER
+  DEVICE, TELEGRAM, MAIL, ALERT
 }
