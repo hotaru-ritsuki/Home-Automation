@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import Stepper from 'bs-stepper';
 import { Observable } from 'rxjs/Observable';
@@ -14,6 +14,8 @@ import {UserTelegramService} from "../../../services/user-telegram.service";
 import {UserTelegram} from "../../../models/UserTelegram";
 import {UserTelegramDTO} from "../../../models/UserTelegramDTO";
 import {UserChangeInfoService} from "../../../services/user-change-info.service";
+import {LocalStorageService} from "../../../services/local-storage.service";
+import {AlertService} from "../../../services/alert.service";
 
 @Injectable()
 export class TimerService {
@@ -64,16 +66,21 @@ export class UserInformationComponent implements OnInit {
   countDown;
   counter = 10;
   userTelegram:UserTelegramDTO;
+  public alertMessage:string;
+  @ViewChild('alert', { static: true }) alert: ElementRef;
+
 
   constructor(
     private router: Router,
     private timerService: TimerService,
     private userTelegramService: UserTelegramService,
-    private userChangeInfoService: UserChangeInfoService
+    private userChangeInfoService: UserChangeInfoService,
+    private localStorageService: LocalStorageService
   ) {
     this.username=new UserTelegram();
     this.userChangeInfo=new UserChangeInfo();
     this.userTelegram=new UserTelegramDTO();
+    this.alertMessage="";
   }
 
 ngOnInit() {
@@ -144,13 +151,18 @@ ngOnInit() {
   private changeInfo(userChangeInfo: UserChangeInfo){
   this.userChangeInfoService.changeInfo(userChangeInfo).subscribe(
     (data: UserChangeInfo) => {
+      this.localStorageService.setFirstName(data.firstName);
       this.userChangeInfo.firstName=data.firstName;
       this.userChangeInfo.lastName=data.lastName;
+      this.alertMessage="Successfully updated";
+      this.alert.nativeElement.display=true;
     },
     (errors: HttpErrorResponse) => {
       this.backEndError = errors.error.message;
     }
   );
 }
-
+  closeAlert(alert: HTMLDivElement) {
+    this.alertMessage="";
+  }
 }

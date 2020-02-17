@@ -1,5 +1,6 @@
 package com.softserve.lv460.application.exception.handler;
 
+import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.exception.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
+  @ExceptionHandler(TelegramUserNotFound.class)
+  public final ResponseEntity<Object> telegramException(WebRequest request){
+    ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
+  }
+
   @ExceptionHandler(AuthenticationException.class)
   public final ResponseEntity<Object> authenticationException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
+    exceptionResponse.setMessage(ErrorMessage.INCORRECT_DATA);
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
   }
 
@@ -68,7 +76,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(NotCurrentUserException.class)
-  public final ResponseEntity<Object> handleUserGoalsWhereNotSavedException(NotCurrentUserException ex,
+  public final ResponseEntity<Object> handleUserWhereNotSavedException(NotCurrentUserException ex,
                                                                             WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     log.trace(ex.getMessage(), ex);

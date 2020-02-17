@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Injectable({
@@ -26,6 +26,9 @@ export class LoggedInGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return !this.isLoggedIn;
+    if (this.isLoggedIn) {
+      return this.router.navigateByUrl('/dashboard').then(r => r);
+    }
+    return of<boolean>(true);
   }
 }

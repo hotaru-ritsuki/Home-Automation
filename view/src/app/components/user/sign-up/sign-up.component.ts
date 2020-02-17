@@ -39,7 +39,23 @@ export class SignUpComponent implements OnInit {
         this.loadingAnim = false;
       },
       (errors: HttpErrorResponse) => {
-          this.passwordErrorMessageBackEnd = errors.message;
+          this.passwordErrorMessageBackEnd = errors.error.toString();
+        try {
+          errors.error.forEach(error => {
+            if (error.name === 'email') {
+              this.emailErrorMessageBackEnd = error.message;
+            } else if (error.name === 'password') {
+              this.passwordErrorMessageBackEnd = error.message;
+            }
+          });
+        } catch (e) {
+          if(errors.error.message.toString().includes('xception')){
+            this.passwordErrorMessageBackEnd = 'Try to request a new activation on login page';
+          }
+          else{
+          this.passwordErrorMessageBackEnd = errors.error.message;
+        }
+        }
           this.loadingAnim = false;
         });
   }
