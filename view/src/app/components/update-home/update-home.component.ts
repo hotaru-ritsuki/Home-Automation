@@ -13,7 +13,7 @@ import {NewHomeWarningComponent} from '../new-home-warning/new-home-warning.comp
 export class UpdateHomeComponent implements OnInit {
 
   homeId: number;
-  home: Home;
+  home: Home = new Home();
 
   constructor(public dialog: MatDialog, private router: Router, private homeService: HomeService, private route: ActivatedRoute,) {
   }
@@ -27,6 +27,7 @@ export class UpdateHomeComponent implements OnInit {
   }
 
   update(countryI: string, cityI: string, addressaI: string, nameI: string) {
+    let checker = 1;
     if (countryI !== '' && cityI !== '' && addressaI !== '' && nameI !== '') {
       const answer = {
         id: this.homeId,
@@ -36,17 +37,31 @@ export class UpdateHomeComponent implements OnInit {
         addressa: addressaI
       };
       this.homeService.putHome(answer).subscribe((res) => {
+        checker = 0;
         this.router.navigateByUrl('/device/' + nameI + '/' + this.homeId + '/location/0');
       });
     } else {
       this.openModal();
     }
+    setTimeout(() => {
+      if (checker === 1) {
+        this.openModal1();
+      }
+    },350);
   }
 
   openModal() {
-    let dialogRef = this.dialog.open(NewHomeWarningComponent, {
+    const dialogRef = this.dialog.open(NewHomeWarningComponent, {
       data: {
-        name: 'Are you sure, you want to delete this device?',
+        message: 'Fields: Name, Address, City must be filled out!',
+      }
+    });
+  }
+
+  openModal1() {
+    const dialogRef = this.dialog.open(NewHomeWarningComponent, {
+      data: {
+        message: 'Address is in used.',
       }
     });
   }
