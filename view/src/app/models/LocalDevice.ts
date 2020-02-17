@@ -3,7 +3,7 @@ import {Device} from './Device';
 
 export interface LocalDevice {
   uuid: string;
-  description: string,
+  description: string;
   location: Locations;
   deviceTemplate: Device;
 }
