@@ -18,6 +18,7 @@
   margin-top: 30px;
   display: flex;
   flex-direction: row;
+  margin-bottom: 30px;
 }
 
 .cond {
@@ -117,7 +118,7 @@
 
 .title {
   width: 100%;
-  padding: 5px;
+  padding: 5px 20px 5px;
   font-size: 14px;
   font-family: sans-serif;
   text-align: center;
@@ -130,4 +131,25 @@
   font-size: 12px;
   font-family: sans-serif;
   text-align: center;
+}
+.button-save{
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.nav-bar {
+  outline: none;
+  cursor: pointer;
+  margin: 10px 10px 10px 25px;
+}
+.nav-bar span:last-child{
+  cursor: default!important;
+}
+span{
+  outline: none;
+}
+.none-border .form-control:focus{
+  border: none !important;
+  box-shadow: none !important;
 }

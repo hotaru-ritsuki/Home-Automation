@@ -20,8 +20,10 @@ public class AlertAction implements Action {
 
   @Override
   public void execute(Map<String, String> actionData) {
+    System.out.println("my AlertAction");
     String deviceUuid = actionData.get("uuId");
     try {
+      System.out.println("AlertAction try");
       final LocalDeviceDto fromCache = deviceCacheConfig.getFromCache(deviceUuid);
       System.out.println(fromCache);
     } catch (ExecutionException e) {
@@ -30,6 +32,7 @@ public class AlertAction implements Action {
     String data = actionData.get("data");
     alertListRepository.save(AlertsList.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now())
         .status(Status.WAITING).build());
+    System.out.println("saving data");
   }
 
   @Override

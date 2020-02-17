@@ -5,7 +5,7 @@ export class Rule {
     public description: string,
     public active: boolean,
     public conditions: string,
-    public actionRule: string
+    public actionRule: {}
   ) {
   }
 }

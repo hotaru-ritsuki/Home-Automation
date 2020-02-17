@@ -41,31 +41,27 @@ export class InterceptorService implements HttpInterceptor {
    * intercepts 401, 403, and 404 error responses.
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('login') || req.url.includes('register') || req.url.includes('Registration')) {
+    if (req.url.includes('login') || req.url.includes('register') || req.url.includes('Registration') || req.url.includes('Tokens')) {
       return next.handle(req);
     }
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     if (!this.localStorageService.getRefreshToken()){
-      this.router.navigate(['login'])
+      this.router.navigate(['users/login']);
+      return of<HttpEvent<any>>()
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED) {
-          console.log(error.status);
           return this.handle401Error(req, next);
         }
-        if (error.status === FORBIDDEN) {
-          console.log(error.status);
-          return this.handle403Error(req);
-        }
         if (error.status === NOT_FOUND) {
-          console.log(error.status);
           return this.handle404Error(req);
         }
-        console.log(error.status);
-        return throwError(error);
+        if (error.status === FORBIDDEN) {
+          return this.handle403Error(req);
+        }
       })
     );
   }
@@ -144,7 +140,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`Page does not exist ${req.url}`);
-    this.router.navigateByUrl('error').then(r => r);
+    this.router.navigate(['users/login']).then(r => r);
     return of<HttpEvent<any>>();
   }
 }

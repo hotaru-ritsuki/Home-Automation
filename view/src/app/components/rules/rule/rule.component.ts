@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MainService} from "../../../services/main.service";
 import {Rule} from "../../../models/Rule";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-rule',
@@ -10,15 +10,27 @@ import {Router} from "@angular/router";
   styleUrls: ['./rule.component.css']
 })
 export class RuleComponent implements OnInit {
-  rules: Rule[];
+  rules: Rule[] = [];
+  isEmpty = false;
+  home_id;
 
-  constructor(private service: MainService, private router: Router) {
+  constructor(private service: MainService, private router: Router, private activRouter: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.service.getRules().subscribe((res) => {
-      this.rules = res;
+    setTimeout(()=>{
+    this.activRouter.params.subscribe((res) => {
+      this.home_id = res.home_id;
+      this.service.getRules(res.home_id).subscribe((res) => {
+        if (res.length > 0) {
+          this.isEmpty = false
+        } else {
+          this.isEmpty = true;
+        }
+        this.rules = res;
+      })
     })
+    }, 300);
   }
 
   deleteRule(rule: Rule) {
@@ -31,21 +43,30 @@ export class RuleComponent implements OnInit {
   }
 
   changeRuleStatus(rule: Rule) {
+    if (rule.active === true) {
+      rule.active = false;
+    } else if (rule.active === false) {
+      rule.active = true;
+    }
     this.service.changeStatus(rule).subscribe((res) => {
-      console.log(res);
     })
   }
 
   edit(rule: Rule) {
-    console.log(rule.actionRule);
-    this.router.navigate(['rules/configure'], {
+    let actions = [];
+    // @ts-ignore
+    for (let i = 0; i < rule.actionRule.length; i++) {
+      let data = JSON.parse(rule.actionRule[i].actionSpecification);
+      data['type'] = rule.actionRule[i].action;
+      actions.push(data)
+    }
+    this.router.navigate(['/rules/' + this.home_id + '/configure'], {
       queryParams: {
         id: rule.id,
         name: rule.name,
         conditions: rule.conditions,
         description: rule.description,
-        actionRule: rule.actionRule,
-        actions: rule.actionRule
+        actions: JSON.stringify(actions),
       }
     });
   }

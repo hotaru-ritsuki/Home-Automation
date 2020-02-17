@@ -11,6 +11,7 @@ import com.softserve.lv460.device.dto.rule.ActionRuleDto;
 import com.softserve.lv460.device.dto.rule.RuleDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Bean;
@@ -35,17 +36,17 @@ public class ChangeStreamConfig {
   @PostConstruct
   public void subscribeToChangeStream() {
     Flux<ChangeStreamEvent<DeviceData>> deviceData = reactiveTemplate.changeStream(DeviceData.class)
-            .watchCollection(propertiesConfig.getCollection()).listen();
+        .watchCollection(propertiesConfig.getCollection()).listen();
+
     deviceData.doOnNext((event) -> {
-      System.out.println(event);
       List<RuleDto> rules = ruleCacheConfig.getCache(event.getBody().getUuId());
-      System.out.println(rules);
-      rules.stream().filter((rule) ->
-              checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
+      rules.stream().filter((rule) -> rule.getActive() &&
+          checkRuleCondition(rule, event.getBody().getData())).forEach(this::executeActions);
     }).subscribe();
   }
 
   private void executeActions(RuleDto rule) {
+    System.out.println("ChangeSreamConfig executeActions");
     for (ActionRuleDto actionRuleDto : rule.getActionRule()) {
       List<Action> actions = actionRegistry.getAction(actionRuleDto.getAction().getType());
       for (Action action : actions) {
@@ -55,14 +56,24 @@ public class ChangeStreamConfig {
   }
 
   private Boolean checkRuleCondition(RuleDto rule, Map<String, String> data) {
+    System.out.println("ChangeSreamConfig checkRuleCondition");
+
     System.out.println(rule);
     System.out.println(data);
     try {
-      JSONObject conditionJson = new JSONObject(rule.getConditions());
-      String operator = conditionJson.getString("operator");
-      String dataValue = data.get(conditionJson.getString("field_name"));
-      String conditionValue = conditionJson.getString("value");
-      return predicateMap().get(operator).test(dataValue, conditionValue);
+      JSONArray conditionArray = new JSONArray(rule.getConditions());
+      for (int i = 0; i < conditionArray.length(); i++) {
+        JSONObject condition = conditionArray.getJSONObject(i);
+        Optional<String> dataValue = Optional.ofNullable(data.get(condition.getString("field_name")));
+        if (dataValue.isPresent()) {
+          String operator = condition.getString("operator");
+          String conditionValue = condition.getString("value");
+          if (predicateMap().get(operator).test(dataValue.get(), conditionValue)) {
+            return true;
+          }
+        }
+      }
+      return false;
     } catch (JSONException e) {
       log.error(e.getLocalizedMessage());
       return false;
@@ -85,7 +96,7 @@ public class ChangeStreamConfig {
 
   private Map<String, String> parseToMap(String toParse) {
     try {
-      return new ObjectMapper().readValue(toParse, new TypeReference<Map<String, String>>() {
+      return new ObjectMapper().readValue(toParse, new TypeReference<>() {
       });
     } catch (JsonProcessingException e) {
       log.error(e.getLocalizedMessage());

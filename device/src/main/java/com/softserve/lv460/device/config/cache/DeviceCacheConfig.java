@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.cache.CacheBuilder.newBuilder;
+
 @Configuration
 public class DeviceCacheConfig {
 
@@ -31,11 +33,10 @@ public class DeviceCacheConfig {
 
   public DeviceCacheConfig(PropertiesConfig propertiesConfig) {
     this.propertiesConfig = propertiesConfig;
-    this.loadingCache = CacheBuilder
-        .newBuilder()
-        .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+    this.loadingCache = newBuilder()
+        .expireAfterWrite(propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
         .build(
-            new CacheLoader<String, LocalDeviceDto>() {
+            new CacheLoader<>() {
               @Override
               public LocalDeviceDto load(String uuId) throws IOException {
                 return getRegisteredDevice(uuId);
@@ -52,6 +53,8 @@ public class DeviceCacheConfig {
   }
 
   public LocalDeviceDto getFromCache(String uuid) throws ExecutionException {
+
+    System.out.println("111 get from cache");
     return loadingCache.get(uuid);
   }
 

@@ -20,3 +20,12 @@
   width: 100%;
   margin-left: 10px;
 }
+.bg-img{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-image:
+    url("https://firebasestorage.googleapis.com/v0/b/home-automation-931bf.appspot.com/o/lutterworth-smart-home-10.jpg?alt=media&token=1b7c4529-dd9a-4c94-afcb-7939cc5c2cf7");
+}

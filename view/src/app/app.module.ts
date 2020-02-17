@@ -11,47 +11,53 @@ import {GraphicsDashbordComponent} from './components/graphics-dashbord/graphics
 import {DevicesComponent} from './components/local-device/devices.component';
 import {DeviceTemplateComponent} from './components/device-template/device-template.component';
 import {InterceptorService} from './services/intercept.service';
-import {AuthGuardService} from "./services/auth-guard.service";
-import {SignUpComponent} from './components/user/sign-up/sign-up.component';
-import {LogInComponent} from './components/user/log-in/log-in.component';
+import {AuthGuardService} from './services/auth-guard.service';
 import {DashboardComponent} from './components/dashboard/dashboard/dashboard.component';
 import {DashboardLocationsComponent} from './components/dashboard/dashboard-locations/dashboard-locations.component';
 import {ButtonsModule, MDBBootstrapModule, NavbarModule, WavesModule} from 'angular-bootstrap-md';
 import {LightToggleComponent} from './components/dashboard/light-toggle/light-toggle.component';
 import {SliderModule} from 'angular-image-slider';
-import {AddLocalDeviceComponent} from './components/add-local-device/add-local-device.component';
 import {RuleComponent} from './components/rules/rule/rule.component';
 import {
   DialogAction,
   DialogCondition,
   RuleConfigurationComponent
 } from './components/rules/rule-configuration/rule-configuration.component';
-import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from "@angular/material";
+import {MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {ConfirmRegistrationComponent} from './components/user/confirm-registration/confirm-registration.component';
 import {UserComponent} from './components/user/user.component';
-import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component'
+import {ResendRegistrationTokenComponent} from './components/user/resend-registration-token/resend-registration-token.component';
 import {RestorePasswordComponent} from './components/user/restore-password/restore-password/restore-password.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RestorePasswordPart2Component} from './components/restore-password-part2/restore-password-part2.component';
-import { LocationModalComponent } from './components/location-modal/location-modal.component';
+import {AddLocalDeviceComponent} from "./components/add-local-device/add-local-device.component";
+import {LocationModalComponent} from "./components/location-modal/location-modal.component";
+import {LogInComponent} from "./components/user/log-in/log-in.component";
+import {SignUpComponent} from "./components/user/sign-up/sign-up.component";
 import { HomeComponent } from './components/home/home.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { NewHomeWarningComponent } from './components/new-home-warning/new-home-warning.component';
 import { UpdateLocationComponent } from './components/update-location/update-location.component';
 import { UpdateHomeComponent } from './components/update-home/update-home.component';
-import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {DateTimePickerModule} from '@syncfusion/ej2-angular-calendars';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UserInformationComponent,FormatTimePipe} from "./components/user/user-information/user-information.component";
+import {LoggedInGuardService} from "./services/logged-in-guard.service";
+import { DeleteLocationComponent } from './components/delete-location/delete-location.component';
+import {GraphicDialogComponent} from "./components/dashboard/graphic-dialog/graphic-dialog.component";
 
 const routes: Routes = [
+  {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'statistic', component: GraphicsDashbordComponent, canActivate: [AuthGuardService]},
-  {path: 'rules', component: RuleComponent, canActivate: [AuthGuardService]},
-  {path: 'rules/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/:home_id', component: RuleComponent, canActivate: [AuthGuardService]},
+  {path: 'rules/:home_id/configure', component: RuleConfigurationComponent, canActivate: [AuthGuardService]},
   {path: 'device/:home_name/:home/location/:location', component: DevicesComponent},
   {path: 'locations', component: DashboardLocationsComponent, canActivate: [AuthGuardService]},
   {path: 'device-template/:home_name/:home/location/:location', component: DeviceTemplateComponent, canActivate: [AuthGuardService]},
   {path: 'add-local-device/:home_name/:home/:location/:device/:brand/:model', component: AddLocalDeviceComponent, canActivate: [AuthGuardService]},
   {path: 'device-modal', component: ModalComponent, canActivate: [AuthGuardService]},
+  {path: 'delete-location', component: DeleteLocationComponent, canActivate: [AuthGuardService]},
   {path: 'update-location/:id', component: UpdateLocationComponent, canActivate: [AuthGuardService]},
   {path: 'location-modal/home_name', component: LocationModalComponent, canActivate: [AuthGuardService]},
   {path: 'administration/homes', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -62,15 +68,17 @@ const routes: Routes = [
     path: 'users',
     component: UserComponent,
     children: [
-      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component},
-      {path: 'login', component: LogInComponent},
-      {path: 'register', component: SignUpComponent},
-      {path: 'confirmRegistration', component: ConfirmRegistrationComponent, canActivate: [AuthGuardService]},
+      {path: 'restorePassword/:id/:token', component: RestorePasswordPart2Component,canActivate:[LoggedInGuardService]},
+      {path: 'login', component: LogInComponent,canActivate:[LoggedInGuardService]},
+      {path: 'register', component: SignUpComponent,canActivate:[LoggedInGuardService]},
+      {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent,canActivate:[LoggedInGuardService]},
       {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
-      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent},
-      {path: 'restore', component: RestorePasswordComponent}
+      {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent,canActivate:[LoggedInGuardService]},
+      {path: 'restore', component: RestorePasswordComponent,canActivate:[LoggedInGuardService]},
+      {path: 'userInfo', component: UserInformationComponent,canActivate:[AuthGuardService]},
     ]
   },
+  {path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuardService]},
 ];
 
 @NgModule({
@@ -104,8 +112,12 @@ const routes: Routes = [
     NewHomeWarningComponent,
     UpdateLocationComponent,
     UpdateHomeComponent,
+    UserInformationComponent,
+    FormatTimePipe,
+    DeleteLocationComponent,
+    GraphicDialogComponent,
   ],
-  entryComponents: [DialogCondition, DialogAction],
+  entryComponents: [DialogCondition, DialogAction, GraphicDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -114,7 +126,7 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, {enableTracing: true}),
+    RouterModule.forRoot(routes),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,
@@ -128,8 +140,6 @@ const routes: Routes = [
     NgbModule,
     MatDialogModule
   ],
-
-
   providers:
     [{
       provide: HTTP_INTERCEPTORS,

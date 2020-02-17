@@ -19,7 +19,7 @@ public class DeviceAction implements Action {
 
   @Override
   public void execute(Map<String, String> actionData) {
-    String deviceUuid = actionData.get("uuId");
+    String deviceUuid = actionData.get("uuid");
     String data = actionData.get("data");
     deviceActionRepository.save(DeviceActionData.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now())
             .status(Status.WAITING).build());

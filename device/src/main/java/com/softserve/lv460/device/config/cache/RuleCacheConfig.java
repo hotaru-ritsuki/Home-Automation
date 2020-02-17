@@ -30,7 +30,7 @@ public class RuleCacheConfig {
     this.httpClient = httpClient;
     this.cache = CacheBuilder
             .newBuilder()
-            .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.MINUTES)
+            .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
             .build(
                     new CacheLoader<String, List<RuleDto>>() {
                       @Override
@@ -42,7 +42,9 @@ public class RuleCacheConfig {
   }
 
   public List<RuleDto> getCache(String uuId) {
+    System.out.println("get Cache");
     try {
+      System.out.println("get Cache try");
       System.out.println(uuId);
       System.out.println(cache.get(uuId));
       return cache.get(uuId);

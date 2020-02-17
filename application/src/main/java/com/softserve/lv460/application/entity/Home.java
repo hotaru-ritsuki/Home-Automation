@@ -19,7 +19,7 @@ public class Home {
   private String city;
   private String addressa;
   private String name;
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
         name = "user_home",
         joinColumns = @JoinColumn(name = "home_id"),

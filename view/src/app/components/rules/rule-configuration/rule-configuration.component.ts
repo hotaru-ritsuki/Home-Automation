@@ -1,12 +1,14 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MainService} from "../../../services/main.service";
 import {LocalDevice} from "../../../models/LocalDevice";
 import {FeatureDTO} from "../../../models/FeatureDTO";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Rule} from "../../../models/Rule";
 
 export interface DialogData {
   conditions: string[]
+  home_id: number
 }
 
 @Component({
@@ -15,70 +17,97 @@ export interface DialogData {
   styleUrls: ['./rule-configuration.component.css']
 })
 export class RuleConfigurationComponent implements OnInit {
-  ruleName;
-  ruleDescription;
+  typeOfSave = 'Save';
+  ruleName = '';
+  ruleDescription = '';
+  ruleId;
   conditions: string[];
   fromData = [];
   actionData = [];
+  actionsToDelete = [];
+  homeId;
 
-
-  constructor(public dialog: MatDialog, private service: MainService, private router: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private service: MainService, private rout: Router, private router: ActivatedRoute) {
   }
-  // state: '',
-  // uuid: '',
-  // currentFeature: '',
-  // currentOperator: '',
-  // type: ''
-  //
-  // [{"field_name": "temperature", "value": "18", "operator": ">="},{"field_name": "humidity",
-  // "value": "25", "operator": ">"}]
 
 
-ngOnInit() {
+  ngOnInit() {
     this.router.queryParams.subscribe((res) => {
-
       if (Object.keys(res).length !== 0) {
+        this.typeOfSave = 'Update';
         this.ruleName = res.name;
+        this.ruleId = res.id;
         this.ruleDescription = res.description;
         let cond = JSON.parse(res.conditions);
         for (let i = 0; i < cond.length; i++) {
-          let fromDataObj = {state:cond[i].value,currentOperator: cond[i].operator,
-          currentFeature: cond[i].field_name,type: 'lox' };
-          this.fromData.push(fromDataObj)
+          this.service.getDeviceByUuid(cond[i].device.uuid).subscribe((res) => {
+            let fromDataObj = {
+              deviceName: res.description,
+              state: cond[i].value, currentOperator: cond[i].operator,
+              currentFeature: cond[i].field_name,
+              device: {uuid: cond[i].device.uuid, home_id: cond[i].device.home_id}
+            };
+            this.fromData.push(fromDataObj)
+          });
         }
+        this.actionData = JSON.parse(res.actions);
       }
+      this.homeId = this.rout.url.split("/")[2];
+      this.service.getDevicesTypes().subscribe((res) => {
+        this.conditions = res;
+      });
     });
-
-    this.service.getDevicesTypes().subscribe((res) => {
-      this.conditions = res;
-    })
   }
 
   addCond() {
     const dialogRef = this.dialog.open(DialogCondition, {
       width: '400px',
-      data: {conditions: this.conditions}
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined)
+      if (result !== undefined) {
+        if (result.currentOperator === 'IN') {
+          result.state = ("[" + result.state + "]");
+        }
         this.fromData.push(result);
+      }
     });
   }
 
   addAction() {
     const dialogRef = this.dialog.open(DialogAction, {
       width: '400px',
+      data: {conditions: this.conditions, home_id: this.homeId}
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result !== undefined)
         this.actionData.push(result);
     });
   }
 
   saveRule() {
-    console.log(this.fromData);
-    // let rule = new Rule('',this.ruleName,this.ruleDescription,false,this.fromData)
+    for (let i = 0; i < this.actionsToDelete.length; i++) {
+      this.service.deleteActionRule(this.actionsToDelete[i], this.ruleId).subscribe((res) => {
+      })
+    }
+    if (this.typeOfSave === 'Save') {
+      this.service.saveRule(this.fromData, this.ruleName, this.ruleDescription).subscribe((res: Rule) => {
+        for (let i = 0; i < this.actionData.length; i++) {
+          this.service.saveRuleAction(res.id, this.actionData[i]).subscribe((res) => {
+          })
+        }
+      })
+    } else if (this.typeOfSave === 'Update') {
+      this.service.updateRule(this.ruleId, this.fromData, this.ruleName, this.ruleDescription).subscribe((res: Rule) => {
+        for (let i = 0; i < this.actionData.length; i++) {
+          this.service.updateRuleAction(res.id, this.actionData[i]).subscribe((res) => {
+          })
+        }
+      })
+    }
+    this.rout.navigate(['/rules/' + this.homeId])
   }
 
 
@@ -87,7 +116,14 @@ ngOnInit() {
   }
 
   deleteAction(item: any) {
+    this.actionsToDelete.push(item);
     this.actionData.splice(this.actionData.indexOf(item), 1)
+  }
+
+  getDataToShow(obj) {
+    let name = Object.keys(obj)[0];
+    let value = Object.keys(obj)[1];
+    return obj[name] + ' : ' + obj[value];
   }
 }
 
@@ -96,7 +132,7 @@ ngOnInit() {
   templateUrl: 'dialog-cond.html',
   styleUrls: ['./rule-configuration.component.css']
 })
-export class DialogCondition {
+export class DialogCondition implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogCondition>,
@@ -104,26 +140,29 @@ export class DialogCondition {
   }
 
   devices: LocalDevice[];
-  operators = ['>', '<', '>=', '<=', '=', 'IN'];
+  operators = [];
   features: FeatureDTO[];
   fromData = {
     state: '',
     uuid: '',
+    home_id: this.data.home_id,
     currentFeature: '',
     currentOperator: '',
-    type: ''
+    type: '',
+    deviceName: ''
   };
+  enumRestrictions = [];
+  numericRestriction = [0, 0];
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
 
-  changeType(container: HTMLDivElement, event, btn: HTMLButtonElement) {
-    btn.disabled = false;
+  changeType(container: HTMLDivElement, event) {
     this.devices = [];
     this.fromData.type = event;
-    this.service.getAllLocalDevice().subscribe((res) => {
+    this.service.getAllLocalDevice(this.data.home_id).subscribe((res) => {
       for (const device of res) {
         if (device.deviceTemplate.type === event) {
           this.devices.push(device);
@@ -133,12 +172,53 @@ export class DialogCondition {
     })
   }
 
-  getSpecification(state: HTMLDivElement, event: LocalDevice) {
+  getSpecification(state: HTMLDivElement, event: LocalDevice, btn) {
+    btn.disabled = false;
+    this.fromData.deviceName = event.description;
     this.fromData.uuid = event.uuid;
     this.service.getSpecification(event.deviceTemplate.id).subscribe((res: FeatureDTO[]) => {
       this.features = res;
     });
     state.style.display = 'block'
+  }
+
+  ngOnInit(): void {
+  }
+
+  changeFeature($event: FeatureDTO) {
+    if (JSON.parse($event.specification).type === 'numeric') {
+      this.operators = ['>', '<', '>=', '<=', '=', 'IN']
+    }
+    if (JSON.parse($event.specification).type === 'enum') {
+      this.operators = ['=', 'IN']
+    }
+    this.fromData.currentFeature = $event.featureDTO.name;
+  }
+
+  changeOperator($event: any, feature, stateEnum: HTMLDivElement, stateNumeric: HTMLDivElement, IN: HTMLInputElement) {
+    let restriction = JSON.parse(feature.value.specification).restriction;
+    if (JSON.parse(feature.value.specification).type === 'enum') {
+      this.enumRestrictions = restriction;
+      if ($event === 'IN') {
+        IN.style.display = 'block';
+        stateEnum.style.display = 'none';
+      } else {
+        stateEnum.style.display = 'block';
+        IN.style.display = 'none';
+      }
+    }
+    if (JSON.parse(feature.value.specification).type === 'numeric') {
+      this.numericRestriction[0] = restriction.min;
+      this.numericRestriction[1] = restriction.max;
+      if ($event === 'IN') {
+        IN.style.display = 'block';
+        stateNumeric.style.display = 'none'
+      } else {
+        stateNumeric.style.display = 'block';
+        IN.style.display = 'none';
+      }
+    }
+    this.fromData.currentOperator = $event
   }
 }
 
@@ -150,38 +230,39 @@ export class DialogCondition {
 export class DialogAction implements OnInit {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public dialogRef: MatDialogRef<DialogAction>,
     private service: MainService) {
   }
 
-  actionTypes = ['DEVICE', 'TELEGRAM', 'MAIL', 'LOGGER'];
-  telegramData = {username: '', text: '', type: '', description: ''};
-  emailData = {email: '', text: '', type: '', description: ''};
+  actions = [];
+  telegramData = {username: '', text: '', type: ''};
+  emailData = {email: '', text: '', type: ''};
   deviceData = {uuid: '', data: '', type: '', description: ''};
   currentType = '';
-  localDeviceUuids = [];
-
+  localDevices = [];
+  telegramUsers = [];
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   changeType(event: any, telegramContainer: HTMLDivElement, emailContainer: HTMLDivElement, deviceContainer: HTMLDivElement, btn: HTMLButtonElement) {
-    if (event === 'TELEGRAM') {
+    if (event.type === 'TELEGRAM') {
       this.currentType = 'telegram';
       this.telegramData.type = event;
       deviceContainer.style.display = 'none';
       emailContainer.style.display = 'none';
       telegramContainer.style.display = 'block';
     }
-    if (event === 'MAIL') {
+    if (event.type === 'MAIL') {
       this.currentType = 'mail';
       this.emailData.type = event;
       deviceContainer.style.display = 'none';
       telegramContainer.style.display = 'none';
       emailContainer.style.display = 'block';
     }
-    if (event === 'DEVICE' || event === 'LOGGER') {
+    if (event.type === 'DEVICE' || event.type === 'LOGGER') {
       this.currentType = 'device';
       this.deviceData.type = event;
       telegramContainer.style.display = 'none';
@@ -193,10 +274,28 @@ export class DialogAction implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getAllLocalDevice().subscribe((res) => {
-      for (const device of res) {
-        this.localDeviceUuids.push(device.uuid);
+    this.service.getTelegramUsersByHomeId(this.data.home_id).subscribe((res: any[]) => {
+      for (let i = 0; i < res.length; i++) {
+        this.telegramUsers.push(res[i].telegramUser.username)
       }
-    })
+    });
+
+    this.service.getActions().subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        this.actions.push(res[i])
+      }
+    });
+
+
+    this.service.getAllLocalDevice(this.data.home_id).subscribe((res) => {
+      for (const device of res) {
+        this.localDevices.push({uuid: device.uuid, desc: device.description});
+      }
+    });
+  }
+
+  changeDeviceData($event: any) {
+    this.deviceData.description = $event.desc;
+    this.deviceData.uuid = $event.uuid;
   }
 }

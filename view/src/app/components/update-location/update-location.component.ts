@@ -22,6 +22,7 @@ export class UpdateLocationComponent implements OnInit {
   home: number;
   locationId: number;
   location: Locations;
+  alert = 1;
 
   constructor(private dialog: MatDialogRef<UpdateLocationComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,9 +41,15 @@ export class UpdateLocationComponent implements OnInit {
   }
 
   save(name: string) {
-    console.log('ff ' + this.data.id);
-
-    this.locationService.update({id: this.id, name: name, homeId: this.home}).subscribe();
+    if (this.locationName != null && this.locationName != '') {
+      if (this.locationName.length > 0 || this.locationName.length < 10) {
+        this.locationService.update({id: this.id, name: name, homeId: this.home}).subscribe();
+      } else {
+        this.alert = 2;
+      }
+    } else {
+      this.alert = 2;
+    }
 
     this.dialog.close();
   }

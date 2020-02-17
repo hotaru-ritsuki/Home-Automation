@@ -1,7 +1,6 @@
 <mdb-navbar *ngIf="isSignedIn()" SideClass="navbar navbar-expand-lg navbar-dark indigo" [containerInside]="false">
   <ul class="navbar-nav mr-auto">
     <li *ngIf="isSignedIn()" routerLink="dashboard" class="nav-link waves-light">Dashboard</li>
-    <li *ngIf="isSignedIn()" routerLink="rules" class="nav-link waves-light">Rules</li>
     <li *ngIf="isSignedIn()" routerLink="administration/homes" class="nav-link waves-light">Administration</li>
     <li class="rightPlace nav-link waves-light" *ngIf="!isSignedIn()" routerLink="login">Login</li>
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="register">Register</li>
@@ -9,23 +8,25 @@
     <li class="rightPlaceIn nav-link waves-light" *ngIf="!isSignedIn()" routerLink="users/register">Register</li>
     <li class="rightPlace nav-link waves-light" *ngIf="isSignedIn()">Welcome
       back, {{localStorageService.getFirstName()}}</li>
-      <li>
-        <div class="col" *ngIf="isSignedIn()">
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary indigo" id="dropdownBasic1" ngbDropdownToggle>Settings</button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem routerLink="users/changePersonalInfo">Personal Information</button>
-              <button ngbDropdownItem routerLink="users/changePassword">Change Password</button>
-              <button ngbDropdownItem (click)="logout()">Logout</button>
-            </div>
-          </div>
+    <li *ngIf="isSignedIn()">
+      <div class="btn-group rightPlaceInSettings indigo nav-link" mdbDropdown>
+        <a mdbDropdownToggle type="button" class="btn indigo waves-light dropdown-toggle">
+          Settings
+        </a>
+        <div class="dropdown-menu dropdown-menu-right ">
+          <a class="dropdown-item" routerLink="users/userInfo">Personal Information</a>
+          <a class="dropdown-item" routerLink="users/changePassword">Change Password</a>
+          <div class="divider dropdown-divider"></div>
+          <a class="dropdown-item" (click)="logout()">Logout</a>
         </div>
-      </li>
+      </div>
+    </li>
   </ul>
 
 </mdb-navbar>
+<div class="wrapper">
   <router-outlet></router-outlet>
-<br>
+</div>
 <div class=" indigo footer" *ngIf="isSignedIn()">
   <div class="footer-copyright text-center py-3">© 2020 Copyright:
     <a href="https://www.softserveinc.com/"> SoftServe IT Academy</a>

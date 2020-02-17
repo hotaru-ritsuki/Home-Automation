@@ -1,4 +1,5 @@
 <div class="bg-img">
+
   <div class="login">
 
     <form #registerForm="ngForm" (ngSubmit)="logIn(userLogIn)">
@@ -60,4 +61,14 @@
       Forgot your password?
     </div>
   </div>
+
+  <div #alert class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="alertMessage">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert(alert)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>{{alertMessage}}</strong>
+  </div>
 </div>
+
+
+

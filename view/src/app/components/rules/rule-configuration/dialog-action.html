@@ -4,20 +4,19 @@
 <mat-form-field style="width:100%" floatLabel="never">
   <mat-label>Action Type</mat-label>
   <mat-select (valueChange)="changeType($event,telegramContainer,emailContainer,deviceContainer,btn)">
-    <mat-option [value]="type" *ngFor="let type of actionTypes">{{type.toLowerCase()}}</mat-option>
+    <mat-option [value]="type" *ngFor="let type of actions">{{type.description.toLowerCase()}}</mat-option>
   </mat-select>
 </mat-form-field>
 <div #telegramContainer style="display: none">
   <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
   <div style="display: flex; flex-direction: column" class="config">
-    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
-           type="text" class="form-control typeahead-basic"
-           [(ngModel)]="telegramData.description"/>
     <div style="display: flex; flex-direction: row">
-      <input style="width: 40%; margin-right: 5%; margin-top: 8px; border-bottom: 1px solid #8e8e8e"
-             placeholder="username"
-             type="text" class="form-control typeahead-basic"
-             [(ngModel)]="telegramData.username"/>
+      <mat-form-field style="width: 40%; margin-right: 5%;" floatLabel="never">
+        <mat-label>username</mat-label>
+        <mat-select (valueChange)="telegramData.username = $event">
+          <mat-option [value]="user" *ngFor="let user of telegramUsers">{{user}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="text"
              type="text" class="form-control typeahead-basic"
              [(ngModel)]="telegramData.text"/>
@@ -27,9 +26,6 @@
 <div #emailContainer style="display: none">
   <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
   <div style="display: flex; flex-direction: column" class="config">
-    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
-           type="text" class="form-control typeahead-basic"
-           [(ngModel)]="emailData.description"/>
     <div style="display: flex; flex-direction: row">
       <input style="width: 40%; margin-right: 5%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="email"
              type="text" class="form-control typeahead-basic"
@@ -43,14 +39,11 @@
 <div #deviceContainer style="display: none">
   <h4 style="font-size: 20px; font-family: sans-serif; margin-top: 20px" class="modal-title">Configuration</h4>
   <div style="display: flex; flex-direction: column" class="config">
-    <input style="width: 100%; margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="description"
-           type="text" class="form-control typeahead-basic"
-           [(ngModel)]="deviceData.description"/>
     <div style="display: flex; flex-direction: row">
       <mat-form-field style="width: 40%; margin-right: 5%;" floatLabel="never">
-        <mat-label>uuid</mat-label>
-        <mat-select (valueChange)="deviceData.uuid = $event">
-          <mat-option [value]="uuid" *ngFor="let uuid of localDeviceUuids">{{uuid}}</mat-option>
+        <mat-label>device</mat-label>
+        <mat-select (valueChange)="changeDeviceData($event)">
+          <mat-option [value]="desc" *ngFor="let desc of localDevices">{{desc.desc}}</mat-option>
         </mat-select>
       </mat-form-field>
       <input style="width: 40%; margin-right: 5%;  margin-top: 8px; border-bottom: 1px solid #8e8e8e" placeholder="data"

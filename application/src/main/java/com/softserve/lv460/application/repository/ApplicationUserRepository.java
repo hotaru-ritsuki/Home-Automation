@@ -23,4 +23,6 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
   @Modifying
   @Query("update ApplicationUser u set u.secret= ?1 where u.id = ?2")
   void updateSecret(String secret, Long id);
+
+  int deleteAllByEnabled(boolean enabled);
 }

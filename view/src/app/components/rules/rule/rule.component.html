@@ -1,4 +1,9 @@
-<div class="rule-container">
+<div class="nav-bar">
+  <span routerLink="/administration/homes" >Administration</span> >
+  <span routerLink="/administration/homes" >Homes</span> >
+  <span>Rules</span>
+</div>
+<div *ngIf="!isEmpty" class="rule-container">
   <div *ngFor="let rule of rules" class="rule">
     <div class="rule-info">
       <div class="circle">{{rule.name.slice(0, 1).toLowerCase()}}</div>
@@ -17,7 +22,7 @@
       </div>
       <div class="rule-img">
         <img (click)="changeRuleStatus(rule)"
-          [src]="rule.active?'https://image.flaticon.com/icons/svg/633/633816.svg':'https://image.flaticon.com/icons/svg/92/92381.svg'">
+             [src]="rule.active?'https://image.flaticon.com/icons/svg/633/633816.svg':'https://image.flaticon.com/icons/svg/92/92381.svg'">
       </div>
       <div class="rule-img">
         <img (click)="deleteRule(rule)" src="https://image.flaticon.com/icons/svg/2089/2089743.svg">
@@ -29,4 +34,8 @@
       +
     </div>
   </div>
+</div>
+<div *ngIf="isEmpty" class="no-data">
+  <div class="title-no-data">You dont have any rules</div>
+  <div style="outline: none;" routerLink="configure" class="massage-no-data">Add some rules</div>
 </div>

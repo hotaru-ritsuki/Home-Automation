@@ -14,10 +14,8 @@ export class UserConfirmRegistrationService {
   }
 
   public activate(tokenRequest: string) {
-    const body = {
-      token: tokenRequest
-    };
-    return this.http.post(this.constant + '/users/confirmRegistration', body);
+    console.log(this.constant + '/users/confirmRegistration/'+tokenRequest);
+    return this.http.get(this.constant + '/users/confirmRegistration/'+tokenRequest);
   }
 
 }

@@ -26,9 +26,8 @@ public class ActionRuleService {
     return actionRuleRepository.findAll();
   }
 
-  private ActionRule findActionRule(ActionRuleId id) {
-    return actionRuleRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.ACTION_RULE_NOT_FOUND_BY_ID, id.getActionId(), id.getRuleId())));
+  private ActionRule findActionRule(ActionRule actionRule) {
+    return actionRuleRepository.findById(actionRule.getActionRuleId()).orElse(actionRuleRepository.save(actionRule));
   }
 
   public List<ActionRule> findAllByRuleId(Long ruleId) {
@@ -36,7 +35,7 @@ public class ActionRuleService {
   }
 
   public ActionRule update(ActionRule entity) {
-    ActionRule action = findActionRule(new ActionRuleId(entity.getActionRuleId().getRuleId(), entity.getActionRuleId().getActionId()));
+    ActionRule action = findActionRule(entity);
     action.setActionSpecification(entity.getActionSpecification());
     return actionRuleRepository.save(action);
   }

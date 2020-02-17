@@ -16,6 +16,7 @@ public class Rule {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+  @Column(length = 2000)
   private String conditions;
   private Boolean active;
   private String description;

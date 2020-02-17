@@ -25,7 +25,7 @@ public class RuleService {
 
   private Rule findAction(Long id) {
     return ruleRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.RULE_NOT_FOUND_BY_ID, id)));
+            .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.RULE_NOT_FOUND_BY_ID, id)));
   }
 
   public Rule update(Rule entity) {
@@ -49,7 +49,7 @@ public class RuleService {
   }
 
   public List<Rule> findByHome(Long homeId) {
-    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId);
+    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId + "\"");
   }
 
 }

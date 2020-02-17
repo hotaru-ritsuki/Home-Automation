@@ -5,38 +5,57 @@
 <link href="https://cdn.syncfusion.com/ej2/ej2-lists/styles/material.css" rel="stylesheet"/>
 <link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet"/>
 
+<h3 *ngIf="localDevices.length > 0">Devices in {{location.name}}</h3>
 
 <div class="devices">
-  <div *ngFor="let feature of features">
-    <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
-      <div class="light-box" *ngSwitchCase="'light'">
-        <app-light-toggle deviceId="1" [location]="location"></app-light-toggle>
+  <div *ngFor="let feature of devicesFeatures">
+    <div [ngSwitch]="feature.featureDTO.name">
+      <div *ngSwitchCase="'getLight'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'light'">
+          </app-light-toggle>
+        </div>
+      </div>
+      <div *ngSwitchCase="'getWindow'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'window'"
+          ></app-light-toggle>
+        </div>
+      </div>
+      <div *ngSwitchCase="'getDoor'">
+        <div class="light-box">
+          <app-light-toggle [uuid]="feature.uuid" [location]="location" [type]="'door'"
+          ></app-light-toggle>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div class="graphics" *ngIf="features.length>0 || featuresGraphics.length > 0">
+<div class="graphics" *ngIf="devicesFeatures.length>0 || devicesFeaturesGraphics.length > 0">
   <div class="date">
     <div class="text">From</div>
     <ejs-datetimepicker #datetimeFrom style="width: 25%; height: 30px" placeholder='Select date and time'
-                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
+                        [value]='dateValueFrom' [min]='minDate' [max]='maxDate'>
     </ejs-datetimepicker>
     <div class="text">To</div>
     <ejs-datetimepicker #dateTimeTo style="width: 25%; height: 30px" placeholder='Select date and time'
-                        [value]='dateValue' [min]='minDate' [max]='maxDate'>
+                        [value]='dateValueTo' [min]='minDate' [max]='maxDate'>
     </ejs-datetimepicker>
-    <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Submit</div>
+    <div class="button" (click)="filterByDateTime(datetimeFrom.value,dateTimeTo.value)">Refresh</div>
   </div>
   <div class="features">
-    <div class="feature" *ngFor="let feature of featuresGraphics">
+    <div class="feature" *ngFor="let feature of devicesFeaturesGraphics">
       <div ngSwitch="{{feature.featureDTO.name.replace('get', '') | lowercase}}">
         <div class="graphic" *ngSwitchCase="'temperature'">
           <app-devices-graphics type="temperature" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
-                                locationId="{{location.id}}"></app-devices-graphics>
+                                locationId="{{location.id}}"
+                                (click)="openInDialog('temperature', datetimeFrom.value, dateTimeTo.value
+                                , location.id)"></app-devices-graphics>
         </div>
         <div class="graphic" *ngSwitchCase="'humidity'">
           <app-devices-graphics type="humidity" to="{{dateTimeTo.value}}" from="{{datetimeFrom.value}}"
-                                locationId="{{location.id}}"></app-devices-graphics>
+                                locationId="{{location.id}}" (click)="openInDialog('humidity',
+                                 datetimeFrom.value, dateTimeTo.value, location.id)"></app-devices-graphics>
         </div>
       </div>
     </div>
