@@ -41,7 +41,7 @@ export class InterceptorService implements HttpInterceptor {
    * intercepts 401, 403, and 404 error responses.
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('login') || req.url.includes('register') || req.url.includes('Registration') || req.url.includes('Tokens')) {
+    if (req.url.includes('login') || req.url.includes('register') || req.url.includes('Registration') || req.url.includes('Tokens') || req.url.includes('estore')) {
       return next.handle(req);
     }
     if (this.localStorageService.getAccessToken()) {

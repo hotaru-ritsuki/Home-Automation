@@ -36,7 +36,7 @@ export class UserChangePasswordService {
     });
   }
 
-  public findUserByEmail(email: string): Observable<any>{
-    return this.http.get<any>(this.constant + '/users/restorePassword/' + email);
+  public findUserByEmail(email: string){
+    return this.http.get(this.constant + '/users/restorePassword/' + email);
   }
 }

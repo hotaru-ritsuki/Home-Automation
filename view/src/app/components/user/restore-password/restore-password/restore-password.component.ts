@@ -12,12 +12,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class RestorePasswordComponent implements OnInit {
   userLogIn: UserLogIn;
-  user: any;
-  email:string;
-  error: string;
+  public email:string;
   text = 'Enter email for restore.';
 
-  constructor(private userChange: UserChangePasswordService) {
+  constructor(private userChange: UserChangePasswordService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -25,13 +24,12 @@ export class RestorePasswordComponent implements OnInit {
   }
 
   restorePassword(email: string) {
-    this.userChange.findUserByEmail(email).subscribe((response) => {
-      this.user = response;
-    }, (errors: HttpErrorResponse) => {
-      this.text = 'You already have message.';
+    console.log(email);
+    this.userChange.findUserByEmail(email).subscribe((data:any)=>{
+      console.log(data);
     });
-
     this.text = 'We sent message on your email.';
+    console.log(this.text);
   }
 
 }
