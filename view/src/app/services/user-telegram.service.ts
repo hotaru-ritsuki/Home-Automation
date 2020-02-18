@@ -14,15 +14,15 @@ export class UserTelegramService {
     this.constant = this._constant.baseApplicationUrl;
   }
 
-  public sendActivation(model: UserTelegram) {
+  public sendActivation(model: string) {
     const body={
-      username:model.username
+      username:model
     };
-    return this.http.post<string>(this.constant + '/users/addTelegram', body);
+    return this.http.post(this.constant + '/users/addTelegram', body);
   }
 
   public getStatus(){
-    return this.http.get<UserTelegramDTO>(this.constant+'/users/getTelegramUser');
+    return this.http.get(this.constant+'/users/getTelegramUser');
 }
 
 }
