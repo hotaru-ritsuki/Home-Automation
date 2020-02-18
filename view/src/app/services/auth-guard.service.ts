@@ -18,10 +18,11 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.isLoggedIn) {
+    /*if (!this.isLoggedIn) {
       this.localStorageService.clear();
+      console.log('refirected');
       return this.router.navigateByUrl('/users/login').then(r => r);
-    }
+    }*/
     return of<boolean>(true);
   }
 }

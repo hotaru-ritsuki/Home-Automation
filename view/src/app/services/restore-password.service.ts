@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ConstantsService} from "./constant/constants.service";
+import {UserLogIn} from '../models/UserLogIn';
+import {SuccessLogIn} from '../models/SuccessLogin';
+import {LocalStorageService} from '../services/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,6 @@ export class RestorePasswordService {
   }
 
   checkValidRestoreToken(id:number, token:string): Observable<any> {
-    return this.http.get<any>(this.constant + '/users/restorePassword/' + id + '/' + token);
+    return this.http.get(this.constant + '/users/restorePassword/' + id + '/' + token);
   }
 }
