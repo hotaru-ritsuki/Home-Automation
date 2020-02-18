@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface AlertListService {
   List<AlertListDto> findByUuId(String uuId);
   List<AlertsList> findAll();
+  List<AlertsList> findAllByHomeId(Long homeId);
 
 }

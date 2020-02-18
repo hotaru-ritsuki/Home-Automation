@@ -24,6 +24,11 @@ import java.util.stream.Collectors;
 public class AlertsListController {
   private AlertListServiceImpl alertListService;
 
+  @GetMapping("/homes/{home_id}")
+  public List<AlertsList> getAllAlertsByHome(@PathVariable("home_id") Long homeId){
+    return alertListService.findAllByHomeId(homeId);
+  }
+
   @ApiOperation(value = "returns list of alerts")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = HttpStatuses.OK),
@@ -38,7 +43,8 @@ public class AlertsListController {
   public List<AlertListDto> findAll(){
     List<AlertsList> alerts = alertListService.findAll();
     return alerts.stream().map(alert ->
-        new AlertListDto(alert.getData(), alert.getTimestamp()))
+        new AlertListDto(alert.getData(), alert.getId(), alert.getUuId(), alert.getTimestamp(),
+                alert.getDescription(), alert.getHomeId()))
         .collect(Collectors.toList());
   }
 }
