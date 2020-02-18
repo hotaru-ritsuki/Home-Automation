@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AlertListRepository extends MongoRepository<AlertsList, Long> {
   List<AlertsList> findByUuId(String uuId);
+  List<AlertsList> findAllByHomeId(Long homeId);
 }

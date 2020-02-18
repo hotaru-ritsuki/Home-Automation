@@ -8,20 +8,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>My Xiaomi</td>
-      <td>temperature is 30 degrees now</td>
-      <td>18.02.2020 15:35</td>
-    </tr>
-    <tr>
-      <td>My Xiaomi</td>
-      <td>temperature is 30 degrees now</td>
-      <td>18.02.2020 15:35</td>
-    </tr>
-    <tr>
-      <td>My Xiaomi</td>
-      <td>temperature is 30 degrees now</td>
-      <td>18.02.2020 15:35</td>
+    <tr *ngFor="let alert of allAlerts">
+      <td>{{alert.description }}</td>
+      <td>{{alert.data}}</td>
+      <td>{{alert.timestamp|date:"dd.MM.yyy HH:mm"}}</td>
     </tr>
     </tbody>
   </table>

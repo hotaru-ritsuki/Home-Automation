@@ -25,13 +25,19 @@ public class AlertListServiceImpl implements AlertListService {
   public List<AlertListDto> findByUuId(String uuId) {
     List<AlertsList> alertsList = alertListRepository.findByUuId(uuId);
     return alertListRepository.saveAll(alertsList).stream().map(alert ->
-        new AlertListDto(alert.getData(), alert.getTimestamp()))
+        new AlertListDto(alert.getData(), alert.getId(), alert.getUuId(), alert.getTimestamp(),
+                alert.getDescription(), alert.getHomeId()))
         .collect(Collectors.toList());
   }
 
   @Override
   public List<AlertsList> findAll() {
     return alertListRepository.findAll();
+  }
+
+  @Override
+  public List<AlertsList> findAllByHomeId(Long homeId) {
+    return alertListRepository.findAllByHomeId(homeId);
   }
 
 }
