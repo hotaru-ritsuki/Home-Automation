@@ -76,7 +76,7 @@ const routes: Routes = [
       {path: 'confirmRegistration/:token', component: ConfirmRegistrationComponent,canActivate:[LoggedInGuardService]},
       {path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
       {path: 'resendRegistrationToken', component: ResendRegistrationTokenComponent,canActivate:[LoggedInGuardService]},
-      {path: 'restore', component: RestorePasswordComponent,canActivate:[LoggedInGuardService]},
+      {path: 'restore', component: RestorePasswordComponent},
       {path: 'userInfo', component: UserInformationComponent,canActivate:[AuthGuardService]},
     ]
   },
@@ -129,7 +129,7 @@ const routes: Routes = [
     FormsModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,{ enableTracing: true }),
     NavbarModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,

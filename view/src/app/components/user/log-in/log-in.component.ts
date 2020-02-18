@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { UserLogInService } from '../../../services/user-log-in.service';
 import { UserLogIn } from '../../../models/UserLogIn';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,7 +18,6 @@ export class LogInComponent implements OnInit {
   passwordErrorMessageBackEnd: string;
   backEndError: string;
   public alertMessage:string;
-  @ViewChild('alert', { static: true }) alert: ElementRef;
 
   constructor(
     private userLogInService: UserLogInService,

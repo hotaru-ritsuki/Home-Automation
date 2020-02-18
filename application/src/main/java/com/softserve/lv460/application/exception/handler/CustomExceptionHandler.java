@@ -36,20 +36,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(TelegramUserNotFound.class)
-  public final ResponseEntity<Object> telegramException(WebRequest request){
+  public final ResponseEntity<Object> telegramException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
-  }
-
-  @ExceptionHandler(AuthenticationException.class)
-  public final ResponseEntity<Object> authenticationException(WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
-    exceptionResponse.setMessage(ErrorMessage.INCORRECT_DATA);
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
 
   @ExceptionHandler(UserAlreadyRegisteredException.class)
-  public final ResponseEntity<Object> userAlredyRegisteredException(WebRequest request) {
+  public final ResponseEntity<Object> userAlreadyRegisteredException(WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
@@ -77,7 +70,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(NotCurrentUserException.class)
   public final ResponseEntity<Object> handleUserWhereNotSavedException(NotCurrentUserException ex,
-                                                                            WebRequest request) {
+                                                                       WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     log.trace(ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
@@ -87,7 +80,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   public final ResponseEntity<Object> handleEmailNotVerified(EmailNotVerified ex, WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     log.trace(ex.getMessage(), ex);
-    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResponse);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public final ResponseEntity<Object> authenticationException(WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
+    if (!exceptionResponse.getMessage().contains("disabled")) {
+      exceptionResponse.setMessage(ErrorMessage.INCORRECT_DATA);
+    }
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse);
   }
 
   @Override

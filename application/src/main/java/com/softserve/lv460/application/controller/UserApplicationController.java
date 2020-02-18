@@ -1,6 +1,7 @@
 package com.softserve.lv460.application.controller;
 
 import com.softserve.lv460.application.constant.*;
+import com.softserve.lv460.application.dto.telegramUser.TelegramActivationDTO;
 import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
 import com.softserve.lv460.application.dto.user.UserChangePasswordDto;
 import com.softserve.lv460.application.dto.user.UserInfo;
@@ -25,6 +26,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -50,6 +53,7 @@ public class UserApplicationController {
   private final TelegramUserService telegramUserService;
   private final HomeAlertBotService homeAlertBotService;
   private final TelegramActivationService activationService;
+  private  EmailServiceImpl service;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
@@ -126,7 +130,7 @@ public class UserApplicationController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping(value = "/addTelegram")
-  public ResponseEntity addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO) {
+  public ResponseEntity<?> addTelegram(@CurrentUser UserPrincipal userPrincipal, @RequestBody TelegramUsernameDTO usernameDTO) {
     ApplicationUser applicationUser = applicationUserService.findById(userPrincipal.getId());
     TelegramUser telegramUser = telegramUserService.findByUsername(usernameDTO.getUsername());
     applicationUser.setTelegramUser(telegramUser);
@@ -137,7 +141,7 @@ public class UserApplicationController {
     applicationUserService.save(applicationUser);
     homeAlertBotService.execute(telegramUser.getChatId(), String.format(BotPhrases.CONFIRM, userPrincipal.getUsername()));
     homeAlertBotService.execute(telegramUser.getChatId(), BotPhrases.MESSAGE_EXAMPLE);
-    return ResponseEntity.ok().body(token);
+    return ResponseEntity.ok().body(new TelegramActivationDTO(token));
   }
 
   @ApiOperation("Confirming registration")
@@ -172,7 +176,15 @@ public class UserApplicationController {
   @GetMapping("/restorePassword/{email}")
   public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@Valid @PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
-    tokenService.restorePassword(user, getViewUrl());
+    String token = UUID.randomUUID().toString();
+    tokenService.createVerificationTokenForUser(user, token);
+
+    String confirmationUrl = getViewUrl() + "restorePassword/" + user.getId() + "/" + token;
+
+    service.sendMessage(user.getEmail(), MailMessages.VERIFY_EMAIL_SUBJECT,String.format(MailMessages.CONGRATS, user.getFirstName())
+            + String.format(MailMessages.RESTORE_EMAIL_BODY, confirmationUrl)
+            + MailMessages.SIGN);
+
     return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 
@@ -197,8 +209,8 @@ public class UserApplicationController {
   @GetMapping("/getTelegramUser")
   public ResponseEntity<TelegramUser> getTelegramUser(@CurrentUser UserPrincipal userPrincipal) {
     TelegramUser telegramUser = applicationUserService.findById(userPrincipal.getId()).getTelegramUser();
-    if (Objects.isNull(telegramUser)) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    if (Objects.isNull(telegramUser) || !telegramUser.isEnabled() ) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     return ResponseEntity.ok().body(telegramUser);
   }

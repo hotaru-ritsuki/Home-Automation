@@ -1,13 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, ElementRef, Injectable, OnInit, Pipe, PipeTransform, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
 import Stepper from 'bs-stepper';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/do';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Injectable } from '@angular/core';
 import {UserChangeInfo} from "../../../models/UserChangeInfo";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserTelegramService} from "../../../services/user-telegram.service";
@@ -15,7 +13,7 @@ import {UserTelegram} from "../../../models/UserTelegram";
 import {UserTelegramDTO} from "../../../models/UserTelegramDTO";
 import {UserChangeInfoService} from "../../../services/user-change-info.service";
 import {LocalStorageService} from "../../../services/local-storage.service";
-import {AlertService} from "../../../services/alert.service";
+import {ActivationTelegram} from "../../../models/ActivationTelegram";
 
 @Injectable()
 export class TimerService {
@@ -58,16 +56,15 @@ export class UserInformationComponent implements OnInit {
   loadingAnim = false;
   userChangeInfo: UserChangeInfo;
   activationCode: string;
-  backEndError: string;
-  firstName:string;
-  lastName:string;
-  username:UserTelegram;
+  firstName: string;
+  lastName: string;
+  username: UserTelegram;
   selectedTabId = 'info';
   countDown;
   counter = 10;
-  userTelegram:UserTelegramDTO;
-  public alertMessage:string;
-  @ViewChild('alert', { static: true }) alert: ElementRef;
+  userTelegram: UserTelegramDTO;
+  public alertMessage: string;
+  @ViewChild('alert', {static: true}) alert: ElementRef;
 
 
   constructor(
@@ -77,13 +74,13 @@ export class UserInformationComponent implements OnInit {
     private userChangeInfoService: UserChangeInfoService,
     private localStorageService: LocalStorageService
   ) {
-    this.username=new UserTelegram();
-    this.userChangeInfo=new UserChangeInfo();
-    this.userTelegram=new UserTelegramDTO();
-    this.alertMessage="";
+    this.username = new UserTelegram();
+    this.userChangeInfo = new UserChangeInfo();
+    this.userTelegram = new UserTelegramDTO();
+    this.alertMessage = "";
   }
 
-ngOnInit() {
+  ngOnInit() {
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: true,
       animation: true
@@ -92,77 +89,116 @@ ngOnInit() {
     this.getStatus();
   }
 
-  public openTelegram(){
+  public openTelegram() {
     window.open("https://t.me/HomemadeAlertBot", "_blank");
     this.stepper.next();
   }
 
   public sendActivation() {
-    this.userTelegramService.sendActivation(this.username).subscribe(
-      (data: string) => {
-        this.activationCode=data;
+    console.log(this.username);
+    this.userTelegramService.sendActivation(this.username.username).subscribe(
+      (data: ActivationTelegram) => {
+        console.log(data);
+        this.activationCode = data.activationCode;
         this.countDown = this.timerService.getCounter().do(() => --this.counter);
         this.stepper.next();
-      },
-      (errors: HttpErrorResponse) => {
-        this.backEndError = errors.error.message;
+      },(errors: HttpErrorResponse) => {
+        try {
+          errors.error.forEach(error => {
+            this.alertMessage = error.message;
+          });
+        } catch (e) {
+          this.alertMessage = errors.error.message;
+        }
       }
     );
 
   }
-  public refreshActivation(){
-     this.userTelegramService.sendActivation(this.username).subscribe(
-     (data: string) => {
-        this.activationCode=data;
-       this.timerService.counter=300;
+
+  public refreshActivation() {
+    this.userTelegramService.sendActivation(this.username.username).subscribe(
+      (data: ActivationTelegram) => {
+        this.activationCode = data.activationCode;
+        this.timerService.counter = 300;
       },
-     (errors: HttpErrorResponse) => {
-          this.backEndError = errors.error.message;
+      (errors: HttpErrorResponse) => {
+        try {
+          errors.error.forEach(error => {
+            this.alertMessage = error.message;
+          });
+        } catch (e) {
+          this.alertMessage = errors.error.message;
+        }
       }
-     );
+    );
   }
-  public getStatus(){
+
+  public getStatus() {
     this.userTelegramService.getStatus().subscribe(
       (data: UserTelegramDTO) => {
-        this.userTelegram=data;
-        this.stepper.to(4);
+        if (data.username === "") {
+        } else {
+          this.userTelegram = data;
+          this.stepper.to(4);
+        }
       },
       (errors: HttpErrorResponse) => {
-        this.backEndError = errors.error.message;
+        try {
+          errors.error.forEach(error => {
+            console.log(error.message);
+            this.alertMessage = error.message;
+          });
+        } catch (e) {
+          this.alertMessage = errors.error.message;
+          console.log(errors.error.message);
+        }
       }
     );
   }
 
-  public refresh(){
+  public refresh() {
     this.stepper.to(1);
   }
 
-  public getInfo(){
+  public getInfo() {
     this.userChangeInfoService.getInfo().subscribe(
-      (data:UserChangeInfo)=>{
-        this.userChangeInfo.firstName=data.firstName;
-        this.userChangeInfo.lastName=data.lastName;
+      (data: UserChangeInfo) => {
+        this.userChangeInfo.firstName = data.firstName;
+        this.userChangeInfo.lastName = data.lastName;
       },
       (errors: HttpErrorResponse) => {
-        this.backEndError = errors.error.message;
+        try {
+          errors.error.forEach(error => {
+            this.alertMessage = error.message;
+          });
+        } catch (e) {
+          this.alertMessage = errors.error.message;
+        }
       }
     )
   }
-  private changeInfo(userChangeInfo: UserChangeInfo){
-  this.userChangeInfoService.changeInfo(userChangeInfo).subscribe(
-    (data: UserChangeInfo) => {
-      this.localStorageService.setFirstName(data.firstName);
-      this.userChangeInfo.firstName=data.firstName;
-      this.userChangeInfo.lastName=data.lastName;
-      this.alertMessage="Successfully updated";
-      this.alert.nativeElement.display=true;
-    },
-    (errors: HttpErrorResponse) => {
-      this.backEndError = errors.error.message;
-    }
-  );
-}
+
+  private changeInfo(userChangeInfo: UserChangeInfo) {
+    this.userChangeInfoService.changeInfo(userChangeInfo).subscribe(
+      (data: UserChangeInfo) => {
+        this.localStorageService.setFirstName(data.firstName);
+        this.userChangeInfo.firstName = data.firstName;
+        this.userChangeInfo.lastName = data.lastName;
+        this.alertMessage = "Successfully updated";
+      },
+      (errors: HttpErrorResponse) => {
+        try {
+          errors.error.forEach(error => {
+            this.alertMessage = "There is a problem";
+          });
+        } catch (e) {
+          this.alertMessage = errors.error.message;
+        }
+      }
+    );
+  }
+
   closeAlert(alert: HTMLDivElement) {
-    this.alertMessage="";
+    this.alertMessage = "";
   }
 }
