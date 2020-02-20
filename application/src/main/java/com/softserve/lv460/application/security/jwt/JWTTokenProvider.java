@@ -22,7 +22,7 @@ import static com.softserve.lv460.application.constant.ErrorMessage.USER_NOT_FOU
 @Slf4j
 @Component
 @AllArgsConstructor
-public class JwtTokenProvider {
+public class JWTTokenProvider {
   private final ApplicationUserRepository applicationUserRepository;
   private final SecurityConfigProperties securityProperties;
 

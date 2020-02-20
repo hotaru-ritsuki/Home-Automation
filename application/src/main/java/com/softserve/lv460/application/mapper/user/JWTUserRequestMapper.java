@@ -1,6 +1,5 @@
 package com.softserve.lv460.application.mapper.user;
 
-import com.softserve.lv460.application.Application;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.mapper.Mapper;
 import com.softserve.lv460.application.security.dto.JWTUserRequest;

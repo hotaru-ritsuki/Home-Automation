@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class TelegramActivationService {
 
   public String save(TelegramUser telegramUser) {
     TelegramActivation activation = new TelegramActivation();
+    activation.setToken(String.format("%05d", new SecureRandom().nextInt(1000000)));
     activation.setTelegramUser(telegramUser);
     return save(activation);
   }

@@ -19,6 +19,9 @@ public class EmailServiceImpl {
       message.setSubject(subject);
       message.setText(text);
       emailSender.send(message);
+      /**
+       * Made a Exception Handler of this.
+       */
     } catch (MailException exception) {
       exception.printStackTrace();
     }
