@@ -44,7 +44,7 @@ export class HomeService {
     return this.http.get<Home>(this.URLFind + '/' + address);
   }
 
-  getHomesByUser(userId: number) {
-    return this.http.get<Home[]>(this.URL + '/user/' + userId);
+  getHomesByUser() {
+    return this.http.get<Home[]>(this.URL);
   }
 }

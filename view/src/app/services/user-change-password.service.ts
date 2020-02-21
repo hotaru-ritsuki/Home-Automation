@@ -24,16 +24,22 @@ export class UserChangePasswordService {
     return this.http.post(this.constant + '/users/changePassword', body);
   }
 
+
+
   public restorePassword(password: string, id: number) {
     let params = new HttpParams();
     params = params.append('password', password);
     params = params.append('id', id.toString());
-    console.log('mixha' + params.toString());
-    console.log(this.constant + '/users/changePassword', {params});
+    const body = {
+      password: password,
+      id: id
+    };
+    console.log(this.constant + '/users/changePassword', body);
     return this.http.post(this.constant + '/users/restorePassword',  {
       password,
       id,
     });
+
   }
 
   public findUserByEmail(email: string){

@@ -82,7 +82,7 @@ public class ChangeStreamConfig {
     map.put("<", (dataValue, condValue) -> Double.parseDouble(dataValue) < Double.parseDouble(condValue));
     map.put(">=", (dataValue, condValue) -> Double.parseDouble(dataValue) >= Double.parseDouble(condValue));
     map.put("<=", (dataValue, condValue) -> Double.parseDouble(dataValue) <= Double.parseDouble(condValue));
-    map.put("=", String::equals);
+    map.put("=", String::equalsIgnoreCase);
     map.put("IN", (dataValue, condValue) -> Arrays.asList(condValue.substring(1, condValue.length() - 1)
             .split(",")).contains(dataValue));
     return map;
