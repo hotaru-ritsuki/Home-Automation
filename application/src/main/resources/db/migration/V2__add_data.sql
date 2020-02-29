@@ -65,6 +65,8 @@ INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) V
 INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) VALUES (2, 12, '{"uuid":"cba1fb61-19dc-4cac-99d5-f09b19b2","data":"open","description":"Window sensor in bedroom"}');
 INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) VALUES (3, 11, '{"username":"pasha332","text":"help!!!"}');
 INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) VALUES (4, 11, '{"email":"baluhpavlo@gmail.com","text":"help!!!!"}');
+INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) VALUES (5, 11, '{"uuid":"2b6a9289-7632-43fd-a285-71b724c1","data":"60","description":"Temperature-Humidity sensor in living room"}');
+INSERT INTO brainhouse.actions_rule (action_id, rule_id, action_specification) VALUES (5, 12, '{"uuid":"cba1fb61-19dc-4cac-99d5-f09b19b2","data":"open","description":"Window sensor in bedroom"}');
 INSERT INTO brainhouse.telegram_user (id, chat_id, username, enabled) VALUES (1, '279028253', 'pasha332', true);
 INSERT INTO brainhouse.users (id, email, enabled, first_name, last_name, password, secret, telegram_user_id) VALUES (14, 'baluhpavlo@gmail.com', 1, 'Pavlo', 'Baluh', '$2a$10$spJLfVh97m0j7FudCKspjuUiPw/Fa73WoxdT4URfjMmAKyGV8Q5Kq', '13969d57-61a0-45e5-b4fe-6dfec5c20d26', 1);
 INSERT INTO brainhouse.user_home (user_id, home_id) VALUES (14, 4);

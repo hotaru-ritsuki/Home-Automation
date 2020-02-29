@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -149,7 +151,15 @@ public class UserApplicationController {
   @GetMapping("/restorePassword/{email}")
   public ResponseEntity<JWTUserRequest> sentTokenForRestorePassword(@PathVariable("email") String email) {
     ApplicationUser user = applicationUserService.findByEmail(email);
-    tokenService.restorePassword(user, getViewUrl());
+    String token = UUID.randomUUID().toString();
+    tokenService.createVerificationTokenForUser(user, token);
+
+    String confirmationUrl = getViewUrl() + "restorePassword/" + user.getId() + "/" + token;
+
+    service.sendMessage(user.getEmail(), MailMessages.VERIFY_EMAIL_SUBJECT,String.format(MailMessages.CONGRATS, user.getFirstName())
+            + String.format(MailMessages.RESTORE_EMAIL_BODY, confirmationUrl)
+            + MailMessages.SIGN);
+
     return ResponseEntity.ok().body(modelMapper.toDto(user));
   }
 
