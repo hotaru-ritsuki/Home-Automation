@@ -43,4 +43,6 @@ public class ErrorMessage {
   public static final String INCORRECT_DATA = "Bad email or password";
   public static final String TELEGRAM_NOT_FOUND = "Telegram User not found";
   public static final String PASSWORDS_DONT_MATCH = "Input passwords don't match" ;
-}
+  public static final String HOME_TOKEN_IS_EXPIRED = "Home Token is expired";
+  public static final String HOME_TOKEN_IS_NOT_VALID = "Home Token is not valid";
+  }

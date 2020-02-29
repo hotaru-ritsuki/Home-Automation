@@ -23,4 +23,11 @@ public class MailMessages {
           "\n To verify your account just follow the link: %s\n" +
           "This link will expire in 24 hours. " +
           "\nIf it has expired, try to request a new verification email by the link:\n %s";
+
+  //Home Invitation
+  public static final String INVITATION_HOME_SUBJECT = "Home-Automation — Home Invitation";
+  public static final String INVITATION_HOME_CONGRATS = "Hi,\n";
+  public static final String INVITATION_HOME_BODY = "\nYou received this because user %s sends you invitation to his home with name %s \n"+
+          "by the address %s, %s, %s \n"+
+          "to accept invitation, please follow the link bellow:\n %s \n";
 }
