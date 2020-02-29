@@ -1,7 +1,7 @@
 package com.softserve.lv460.application.security.filters;
 
 import com.softserve.lv460.application.constant.SecurityConfigProperties;
-import com.softserve.lv460.application.security.jwt.JwtTokenProvider;
+import com.softserve.lv460.application.security.jwt.JWTTokenProvider;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +22,8 @@ import java.io.IOException;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-  private JwtTokenProvider tokenProvider;
+public class JWTAuthenticationFilter extends OncePerRequestFilter {
+  private JWTTokenProvider tokenProvider;
   private UserDetailsServiceImpl customUserDetailsService;
   private SecurityConfigProperties securityConfigProperties;
 

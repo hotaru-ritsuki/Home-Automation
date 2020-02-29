@@ -15,7 +15,7 @@ public class TelegramActivation {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String token = String.format("%05d", new SecureRandom().nextInt(1000000));
+  private String token;
 
   private LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(10);
 

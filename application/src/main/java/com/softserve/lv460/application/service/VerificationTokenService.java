@@ -1,7 +1,5 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.constant.ErrorMessage;
-import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.VerificationToken;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
@@ -20,6 +18,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.softserve.lv460.application.constant.ErrorMessage.*;
+import static com.softserve.lv460.application.constant.MailMessages.*;
 
 @Service
 @AllArgsConstructor
@@ -33,20 +32,20 @@ public class VerificationTokenService {
     createVerificationTokenForUser(applicationUser, token);
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(applicationUser.getEmail());
-    message.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
-    message.setText(String.format(MailMessages.CONGRATS, applicationUser.getFirstName())
-            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token,appUrl+"resendRegistrationToken")
-            + MailMessages.SIGN);
+    message.setSubject(VERIFY_EMAIL_SUBJECT);
+    message.setText(String.format(CONGRATS, applicationUser.getFirstName())
+            + String.format(VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token,appUrl+"resendRegistrationToken")
+            + SIGN);
     mailSender.sendMessage(message);
   }
 
   public void resendToken(ApplicationUser user, String token, String appUrl) {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(user.getEmail());
-    message.setSubject(MailMessages.RESENDING_ACTIVATION_TOKEN_SUBJECT);
-    message.setText(String.format(MailMessages.CONGRATS, user.getFirstName())
-            + String.format(MailMessages.VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token, appUrl+"resendRegistrationToken")
-            + MailMessages.SIGN);
+    message.setSubject(RESENDING_ACTIVATION_TOKEN_SUBJECT);
+    message.setText(String.format(CONGRATS, user.getFirstName())
+            + String.format(VERIFY_EMAIL_BODY, appUrl + "confirmRegistration/" + token, appUrl+"resendRegistrationToken")
+            + SIGN);
     mailSender.sendMessage(message);
   }
 
@@ -56,22 +55,22 @@ public class VerificationTokenService {
     String confirmationUrl = appUrl + "restorePassword/" + user.getId() + "/" + token;
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(user.getEmail());
-    email.setSubject(MailMessages.VERIFY_EMAIL_SUBJECT);
-    email.setText(String.format(MailMessages.CONGRATS, user.getFirstName())
-            + String.format(MailMessages.RESTORE_EMAIL_BODY, confirmationUrl)
-            + MailMessages.SIGN);
+    email.setSubject(VERIFY_EMAIL_SUBJECT);
+    email.setText(String.format(CONGRATS, user.getFirstName())
+            + String.format(RESTORE_EMAIL_BODY, confirmationUrl)
+            + SIGN);
     mailSender.sendMessage(email);
   }
 
 
   public VerificationToken findByUserIdAndToken(Long id, String token) {
     return tokenRepository.findByUserIdAndToken(id, token)
-            .orElseThrow(() -> new UserActivationEmailTokenExpiredException(ErrorMessage.VERIFICATION_TOKEN_IS_NOT_VALID));
+            .orElseThrow(() -> new UserActivationEmailTokenExpiredException(VERIFICATION_TOKEN_IS_NOT_VALID));
   }
 
   public void delete(Long id) {
     if (tokenRepository.findById(id).isEmpty()) {
-      throw new NotDeletedException(ErrorMessage.VERIFICATION_TOKEN_IS_EXPIRED);
+      throw new NotDeletedException(VERIFICATION_TOKEN_IS_EXPIRED);
     }
     tokenRepository.deleteById(id);
   }

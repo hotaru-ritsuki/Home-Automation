@@ -1,8 +1,8 @@
 package com.softserve.lv460.application.security.config;
 
 import com.softserve.lv460.application.constant.SecurityConfigProperties;
-import com.softserve.lv460.application.security.filters.JwtAuthenticationFilter;
-import com.softserve.lv460.application.security.jwt.JwtAuthenticationEntryPoint;
+import com.softserve.lv460.application.security.filters.JWTAuthenticationFilter;
+import com.softserve.lv460.application.security.jwt.JWTAuthenticationEntryPoint;
 import com.softserve.lv460.application.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -33,9 +30,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private UserDetailsServiceImpl userDetailsService;
   private SecurityConfigProperties securityConfigProperties;
-  private JwtAuthenticationEntryPoint unauthorizedHandler;
+  private JWTAuthenticationEntryPoint unauthorizedHandler;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
-  private JwtAuthenticationFilter jwtAuthenticationFilter;
+  private JWTAuthenticationFilter jwtAuthenticationFilter;
 
   @Override
   public void configure(WebSecurity web) throws Exception {
@@ -59,8 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(securityConfigProperties.getSignUpUrl()).permitAll()
             .antMatchers(securityConfigProperties.getSignInUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRefreshTokensUrl()).permitAll()
-            .antMatchers(securityConfigProperties.getVerifyEmail()).permitAll()
-            .antMatchers(securityConfigProperties.getResendRegistrationToken()).permitAll()
+            .antMatchers(securityConfigProperties.getResendRegistrationTokenUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRestorePasswordUrl()).permitAll()
             .antMatchers(securityConfigProperties.getRestoreUrl()).permitAll()
             .antMatchers(securityConfigProperties.getConfirmRegistrationUrl()).permitAll()

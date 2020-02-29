@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "jwtconf")
 public class SecurityConfigProperties {
   private String secret;
-  private Long accessExpirationTime;
-  private Long refreshExpirationTime;
   private String tokenPrefix;
   private String header;
+  private Long accessExpirationTime;
+  private Long refreshExpirationTime;
   private String signUpUrl;
   private String signInUrl;
   private String refreshTokensUrl;
@@ -20,8 +20,7 @@ public class SecurityConfigProperties {
   private String restoreUrl;
   private String rulesUrl;
   private String telegramUrl;
-  private String verifyEmail;
   private String restorePasswordUrl;
-  private String resendRegistrationToken;
+  private String resendRegistrationTokenUrl;
   private String confirmRegistrationUrl;
 }

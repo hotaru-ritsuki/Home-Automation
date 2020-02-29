@@ -7,7 +7,7 @@ import com.softserve.lv460.application.mapper.home.HomeRequestMapper;
 import com.softserve.lv460.application.mapper.home.HomeResponseMapper;
 import com.softserve.lv460.application.mapper.user.TelegramResponseMapper;
 import com.softserve.lv460.application.security.annotation.CurrentUser;
-import com.softserve.lv460.application.security.dto.TelegramUserResponse;
+import com.softserve.lv460.application.dto.user.TelegramUserDTO;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.HomeService;
 import io.swagger.annotations.ApiOperation;
@@ -84,10 +84,10 @@ public class HomeController {
 
   @ApiOperation(value = "Return list of users by home with telegrams")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserResponse.class)
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserDTO.class)
   })
   @GetMapping(value = "/users/{home_id}")
-  public ResponseEntity<List<TelegramUserResponse>> findAllUsersByHomeWithTelegram(@PathVariable("home_id") Long homeId) {
+  public ResponseEntity<List<TelegramUserDTO>> findAllUsersByHomeWithTelegram(@PathVariable("home_id") Long homeId) {
     return ResponseEntity.status(HttpStatus.OK).body(homeService.findAllUsersByHomeIdWithTelegram(homeId).stream().map(telegramResponseMapper::toDto).collect(Collectors.toList()));
   }
 
