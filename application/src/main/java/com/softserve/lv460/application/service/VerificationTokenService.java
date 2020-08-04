@@ -62,7 +62,6 @@ public class VerificationTokenService {
     mailSender.sendMessage(email);
   }
 
-
   public VerificationToken findByUserIdAndToken(Long id, String token) {
     return tokenRepository.findByUserIdAndToken(id, token)
             .orElseThrow(() -> new UserActivationEmailTokenExpiredException(VERIFICATION_TOKEN_IS_NOT_VALID));
@@ -105,4 +104,5 @@ public class VerificationTokenService {
     tokenRepository.save(verificationToken);
     return verificationToken;
   }
+
 }

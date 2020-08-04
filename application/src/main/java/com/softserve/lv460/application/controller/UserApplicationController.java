@@ -18,9 +18,7 @@ import com.softserve.lv460.application.security.dto.JWTUserRequest;
 import com.softserve.lv460.application.security.dto.JWTUserResponse;
 import com.softserve.lv460.application.security.entity.UserPrincipal;
 import com.softserve.lv460.application.service.ApplicationUserService;
-import com.softserve.lv460.application.service.TelegramUserService;
 import com.softserve.lv460.application.service.VerificationTokenService;
-import com.softserve.lv460.application.tool.bot.HomeAlertBotService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -50,11 +48,11 @@ public class UserApplicationController {
   private final VerificationTokenService tokenService;
   private final JWTUserRequestMapper modelMapper;
   private final UsernameDTOMapper usernameMapper;
-  private final UserInfoDTOMapper userInfoDTOMapper;
+  private final UserInfoDTOMapper userInfoMapper;
 
   @ApiOperation("Signing-in")
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = JWTUserResponse.class),
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = JWTSuccessLogIn.class),
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping("/login")
@@ -198,7 +196,7 @@ public class UserApplicationController {
   })
   @GetMapping("/getInfo")
   public ResponseEntity<UserInfoDTO> getInfo(@CurrentUser UserPrincipal userPrincipal) {
-    return ResponseEntity.ok().body(userInfoDTOMapper.toDto(applicationUserService.findById(userPrincipal.getId())));
+    return ResponseEntity.ok().body(userInfoMapper.toDto(applicationUserService.findById(userPrincipal.getId())));
   }
 
   @ApiOperation("Set User's Information")
