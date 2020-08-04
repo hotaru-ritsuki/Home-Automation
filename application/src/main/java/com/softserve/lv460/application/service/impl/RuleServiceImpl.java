@@ -4,7 +4,7 @@ import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.Rule;
 import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
 import com.softserve.lv460.application.repository.RuleRepository;
-import com.softserve.lv460.application.service.LocationService;
+import com.softserve.lv460.application.service.RuleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @Service
-public class RuleServiceImpl {
+public class RuleServiceImpl implements RuleService {
     private final RuleRepository ruleRepository;
 
     public Rule create(Rule action) {
@@ -25,7 +25,7 @@ public class RuleServiceImpl {
         return ruleRepository.findAll();
     }
 
-    private Rule findAction(Long id) {
+    public Rule findAction(Long id) {
         return ruleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.RULE_NOT_FOUND_BY_ID, id)));
     }

@@ -8,12 +8,12 @@ import com.softserve.lv460.application.repository.ActionRuleRepository;
 import com.softserve.lv460.application.service.ActionRuleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
 @Service
 public class ActionRuleServiceImpl implements ActionRuleService {
 
