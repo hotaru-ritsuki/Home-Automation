@@ -30,7 +30,7 @@ public class ActionController {
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping
-  public ResponseEntity<ActionDTO> create(@RequestBody ActionDTO dto) {
+  public ResponseEntity<ActionDTO> createAction(@RequestBody ActionDTO dto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(actionService.create(mapper.toEntity(dto))));
   }
 
@@ -39,7 +39,7 @@ public class ActionController {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionDTO.class)
   })
   @GetMapping
-  public ResponseEntity<List<ActionDTO>> findAll() {
+  public ResponseEntity<List<ActionDTO>> getAllActions() {
     return ResponseEntity.status(HttpStatus.OK).body(actionService.findAll().stream().map(mapper::toDto)
           .collect(Collectors.toList()));
   }
@@ -49,7 +49,7 @@ public class ActionController {
         @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionDTO.class)
   })
   @PutMapping
-  public ResponseEntity<ActionDTO> update(@RequestBody ActionDTO dto) {
+  public ResponseEntity<ActionDTO> updateAction(@RequestBody ActionDTO dto) {
     return ResponseEntity.status(HttpStatus.OK).body(mapper.toDto(actionService.update(mapper.toEntity(dto))));
   }
 
@@ -60,9 +60,20 @@ public class ActionController {
         @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping("/{action_id}")
-  public ResponseEntity<Void> delete(@PathVariable("action_id") Long id) {
+  public ResponseEntity<Void> deleteAction(@PathVariable("action_id") Long id) {
     actionService.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @ApiOperation(value = "Get action by id")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = HttpStatuses.OK, response = Long.class),
+          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
+          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  })
+  @GetMapping("/{action_id}")
+  public ResponseEntity<ActionDTO> getAction(@PathVariable("action_id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(mapper.toDto(actionService.findAction(id)));
   }
 
 }

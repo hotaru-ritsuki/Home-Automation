@@ -20,7 +20,7 @@ public class HomeToken {
 
   @NonNull
   @OneToOne(targetEntity = Home.class, fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "home_id")
   private Home home;
 
   @NonNull

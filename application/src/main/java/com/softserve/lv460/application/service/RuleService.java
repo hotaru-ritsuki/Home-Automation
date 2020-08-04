@@ -1,55 +1,23 @@
 package com.softserve.lv460.application.service;
 
-import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.entity.Rule;
-import com.softserve.lv460.application.exception.exceptions.NotDeletedException;
-import com.softserve.lv460.application.repository.RuleRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
-@Service
-public class RuleService {
-  private RuleRepository ruleRepository;
-  private LocationService locationService;
+public interface RuleService {
 
-  public Rule create(Rule action) {
-    return ruleRepository.save(action);
-  }
+    Rule create(Rule action);
 
-  public List<Rule> findAll() {
-    return ruleRepository.findAll();
-  }
+    List<Rule> findAll();
 
-  private Rule findAction(Long id) {
-    return ruleRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException(String.format(ErrorMessage.RULE_NOT_FOUND_BY_ID, id)));
-  }
+    Rule findAction(Long id);
 
-  public Rule update(Rule entity) {
-    Rule rule = findAction(entity.getId());
-    rule.setName(entity.getName());
-    rule.setConditions(entity.getConditions());
-    rule.setActive(entity.getActive());
-    rule.setDescription(entity.getDescription());
-    return ruleRepository.save(rule);
-  }
+    Rule update(Rule entity);
 
-  public void delete(Long id) {
-    if (ruleRepository.findById(id).isEmpty()) {
-      throw new NotDeletedException(String.format(ErrorMessage.RULE_NOT_DELETED_BY_ID, id));
-    }
-    ruleRepository.deleteById(id);
-  }
+    void delete(Long id);
 
-  public List<Rule> findAllByLocalDevice(String uuid) {
-    return ruleRepository.findAllByConditionsIsContaining(uuid);
-  }
+    List<Rule> findAllByLocalDevice(String uuid);
 
-  public List<Rule> findByHome(Long homeId) {
-    return ruleRepository.findAllByConditionsIsContaining("\"home_id\":\"" + homeId + "\"");
-  }
+    List<Rule> findByHome(Long homeId);
 
 }
