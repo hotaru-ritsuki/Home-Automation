@@ -16,13 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
-@RestController
 @RequestMapping("/actionsRules")
 @CrossOrigin
+@RestController
 public class ActionRuleController {
-  private ActionRuleService actionRuleService;
-  private ActionRuleResponseMapper responseMapper;
-  private ActionRuleRequestMapper requestMapper;
+
+  private final ActionRuleService actionRuleService;
+  private final ActionRuleResponseMapper responseMapper;
+  private final ActionRuleRequestMapper requestMapper;
 
   @ApiOperation(value = "Create new action rule")
   @ApiResponses(value = {

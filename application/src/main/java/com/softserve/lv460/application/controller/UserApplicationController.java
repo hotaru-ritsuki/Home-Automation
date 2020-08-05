@@ -3,12 +3,14 @@ package com.softserve.lv460.application.controller;
 import com.softserve.lv460.application.constant.ErrorMessage;
 import com.softserve.lv460.application.constant.HttpStatuses;
 import com.softserve.lv460.application.constant.LinkConfigProperties;
+import com.softserve.lv460.application.constant.MailMessages;
 import com.softserve.lv460.application.dto.telegramUser.TelegramActivationDTO;
 import com.softserve.lv460.application.dto.telegramUser.TelegramUsernameDTO;
 import com.softserve.lv460.application.dto.user.*;
 import com.softserve.lv460.application.entity.ApplicationUser;
 import com.softserve.lv460.application.entity.TelegramUser;
 import com.softserve.lv460.application.entity.VerificationToken;
+import com.softserve.lv460.application.mail.EmailServiceImpl;
 import com.softserve.lv460.application.mapper.user.JWTUserRequestMapper;
 import com.softserve.lv460.application.mapper.user.UserInfoDTOMapper;
 import com.softserve.lv460.application.mapper.user.UsernameDTOMapper;
@@ -42,10 +44,12 @@ import java.util.UUID;
 @CrossOrigin
 @RequestMapping("/users")
 public class UserApplicationController {
+
   private final ApplicationUserService applicationUserService;
   private final LinkConfigProperties linkConfigProperties;
   private final AuthenticationManager authenticationManager;
   private final VerificationTokenService tokenService;
+  private final EmailServiceImpl emailService;
   private final JWTUserRequestMapper modelMapper;
   private final UsernameDTOMapper usernameMapper;
   private final UserInfoDTOMapper userInfoMapper;
@@ -156,7 +160,7 @@ public class UserApplicationController {
 
     String confirmationUrl = getViewUrl() + "restorePassword/" + user.getId() + "/" + token;
 
-    service.sendMessage(user.getEmail(), MailMessages.VERIFY_EMAIL_SUBJECT,String.format(MailMessages.CONGRATS, user.getFirstName())
+    emailService.sendMessage(user.getEmail(), MailMessages.VERIFY_EMAIL_SUBJECT,String.format(MailMessages.CONGRATS, user.getFirstName())
             + String.format(MailMessages.RESTORE_EMAIL_BODY, confirmationUrl)
             + MailMessages.SIGN);
 

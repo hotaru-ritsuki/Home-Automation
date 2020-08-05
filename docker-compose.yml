@@ -47,7 +47,7 @@ services:
 
   angular:
     container_name: angular
-    build: ./view
+    build: frontend
     ports:
       - "80:80"
     restart: always
