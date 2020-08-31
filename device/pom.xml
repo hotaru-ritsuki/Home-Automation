@@ -8,8 +8,8 @@
     <name>device</name>
     <description>device part</description>
     <parent>
-        <artifactId>home_authomation</artifactId>
-        <groupId>com.softserve.lv-460</groupId>
+        <artifactId>home_automation</artifactId>
+        <groupId>com.ritsuki</groupId>
         <version>1.0</version>
 
     </parent>
