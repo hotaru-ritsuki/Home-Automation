@@ -1,4 +1,4 @@
-INSERT INTO  home (id, addressa, city, country, name) VALUES (4, 'Pasichna 2a', 'Lviv', 'Ukraine', 'My sweet home');
+INSERT INTO  home (id, address, city, country, name) VALUES (4, 'Pasichna 2a', 'Lviv', 'Ukraine', 'My sweet home');
 INSERT INTO  device_template (id, brand, model, power_supply, release_year, type, image) VALUES (1, 'Xiaomi', 'NUN4013CN', 'linear regulated', 2018, 'Temperature Meter', 'https://hotline.ua/img/tx/218/2189018225.jpg');
 INSERT INTO  device_template (id, brand, model, power_supply, release_year, type, image) VALUES (2, 'Xiaomi', 'Mijia 2 Digital Hygrometer', 'unregulated', 2019, 'Humidity Meter', 'http://stecker.com.ua/files/goods_images/577bd487c0fa8.jpeg');
 INSERT INTO  device_template (id, brand, model, power_supply, release_year, type, image) VALUES (3, 'Aqara', 'WSDCGQ11LM', 'unregulated', 2017, 'Door sensor', 'https://images-na.ssl-images-amazon.com/images/I/31SY9swPB7L._SX342_.jpg');

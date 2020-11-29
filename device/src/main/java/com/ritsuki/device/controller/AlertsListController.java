@@ -2,8 +2,8 @@ package com.ritsuki.device.controller;
 
 import com.ritsuki.device.constant.HttpStatuses;
 import com.ritsuki.device.document.AlertsList;
-import com.ritsuki.device.dto.AlertList.AlertListDto;
-import com.ritsuki.device.service.impl.AlertListServiceImpl;
+import com.ritsuki.device.dto.AlertList.AlertListDTO;
+import com.ritsuki.device.service.AlertListService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/alerts_list")
 public class AlertsListController {
-  private AlertListServiceImpl alertListService;
+
+  private final AlertListService alertListService;
 
   @GetMapping("/homes/{home_id}")
   public List<AlertsList> getAllAlertsByHome(@PathVariable("home_id") Long homeId){
@@ -35,15 +36,15 @@ public class AlertsListController {
       @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
   })
   @GetMapping("/{uu_id}")
-  public ResponseEntity<List<AlertListDto>> getAlerts(@PathVariable("uu_id") String uuId){
+  public ResponseEntity<List<AlertListDTO>> getAlerts(@PathVariable("uu_id") String uuId){
     return ResponseEntity.status(HttpStatus.OK).body(alertListService.findByUuId(uuId));
   }
 
   @GetMapping
-  public List<AlertListDto> findAll(){
+  public List<AlertListDTO> findAll(){
     List<AlertsList> alerts = alertListService.findAll();
     return alerts.stream().map(alert ->
-        new AlertListDto(alert.getData(), alert.getId(), alert.getUuId(), alert.getTimestamp(),
+        new AlertListDTO(alert.getData(), alert.getId(), alert.getUuId(), alert.getTimestamp(),
                 alert.getDescription(), alert.getHomeId()))
         .collect(Collectors.toList());
   }

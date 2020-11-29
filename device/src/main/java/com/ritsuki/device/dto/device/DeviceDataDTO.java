@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class DeviceDataDto {
+public class DeviceDataDTO {
   private String uuid;
   private Map<String, String> data;
   private LocalDateTime timeStamp;

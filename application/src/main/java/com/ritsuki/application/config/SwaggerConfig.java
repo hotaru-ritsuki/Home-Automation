@@ -30,7 +30,7 @@ public class SwaggerConfig {
           .groupName("SpringBoot-Swagger-API")
           .ignoredParameterTypes(UserPrincipal.class)
           .select()
-          .apis(RequestHandlerSelectors.basePackage("com.softserve.lv460.application.controller"))
+          .apis(RequestHandlerSelectors.basePackage("com.ritsuki.application.controller"))
           .build()
           .securitySchemes(Collections.singletonList(apiKey()))
           .securityContexts(Collections.singletonList(securityContext()))

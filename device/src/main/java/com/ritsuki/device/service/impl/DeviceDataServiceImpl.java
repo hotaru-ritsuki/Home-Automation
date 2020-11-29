@@ -3,28 +3,24 @@ package com.ritsuki.device.service.impl;
 import com.ritsuki.device.service.DeviceDataService;
 import com.ritsuki.device.config.PropertiesConfig;
 import com.ritsuki.device.config.cache.DeviceCacheConfig;
-import com.ritsuki.device.constant.ExceptionMassages;
+import com.ritsuki.device.constant.ExceptionMessages;
 import com.ritsuki.device.document.DeviceData;
 import com.ritsuki.device.repository.DeviceDataRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.*;
 
-@Service
+@Service("deviceDataService")
+@RequiredArgsConstructor
 public class DeviceDataServiceImpl implements DeviceDataService {
-  private ConcurrentLinkedQueue<DeviceData> batch;
-  private DeviceDataRepository deviceDataRepository;
-  private DeviceCacheConfig deviceCacheConfig;
-  private PropertiesConfig propertiesConfig;
 
-  public DeviceDataServiceImpl(DeviceDataRepository deviceDataRepository, DeviceCacheConfig deviceCacheConfig, PropertiesConfig propertiesConfig) {
-    batch = new ConcurrentLinkedQueue<>();
-    this.deviceDataRepository = deviceDataRepository;
-    this.deviceCacheConfig = deviceCacheConfig;
-    this.propertiesConfig = propertiesConfig;
-  }
-
+  private final ConcurrentLinkedQueue<DeviceData> batch = new ConcurrentLinkedQueue<>();
+  private final DeviceDataRepository deviceDataRepository;
+  private final DeviceCacheConfig deviceCacheConfig;
+  private final PropertiesConfig propertiesConfig;
 
   @Override
   public void save(DeviceData deviceData) throws ExecutionException {
@@ -36,7 +32,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
   public DeviceData getLastByUuId(String uuId) {
     return deviceDataRepository.findFirstByUuIdOrderByTimestampAsc(uuId)
             .orElseThrow(() -> new IllegalArgumentException(String.format
-                    (ExceptionMassages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId)));
+                    (ExceptionMessages.DEVICE_DATA_NOT_FOUND_BY_UUID, uuId)));
   }
 
 
@@ -52,7 +48,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
   private void saveAfterDelay() {
     final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
     ses.scheduleWithFixedDelay(() -> {
-      if (!batch.isEmpty()) {
+      if (!CollectionUtils.isEmpty(batch)) {
         deviceDataRepository.saveAll(batch);
         batch.clear();
       }

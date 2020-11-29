@@ -25,7 +25,10 @@ import com.ritsuki.application.dto.user.UserUpdatePasswordDTO;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,7 @@ import java.util.UUID;
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService {
 
+    private final AuthenticationManager authenticationManager;
     private final ApplicationUserRepository applicationUserRepository;
     private final UserRegistrationDTOMapper userRegistrationDTOMapper;
     private final JWTTokenProvider jwtTokenProvider;
@@ -59,7 +63,14 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         applicationUserRepository.save(applicationUser);
     }
 
-    public JWTSuccessLogIn login(JWTUserRequest loginRequest, Authentication auth) {
+    public JWTSuccessLogIn login(JWTUserRequest loginRequest) {
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
         ApplicationUser user = applicationUserRepository
                 .findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new BadEmailException(String.format(ErrorMessage.USER_NOT_FOUND_BY_EMAIL, loginRequest.getEmail())));
@@ -80,7 +91,6 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         if (!passwordEncoder.matches(password.getCurrentPassword(), password.getPassword())) {
             throw new PasswordsDoNotMatchesException(ErrorMessage.PASSWORDS_DONT_MATCH);
         }
-        ;
         applicationUser.setPassword(passwordEncoder.encode(password.getPassword()));
         applicationUserRepository.save(applicationUser);
         return applicationUser;

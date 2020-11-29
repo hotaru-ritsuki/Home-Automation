@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LocationDto {
+public class LocationDTO {
   private Long id;
   private String name;
 }

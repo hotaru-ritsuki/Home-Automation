@@ -11,13 +11,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TelegramUser {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Column(unique = true)
   private String username;
+
   @Column(unique = true)
   private String chatId;
+
   @Column
   private boolean enabled;
 }

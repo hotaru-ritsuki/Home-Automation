@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 public interface DeviceDataService {
 
-  void save(DeviceData deviceData) throws ExecutionException;
+    void save(DeviceData deviceData) throws ExecutionException;
 
-  DeviceData getLastByUuId(String uuId);
+    DeviceData getLastByUuId(String uuId);
 }

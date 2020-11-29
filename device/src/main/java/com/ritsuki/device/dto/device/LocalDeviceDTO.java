@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LocalDeviceDto {
-  private String uuid;
-  private LocationDto location;
-  private Long homeId;
+public class LocalDeviceDTO {
+    private String uuid;
+    private LocationDTO location;
+    private Long homeId;
 }

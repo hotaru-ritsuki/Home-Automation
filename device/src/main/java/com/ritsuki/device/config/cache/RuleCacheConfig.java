@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.ritsuki.device.dto.rule.RuleDto;
 import com.ritsuki.device.config.PropertiesConfig;
+import com.ritsuki.device.dto.rule.RuleDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,40 +21,41 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @Slf4j
 public class RuleCacheConfig {
-  private final PropertiesConfig propertiesConfig;
-  private final CloseableHttpClient httpClient;
-  private LoadingCache<String, List<RuleDto>> cache;
 
-  public RuleCacheConfig(PropertiesConfig propertiesConfig, CloseableHttpClient httpClient) {
-    this.propertiesConfig = propertiesConfig;
-    this.httpClient = httpClient;
-    this.cache = CacheBuilder
-            .newBuilder()
-            .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
-            .build(
-                    new CacheLoader<String, List<RuleDto>>() {
-                      @Override
-                      public List<RuleDto> load(String uuId) throws IOException {
-                        return getRules(uuId);
-                      }
-                    }
-            );
-  }
+    private final PropertiesConfig propertiesConfig;
+    private final CloseableHttpClient httpClient;
+    private final LoadingCache<String, List<RuleDto>> cache;
 
-  public List<RuleDto> getCache(String uuId) {
-    try {
-      return cache.get(uuId);
-    } catch (Exception e) {
-      log.error(e.getLocalizedMessage());
-      return Collections.emptyList();
+    public RuleCacheConfig(PropertiesConfig propertiesConfig, CloseableHttpClient httpClient) {
+        this.propertiesConfig = propertiesConfig;
+        this.httpClient = httpClient;
+        this.cache = CacheBuilder
+                .newBuilder()
+                .expireAfterWrite(this.propertiesConfig.getCacheExpiration(), TimeUnit.SECONDS)
+                .build(
+                        new CacheLoader<String, List<RuleDto>>() {
+                            @Override
+                            public List<RuleDto> load(String uuId) throws IOException {
+                                return getRules(uuId);
+                            }
+                        }
+                );
     }
-  }
 
-  private List<RuleDto> getRules(String uuId) throws IOException {
-    String deviceRuleUrl = propertiesConfig.getMainApplicationHostName() + "/rules/device/" + uuId;
-    CloseableHttpResponse response = httpClient.execute(new HttpGet(deviceRuleUrl));
-    return new ObjectMapper().readValue(response.getEntity().getContent(),
-            new TypeReference<>() {
-            });
-  }
+    public List<RuleDto> getCache(String uuId) {
+        try {
+            return cache.get(uuId);
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    private List<RuleDto> getRules(String uuId) throws IOException {
+        String deviceRuleUrl = propertiesConfig.getMainApplicationHostName() + "/rules/device/" + uuId;
+        CloseableHttpResponse response = httpClient.execute(new HttpGet(deviceRuleUrl));
+        return new ObjectMapper().readValue(response.getEntity().getContent(),
+                new TypeReference<>() {
+                });
+    }
 }

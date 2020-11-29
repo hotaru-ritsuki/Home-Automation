@@ -9,12 +9,13 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 public class ActionRegistry {
-  private List<Action> deviceActions;
+
+    private List<Action> deviceActions;
 
 
-  public List<Action> getAction(String type) {
-    return deviceActions.stream().filter((action) -> action.getType().equals(type))
-            .collect(Collectors.toList());
-  }
+    public List<Action> getAction(String type) {
+        return deviceActions.stream().filter((action) -> action.getType().equals(type))
+                .collect(Collectors.toList());
+    }
 
 }

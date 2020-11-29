@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/telegram-bot")
 @CrossOrigin
 public class TelegramUserController {
-  private TelegramUserService telegramUserService;
-  private TelegramUserMapper mapper;
+  private final TelegramUserService telegramUserService;
+  private final TelegramUserMapper mapper;
 
   @ApiOperation(value = "Return list of user's telegram")
   @ApiResponses(value = {

@@ -14,13 +14,17 @@ import java.util.List;
 @Entity
 @Table(name = "actions")
 public class Action {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @NotNull
   private String description;
+
   @NotNull
   private ActionType type;
+
   @ManyToMany
   @JsonIgnore
   private List<Rule> rule;

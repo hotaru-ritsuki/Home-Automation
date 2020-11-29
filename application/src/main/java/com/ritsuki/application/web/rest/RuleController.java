@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/rules")
 @CrossOrigin
 public class RuleController {
-  private RuleService ruleService;
-  private RuleRequestMapper requestMapper;
-  private RuleResponseMapper responseMapper;
+  private final RuleService ruleService;
+  private final RuleRequestMapper requestMapper;
+  private final RuleResponseMapper responseMapper;
 
   @ApiOperation(value = "Create new rule")
   @ApiResponses(value = {

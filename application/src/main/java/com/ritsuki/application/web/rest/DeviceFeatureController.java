@@ -22,9 +22,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/deviceFeatures")
 public class DeviceFeatureController {
-  private DeviceFeatureService deviceFeatureService;
-  private DeviceFeatureResponseMapper responseMapper;
-  private DeviceFeatureRequestMapper requestMapper;
+
+  private final DeviceFeatureService deviceFeatureService;
+  private final DeviceFeatureResponseMapper responseMapper;
+  private final DeviceFeatureRequestMapper requestMapper;
 
   @ApiOperation(value = "Update device - feature")
   @ApiResponses(value = {

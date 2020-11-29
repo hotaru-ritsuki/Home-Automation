@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,11 +43,11 @@ import java.util.UUID;
 @RestController
 @CrossOrigin
 @RequestMapping("/users")
+@Slf4j
 public class UserApplicationController {
 
   private final ApplicationUserService applicationUserService;
   private final LinkConfigProperties linkConfigProperties;
-  private final AuthenticationManager authenticationManager;
   private final VerificationTokenService tokenService;
   private final EmailServiceImpl emailService;
   private final JWTUserRequestMapper modelMapper;
@@ -60,14 +61,8 @@ public class UserApplicationController {
   })
   @PostMapping("/login")
   public ResponseEntity<JWTSuccessLogIn> authenticateUser(@Valid @RequestBody JWTUserRequest loginRequest) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    loginRequest.getEmail(),
-                    loginRequest.getPassword()
-            )
-    );
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    return ResponseEntity.ok(applicationUserService.login(loginRequest, authentication));
+    log.debug("Trying to authenticate user with email {}", loginRequest.getEmail());
+    return ResponseEntity.ok(applicationUserService.login(loginRequest));
   }
 
   @ApiOperation("Registration")
@@ -212,7 +207,7 @@ public class UserApplicationController {
     return ResponseEntity.ok().body(applicationUserService.changeUserInfo(userPrincipal.getId(), userInfo));
   }
 
-  public String getViewUrl() {
+  private String getViewUrl() {
     return linkConfigProperties.getViewUrl() + "users/";
   }
 }

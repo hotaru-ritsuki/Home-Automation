@@ -17,7 +17,8 @@ import java.net.URLConnection;
 @Service
 @Slf4j
 public class HomeAlertBotService {
-  private CloseableHttpClient httpClient;
+
+  private final CloseableHttpClient httpClient;
 
   public HomeAlertBotService(TelegramUserService telegramUserService, TelegramActivationService telegramActivationService, CloseableHttpClient httpClient) {
     ApiContextInitializer.init();

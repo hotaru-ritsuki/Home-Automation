@@ -10,7 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface HomeRepository extends JpaRepository<Home, Long> {
-  Optional<Home> findByAddressaLike(String addressa);
+
+  Optional<Home> findByAddressLike(String address);
 
   List<Home> findAllByApplicationUsers(ApplicationUser applicationUser);
+
 }

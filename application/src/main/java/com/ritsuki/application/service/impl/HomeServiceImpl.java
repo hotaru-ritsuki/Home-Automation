@@ -30,9 +30,9 @@ public class HomeServiceImpl implements HomeService {
     private final ApplicationUserService userService;
 
     public Home create(Home request, Long user) {
-        Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
+        Optional<Home> isHome = homeRepository.findByAddressLike(request.getAddress());
         if (isHome.isPresent()) {
-            throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddressa()));
+            throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddress()));
         }
         List<ApplicationUser> users = new ArrayList<>();
         users.add(userService.findById(user));
@@ -50,14 +50,14 @@ public class HomeServiceImpl implements HomeService {
     }
 
     public Home update(Home request) {
-        Optional<Home> isHome = homeRepository.findByAddressaLike(request.getAddressa());
+        Optional<Home> isHome = homeRepository.findByAddressLike(request.getAddress());
         if (isHome.isPresent()) {
-            throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddressa()));
+            throw new HomeAlreadyRegisterException(String.format(ErrorMessage.HOME_ALREADY_REGISTER, request.getAddress()));
         }
         Home home = findOne(request.getId());
         home.setCountry(request.getCountry());
         home.setCity(request.getCity());
-        home.setAddressa(request.getAddressa());
+        home.setAddress(request.getAddress());
         home.setName(request.getName());
         return homeRepository.save(home);
 
