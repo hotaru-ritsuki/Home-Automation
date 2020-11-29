@@ -17,12 +17,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AlertsList {
-  @Id
-  private String id;
-  @Size(min = 32, max = 32, message = ValidationConstants.INVALID_UUID_LENGTH)
-  private String uuId;
-  private String data;
-  private LocalDateTime timestamp;
-  private String description;
-  private Long homeId;
+
+    @Id
+    private String id;
+
+    @Size(min = 32, max = 32, message = ValidationConstants.INVALID_UUID_LENGTH)
+    private String uuId;
+
+    private String data;
+
+    private LocalDateTime timestamp;
+
+    private String description;
+
+    private Long homeId;
 }

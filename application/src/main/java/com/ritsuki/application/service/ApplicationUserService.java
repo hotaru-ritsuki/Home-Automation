@@ -17,7 +17,7 @@ public interface ApplicationUserService {
 
     void save(ApplicationUser applicationUser);
 
-    JWTSuccessLogIn login(JWTUserRequest loginRequest, Authentication auth);
+    JWTSuccessLogIn login(JWTUserRequest loginRequest);
 
     ApplicationUser findByEmail(String email);
 

@@ -12,13 +12,19 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class Home {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String country;
+
   private String city;
-  private String addressa;
+
+  private String address;
+
   private String name;
+
   @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
         name = "user_home",

@@ -3,10 +3,10 @@ package com.ritsuki.device.controller;
 
 import com.ritsuki.device.constant.HttpStatuses;
 import com.ritsuki.device.document.DeviceData;
-import com.ritsuki.device.dto.device.DeviceDataDto;
+import com.ritsuki.device.dto.device.DeviceDataDTO;
 import com.ritsuki.device.dto.parameters.StatisticParameters;
-import com.ritsuki.device.service.impl.DeviceDataServiceImpl;
-import com.ritsuki.device.service.impl.DeviceDataStatisticServiceImpl;
+import com.ritsuki.device.service.DeviceDataService;
+import com.ritsuki.device.service.DeviceDataStatisticService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -23,8 +23,9 @@ import java.util.concurrent.ExecutionException;
 @AllArgsConstructor
 @RequestMapping("/device-data")
 public class DeviceDataController {
-  private DeviceDataServiceImpl deviceDataService;
-  private DeviceDataStatisticServiceImpl deviceDataStatisticService;
+
+  private final DeviceDataService deviceDataService;
+  private final DeviceDataStatisticService deviceDataStatisticService;
 
   @ApiOperation(value = "returns last sensor indication by uuId")
   @ApiResponses(value = {
@@ -54,7 +55,7 @@ public class DeviceDataController {
           @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
   })
   @PostMapping("/statistics")
-  public ResponseEntity<List<DeviceDataDto>> getStatistic(@Valid @RequestBody StatisticParameters statisticParameters) {
+  public ResponseEntity<List<DeviceDataDTO>> getStatistic(@Valid @RequestBody StatisticParameters statisticParameters) {
     return ResponseEntity.status(HttpStatus.OK).body(deviceDataStatisticService.getStatistic(statisticParameters));
   }
 

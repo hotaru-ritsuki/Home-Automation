@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class ActionController {
 
-  private ActionService actionService;
-  private ActionMapper mapper;
+  private final ActionService actionService;
+  private final ActionMapper mapper;
 
   @ApiOperation(value = "Create new action")
   @ApiResponses(value = {

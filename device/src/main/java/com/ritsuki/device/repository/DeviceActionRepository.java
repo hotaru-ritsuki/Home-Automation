@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface DeviceActionRepository extends MongoRepository<DeviceActionData, Long> {
-  List<DeviceActionData> findByUuIdAndStatus(String uuId, Status status);
+    List<DeviceActionData> findByUuIdAndStatus(String uuId, Status status);
 }

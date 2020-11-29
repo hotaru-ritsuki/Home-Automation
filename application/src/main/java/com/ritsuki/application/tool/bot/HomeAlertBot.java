@@ -13,8 +13,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @AllArgsConstructor
 @Slf4j
 public class HomeAlertBot extends TelegramLongPollingBot {
-  private TelegramUserService telegramUserService;
-  private TelegramActivationService telegramActivationService;
+
+  private final TelegramUserService telegramUserService;
+  private final TelegramActivationService telegramActivationService;
 
 
   @Override
@@ -29,11 +30,13 @@ public class HomeAlertBot extends TelegramLongPollingBot {
 
   @Override
   public String getBotUsername() {
+    // TODO Made it in properties
     return "HomemadeAlertBot";
   }
 
   @Override
   public String getBotToken() {
+    // TODO Made it in properties
     return "1063385637:AAF2u88hfmblJwCVvr-5Zto8Uc86IjAA3VI";
   }
 

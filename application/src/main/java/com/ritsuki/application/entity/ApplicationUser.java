@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class ApplicationUser {
   @NotNull
   @Column(unique = true, nullable = false)
   private String email;
+
   @NotNull
   private String password;
 
@@ -45,7 +47,7 @@ public class ApplicationUser {
 
   @Transient
   @ElementCollection(fetch = FetchType.EAGER)
-  Set<Role> roles = Collections.singleton(Role.ROLE_USER);
+  Set<Role> roles= Set.of(Role.ADMIN);
 
   @NotNull
   private String secret;
@@ -53,8 +55,8 @@ public class ApplicationUser {
   @Column(columnDefinition = "boolean default false")
   private boolean enabled;
 
-  @NonNull
-  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.EAGER)
+  @Nullable
+  @OneToOne(targetEntity = TelegramUser.class, fetch = FetchType.LAZY)
   @JoinColumn(referencedColumnName = "id")
   private TelegramUser telegramUser;
 }

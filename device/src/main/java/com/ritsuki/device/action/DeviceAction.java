@@ -14,19 +14,19 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class DeviceAction implements Action {
-  private final DeviceActionRepository deviceActionRepository;
 
+    private final DeviceActionRepository deviceActionRepository;
 
-  @Override
-  public void execute(Map<String, String> actionData) {
-    String deviceUuid = actionData.get("uuid");
-    String data = actionData.get("data");
-    deviceActionRepository.save(DeviceActionData.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now())
-            .status(Status.WAITING).build());
-  }
+    @Override
+    public void execute(Map<String, String> actionData) {
+        String deviceUuid = actionData.get("uuid");
+        String data = actionData.get("data");
+        deviceActionRepository.save(DeviceActionData.builder().uuId(deviceUuid).data(data).timestamp(LocalDateTime.now())
+                .status(Status.WAITING).build());
+    }
 
-  @Override
-  public String getType() {
-    return "DEVICE";
-  }
+    @Override
+    public String getType() {
+        return "DEVICE";
+    }
 }

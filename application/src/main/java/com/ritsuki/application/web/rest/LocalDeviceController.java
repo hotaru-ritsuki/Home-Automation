@@ -26,12 +26,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @CrossOrigin
 public class LocalDeviceController {
-    private LocalDeviceService localDeviceService;
-    private LocationService locationService;
-    private HomeService homeService;
-    private LocalDeviceResponseMapper responseMapper;
-    private LocalDeviceRespMapper respMapper;
-    private LocalDeviceRequestMapper requestMapper;
+    private final LocalDeviceService localDeviceService;
+    private final LocationService locationService;
+    private final HomeService homeService;
+    private final LocalDeviceResponseMapper responseMapper;
+    private final LocalDeviceRespMapper respMapper;
+    private final LocalDeviceRequestMapper requestMapper;
 
     @ApiOperation(value = "Create new device")
     @ApiResponses(value = {

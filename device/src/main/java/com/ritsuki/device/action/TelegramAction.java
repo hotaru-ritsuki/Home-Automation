@@ -1,6 +1,6 @@
 package com.ritsuki.device.action;
 
-import com.ritsuki.device.constant.ExceptionMassages;
+import com.ritsuki.device.constant.ExceptionMessages;
 import com.ritsuki.device.config.PropertiesConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class TelegramAction implements Action {
       URLConnection conn = url.openConnection();
       conn.getInputStream();
     } catch (IOException e) {
-      log.debug(ExceptionMassages.NOT_SEND_NOTIFICATION_BY_TELEGRAM, e);
+      log.debug(ExceptionMessages.NOT_SEND_NOTIFICATION_BY_TELEGRAM, e);
     }
   }
 

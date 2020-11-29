@@ -1,7 +1,7 @@
 package com.ritsuki.device.exception.handler;
 
 
-import com.ritsuki.device.constant.ExceptionMassages;
+import com.ritsuki.device.constant.ExceptionMessages;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -42,7 +42,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     Map<String, Object> errorAttributes = this
             .errorAttributes.getErrorAttributes(request, true);
     ExceptionResponse exceptionResponse = new ExceptionResponse(errorAttributes);
-    exceptionResponse.setMessage(ExceptionMassages.CONNECTION_TO_APPLICATION_SERVICE_REFUSED);
+    exceptionResponse.setMessage(ExceptionMessages.CONNECTION_TO_APPLICATION_SERVICE_REFUSED);
     return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(exceptionResponse);
   }
 

@@ -2,8 +2,9 @@ package com.ritsuki.application.constant;
 
 public class BotPhrases {
   public static final String UNKNOWN_COMMAND = "I don't understand: %s";
-  public static final String START_PHRASE = "Hello! Welcome to Home Alert"
-          + "\nUse /help for instruction";
+  public static final String START_PHRASE = """
+          Hello! Welcome to Home Alert 
+          Use /help for instruction""";
   public static final String STOP_PHRASE = "Bye!";
   public static final String HELP_PHRASE = """
           Our bot sends you notifications from Home Automation app.

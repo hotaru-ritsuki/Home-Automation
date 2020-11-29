@@ -27,7 +27,7 @@ public class SwaggerConfig {
     return new Docket(DocumentationType.SWAGGER_2)
             .groupName("SpringBoot-Swagger-API")
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.softserve.lv460.device.controller"))
+            .apis(RequestHandlerSelectors.basePackage("com.ritsuki.device.controller"))
             .build()
             .apiInfo(metaData())
             .securitySchemes(Collections.singletonList(apiKey()))

@@ -9,11 +9,15 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class ExceptionResponse {
+
   private String message;
+
   @JsonIgnore
   private String timeStamp;
+
   @JsonIgnore
   private String trace;
+
   @JsonIgnore
   private String path;
 

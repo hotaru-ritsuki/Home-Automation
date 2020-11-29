@@ -14,8 +14,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity(name = "device_features")
 public class DeviceFeature {
+
   @EmbeddedId
   private DeviceFeatureId deviceFeatureId;
+
   @NotNull
   private String specification;
 }

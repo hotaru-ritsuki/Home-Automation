@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class HomeToken {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;

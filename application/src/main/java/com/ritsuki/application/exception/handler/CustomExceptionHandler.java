@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-  private ErrorAttributes errorAttributes;
+
+  private final ErrorAttributes errorAttributes;
 
   @ExceptionHandler(RuntimeException.class)
   public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {

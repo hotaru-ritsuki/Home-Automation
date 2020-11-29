@@ -13,8 +13,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "actions_rule")
 public class ActionRule {
+
   @EmbeddedId
   private ActionRuleId actionRuleId;
+
   @NotNull
   @Column(name = "action_specification")
   private String actionSpecification;

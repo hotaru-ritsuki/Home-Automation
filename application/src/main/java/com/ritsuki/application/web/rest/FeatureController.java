@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class FeatureController {
 
-  private FeatureService featureService;
-  private FeatureMapper mapper;
+  private final FeatureService featureService;
+  private final FeatureMapper mapper;
 
   @ApiOperation(value = "Create new feature")
   @ApiResponses(value = {

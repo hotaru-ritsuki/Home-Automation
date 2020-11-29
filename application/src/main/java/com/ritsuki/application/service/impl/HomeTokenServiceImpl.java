@@ -43,7 +43,7 @@ public class HomeTokenServiceImpl implements HomeTokenService {
                 home.getName(),
                 home.getCountry(),
                 home.getCity(),
-                home.getAddressa(),
+                home.getAddress(),
                 appUrl + "/acceptInvitationLink/" + token)
                 + MailMessages.SIGN);
         mailSender.sendMessage(message);

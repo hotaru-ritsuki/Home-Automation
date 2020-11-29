@@ -2,7 +2,7 @@ package com.ritsuki.device.controller;
 
 import com.ritsuki.device.constant.HttpStatuses;
 import com.ritsuki.device.dto.rule.DeviceActionDataDto;
-import com.ritsuki.device.service.impl.DeviceActionServiceImpl;
+import com.ritsuki.device.service.DeviceActionService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,7 +20,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/device-action")
 public class DeviceActionController {
-  private DeviceActionServiceImpl deviceActionService;
+
+  private final DeviceActionService deviceActionService;
 
 
   @ApiOperation(value = "returns waiting action for device")

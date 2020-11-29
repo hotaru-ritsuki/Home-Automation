@@ -11,8 +11,10 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JWTUserRequest {
+
   @Email
   private String email;
+
   @Size(min = 8)
   private String password;
 }

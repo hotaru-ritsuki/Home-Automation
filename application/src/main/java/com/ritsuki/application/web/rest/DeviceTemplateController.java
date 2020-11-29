@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/devices")
 @CrossOrigin
 public class DeviceTemplateController {
-  private DeviceTemplateService deviceTemplateService;
-  private DeviceTemplateRequestMapper requestMapper;
-  private DeviceTemplateResponseMapper responseMapper;
+  private final DeviceTemplateService deviceTemplateService;
+  private final DeviceTemplateRequestMapper requestMapper;
+  private final DeviceTemplateResponseMapper responseMapper;
 
   @ApiOperation(value = "Find all device templates")
   @ApiResponses(value = {

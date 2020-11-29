@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LocationController {
 
-  private LocationService locationService;
-  private LocationResponseMapper responseMapper;
-  private LocationRequestMapper requestMapper;
+  private final LocationService locationService;
+  private final LocationResponseMapper responseMapper;
+  private final LocationRequestMapper requestMapper;
 
   @ApiOperation(value = "Create new location")
   @ApiResponses(value = {

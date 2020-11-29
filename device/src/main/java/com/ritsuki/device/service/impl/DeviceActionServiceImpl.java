@@ -11,18 +11,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service("deviceActionService")
 @AllArgsConstructor
 public class DeviceActionServiceImpl implements DeviceActionService {
-  private DeviceActionRepository deviceActionRepository;
+
+  private final DeviceActionRepository deviceActionRepository;
 
   @Override
   public List<DeviceActionDataDto> findByUuId(String uuId) {
     List<DeviceActionData> deviceActionDataList = deviceActionRepository.findByUuIdAndStatus(uuId, Status.WAITING);
-    deviceActionDataList.forEach((deviceActionData) -> deviceActionData.setStatus(Status.RECEIVED));
-    return deviceActionRepository.saveAll(deviceActionDataList).stream().map(deviceActionData ->
-        new DeviceActionDataDto(deviceActionData.getData(), deviceActionData.getTimestamp()))
-        .collect(Collectors.toList());
+    deviceActionDataList.forEach((data) -> data.setStatus(Status.RECEIVED));
+    return deviceActionDataList.stream()
+            .map(deviceActionRepository::save)
+            .map(deviceActionData -> new DeviceActionDataDto(deviceActionData.getData(), deviceActionData.getTimestamp()))
+            .collect(Collectors.toList());
   }
 
 }
