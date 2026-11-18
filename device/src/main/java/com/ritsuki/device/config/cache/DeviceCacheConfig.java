@@ -1,6 +1,6 @@
 package com.ritsuki.device.config.cache;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.ritsuki.device.config.PropertiesConfig;
@@ -57,7 +57,7 @@ public class DeviceCacheConfig {
     private LocalDeviceDTO getRegisteredDevice(String uuId) throws IOException {
         String localDeviceUrl = propertiesConfig.getMainApplicationHostName() + "/location-devices/";
         HttpEntity localDeviceEntity = getResponseEntity(localDeviceUrl + uuId);
-        return new ObjectMapper().readValue(localDeviceEntity.getContent(), LocalDeviceDTO.class);
+        return JsonMapper.builderWithJackson2Defaults().build().readValue(localDeviceEntity.getContent(), LocalDeviceDTO.class);
     }
 
     private HttpEntity getResponseEntity(String url) throws IOException {

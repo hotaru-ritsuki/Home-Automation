@@ -1,7 +1,7 @@
 package com.ritsuki.device.config.cache;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -54,7 +54,7 @@ public class RuleCacheConfig {
     private List<RuleDto> getRules(String uuId) throws IOException {
         String deviceRuleUrl = propertiesConfig.getMainApplicationHostName() + "/rules/device/" + uuId;
         CloseableHttpResponse response = httpClient.execute(new HttpGet(deviceRuleUrl));
-        return new ObjectMapper().readValue(response.getEntity().getContent(),
+        return JsonMapper.builderWithJackson2Defaults().build().readValue(response.getEntity().getContent(),
                 new TypeReference<>() {
                 });
     }

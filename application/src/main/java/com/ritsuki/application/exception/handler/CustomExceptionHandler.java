@@ -4,9 +4,11 @@ import com.ritsuki.application.constant.ErrorMessage;
 import com.ritsuki.application.exception.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.webmvc.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
@@ -95,7 +97,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
-          HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+          HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
     log.trace(ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
@@ -105,7 +107,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
           MethodArgumentNotValidException ex,
           HttpHeaders headers,
-          HttpStatus status,
+          HttpStatusCode status,
           WebRequest request) {
     List<ValidationExceptionDto> collect =
             ex.getBindingResult().getFieldErrors().stream()
@@ -116,6 +118,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   private Map<String, Object> getErrorAttributes(WebRequest webRequest) {
-    return new HashMap<>(errorAttributes.getErrorAttributes(webRequest, true));
+    return new HashMap<>(errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE, ErrorAttributeOptions.Include.MESSAGE)));
   }
 }

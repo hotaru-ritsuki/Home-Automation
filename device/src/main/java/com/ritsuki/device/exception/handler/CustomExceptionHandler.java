@@ -4,9 +4,11 @@ package com.ritsuki.device.exception.handler;
 import com.ritsuki.device.constant.ExceptionMessages;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.webmvc.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +32,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   public final ResponseEntity<Object> handleRuntimeException(WebRequest request, RuntimeException ex) {
     log.error(ex.getLocalizedMessage());
     Map<String, Object> errorAttributes = this
-            .errorAttributes.getErrorAttributes(request, true);
+            .errorAttributes.getErrorAttributes(request, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE, ErrorAttributeOptions.Include.MESSAGE));
     ExceptionResponse exceptionResponse = new ExceptionResponse(errorAttributes);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
   }
@@ -40,7 +42,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   public final ResponseEntity<Object> handleConnectException(WebRequest request, ConnectException ex) {
     log.error(ex.getLocalizedMessage());
     Map<String, Object> errorAttributes = this
-            .errorAttributes.getErrorAttributes(request, true);
+            .errorAttributes.getErrorAttributes(request, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE, ErrorAttributeOptions.Include.MESSAGE));
     ExceptionResponse exceptionResponse = new ExceptionResponse(errorAttributes);
     exceptionResponse.setMessage(ExceptionMessages.CONNECTION_TO_APPLICATION_SERVICE_REFUSED);
     return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(exceptionResponse);
@@ -51,7 +53,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
           MethodArgumentNotValidException ex,
           HttpHeaders headers,
-          HttpStatus status,
+          HttpStatusCode status,
           WebRequest request) {
     log.error(ex.getLocalizedMessage());
     List<ValidationResponse> res =

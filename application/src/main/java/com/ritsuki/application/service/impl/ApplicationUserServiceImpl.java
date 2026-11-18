@@ -22,7 +22,8 @@ import com.ritsuki.application.service.TelegramUserService;
 import com.ritsuki.application.tool.bot.HomeAlertBotService;
 import com.ritsuki.application.dto.user.UserRegistrationDTO;
 import com.ritsuki.application.dto.user.UserUpdatePasswordDTO;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -108,7 +109,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         String email;
         try {
             email = jwtTokenProvider.getEmailFromJWT(refreshToken);
-        } catch (ExpiredJwtException e) {
+        } catch (TokenExpiredException | JWTDecodeException e) {
             throw new BadRefreshTokenException(ErrorMessage.REFRESH_TOKEN_NOT_VALID);
         }
         ApplicationUser user = applicationUserRepository

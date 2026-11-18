@@ -13,9 +13,11 @@ import com.ritsuki.application.dto.user.UsernameDTO;
 import com.ritsuki.application.mapper.home.HomeRequestMapper;
 import com.ritsuki.application.mapper.home.HomeResponseMapper;
 import com.ritsuki.application.mapper.user.TelegramResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +40,9 @@ public class HomeController {
   private final TelegramResponseMapper telegramResponseMapper;
   private final LinkConfigProperties linkConfigProperties;
 
-  @ApiOperation(value = "Create new home")
-  @ApiResponses(value = {
-          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = HomeResponseDTO.class)
+  @Operation(summary = "Create new home")
+  @ApiResponses({
+          @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = HomeResponseDTO.class)))
   })
   @PostMapping
   public ResponseEntity<HomeResponseDTO> create(@RequestBody HomeRequestDTO request, @CurrentUser UserPrincipal user) {
@@ -48,9 +50,9 @@ public class HomeController {
             .toDto(homeService.create(requestMapper.toEntity(request), user.getId())));
   }
 
-  @ApiOperation(value = "Update home")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
+  @Operation(summary = "Update home")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = HomeResponseDTO.class)))
   })
   @PutMapping
   public ResponseEntity<HomeResponseDTO> update(@RequestBody HomeRequestDTO request) {
@@ -58,10 +60,10 @@ public class HomeController {
             .body(responseMapper.toDto(homeService.update(requestMapper.toEntity(request))));
   }
 
-  @ApiOperation(value = "Delete home")
-  @ApiResponses(value = {
-          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Delete home")
+  @ApiResponses({
+          @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping("/{home_id}")
   public ResponseEntity<Void> delete(@PathVariable("home_id") Long id) {
@@ -69,18 +71,18 @@ public class HomeController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @ApiOperation(value = "Return home by id")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
+  @Operation(summary = "Return home by id")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = HomeResponseDTO.class)))
   })
   @GetMapping("/{home_id}")
   public ResponseEntity<HomeResponseDTO> findOne(@PathVariable("home_id") Long id) {
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(homeService.findOne(id)));
   }
 
-  @ApiOperation(value = "Return list of home by user")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = HomeResponseDTO.class)
+  @Operation(summary = "Return list of home by user")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = HomeResponseDTO.class)))
   })
   @GetMapping
   public ResponseEntity<List<HomeResponseDTO>> findAllByUser(@CurrentUser UserPrincipal user) {
@@ -90,9 +92,9 @@ public class HomeController {
             .collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Return list of users by home with telegrams")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = TelegramUserDTO.class)
+  @Operation(summary = "Return list of users by home with telegrams")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = TelegramUserDTO.class)))
   })
   @GetMapping(value = "/users/{home_id}")
   public ResponseEntity<List<TelegramUserDTO>> findAllUsersByHomeWithTelegram(@PathVariable("home_id") Long homeId) {
@@ -102,10 +104,10 @@ public class HomeController {
             .collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Send a link to add house to user")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = UsernameDTO.class),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Send a link to add house to user")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = UsernameDTO.class))),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping(value = "/sendInvitation/{home_id}")
   public ResponseEntity<?> sendInvitationLink(@PathVariable("home_id") Long homeId, @RequestBody UsernameDTO user,@CurrentUser UserPrincipal userPrincipal) {
@@ -113,10 +115,10 @@ public class HomeController {
 return ResponseEntity.ok().build();
   }
 
-  @ApiOperation(value = "Add a house by link")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = UsernameDTO.class),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Add a house by link")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = UsernameDTO.class))),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @PostMapping(value = "/acceptInvitation/{token}")
   public ResponseEntity<?> acceptInvitationLink(@PathVariable("token") String token,@CurrentUser UserPrincipal userPrincipal){

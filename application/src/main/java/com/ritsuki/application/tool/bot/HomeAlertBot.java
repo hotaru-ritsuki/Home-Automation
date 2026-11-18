@@ -3,46 +3,42 @@ package com.ritsuki.application.tool.bot;
 import com.ritsuki.application.service.TelegramActivationService;
 import com.ritsuki.application.service.TelegramUserService;
 import com.ritsuki.application.tool.bot.chain.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
-public class HomeAlertBot extends TelegramLongPollingBot {
+public class HomeAlertBot implements LongPollingSingleThreadUpdateConsumer {
+
+  // TODO Made it in properties
+  static final String BOT_USERNAME = "HomemadeAlertBot";
+  // TODO Made it in properties
+  static final String BOT_TOKEN = "";
+
+  private final TelegramClient telegramClient;
 
   private final TelegramUserService telegramUserService;
   private final TelegramActivationService telegramActivationService;
 
 
   @Override
-  public void onUpdateReceived(Update update) {
+  public void consume(Update update) {
     UpdateCheck check = initCheck();
     if (update.hasMessage() && update.getMessage().hasText()) {
-      SendMessage message = new SendMessage().setChatId(update.getMessage().getChatId());
+      SendMessage message = new SendMessage(update.getMessage().getChatId().toString(), "");
       check.process(update, telegramUserService, telegramActivationService, message);
       sendMessageToUser(message);
     }
   }
 
-  @Override
-  public String getBotUsername() {
-    // TODO Made it in properties
-    return "HomemadeAlertBot";
-  }
-
-  @Override
-  public String getBotToken() {
-    // TODO Made it in properties
-    return "";
-  }
-
   private void sendMessageToUser(SendMessage message) {
     try {
-      execute(message);
+      telegramClient.execute(message);
     } catch (TelegramApiException e) {
       log.debug(message.getChatId(), e);
     }

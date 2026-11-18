@@ -1,6 +1,6 @@
 package com.ritsuki.application.security.mock;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import com.ritsuki.application.entity.ApplicationUser;
 import com.ritsuki.application.exception.exceptions.NotFoundException;
 import com.ritsuki.application.util.JacksonUtil;

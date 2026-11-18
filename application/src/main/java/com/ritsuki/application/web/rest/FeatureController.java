@@ -5,9 +5,11 @@ import com.ritsuki.application.dto.feature.FeatureDTO;
 import com.ritsuki.application.service.FeatureService;
 import com.ritsuki.application.entity.Feature;
 import com.ritsuki.application.mapper.feature.FeatureMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +25,9 @@ public class FeatureController {
   private final FeatureService featureService;
   private final FeatureMapper mapper;
 
-  @ApiOperation(value = "Create new feature")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = HttpStatuses.CREATED, response = FeatureDTO.class)
+  @Operation(summary = "Create new feature")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = FeatureDTO.class)))
   })
   @PostMapping
   public FeatureDTO create(@RequestBody FeatureDTO dto) {
@@ -34,9 +36,9 @@ public class FeatureController {
     return mapper.toDto(featureCreated);
   }
 
-  @ApiOperation(value = "List of all features")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = HttpStatuses.OK, response = FeatureDTO.class)
+  @Operation(summary = "List of all features")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = FeatureDTO.class)))
   })
   @GetMapping
   public List<FeatureDTO> findAll() {
@@ -44,9 +46,9 @@ public class FeatureController {
     return allFeatures.stream().map(mapper::toDto).collect(Collectors.toList());
   }
 
-  @ApiOperation(value = "Update feature")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = HttpStatuses.OK, response = FeatureDTO.class)
+  @Operation(summary = "Update feature")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = FeatureDTO.class)))
   })
   @PutMapping
   public FeatureDTO update(@RequestBody FeatureDTO dto) {
@@ -55,10 +57,10 @@ public class FeatureController {
     return mapper.toDto(featureUpdated);
   }
 
-  @ApiOperation(value = "Delete feature by id")
-  @ApiResponses(value = {
-      @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-      @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Delete feature by id")
+  @ApiResponses({
+      @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+      @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping
   public void delete(@RequestParam Long id) {

@@ -3,9 +3,9 @@ package com.ritsuki.device.controller;
 import com.ritsuki.device.constant.HttpStatuses;
 import com.ritsuki.device.dto.rule.DeviceActionDataDto;
 import com.ritsuki.device.service.DeviceActionService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ public class DeviceActionController {
   private final DeviceActionService deviceActionService;
 
 
-  @ApiOperation(value = "returns waiting action for device")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+  @Operation(summary = "returns waiting action for device")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
   })
   @GetMapping("/{uu_id}")
   public ResponseEntity<List<DeviceActionDataDto>> getAction(@PathVariable("uu_id") String uuId) {

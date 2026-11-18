@@ -7,9 +7,11 @@ import com.ritsuki.application.service.DeviceFeatureService;
 import com.ritsuki.application.entity.id.DeviceFeatureId;
 import com.ritsuki.application.mapper.deviceFeature.DeviceFeatureRequestMapper;
 import com.ritsuki.application.mapper.deviceFeature.DeviceFeatureResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,18 +29,18 @@ public class DeviceFeatureController {
   private final DeviceFeatureResponseMapper responseMapper;
   private final DeviceFeatureRequestMapper requestMapper;
 
-  @ApiOperation(value = "Update device - feature")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceFeatureResponseDTO.class)
+  @Operation(summary = "Update device - feature")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = DeviceFeatureResponseDTO.class)))
   })
   @PutMapping
   public ResponseEntity<DeviceFeatureResponseDTO> update(DeviceFeatureRequestDTO dto) {
     return ResponseEntity.status(HttpStatus.OK).body(responseMapper.toDto(deviceFeatureService.update(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Find device-features with device id")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceFeatureResponseDTO.class)
+  @Operation(summary = "Find device-features with device id")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = DeviceFeatureResponseDTO.class)))
   })
   @GetMapping("/{id}")
   public ResponseEntity<List<DeviceFeatureResponseDTO>> findByDeviceId(@PathVariable(name = "id") Long deviceId) {
@@ -48,9 +50,9 @@ public class DeviceFeatureController {
     return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
   }
 
-  @ApiOperation(value = "Create new device-feature")
-  @ApiResponses(value = {
-          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = DeviceFeatureResponseDTO.class)
+  @Operation(summary = "Create new device-feature")
+  @ApiResponses({
+          @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = DeviceFeatureResponseDTO.class)))
   })
   @PostMapping
   public ResponseEntity<DeviceFeatureResponseDTO> save(@RequestBody DeviceFeatureRequestDTO dto) {
@@ -58,10 +60,10 @@ public class DeviceFeatureController {
             .body(responseMapper.toDto(deviceFeatureService.save(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Delete device-feature")
-  @ApiResponses(value = {
-          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Delete device-feature")
+  @ApiResponses({
+          @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping
   public ResponseEntity<DeviceFeatureId> delete(@RequestBody DeviceFeatureId id) {

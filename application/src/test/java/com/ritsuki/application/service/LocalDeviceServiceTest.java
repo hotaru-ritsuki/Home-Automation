@@ -7,6 +7,7 @@ import com.ritsuki.application.repository.LocalDeviceRepository;
 import com.ritsuki.application.entity.DeviceTemplate;
 import com.ritsuki.application.entity.LocalDevice;
 import com.ritsuki.application.entity.Location;
+import com.ritsuki.application.service.impl.LocalDeviceServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,7 +34,7 @@ class LocalDeviceServiceTest {
     private DeviceTemplateRepository deviceTemplateRepository;
 
     @InjectMocks
-    private LocalDeviceService localDeviceService;
+    private LocalDeviceServiceImpl localDeviceService;
 
     private Location location = new Location();
     private DeviceTemplate deviceTemplate = new DeviceTemplate();

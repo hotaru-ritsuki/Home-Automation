@@ -1,8 +1,8 @@
 package com.ritsuki.device.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -14,9 +14,9 @@ public class Util {
 
     public static Map<String, String> parseToMap(String toParse) {
         try {
-            return new ObjectMapper().readValue(toParse, new TypeReference<>() {
+            return JsonMapper.builderWithJackson2Defaults().build().readValue(toParse, new TypeReference<>() {
             });
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error(e.getLocalizedMessage());
             return Collections.emptyMap();
         }
