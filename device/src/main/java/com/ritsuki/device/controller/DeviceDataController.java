@@ -7,15 +7,15 @@ import com.ritsuki.device.dto.device.DeviceDataDTO;
 import com.ritsuki.device.dto.parameters.StatisticParameters;
 import com.ritsuki.device.service.DeviceDataService;
 import com.ritsuki.device.service.DeviceDataStatisticService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,21 +27,21 @@ public class DeviceDataController {
   private final DeviceDataService deviceDataService;
   private final DeviceDataStatisticService deviceDataStatisticService;
 
-  @ApiOperation(value = "returns last sensor indication by uuId")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+  @Operation(summary = "returns last sensor indication by uuId")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
   })
   @GetMapping("/{uu_id}")
   public ResponseEntity<DeviceData> getCurrentSensorIndications(@PathVariable("uu_id") String uuId) {
     return ResponseEntity.status(HttpStatus.OK).body(deviceDataService.getLastByUuId(uuId));
   }
 
-  @ApiOperation(value = "save data from device")
-  @ApiResponses(value = {
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-          @ApiResponse(code = 503, message = HttpStatuses.SERVICE_UNAVAILABLE),
-          @ApiResponse(code = 200, message = HttpStatuses.CREATED)
+  @Operation(summary = "save data from device")
+  @ApiResponses({
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+          @ApiResponse(responseCode = "503", description = HttpStatuses.SERVICE_UNAVAILABLE),
+          @ApiResponse(responseCode = "200", description = HttpStatuses.CREATED)
   })
   @PostMapping
   public ResponseEntity<Object> save(@Valid @RequestBody DeviceData deviceData) throws ExecutionException {
@@ -49,10 +49,10 @@ public class DeviceDataController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @ApiOperation(value = "returns list of device data by specific parameters")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+  @Operation(summary = "returns list of device data by specific parameters")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
   })
   @PostMapping("/statistics")
   public ResponseEntity<List<DeviceDataDTO>> getStatistic(@Valid @RequestBody StatisticParameters statisticParameters) {

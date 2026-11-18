@@ -7,9 +7,11 @@ import com.ritsuki.application.service.ActionRuleService;
 import com.ritsuki.application.entity.id.ActionRuleId;
 import com.ritsuki.application.mapper.actionRule.ActionRuleRequestMapper;
 import com.ritsuki.application.mapper.actionRule.ActionRuleResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +27,9 @@ public class ActionRuleController {
   private final ActionRuleResponseMapper responseMapper;
   private final ActionRuleRequestMapper requestMapper;
 
-  @ApiOperation(value = "Create new action rule")
-  @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = ActionRuleResponseDTO.class)
+  @Operation(summary = "Create new action rule")
+  @ApiResponses({
+        @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = ActionRuleResponseDTO.class)))
   })
   @PostMapping
   public ResponseEntity<ActionRuleResponseDTO> create(@RequestBody ActionRuleRequestDTO dto) {
@@ -35,9 +37,9 @@ public class ActionRuleController {
           .create(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Update action rule")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = ActionRuleResponseDTO.class)
+  @Operation(summary = "Update action rule")
+  @ApiResponses({
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = ActionRuleResponseDTO.class)))
   })
   @PutMapping
   public ResponseEntity<ActionRuleResponseDTO> update(@RequestBody ActionRuleRequestDTO dto) {
@@ -45,10 +47,10 @@ public class ActionRuleController {
           .update(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Delete action rule")
-  @ApiResponses(value = {
-        @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Delete action rule")
+  @ApiResponses({
+        @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping
   public ResponseEntity<Void> delete(@RequestBody ActionRuleId id) {

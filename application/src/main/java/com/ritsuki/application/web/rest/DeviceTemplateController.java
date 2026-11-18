@@ -8,9 +8,11 @@ import com.ritsuki.application.service.DeviceTemplateService;
 import com.ritsuki.application.dto.data.DataResponse;
 import com.ritsuki.application.mapper.deviceTemplate.DeviceTemplateRequestMapper;
 import com.ritsuki.application.mapper.deviceTemplate.DeviceTemplateResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,9 @@ public class DeviceTemplateController {
   private final DeviceTemplateRequestMapper requestMapper;
   private final DeviceTemplateResponseMapper responseMapper;
 
-  @ApiOperation(value = "Find all device templates")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  @Operation(summary = "Find all device templates")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = String.class)))
   })
   @GetMapping
   public ResponseEntity<List<DeviceTemplateResponseDTO>> findAll() {
@@ -38,45 +40,45 @@ public class DeviceTemplateController {
             .stream().map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Find all device template's models")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  @Operation(summary = "Find all device template's models")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = String.class)))
   })
   @GetMapping("/models")
   public ResponseEntity<List<String>> findAllModels() {
     return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllModels());
   }
 
-  @ApiOperation(value = "Find all device template's types")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  @Operation(summary = "Find all device template's types")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = String.class)))
   })
   @GetMapping("/types")
   public ResponseEntity<List<String>> findAllTypes() {
     return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllTypes());
   }
 
-  @ApiOperation(value = "Find all device template's brands")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = String.class)
+  @Operation(summary = "Find all device template's brands")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = String.class)))
   })
   @GetMapping("/brands")
   public ResponseEntity<List<String>> findAllBrands() {
     return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllBrands());
   }
 
-  @ApiOperation(value = "Find all device template's release years")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = Integer.class)
+  @Operation(summary = "Find all device template's release years")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = Integer.class)))
   })
   @GetMapping("/years")
   public ResponseEntity<List<Integer>> findAllReleaseYears() {
     return ResponseEntity.status(HttpStatus.OK).body(deviceTemplateService.findAllReleaseYears());
   }
 
-  @ApiOperation(value = "Update device template")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DeviceTemplateResponseDTO.class)
+  @Operation(summary = "Update device template")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = DeviceTemplateResponseDTO.class)))
   })
   @PutMapping
   public ResponseEntity<DeviceTemplateResponseDTO> update(@RequestBody DeviceTemplateRequestDTO dto) {
@@ -84,9 +86,9 @@ public class DeviceTemplateController {
             .body(responseMapper.toDto(deviceTemplateService.update(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Create new device template")
-  @ApiResponses(value = {
-          @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = DeviceTemplateResponseDTO.class)
+  @Operation(summary = "Create new device template")
+  @ApiResponses({
+          @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = DeviceTemplateResponseDTO.class)))
   })
   @PostMapping
   public ResponseEntity<DeviceTemplateResponseDTO> save(@RequestBody DeviceTemplateRequestDTO dto) {
@@ -94,10 +96,10 @@ public class DeviceTemplateController {
             .body(responseMapper.toDto(deviceTemplateService.save(requestMapper.toEntity(dto))));
   }
 
-  @ApiOperation(value = "Delete device template by id")
-  @ApiResponses(value = {
-          @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-          @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+  @Operation(summary = "Delete device template by id")
+  @ApiResponses({
+          @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+          @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
   })
   @DeleteMapping("/{id}")
   public ResponseEntity<Long> delete(@PathVariable(name = "id") Long id) {
@@ -105,9 +107,9 @@ public class DeviceTemplateController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @ApiOperation(value = "Find device templates using filter request")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = DataResponse.class)
+  @Operation(summary = "Find device templates using filter request")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = DataResponse.class)))
   })
   @GetMapping("/filter/page={page}")
   public ResponseEntity<DataResponse<DeviceTemplateResponseDTO>> findAllByFilter(@PathVariable(name = "page") Integer page,

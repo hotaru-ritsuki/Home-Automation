@@ -4,9 +4,9 @@ import com.ritsuki.device.constant.HttpStatuses;
 import com.ritsuki.device.document.AlertsList;
 import com.ritsuki.device.dto.AlertList.AlertListDTO;
 import com.ritsuki.device.service.AlertListService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +30,10 @@ public class AlertsListController {
     return alertListService.findAllByHomeId(homeId);
   }
 
-  @ApiOperation(value = "returns list of alerts")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = HttpStatuses.OK),
-      @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+  @Operation(summary = "returns list of alerts")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+      @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
   })
   @GetMapping("/{uu_id}")
   public ResponseEntity<List<AlertListDTO>> getAlerts(@PathVariable("uu_id") String uuId){

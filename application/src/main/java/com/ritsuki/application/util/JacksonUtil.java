@@ -1,45 +1,27 @@
 package com.ritsuki.application.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ritsuki.application.exception.exceptions.SerializeException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.util.ReflectionUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class JacksonUtil {
 
-    public static final String JSON_PROPERTIES_FILTER = "propertyFilter";
-
-    public static final ObjectMapper objectMapperWithTimestampDateFormat;
-
-    static {
-        objectMapperWithTimestampDateFormat = new ObjectMapper();
-        objectMapperWithTimestampDateFormat.registerModule(new JavaTimeModule());
-        objectMapperWithTimestampDateFormat.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapperWithTimestampDateFormat.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        objectMapperWithTimestampDateFormat.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        final SimpleModule simpleModule = new SimpleModule();
-        objectMapperWithTimestampDateFormat.registerModule(simpleModule);
-
-    }
-
+    public static final JsonMapper objectMapperWithTimestampDateFormat = JsonMapper.builderWithJackson2Defaults()
+            .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     public static <T> T deserialize(final String json, final Class<T> clazz) {
         if (json == null) {
@@ -47,7 +29,7 @@ public class JacksonUtil {
         }
         try {
             return objectMapperWithTimestampDateFormat.readValue(json, clazz);
-        } catch (final IOException exception) {
+        } catch (final JacksonException exception) {
             log.error("Cannot desiarialize: ", exception);
             throw new SerializeException("Cannot deserialize");
         }
@@ -59,7 +41,7 @@ public class JacksonUtil {
         }
         try {
             return objectMapperWithTimestampDateFormat.readValue(json, type);
-        } catch (final IOException exception) {
+        } catch (final JacksonException exception) {
             log.error("Cannot desiarialize: ", exception);
             throw new SerializeException("Cannot deserialize");
         }
@@ -71,7 +53,7 @@ public class JacksonUtil {
         }
         try {
             return objectMapperWithTimestampDateFormat.writeValueAsString(object);
-        } catch (final JsonProcessingException exception) {
+        } catch (final JacksonException exception) {
             log.warn("Cannot serialize: ", exception);
             throw new SerializeException("Cannot serialize");
         }
@@ -88,24 +70,9 @@ public class JacksonUtil {
 
         if (missingFields.size() != 0) {
             String errorFields = missingFields.stream().collect(Collectors.joining(",", "[", "]"));
-            log.error("Following fields don't exist: ", errorFields);
+            log.error("Following fields don't exist: {}", errorFields);
             throw new SerializeException("Following fields don't exist: " + errorFields);
         }
-    }
-
-    public static MappingJacksonValue filterProperties(final Object toFilter, final String[] properties) {
-        return filterProperties(toFilter, properties, toFilter.getClass());
-    }
-
-    public static MappingJacksonValue filterProperties(final Object toFilter, final String[] properties, Class<?> filterTarget) {
-        hasAllFields(filterTarget, properties);
-        final MappingJacksonValue jacksonValue = new MappingJacksonValue(toFilter);
-        final SimpleBeanPropertyFilter filter = Objects.isNull(properties) ? SimpleBeanPropertyFilter.serializeAll()
-                : SimpleBeanPropertyFilter.filterOutAllExcept(properties);
-
-        final FilterProvider filters = new SimpleFilterProvider().addFilter(JSON_PROPERTIES_FILTER, filter);
-        jacksonValue.setFilters(filters);
-        return jacksonValue;
     }
 
     public String wrapper(final Object o) {

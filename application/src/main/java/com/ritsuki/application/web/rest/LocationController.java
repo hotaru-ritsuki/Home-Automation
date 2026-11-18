@@ -6,9 +6,11 @@ import com.ritsuki.application.dto.location.LocationResponseDTO;
 import com.ritsuki.application.service.LocationService;
 import com.ritsuki.application.mapper.location.LocationRequestMapper;
 import com.ritsuki.application.mapper.location.LocationResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,9 @@ public class LocationController {
   private final LocationResponseMapper responseMapper;
   private final LocationRequestMapper requestMapper;
 
-  @ApiOperation(value = "Create new location")
-  @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = LocationResponseDTO.class)
+  @Operation(summary = "Create new location")
+  @ApiResponses({
+        @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = LocationResponseDTO.class)))
   })
   @PostMapping
   public ResponseEntity<LocationResponseDTO> create(@RequestBody LocationRequestDTO request) {
@@ -37,9 +39,9 @@ public class LocationController {
           .create(requestMapper.toEntity(request))));
   }
 
-  @ApiOperation(value = "Return list of location")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+  @Operation(summary = "Return list of location")
+  @ApiResponses({
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocationResponseDTO.class)))
   })
   @GetMapping
   public ResponseEntity<List<LocationResponseDTO>> findAll() {
@@ -47,9 +49,9 @@ public class LocationController {
           .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Return list of location in home")
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+  @Operation(summary = "Return list of location in home")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocationResponseDTO.class)))
   })
   @GetMapping("/home/{id}")
   public ResponseEntity<List<LocationResponseDTO>> findAllByHome(@PathVariable("id") Long id) {
@@ -57,9 +59,9 @@ public class LocationController {
             .map(responseMapper::toDto).collect(Collectors.toList()));
   }
 
-  @ApiOperation(value = "Update location")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+  @Operation(summary = "Update location")
+  @ApiResponses({
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocationResponseDTO.class)))
   })
   @PutMapping
   public ResponseEntity<LocationResponseDTO> update(@RequestBody LocationRequestDTO request) {
@@ -67,10 +69,10 @@ public class LocationController {
           .update(requestMapper.toEntity(request))));
   }
 
-  @ApiOperation(value = "Delete location")
-  @ApiResponses(value = {
-        @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
+  @Operation(summary = "Delete location")
+  @ApiResponses({
+        @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
   })
   @DeleteMapping("/{location_id}")
   public ResponseEntity<Void> delete(@PathVariable("location_id") Long id) {
@@ -78,9 +80,9 @@ public class LocationController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @ApiOperation(value = "Return location by id")
-  @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocationResponseDTO.class)
+  @Operation(summary = "Return location by id")
+  @ApiResponses({
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocationResponseDTO.class)))
   })
   @GetMapping("/{location_id}")
   public ResponseEntity<LocationResponseDTO> findOne(@PathVariable("location_id") Long id) {

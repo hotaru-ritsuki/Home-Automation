@@ -10,9 +10,11 @@ import com.ritsuki.application.service.LocationService;
 import com.ritsuki.application.mapper.localDevice.LocalDeviceRequestMapper;
 import com.ritsuki.application.mapper.localDevice.LocalDeviceRespMapper;
 import com.ritsuki.application.mapper.localDevice.LocalDeviceResponseMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +35,9 @@ public class LocalDeviceController {
     private final LocalDeviceRespMapper respMapper;
     private final LocalDeviceRequestMapper requestMapper;
 
-    @ApiOperation(value = "Create new device")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = HttpStatuses.CREATED, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Create new device")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
     @PostMapping
     public ResponseEntity<LocalDeviceResponseDTO> save(@RequestBody LocalDeviceRequestDTO localDeviceRequestDTO) {
@@ -43,9 +45,9 @@ public class LocalDeviceController {
                 .body(responseMapper.toDto(localDeviceService.save(requestMapper.toEntity(localDeviceRequestDTO))));
     }
 
-    @ApiOperation(value = "Return list of device")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Return list of device")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
     @GetMapping
     public ResponseEntity<List<LocalDeviceResponseDTO>> findAll() {
@@ -53,9 +55,9 @@ public class LocalDeviceController {
                 .body(localDeviceService.findAll().stream().map(responseMapper::toDto).collect(Collectors.toList()));
     }
 
-    @ApiOperation(value = "Return list of device in location")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Return list of device in location")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
     @GetMapping("/location/{location_id}")
     public ResponseEntity<List<LocalDeviceResponseDTO>> findByLocation(@PathVariable("location_id") Long id) {
@@ -63,9 +65,9 @@ public class LocalDeviceController {
                 stream().map(responseMapper::toDto).collect(Collectors.toList()));
     }
 
-    @ApiOperation(value = "Return list of device in home")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Return list of device in home")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
     @GetMapping("/home/{home_id}")
     public ResponseEntity<List<LocalDeviceResponseDTO>> findByHome(@PathVariable("home_id") Long id) {
@@ -73,9 +75,9 @@ public class LocalDeviceController {
                 stream().map(responseMapper::toDto).collect(Collectors.toList()));
     }
 
-    @ApiOperation(value = "Return device by id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Return device by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
 
     @GetMapping("/{uuid}")
@@ -83,9 +85,9 @@ public class LocalDeviceController {
         return ResponseEntity.status(HttpStatus.OK).body(respMapper.toDto(localDeviceService.findByUuid(uuid)));
     }
 
-    @ApiOperation(value = "Update device")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = HttpStatuses.OK, response = LocalDeviceResponseDTO.class)
+    @Operation(summary = "Update device")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK, content = @Content(schema = @Schema(implementation = LocalDeviceResponseDTO.class)))
     })
     @PutMapping
     public ResponseEntity<LocalDeviceResponseDTO> update(@RequestBody LocalDeviceRequestDTO localDevice) {
@@ -93,10 +95,10 @@ public class LocalDeviceController {
                 responseMapper.toDto(localDeviceService.update(requestMapper.toEntity(localDevice))));
     }
 
-    @ApiOperation(value = "Delete device")
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = HttpStatuses.NO_CONTENT),
-            @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+    @Operation(summary = "Delete device")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
     })
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> delete(@PathVariable("uuid") String uuid) {

@@ -1,7 +1,5 @@
 package com.ritsuki.application;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -19,10 +17,5 @@ public class Application {
   @Bean
   BCryptPasswordEncoder bCryptPasswordEncoder(){
     return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  public CloseableHttpClient httpClient() {
-    return HttpClientBuilder.create().build();
   }
 }

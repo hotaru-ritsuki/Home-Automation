@@ -1,64 +1,42 @@
 package com.ritsuki.device.config;
 
-import com.google.common.collect.Sets;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
+
+  private static final String TOKEN = "token";
+
   @Bean
-  public Docket productApi() {
-    return new Docket(DocumentationType.SWAGGER_2)
-            .groupName("SpringBoot-Swagger-API")
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("com.ritsuki.device.controller"))
-            .build()
-            .apiInfo(metaData())
-            .securitySchemes(Collections.singletonList(apiKey()))
-            .securityContexts(Collections.singletonList(securityContext()))
-            .consumes(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE))
-            .produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE));
-  }
-
-
-  private ApiKey apiKey() {
-    return new ApiKey("token", "Authorization", "header");
-  }
-
-  private List<SecurityReference> defaultAuth() {
-    final AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-    final AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
-    return Collections.singletonList(new SecurityReference("token", authorizationScopes));
-  }
-
-  private SecurityContext securityContext() {
-    return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/.*")).build();
-  }
-
-  private ApiInfo metaData() {
-    return new ApiInfoBuilder()
-            .title("Home Automation Device API")
-            .description("REST API")
-            .version("1.0.0")
-            .license("Apache License Version 2.0")
-            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
+  public GroupedOpenApi productApi() {
+    return GroupedOpenApi.builder()
+            .group("SpringBoot-Swagger-API")
+            .packagesToScan("com.ritsuki.device.controller")
             .build();
   }
 
+  @Bean
+  public OpenAPI apiInfo() {
+    return new OpenAPI()
+            .info(new Info()
+                    .title("Home Automation Device API")
+                    .description("REST API")
+                    .version("1.0.0")
+                    .license(new License()
+                            .name("Apache License Version 2.0")
+                            .url("https://www.apache.org/licenses/LICENSE-2.0")))
+            .components(new Components().addSecuritySchemes(TOKEN, new SecurityScheme()
+                    .type(SecurityScheme.Type.APIKEY)
+                    .in(SecurityScheme.In.HEADER)
+                    .name("Authorization")))
+            .addSecurityItem(new SecurityRequirement().addList(TOKEN));
+  }
 }

@@ -5,7 +5,7 @@ import com.ritsuki.application.entity.DeviceTemplate;
 import com.ritsuki.application.entity.Feature;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
